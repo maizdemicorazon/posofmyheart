@@ -7,13 +7,11 @@ import com.mdmc.posofmyheart.application.services.OrderService;
 import com.mdmc.posofmyheart.domain.models.OrderItemRequest;
 import com.mdmc.posofmyheart.domain.models.OrderRequest;
 import com.mdmc.posofmyheart.domain.models.Price;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderDetailEntity;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderEntity;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.PaymentMethodEntity;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.ProductEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.*;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.OrderRepository;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.PaymentMethodRepository;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.ProductRepository;
+import com.mdmc.posofmyheart.infrastructure.persistence.repositories.SauceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +29,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final PaymentMethodRepository paymentMethodRepository;
+    private final SauceRepository sauceRepository;
 
     private final OrderMapper orderMapper;
 
@@ -66,6 +65,10 @@ public class OrderServiceImpl implements OrderService {
             ProductEntity product = productRepository.findById(item.productId())
                     .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado: " + item.productId()));
 
+            // Obtener la salsa (si se especifica)
+            SauceEntity sauce = sauceRepository.findById(item.sauceId())
+                    .orElseThrow(() -> new IllegalArgumentException("Salsa no encontrada: " + item.sauceId()));
+
             Price price = Price.to(product.getPrices()).orElseThrow();
 
             OrderDetailEntity detail = new OrderDetailEntity();
@@ -74,6 +77,7 @@ public class OrderServiceImpl implements OrderService {
             detail.setQuantity(item.quantity());
             detail.setUnitPrice(price.sellPrice());
             detail.setUnitCost(price.costPrice());
+            detail.setSauce(sauce);
 
             order.getDetails().add(detail);
             total = total.add(detail.getUnitPrice().multiply(BigDecimal.valueOf(item.quantity())));

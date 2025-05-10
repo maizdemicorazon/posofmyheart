@@ -24,6 +24,10 @@ public class OrderDetailEntity {
     @JoinColumn(name = "id_product", nullable = false)
     private ProductEntity product;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_sauce", nullable = false)
+    private SauceEntity sauce;
+
     @Column(nullable = false)
     private Integer quantity;
 
