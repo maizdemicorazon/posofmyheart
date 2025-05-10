@@ -1,5 +1,8 @@
 package com.mdmc.posofmyheart.application.services.impl;
 
+import com.mdmc.posofmyheart.api.exceptions.ResourceNotFoundException;
+import com.mdmc.posofmyheart.application.dtos.OrderResponse;
+import com.mdmc.posofmyheart.application.mappers.OrderMapper;
 import com.mdmc.posofmyheart.application.services.OrderService;
 import com.mdmc.posofmyheart.domain.models.OrderItemRequest;
 import com.mdmc.posofmyheart.domain.models.OrderRequest;
@@ -16,7 +19,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +32,23 @@ public class OrderServiceImpl implements OrderService {
     private final ProductRepository productRepository;
     private final PaymentMethodRepository paymentMethodRepository;
 
+    private final OrderMapper orderMapper;
+
+    @Transactional(readOnly = true)
+    public OrderResponse findOrderById(Long orderId) {
+        return orderRepository.findById(orderId)
+                .map(orderMapper::toResponse)
+                .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
+    }
+
+    @Transactional(readOnly = true)
+    public List<OrderResponse> listOrdersByDate(LocalDate date) {
+        return orderRepository.findByOrderDate(date).stream()
+                .map(orderMapper::toResponse)
+                .toList();
+    }
+
+    @Transactional
     public OrderEntity createOrder(OrderRequest request) {
         // 1. Validar método de pago
         PaymentMethodEntity paymentMethod = paymentMethodRepository.findById(request.paymentMethodId())
