@@ -1,0 +1,55 @@
+erDiagram
+    PRODUCT_CATEGORIES ||--o{ PRODUCTS : "tiene"
+    PRODUCTS ||--o{ PRODUCT_PRICES : "tiene"
+    PRODUCTS ||--o{ ORDER_DETAILS : "aparece en"
+    ORDERS ||--o{ ORDER_DETAILS : "contiene"
+    PAYMENT_METHODS ||--o{ ORDERS : "utilizado en"
+
+    PRODUCT_CATEGORIES {
+        serial id_category PK
+        varchar name
+        text description
+    }
+
+    PRODUCTS {
+        serial id_product PK
+        integer id_category FK
+        varchar name
+        text description
+        varchar size
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    PRODUCT_PRICES {
+        serial id_price PK
+        integer id_product FK
+        numeric sell_price
+        numeric cost_price
+        timestamp effective_date
+    }
+
+    PAYMENT_METHODS {
+        serial id_payment_method PK
+        varchar name
+        text description
+        boolean active
+        timestamp created_at
+    }
+
+    ORDERS {
+        serial id_order PK
+        timestamp order_date
+        numeric total_amount
+        integer id_payment_method FK
+        text notes
+    }
+
+    ORDER_DETAILS {
+        serial id_order_detail PK
+        integer id_order FK
+        integer id_product FK
+        integer quantity
+        numeric unit_price
+        numeric unit_cost
+    }
