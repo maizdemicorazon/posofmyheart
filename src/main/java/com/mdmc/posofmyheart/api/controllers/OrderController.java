@@ -38,7 +38,7 @@ public class OrderController {
         OrderEntity order = orderService.createOrder(request);
         return ResponseEntity.ok(
                 new CreateOrderResponse(
-                        orderService.createOrder(request).getId()
+                        orderService.createOrder(request).getIdOrder()
                 )
         );
     }

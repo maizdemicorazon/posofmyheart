@@ -23,7 +23,7 @@ public record Price(
 
     private static Price toRecord(ProductPriceEntity entity) {
         return new Price(
-                entity.getId(),
+                entity.getIdPrice(),
                 entity.getSellPrice(),
                 entity.getCostPrice()
         );

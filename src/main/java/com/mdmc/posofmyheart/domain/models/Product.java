@@ -1,12 +1,15 @@
 package com.mdmc.posofmyheart.domain.models;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 public record Product(
         Integer idProduct,
         Category category,
         String name,
+        String image,
         String description,
-        String size,
-        java.math.BigDecimal price) {
+        List<ProductVariant> options) {
 
     public Product {
         if (idProduct == null || idProduct <= 0) {

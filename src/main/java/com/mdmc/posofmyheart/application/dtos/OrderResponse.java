@@ -16,7 +16,7 @@ public record OrderResponse(
             Integer productId,
             String productName,
             Integer quantity,
-            BigDecimal unitPrice
+            BigDecimal bill
     ) {
     }
 }

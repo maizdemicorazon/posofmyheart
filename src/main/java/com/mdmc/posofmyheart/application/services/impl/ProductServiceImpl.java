@@ -1,5 +1,6 @@
 package com.mdmc.posofmyheart.application.services.impl;
 
+import com.mdmc.posofmyheart.application.mappers.ProductMapper;
 import com.mdmc.posofmyheart.application.services.ProductService;
 import com.mdmc.posofmyheart.domain.models.Category;
 import com.mdmc.posofmyheart.domain.models.Price;
@@ -20,12 +21,12 @@ public class ProductServiceImpl implements ProductService {
         return repository.findAll()
                 .stream()
                 .map(product -> new Product(
-                        product.getId(),
+                        product.getIdProduct(),
                         Category.fromEntity(product.getCategory()),
                         product.getName(),
+                        product.getImage(),
                         product.getDescription(),
-                        product.getSize(),
-                        Price.to(product.getPrices()).orElseThrow().sellPrice()
+                        ProductMapper.INSTANCE.toDomainVariants(product.getVariants())
                 ))
                 .toList();
     }

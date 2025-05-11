@@ -23,7 +23,6 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
@@ -31,19 +30,17 @@ public class OrderServiceImpl implements OrderService {
     private final PaymentMethodRepository paymentMethodRepository;
     private final SauceRepository sauceRepository;
 
-    private final OrderMapper orderMapper;
-
     @Transactional(readOnly = true)
     public OrderResponse findOrderById(Long orderId) {
         return orderRepository.findById(orderId)
-                .map(orderMapper::toResponse)
+                .map(OrderMapper.INSTANCE::toResponse)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
     }
 
     @Transactional(readOnly = true)
     public List<OrderResponse> listOrdersByDate(LocalDate date) {
         return orderRepository.findByOrderDate(date).stream()
-                .map(orderMapper::toResponse)
+                .map(OrderMapper.INSTANCE::toResponse)
                 .toList();
     }
 
@@ -57,7 +54,7 @@ public class OrderServiceImpl implements OrderService {
         OrderEntity order = new OrderEntity();
         order.setPaymentMethod(paymentMethod);
         order.setNotes(request.notes());
-        order.setDetails(new ArrayList<>());
+        order.setOrderDetails(new ArrayList<>());
 
         // 3. Procesar items
         BigDecimal total = BigDecimal.ZERO;
@@ -69,17 +66,16 @@ public class OrderServiceImpl implements OrderService {
             SauceEntity sauce = sauceRepository.findById(item.sauceId())
                     .orElseThrow(() -> new IllegalArgumentException("Salsa no encontrada: " + item.sauceId()));
 
-            Price price = Price.to(product.getPrices()).orElseThrow();
+//            Price price = Price.to(product.getPrices()).orElseThrow();
 
             OrderDetailEntity detail = new OrderDetailEntity();
             detail.setOrder(order);
             detail.setProduct(product);
             detail.setQuantity(item.quantity());
-            detail.setUnitPrice(price.sellPrice());
-            detail.setUnitCost(price.costPrice());
+//            detail.setUnitPrice(price.sellPrice());
             detail.setSauce(sauce);
 
-            order.getDetails().add(detail);
+            order.getOrderDetails().add(detail);
             total = total.add(detail.getUnitPrice().multiply(BigDecimal.valueOf(item.quantity())));
         }
 

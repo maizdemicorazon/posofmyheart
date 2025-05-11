@@ -23,7 +23,7 @@ public record Category(
     // Método de conveniencia para crear desde Entity //@TODO Map struct
     public static Category fromEntity(ProductCategoryEntity entity) {
         return new Category(
-                entity.getId(),
+                entity.getIdCategory(),
                 entity.getName(),
                 entity.getDescription()
         );

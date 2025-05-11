@@ -6,25 +6,32 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "payment_methods")
+@Table(name = "product_extras")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PaymentMethodEntity {
+public class ProductExtraEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_payment_method")
-    private Integer idPayment;
+    @Column(name = "id_extra")
+    private Integer idExtra;
 
-    @Column(name = "name", length = 50, nullable = false)
+    @Column(name = "name", length = 100, nullable = false)
     private String name;
 
     @Column(name = "description")
     private String description;
+
+    @Column(name = "price", precision = 10, scale = 2, nullable = false)
+    private BigDecimal price;
+
+    @Column(name = "cost", precision = 10, scale = 2, nullable = false)
+    private BigDecimal cost;
 
     @Column(name = "active")
     private Boolean active = true;

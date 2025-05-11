@@ -1,0 +1,39 @@
+[
+  {
+    "id": 1,
+    "idCategory": 1,
+    "name": "Elote Clásico",
+    "image": "https://dummyimage.com/600x400/000/fff&text=Elote+Clasico",
+    "price": "25",
+    "options": [
+      {
+        "size": "chico",
+        "price": "5"
+      },
+      {
+        "size": "mediano",
+        "price": "10"
+      },
+      {
+        "size": "grande",
+        "price": "15"
+      }
+    ]
+  },
+  {
+    "extras": [
+      {
+        "name": "Mayonesa",
+        "price": "5"
+      },
+      {
+        "name": "Queso",
+        "price": "10"
+      },
+      {
+        "name": "Chile en polvo",
+        "price": "5"
+      }
+    ]
+  }
+]

@@ -1,7 +1,10 @@
 package com.mdmc.posofmyheart.infrastructure.persistence.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -9,26 +12,29 @@ import java.util.List;
 
 @Entity
 @Table(name = "orders")
-@Getter @Setter @NoArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_order")
-    private Integer id;
+    private Integer idOrder;
 
     @Column(name = "order_date")
     private LocalDateTime orderDate = LocalDateTime.now();
 
-    @Column(name = "total_amount", nullable = false, precision = 10, scale = 2)
+    @Column(name = "total_amount", precision = 10, scale = 2, nullable = false)
     private BigDecimal totalAmount;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id_payment_method", nullable = false)
     private PaymentMethodEntity paymentMethod;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "notes")
     private String notes;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<OrderDetailEntity> details;
+    private List<OrderDetailEntity> orderDetails;
 }

@@ -1,28 +1,34 @@
 package com.mdmc.posofmyheart.infrastructure.persistence.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "product_prices")
-@Getter @Setter @NoArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProductPriceEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_price")
-    private Integer id;
+    private Integer idPrice;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_product", nullable = false)
-    private ProductEntity product;
+    @ManyToOne
+    @JoinColumn(name = "id_variant", nullable = false)
+    private ProductVariantEntity variant;
 
-    @Column(name = "sell_price", nullable = false, precision = 10, scale = 2)
+    @Column(name = "sell_price", precision = 10, scale = 2, nullable = false)
     private BigDecimal sellPrice;
 
-    @Column(name = "cost_price", nullable = false, precision = 10, scale = 2)
+    @Column(name = "cost_price", precision = 10, scale = 2, nullable = false)
     private BigDecimal costPrice;
 
     @Column(name = "effective_date")

@@ -5,18 +5,21 @@ import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderDetailEnti
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper
 public interface OrderMapper {
 
-    @Mapping(target = "orderId", source = "id")
+    OrderMapper INSTANCE = Mappers.getMapper(OrderMapper.class);
+
+    @Mapping(target = "orderId", source = "idOrder")
     @Mapping(target = "paymentMethod", source = "paymentMethod.name")
-    @Mapping(target = "items", source = "details")
+    @Mapping(target = "items", source = "orderDetails")
     OrderResponse toResponse(OrderEntity entity);
 
-    default List<OrderResponse.OrderItemResponse> mapDetailsToItems(List<OrderDetailEntity> details) {
+    default List<OrderResponse.OrderItemResponse> toDomainItems(List<OrderDetailEntity> details) {
         return details.stream()
                 .map(this::toItemResponse)
                 .toList();
@@ -24,7 +27,7 @@ public interface OrderMapper {
 
     private OrderResponse.OrderItemResponse toItemResponse(OrderDetailEntity detail) {
         return new OrderResponse.OrderItemResponse(
-                detail.getProduct().getId(),
+                detail.getProduct().getIdProduct(),
                 detail.getProduct().getName(),
                 detail.getQuantity(),
                 detail.getUnitPrice()
