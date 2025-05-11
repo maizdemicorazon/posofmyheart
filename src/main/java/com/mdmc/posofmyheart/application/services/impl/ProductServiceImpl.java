@@ -3,7 +3,6 @@ package com.mdmc.posofmyheart.application.services.impl;
 import com.mdmc.posofmyheart.application.mappers.ProductMapper;
 import com.mdmc.posofmyheart.application.services.ProductService;
 import com.mdmc.posofmyheart.domain.models.Category;
-import com.mdmc.posofmyheart.domain.models.Price;
 import com.mdmc.posofmyheart.domain.models.Product;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;

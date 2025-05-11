@@ -6,7 +6,6 @@ import com.mdmc.posofmyheart.application.mappers.OrderMapper;
 import com.mdmc.posofmyheart.application.services.OrderService;
 import com.mdmc.posofmyheart.domain.models.OrderItemRequest;
 import com.mdmc.posofmyheart.domain.models.OrderRequest;
-import com.mdmc.posofmyheart.domain.models.Price;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.*;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.OrderRepository;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.PaymentMethodRepository;

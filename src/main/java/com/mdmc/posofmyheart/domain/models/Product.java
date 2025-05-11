@@ -1,6 +1,5 @@
 package com.mdmc.posofmyheart.domain.models;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 public record Product(
