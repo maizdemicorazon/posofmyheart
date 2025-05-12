@@ -1,9 +1,9 @@
 package com.mdmc.posofmyheart.domain.models;
 
-import java.math.BigInteger;
+import java.math.BigDecimal;
 
 public record ProductVariant(
         String size,
-        BigInteger price
+        BigDecimal price
 ) {
 }
