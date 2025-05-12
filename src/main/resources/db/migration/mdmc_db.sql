@@ -1,8 +1,6 @@
--- DROP SCHEMA public;
+-- Drop table
 
--- CREATE SCHEMA public AUTHORIZATION pg_database_owner;
-
--- COMMENT ON SCHEMA public IS 'standard public schema';
+-- DROP TABLE public.flyway_schema_history;
 
 CREATE TABLE public.flyway_schema_history (
 	installed_rank int4 NOT NULL,
@@ -18,7 +16,12 @@ CREATE TABLE public.flyway_schema_history (
 	CONSTRAINT flyway_schema_history_pkey PRIMARY KEY (installed_rank)
 );
 
+
 -- public.payment_methods definition
+
+-- Drop table
+
+-- DROP TABLE public.payment_methods;
 
 CREATE TABLE public.payment_methods (
 	id_payment_method serial4 NOT NULL,
@@ -29,7 +32,13 @@ CREATE TABLE public.payment_methods (
 	CONSTRAINT payment_methods_pkey PRIMARY KEY (id_payment_method)
 );
 
+
 -- public.product_categories definition
+
+-- Drop table
+
+-- DROP TABLE public.product_categories;
+
 CREATE TABLE public.product_categories (
 	id_category serial4 NOT NULL,
 	"name" varchar(50) NOT NULL,
@@ -37,7 +46,13 @@ CREATE TABLE public.product_categories (
 	CONSTRAINT product_categories_pkey PRIMARY KEY (id_category)
 );
 
+
 -- public.product_extras definition
+
+-- Drop table
+
+-- DROP TABLE public.product_extras;
+
 CREATE TABLE public.product_extras (
 	id_extra serial4 NOT NULL,
 	"name" varchar(100) NOT NULL,
@@ -49,7 +64,27 @@ CREATE TABLE public.product_extras (
 	CONSTRAINT product_extras_pkey PRIMARY KEY (id_extra)
 );
 
+
+-- public.sauces definition
+
+-- Drop table
+
+-- DROP TABLE public.sauces;
+
+CREATE TABLE public.sauces (
+	id_sauce serial4 NOT NULL,
+	"name" varchar(50) NOT NULL,
+	description text NULL,
+	CONSTRAINT id_sauce_pkey PRIMARY KEY (id_sauce)
+);
+
+
 -- public.orders definition
+
+-- Drop table
+
+-- DROP TABLE public.orders;
+
 CREATE TABLE public.orders (
 	id_order serial4 NOT NULL,
 	order_date timestamp DEFAULT CURRENT_TIMESTAMP NULL,
@@ -59,9 +94,14 @@ CREATE TABLE public.orders (
 	CONSTRAINT orders_pkey PRIMARY KEY (id_order),
 	CONSTRAINT orders_id_payment_method_fkey FOREIGN KEY (id_payment_method) REFERENCES public.payment_methods(id_payment_method)
 );
-CREATE INDEX idx_order_date ON public.orders USING btree (order_date);
+
 
 -- public.products definition
+
+-- Drop table
+
+-- DROP TABLE public.products;
+
 CREATE TABLE public.products (
 	id_product serial4 NOT NULL,
 	id_category int4 NOT NULL,
@@ -73,18 +113,14 @@ CREATE TABLE public.products (
 	CONSTRAINT products_pkey PRIMARY KEY (id_product),
 	CONSTRAINT products_id_category_fkey FOREIGN KEY (id_category) REFERENCES public.product_categories(id_category)
 );
-CREATE INDEX idx_product_category ON public.products USING btree (id_category);
 
--- public.CREATE TABLE sauces definition
-CREATE TABLE sauces (
-    id_sauce serial4 NOT NULL,
-    name VARCHAR(50) NOT NULL,
-    description TEXT,
-    CONSTRAINT id_sauce_pkey PRIMARY KEY (id_sauce)
-);
-CREATE INDEX idx_sauces ON public.products USING btree (id_sauce);
 
 -- public.order_details definition
+
+-- Drop table
+
+-- DROP TABLE public.order_details;
+
 CREATE TABLE public.order_details (
 	id_order_detail serial4 NOT NULL,
 	id_order int4 NOT NULL,
@@ -98,25 +134,36 @@ CREATE TABLE public.order_details (
 	CONSTRAINT fk_order_details_extra_fkey FOREIGN KEY (id_extra) REFERENCES public.product_extras(id_extra),
 	CONSTRAINT order_details_id_order_fkey FOREIGN KEY (id_order) REFERENCES public.orders(id_order),
 	CONSTRAINT order_details_id_product_fkey FOREIGN KEY (id_product) REFERENCES public.products(id_product),
-	CONSTRAINT order_details_id_sauce_fkey FOREIGN KEY (id_sauce) REFERENCES sauces(id_sauce)
+	CONSTRAINT order_details_id_sauce_fkey FOREIGN KEY (id_sauce) REFERENCES public.sauces(id_sauce)
 );
-CREATE INDEX idx_order_details_order ON public.order_details USING btree (id_order);
-CREATE INDEX idx_order_details_product ON public.order_details USING btree (id_product);
-CREATE INDEX idx_order_details_sauce ON public.order_details USING btree (id_sauce);
+
 
 -- public.product_variants definition
+
+-- Drop table
+
+-- DROP TABLE public.product_variants;
+
 CREATE TABLE public.product_variants (
 	id_variant serial4 NOT NULL,
 	id_product int4 NOT NULL,
 	"size" varchar(30) NOT NULL,
 	is_default bool DEFAULT false NULL,
+	sell_price numeric(10, 2) DEFAULT 0.0 NOT NULL,
+	cost_price numeric(10, 2) DEFAULT 0.0 NOT NULL,
+	effective_date timestamp DEFAULT CURRENT_TIMESTAMP NULL,
 	CONSTRAINT product_variants_id_product_size_key UNIQUE (id_product, size),
 	CONSTRAINT product_variants_pkey PRIMARY KEY (id_variant),
 	CONSTRAINT product_variants_id_product_fkey FOREIGN KEY (id_product) REFERENCES public.products(id_product)
 );
-CREATE INDEX idx_product_prices_variant_id ON public.product_variants USING btree (id_variant);
+
 
 -- public.product_prices definition
+
+-- Drop table
+
+-- DROP TABLE public.product_prices;
+
 CREATE TABLE public.product_prices (
 	id_price serial4 NOT NULL,
 	id_variant int4 NOT NULL,
