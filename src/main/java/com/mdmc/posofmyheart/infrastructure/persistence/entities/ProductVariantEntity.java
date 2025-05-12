@@ -6,7 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "product_variants")
@@ -27,9 +28,12 @@ public class ProductVariantEntity {
     @Column(name = "size", length = 30, nullable = false)
     private String size;
 
-    @Column(name = "is_default")
-    private Boolean isDefault = false;
+    @Column(name = "sell_price")
+    private BigDecimal sellPrice;
 
-    @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL)
-    private List<ProductPriceEntity> prices;
+    @Column(name = "cost_price")
+    private BigDecimal costPrice;
+
+    @Column(name = "effective_date")
+    private LocalDateTime effectiveDate;
 }

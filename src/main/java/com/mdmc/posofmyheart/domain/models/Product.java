@@ -4,10 +4,9 @@ import java.util.List;
 
 public record Product(
         Integer idProduct,
-        Category category,
+        Integer IdCategory,
         String name,
         String image,
-        String description,
         List<ProductVariant> options) {
 
     public Product {

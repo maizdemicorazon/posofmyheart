@@ -21,10 +21,9 @@ public class ProductServiceImpl implements ProductService {
                 .stream()
                 .map(product -> new Product(
                         product.getIdProduct(),
-                        Category.fromEntity(product.getCategory()),
+                        Category.fromEntity(product.getCategory()).idCategory(),
                         product.getName(),
                         product.getImage(),
-                        product.getDescription(),
                         ProductMapper.INSTANCE.toDomainVariants(product.getVariants())
                 ))
                 .toList();
