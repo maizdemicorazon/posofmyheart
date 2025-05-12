@@ -1,9 +1,7 @@
 package com.mdmc.posofmyheart.application.mappers;
 
 import com.mdmc.posofmyheart.domain.models.ProductExtra;
-import com.mdmc.posofmyheart.domain.models.ProductVariant;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.ProductExtraEntity;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.ProductVariantEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
