@@ -1,22 +1,3 @@
--- Drop table
-
--- DROP TABLE public.flyway_schema_history;
-
-CREATE TABLE public.flyway_schema_history (
-	installed_rank int4 NOT NULL,
-	"version" varchar(50) NULL,
-	description varchar(200) NULL,
-	"type" varchar(20) NULL,
-	script varchar(1000) NULL,
-	checksum int4 NULL,
-	installed_by varchar(100) NULL,
-	installed_on timestamp DEFAULT now() NULL,
-	execution_time int4 NULL,
-	success bool NULL,
-	CONSTRAINT flyway_schema_history_pkey PRIMARY KEY (installed_rank)
-);
-
-
 -- public.payment_methods definition
 
 -- Drop table
@@ -155,21 +136,4 @@ CREATE TABLE public.product_variants (
 	CONSTRAINT product_variants_id_product_size_key UNIQUE (id_product, size),
 	CONSTRAINT product_variants_pkey PRIMARY KEY (id_variant),
 	CONSTRAINT product_variants_id_product_fkey FOREIGN KEY (id_product) REFERENCES public.products(id_product)
-);
-
-
--- public.product_prices definition
-
--- Drop table
-
--- DROP TABLE public.product_prices;
-
-CREATE TABLE public.product_prices (
-	id_price serial4 NOT NULL,
-	id_variant int4 NOT NULL,
-	sell_price numeric(10, 2) NOT NULL,
-	cost_price numeric(10, 2) NOT NULL,
-	effective_date timestamp DEFAULT CURRENT_TIMESTAMP NULL,
-	CONSTRAINT product_prices_pkey PRIMARY KEY (id_price),
-	CONSTRAINT product_prices_id_variant_fkey FOREIGN KEY (id_variant) REFERENCES public.product_variants(id_variant)
 );
