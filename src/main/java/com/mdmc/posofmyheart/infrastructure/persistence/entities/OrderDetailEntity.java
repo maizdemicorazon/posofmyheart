@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "order_details")
@@ -32,10 +33,9 @@ public class OrderDetailEntity {
     private BigDecimal unitPrice;
 
     @ManyToOne
-    @JoinColumn(name = "id_extra")
-    private ProductExtraEntity extra;
-
-    @ManyToOne
     @JoinColumn(name = "id_sauce")
     private SauceEntity sauce;
+
+    @OneToMany(mappedBy = "idExtraDetail", cascade = CascadeType.ALL)
+    private List<ProductExtrasDetail> extraDetails;
 }
