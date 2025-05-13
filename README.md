@@ -133,3 +133,5 @@ src/main/java/com/mdmc/
 ## 🧑‍🍳 Autor
 
 **Maíz de mi Corazón** — Sistema de control de ventas de elotes y esquites.
+- [Correo](mailto:raul.e.garciacabrera@gmail.com)
+- [LinkedIn](https://www.linkedin.com/in/raúlgarcía/)
