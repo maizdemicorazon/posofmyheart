@@ -14,7 +14,10 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("posofmyheartfe-develop.up.railway.app")
+                        .allowedOrigins(
+                                "https://posofmyheartfe-develop.up.railway.app",
+                                "https://posofmyheartfe-develop.up.railway.app/"
+                        )
                         .allowedMethods("GET", "POST", "PUT", "DELETE")
                         .allowedHeaders("*")
                         .allowCredentials(false)
