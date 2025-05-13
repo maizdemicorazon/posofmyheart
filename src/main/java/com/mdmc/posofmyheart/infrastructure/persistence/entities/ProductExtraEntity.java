@@ -36,6 +36,9 @@ public class ProductExtraEntity {
     @Column(name = "active")
     private Boolean active = true;
 
+    @Column(name = "image")
+    private String image;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 }
