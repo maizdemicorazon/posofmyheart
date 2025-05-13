@@ -1,0 +1,21 @@
+DROP TABLE public.order_details;
+DROP TABLE public.orders;
+DROP TABLE public.payment_methods;
+DROP TABLE public.product_prices;
+DROP TABLE public.products;
+DROP TABLE public.product_categories;
+DROP TABLE public.product_variants;
+DROP TABLE public.product_extras;
+DROP TABLE public.sauces;
+DROP TABLE public.product_extra_detail;
+
+DROP SEQUENCE public.order_details_id_order_detail_seq;
+DROP SEQUENCE public.orders_id_order_seq;
+DROP SEQUENCE public.payment_methods_id_payment_method_seq;
+DROP SEQUENCE public.product_categories_id_category_seq;
+DROP SEQUENCE public.product_extras_id_extra_seq;
+DROP SEQUENCE public.product_prices_id_price_seq;
+DROP SEQUENCE public.product_variants_id_variant_seq;
+DROP SEQUENCE public.products_id_product_seq;
+DROP SEQUENCE public.products_id_sauces_seq;
+DROP SEQUENCE public.product_extras_detail_id_extra_detail_seq;
