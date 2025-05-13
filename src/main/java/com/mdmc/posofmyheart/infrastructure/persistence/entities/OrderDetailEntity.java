@@ -29,13 +29,14 @@ public class OrderDetailEntity {
     @JoinColumn(name = "id_product", nullable = false)
     private ProductEntity product;
 
-    @Column(name = "unit_price", precision = 10, scale = 2, nullable = false)
-    private BigDecimal unitPrice;
-
     @ManyToOne
     @JoinColumn(name = "id_sauce")
     private SauceEntity sauce;
 
+    @ManyToOne
+    @JoinColumn(name = "id_variant")
+    private ProductVariantEntity idVariant;
+
     @OneToMany(mappedBy = "idExtraDetail", cascade = CascadeType.ALL)
-    private List<ProductExtrasDetail> extraDetails;
+    private List<ProductExtrasDetailEntity> extraDetails;
 }

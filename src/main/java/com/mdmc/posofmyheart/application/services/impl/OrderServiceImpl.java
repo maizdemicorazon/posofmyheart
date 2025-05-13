@@ -74,7 +74,6 @@ public class OrderServiceImpl implements OrderService {
             detail.setSauce(sauce);
 
             order.getOrderDetails().add(detail);
-            total = total.add(detail.getUnitPrice().multiply(BigDecimal.valueOf(item.quantity())));
         }
 
         // 4. Asignar total y guardar

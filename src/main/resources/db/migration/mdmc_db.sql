@@ -107,13 +107,14 @@ CREATE TABLE public.order_details (
 	id_order int4 NOT NULL,
 	id_product int4 NOT NULL,
 	id_sauce int4 NOT NULL,
+	id_variant int4 NULL,
 	id_extra_detail int4 NULL,
-	unit_price numeric(10, 2) NOT NULL,
 	CONSTRAINT order_details_pkey PRIMARY KEY (id_order_detail),
-	CONSTRAINT fk_order_details_extra_details_fkey FOREIGN KEY (id_extra_detail) REFERENCES public.product_extras_detail(id_extra_detail),
 	CONSTRAINT order_details_id_order_fkey FOREIGN KEY (id_order) REFERENCES public.orders(id_order),
 	CONSTRAINT order_details_id_product_fkey FOREIGN KEY (id_product) REFERENCES public.products(id_product),
-	CONSTRAINT order_details_id_sauce_fkey FOREIGN KEY (id_sauce) REFERENCES public.sauces(id_sauce)
+	CONSTRAINT order_details_id_sauce_fkey FOREIGN KEY (id_sauce) REFERENCES public.sauces(id_sauce),
+	CONSTRAINT order_details_id_variant_fkey FOREIGN KEY (id_variant) REFERENCES public.product_variants(id_variant),
+	CONSTRAINT fk_order_details_extra_details_fkey FOREIGN KEY (id_extra_detail) REFERENCES public.product_extras_detail(id_extra_detail)
 );
 
 -- public.product_extra_detail definition
