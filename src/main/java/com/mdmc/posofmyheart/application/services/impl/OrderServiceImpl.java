@@ -4,8 +4,8 @@ import com.mdmc.posofmyheart.api.exceptions.ResourceNotFoundException;
 import com.mdmc.posofmyheart.application.dtos.OrderResponse;
 import com.mdmc.posofmyheart.application.mappers.OrderMapper;
 import com.mdmc.posofmyheart.application.services.OrderService;
-import com.mdmc.posofmyheart.domain.models.OrderItemRequest;
-import com.mdmc.posofmyheart.domain.models.OrderRequest;
+import com.mdmc.posofmyheart.application.dtos.OrderItemRequest;
+import com.mdmc.posofmyheart.application.dtos.OrderRequest;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.*;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.OrderRepository;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.PaymentMethodRepository;
@@ -46,24 +46,24 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public OrderEntity createOrder(OrderRequest request) {
         // 1. Validar método de pago
-        PaymentMethodEntity paymentMethod = paymentMethodRepository.findById(request.paymentMethodId())
+        PaymentMethodEntity paymentMethod = paymentMethodRepository.findById(request.paymentMethodId().longValue())
                 .orElseThrow(() -> new IllegalArgumentException("Método de pago no válido"));
 
         // 2. Crear la orden
         OrderEntity order = new OrderEntity();
         order.setPaymentMethod(paymentMethod);
-        order.setNotes(request.notes());
+        order.setComment(request.comment());
         order.setOrderDetails(new ArrayList<>());
 
         // 3. Procesar items
         BigDecimal total = BigDecimal.ZERO;
         for (OrderItemRequest item : request.items()) {
-            ProductEntity product = productRepository.findById(item.productId())
-                    .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado: " + item.productId()));
+            ProductEntity product = productRepository.findById(item.idProduct().longValue())
+                    .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado: " + item.idProduct()));
 
             // Obtener la salsa (si se especifica)
-            SauceEntity sauce = sauceRepository.findById(item.sauceId())
-                    .orElseThrow(() -> new IllegalArgumentException("Salsa no encontrada: " + item.sauceId()));
+            SauceEntity sauce = sauceRepository.findById(item.idSauce())
+                    .orElseThrow(() -> new IllegalArgumentException("Salsa no encontrada: " + item.idSauce()));
 
 //            Price price = Price.to(product.getPrices()).orElseThrow();
 

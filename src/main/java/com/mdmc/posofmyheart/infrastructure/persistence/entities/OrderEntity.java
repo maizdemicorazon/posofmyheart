@@ -32,8 +32,8 @@ public class OrderEntity {
     @JoinColumn(name = "id_payment_method", nullable = false)
     private PaymentMethodEntity paymentMethod;
 
-    @Column(name = "notes")
-    private String notes;
+    @Column(name = "comment")
+    private String comment;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderDetailEntity> orderDetails;

@@ -13,6 +13,7 @@ public interface OrderMapper {
 
     @Mapping(target = "idOrder", source = "idOrder")
     @Mapping(target = "bill", source = "totalAmount")
+    @Mapping(target = "paymentMethod", source = "paymentMethod.idPayment")
     OrderResponse toResponse(OrderEntity entity);
 
 }
