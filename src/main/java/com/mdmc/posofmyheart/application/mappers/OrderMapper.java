@@ -29,7 +29,6 @@ public interface OrderMapper {
         return new OrderResponse.OrderItemResponse(
                 detail.getProduct().getIdProduct(),
                 detail.getProduct().getName(),
-                detail.getQuantity(),
                 detail.getUnitPrice()
         );
     }

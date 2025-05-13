@@ -15,7 +15,6 @@ public record OrderResponse(
     public record OrderItemResponse(
             Integer productId,
             String productName,
-            Integer quantity,
             BigDecimal bill
     ) {
     }

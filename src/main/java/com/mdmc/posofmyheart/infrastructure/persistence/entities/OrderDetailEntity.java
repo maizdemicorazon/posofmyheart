@@ -28,14 +28,8 @@ public class OrderDetailEntity {
     @JoinColumn(name = "id_product", nullable = false)
     private ProductEntity product;
 
-    @Column(name = "quantity", nullable = false)
-    private Integer quantity;
-
     @Column(name = "unit_price", precision = 10, scale = 2, nullable = false)
     private BigDecimal unitPrice;
-
-    @Column(name = "unit_cost", precision = 10, scale = 2, nullable = false)
-    private BigDecimal unitCost;
 
     @ManyToOne
     @JoinColumn(name = "id_extra")

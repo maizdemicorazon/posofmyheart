@@ -160,3 +160,13 @@ CREATE SEQUENCE public.sauces_id_sauce_seq
 	START 1
 	CACHE 1
 	NO CYCLE;-- public.flyway_schema_history definition
+
+-- DROP SEQUENCE public.product_extras_detail_id_extra_detail_seq;
+
+CREATE SEQUENCE public.product_extras_detail_id_extra_detail_seq
+	INCREMENT BY 1
+	MINVALUE 1
+	MAXVALUE 2147483647
+	START 1
+	CACHE 1
+	NO CYCLE;

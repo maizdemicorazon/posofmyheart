@@ -70,7 +70,6 @@ public class OrderServiceImpl implements OrderService {
             OrderDetailEntity detail = new OrderDetailEntity();
             detail.setOrder(order);
             detail.setProduct(product);
-            detail.setQuantity(item.quantity());
 //            detail.setUnitPrice(price.sellPrice());
             detail.setSauce(sauce);
 

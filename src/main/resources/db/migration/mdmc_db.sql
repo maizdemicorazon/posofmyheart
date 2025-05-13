@@ -108,14 +108,28 @@ CREATE TABLE public.order_details (
 	id_product int4 NOT NULL,
 	id_sauce int4 NOT NULL,
 	id_extra int4 NULL,
-	quantity int4 NOT NULL,
 	unit_price numeric(10, 2) NOT NULL,
-	unit_cost numeric(10, 2) NOT NULL,
 	CONSTRAINT order_details_pkey PRIMARY KEY (id_order_detail),
 	CONSTRAINT fk_order_details_extra_fkey FOREIGN KEY (id_extra) REFERENCES public.product_extras(id_extra),
 	CONSTRAINT order_details_id_order_fkey FOREIGN KEY (id_order) REFERENCES public.orders(id_order),
 	CONSTRAINT order_details_id_product_fkey FOREIGN KEY (id_product) REFERENCES public.products(id_product),
 	CONSTRAINT order_details_id_sauce_fkey FOREIGN KEY (id_sauce) REFERENCES public.sauces(id_sauce)
+);
+
+-- public.product_extra_detail definition
+
+-- Drop table
+
+-- DROP TABLE public.product_extra_detail;
+
+CREATE TABLE public.product_extras_detail (
+	id_extra_detail serial4 NOT NULL,
+	id_extra int4 NULL,
+	id_order_detail int4 NOT NULL,
+	quantity int4 NOT NULL,
+	CONSTRAINT id_extra_detail_key UNIQUE (id_extra_detail, id_order_detail),
+	CONSTRAINT order_details_extra_fkey FOREIGN KEY (id_extra) REFERENCES public.product_extras(id_extra),
+	CONSTRAINT extra_detail_order_details_id_order_detail_fkey FOREIGN KEY (id_order_detail) REFERENCES public.order_details(id_order_detail)
 );
 
 
