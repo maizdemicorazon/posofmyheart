@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,7 +21,7 @@ public class OrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_order")
-    private Integer idOrder;
+    private Long idOrder;
 
     @Column(name = "order_date")
     private LocalDateTime orderDate = LocalDateTime.now();
@@ -32,9 +33,15 @@ public class OrderEntity {
     @JoinColumn(name = "id_payment_method", nullable = false)
     private PaymentMethodEntity paymentMethod;
 
-    @Column(name = "notes")
-    private String notes;
+    @Column(name = "comment")
+    private String comment;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<OrderDetailEntity> orderDetails;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderDetailEntity> orderDetails = new ArrayList<>();
+
+    public void addOrderDetail(OrderDetailEntity detail) {
+        orderDetails.add(detail);
+        detail.setOrder(this);
+    }
+
 }

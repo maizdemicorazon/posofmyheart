@@ -1,3 +1,19 @@
+<html lang="es">
+   <body>
+      <div class="center">
+          <a href="https://github.com/maizdemicorazon/posofmyheart">
+              <img src="src/main/resources/static/mdmc_logo.jpg" alt="Logo">
+          </a>
+      </div>
+      <style>
+          .center {
+            display: block;
+            margin: auto;
+            width: 40%;
+          }
+      </style>
+   </body>
+</html>
 
 # 🌽 Maíz de mi Corazón
 

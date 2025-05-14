@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,7 +19,7 @@ public class OrderDetailEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_order_detail")
-    private Integer idOrderDetail;
+    private Long idOrderDetail; // Debe ser Long para coincidir
 
     @ManyToOne
     @JoinColumn(name = "id_order", nullable = false)
@@ -29,13 +29,20 @@ public class OrderDetailEntity {
     @JoinColumn(name = "id_product", nullable = false)
     private ProductEntity product;
 
-    @Column(name = "unit_price", precision = 10, scale = 2, nullable = false)
-    private BigDecimal unitPrice;
-
     @ManyToOne
     @JoinColumn(name = "id_sauce")
     private SauceEntity sauce;
 
-    @OneToMany(mappedBy = "idExtraDetail", cascade = CascadeType.ALL)
-    private List<ProductExtrasDetail> extraDetails;
+    @ManyToOne
+    @JoinColumn(name = "id_variant")
+    private ProductVariantEntity variant;
+
+    @OneToMany(mappedBy = "orderDetail", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductExtrasDetailEntity> extraDetails = new ArrayList<>();
+
+    public void addExtraDetail(ProductExtrasDetailEntity extraDetail) {
+        extraDetails.add(extraDetail);
+        extraDetail.setOrderDetail(this);
+    }
+
 }

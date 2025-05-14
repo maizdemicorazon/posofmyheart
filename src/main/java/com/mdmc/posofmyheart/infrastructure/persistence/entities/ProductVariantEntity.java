@@ -19,7 +19,7 @@ public class ProductVariantEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_variant")
-    private Integer idVariant;
+    private Long idVariant;
 
     @ManyToOne
     @JoinColumn(name = "id_product", nullable = false)
