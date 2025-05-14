@@ -1,6 +1,6 @@
 package com.mdmc.posofmyheart.application.services.impl;
 
-import com.mdmc.posofmyheart.api.exceptions.ResourceNotFoundException;
+import com.mdmc.posofmyheart.api.exceptions.*;
 import com.mdmc.posofmyheart.application.dtos.OrderItemRequest;
 import com.mdmc.posofmyheart.application.dtos.OrderRequest;
 import com.mdmc.posofmyheart.application.dtos.OrderResponse;
@@ -40,7 +40,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderResponse findOrderById(Long orderId) {
         return orderRepository.findById(orderId)
                 .map(OrderMapper.INSTANCE::toResponse)
-                .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
+                .orElseThrow(OrderNotFoundException::new);
     }
 
     @Transactional(readOnly = true)
@@ -75,7 +75,7 @@ public class OrderServiceImpl implements OrderService {
 
     private void createAndAddExtraDetail(OrderDetailEntity detail, ProductExtrasDetail extra) {
         ProductExtraEntity productExtra = productExtraRepository.findById(extra.idExtra())
-                .orElseThrow(() -> new ResourceNotFoundException("Extra no encontrado"));
+                .orElseThrow(ExtraNotFoundException::new);
 
         ProductExtrasDetailEntity extraDetail = new ProductExtrasDetailEntity();
         extraDetail.setQuantity(extra.quantity());
@@ -86,7 +86,7 @@ public class OrderServiceImpl implements OrderService {
     private OrderEntity createOrderFromRequest(OrderRequest request) {
         // 1. Validar método de pago
         PaymentMethodEntity paymentMethod = paymentMethodRepository.findById(request.idPaymentMethod())
-                .orElseThrow(() -> new ResourceNotFoundException("Método de pago no válido"));
+                .orElseThrow(PayMethodNotFoundException::new);
 
         // 2. Crear la orden
         OrderEntity order = new OrderEntity();
@@ -98,15 +98,15 @@ public class OrderServiceImpl implements OrderService {
 
     private OrderDetailEntity createOrderDetail(OrderItemRequest item) {
         ProductEntity product = productRepository.findById(item.idProduct())
-                .orElseThrow(() -> new ResourceNotFoundException("Producto no encontrado"));
+                .orElseThrow(ProductNotFoundException::new);
 
         SauceEntity sauce = item.idSauce() != null ?
                 sauceRepository.findById(item.idSauce())
-                        .orElseThrow(() -> new ResourceNotFoundException("Salsa no encontrada")) :
+                        .orElseThrow(SauceNotFoundException::new) :
                 null;
 
         ProductVariantEntity variant = variantRepository.findById(item.idVariant())
-                .orElseThrow(() -> new ResourceNotFoundException("Variante no encontrada"));
+                .orElseThrow(VariantNotFoundException::new);
 
         OrderDetailEntity detail = new OrderDetailEntity();
         detail.setProduct(product);
