@@ -8,9 +8,18 @@ public record ProductExtrasDetail(
         @NotNull(message = "El ID de extras es obligatorio")
         @Positive
         Long idExtra,
-        @NotNull(message ="La cantidad es obligatoria")
+        @NotNull(message = "La cantidad es obligatoria")
         @Min(value = 1, message = "La cantidad debe ser al menos 1")
         @Positive
         Integer quantity
 ) {
+
+    public ProductExtrasDetail {
+        if (idExtra == null || idExtra <= 0) {
+            throw new IllegalArgumentException("idExtra de producto inválido");
+        }
+        if (quantity == null || quantity <= 0) {
+            throw new IllegalArgumentException("Precio de producto inválido");
+        }
+    }
 }

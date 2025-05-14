@@ -43,7 +43,7 @@ public class OrderController {
 
     @Operation(
             summary = "Obtiene una orden.",
-            description = "Recupera una orden con id como parametro"
+            description = "Recupera una orden con idProduct como parametro"
     )
     @ApiResponses(
             value = {

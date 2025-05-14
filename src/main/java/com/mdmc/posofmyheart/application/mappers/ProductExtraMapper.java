@@ -15,10 +15,9 @@ public interface ProductExtraMapper {
 
     ProductExtraMapper INSTANCE = Mappers.getMapper(ProductExtraMapper.class);
 
-    @Mapping(target = "id", source = "idExtra")
     ProductExtra toDomainExtra(ProductExtraEntity extra);
 
-    default List<ProductExtra> toDomainExtras(List<ProductExtraEntity> variants){
+    default List<ProductExtra> toDomainExtras(List<ProductExtraEntity> variants) {
         return variants.stream()
                 .map(this::toDomainExtra)
                 .sorted(Comparator.comparing(ProductExtra::price))
