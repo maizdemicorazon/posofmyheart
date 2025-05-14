@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name = "product_extras_detail")
 @Getter
@@ -13,12 +15,13 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductExtrasDetailEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_extra_detail")
-    private Integer idExtraDetail;
-    @Column(name = "id_extra", nullable = false)
-    private Integer idExtra;
+    @EmbeddedId
+    private ProductExtraDetailKey idExtraDetailKey;
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
+    @ManyToOne
+    @MapsId("idOrderDetail")
+    @JoinColumn(name = "id_order_detail", nullable = false)
+    private OrderDetailEntity orderDetail;
+
 }

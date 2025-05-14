@@ -6,16 +6,13 @@ import com.mdmc.posofmyheart.application.mappers.OrderMapper;
 import com.mdmc.posofmyheart.application.services.OrderService;
 import com.mdmc.posofmyheart.application.dtos.OrderItemRequest;
 import com.mdmc.posofmyheart.application.dtos.OrderRequest;
+import com.mdmc.posofmyheart.domain.models.ProductExtrasDetail;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.*;
-import com.mdmc.posofmyheart.infrastructure.persistence.repositories.OrderRepository;
-import com.mdmc.posofmyheart.infrastructure.persistence.repositories.PaymentMethodRepository;
-import com.mdmc.posofmyheart.infrastructure.persistence.repositories.ProductRepository;
-import com.mdmc.posofmyheart.infrastructure.persistence.repositories.SauceRepository;
+import com.mdmc.posofmyheart.infrastructure.persistence.repositories.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +25,10 @@ public class OrderServiceImpl implements OrderService {
     private final ProductRepository productRepository;
     private final PaymentMethodRepository paymentMethodRepository;
     private final SauceRepository sauceRepository;
+    private final VariantRepository variantRepository;
 
     @Transactional(readOnly = true)
-    public OrderResponse findOrderById(Long orderId) {
+    public OrderResponse findOrderById(Integer orderId) {
         return orderRepository.findById(orderId)
                 .map(OrderMapper.INSTANCE::toResponse)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
@@ -46,7 +44,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public OrderEntity createOrder(OrderRequest request) {
         // 1. Validar método de pago
-        PaymentMethodEntity paymentMethod = paymentMethodRepository.findById(request.paymentMethodId().longValue())
+        PaymentMethodEntity paymentMethod = paymentMethodRepository.findById(request.idPaymentMethod())
                 .orElseThrow(() -> new IllegalArgumentException("Método de pago no válido"));
 
         // 2. Crear la orden
@@ -54,30 +52,43 @@ public class OrderServiceImpl implements OrderService {
         order.setPaymentMethod(paymentMethod);
         order.setComment(request.comment());
         order.setOrderDetails(new ArrayList<>());
+        order.setTotalAmount(request.amount());
 
+        OrderEntity savedOrder = orderRepository.save(order);
+
+        createDetails(request.items(), savedOrder);
+
+        return savedOrder;
+    }
+
+    private void createDetails(List<OrderItemRequest> items, OrderEntity order){
         // 3. Procesar items
-        BigDecimal total = BigDecimal.ZERO;
-        for (OrderItemRequest item : request.items()) {
-            ProductEntity product = productRepository.findById(item.idProduct().longValue())
+        for (OrderItemRequest item : items) {
+            ProductEntity product = productRepository.findById(item.idProduct())
                     .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado: " + item.idProduct()));
 
-            // Obtener la salsa (si se especifica)
+            // Obtener la salsa
             SauceEntity sauce = sauceRepository.findById(item.idSauce())
                     .orElseThrow(() -> new IllegalArgumentException("Salsa no encontrada: " + item.idSauce()));
 
-//            Price price = Price.to(product.getPrices()).orElseThrow();
+            // Obtener la salsa (si se especifica)
+            ProductVariantEntity variant = variantRepository.findById(item.idVariant())
+                    .orElseThrow(() -> new IllegalArgumentException("Tamaño no encontrado: " + item.idVariant()));
 
             OrderDetailEntity detail = new OrderDetailEntity();
             detail.setOrder(order);
             detail.setProduct(product);
-//            detail.setUnitPrice(price.sellPrice());
             detail.setSauce(sauce);
+            detail.setVariant(variant);
+
+            item.extras().forEach(extra -> {
+                ProductExtrasDetailEntity extraDetail = new ProductExtrasDetailEntity();
+//                extraDetail.setIdExtra(extra.idExtra());
+                extraDetail.setQuantity(extra.quantity());
+            });
 
             order.getOrderDetails().add(detail);
-        }
 
-        // 4. Asignar total y guardar
-        order.setTotalAmount(total);
-        return orderRepository.save(order);
+        }
     }
 }

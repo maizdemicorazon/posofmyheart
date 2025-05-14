@@ -4,6 +4,6 @@ import com.mdmc.posofmyheart.infrastructure.persistence.entities.PaymentMethodEn
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
-public interface PaymentMethodRepository extends JpaRepository<PaymentMethodEntity, Long> {
+public interface PaymentMethodRepository extends JpaRepository<PaymentMethodEntity, Integer> {
     List<PaymentMethodEntity> findByActiveTrue();
 }

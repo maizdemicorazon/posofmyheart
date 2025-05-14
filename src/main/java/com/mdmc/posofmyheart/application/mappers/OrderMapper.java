@@ -14,6 +14,8 @@ public interface OrderMapper {
     @Mapping(target = "idOrder", source = "idOrder")
     @Mapping(target = "bill", source = "totalAmount")
     @Mapping(target = "paymentMethod", source = "paymentMethod.idPayment")
+    @Mapping(target = "comment", source = "comment")
+    @Mapping(target = "items", source = "orderDetails")
     OrderResponse toResponse(OrderEntity entity);
 
 }

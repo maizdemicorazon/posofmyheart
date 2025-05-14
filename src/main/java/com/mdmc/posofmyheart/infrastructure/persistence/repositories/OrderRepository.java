@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
+public interface OrderRepository extends JpaRepository<OrderEntity, Integer> {
     @Query("SELECT o FROM OrderEntity o WHERE o.orderDate BETWEEN :start AND :end")
     List<OrderEntity> findByDateRange(@Param("start") LocalDateTime start,
                                       @Param("end") LocalDateTime end);

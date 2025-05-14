@@ -16,10 +16,10 @@ public record OrderItemRequest(
         Integer idProduct,
         @NotNull(message = "El ID de la salsa es obligatorio")
         @Positive
-        Long idSauce,
+        Integer idSauce,
         @NotNull(message = "El ID del tamaño es obligatorio")
         @Positive
-        Long idVariant,
+        Integer idVariant,
         List<ProductExtrasDetail> extras
 ) {
 }

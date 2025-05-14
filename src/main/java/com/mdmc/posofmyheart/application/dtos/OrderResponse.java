@@ -9,7 +9,7 @@ public record OrderResponse(
         LocalDateTime orderDate,
         BigDecimal bill,
         Integer paymentMethod,
-        String notes,
+        String comment,
         List<OrderItemResponse> items
 ) {
     public record OrderItemResponse(

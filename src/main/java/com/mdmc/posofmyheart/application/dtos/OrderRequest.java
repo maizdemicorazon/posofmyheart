@@ -9,8 +9,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public record OrderRequest(
-        @NotNull @Positive Integer paymentMethodId,
-        @NotNull @Positive BigDecimal totalAmount,
+        @NotNull @Positive Integer idPaymentMethod,
+        @NotNull @Positive BigDecimal amount,
         @Size(max = 100) String comment,
         @NotEmpty List<OrderItemRequest> items
 ) {

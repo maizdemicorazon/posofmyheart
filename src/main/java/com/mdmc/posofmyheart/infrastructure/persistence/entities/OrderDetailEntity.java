@@ -34,8 +34,5 @@ public class OrderDetailEntity {
 
     @ManyToOne
     @JoinColumn(name = "id_variant")
-    private ProductVariantEntity idVariant;
-
-    @OneToMany(mappedBy = "idExtraDetail", cascade = CascadeType.ALL)
-    private List<ProductExtrasDetailEntity> extraDetails;
+    private ProductVariantEntity variant;
 }
