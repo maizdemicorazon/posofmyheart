@@ -35,9 +35,7 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<CreateOrderResponse> createOrder(@Valid @RequestBody OrderRequest request) {
         return ResponseEntity.ok(
-                new CreateOrderResponse(
-                        orderService.createOrder(request).getIdOrder()
-                )
+                orderService.createOrder(request)
         );
     }
 

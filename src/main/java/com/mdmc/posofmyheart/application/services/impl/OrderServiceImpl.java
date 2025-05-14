@@ -6,6 +6,7 @@ import com.mdmc.posofmyheart.application.dtos.OrderRequest;
 import com.mdmc.posofmyheart.application.dtos.OrderResponse;
 import com.mdmc.posofmyheart.application.mappers.OrderMapper;
 import com.mdmc.posofmyheart.application.services.OrderService;
+import com.mdmc.posofmyheart.domain.dtos.CreateOrderResponse;
 import com.mdmc.posofmyheart.domain.models.ProductExtrasDetail;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.*;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.*;
@@ -42,10 +43,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Transactional
-    public OrderEntity createOrder(OrderRequest request) {
+    public CreateOrderResponse createOrder(OrderRequest request) {
         OrderEntity order = createOrderFromRequest(request);
         createOrderAndExtrasDetailFromRequest(request, order);
-        return orderRepository.save(order);
+        return new CreateOrderResponse(
+                orderRepository.save(order).getIdOrder()
+        );
     }
 
     private void createOrderAndExtrasDetailFromRequest(OrderRequest request, OrderEntity order) {
