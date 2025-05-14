@@ -20,14 +20,19 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    @GetMapping("/{orderId}")
+    @GetMapping
+    public ResponseEntity<List<OrderResponse>> getAllOrders() {
+        return ResponseEntity.ok(orderService.findAllOrders());
+    }
+
+    @GetMapping("/{idOrder}")
     public ResponseEntity<OrderResponse> getOrderById(@PathVariable Long idOrder) {
         return ResponseEntity.ok(orderService.findOrderById(idOrder));
     }
 
-    @GetMapping
+    @GetMapping("/date/{date}")
     public ResponseEntity<List<OrderResponse>> getOrdersByDate(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
+            @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
     ) {
         return ResponseEntity.ok(orderService.listOrdersByDate(date));
     }
@@ -35,9 +40,7 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<CreateOrderResponse> createOrder(@Valid @RequestBody OrderRequest request) {
         return ResponseEntity.ok(
-                new CreateOrderResponse(
-                        orderService.createOrder(request).getIdOrder()
-                )
+                orderService.createOrder(request)
         );
     }
 

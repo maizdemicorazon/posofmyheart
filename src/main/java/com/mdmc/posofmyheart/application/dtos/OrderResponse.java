@@ -12,10 +12,18 @@ public record OrderResponse(
         String comment,
         List<OrderItemResponse> items
 ) {
+
     public record OrderItemResponse(
-            Integer productId,
-            String productName,
-            BigDecimal bill
+            Integer idProduct,
+            Integer idSauce,
+            Integer idVariant,
+            List<OrderExtrasResponse> extras
+    ) {
+    }
+
+    public record OrderExtrasResponse(
+            Integer idExtra,
+            Integer quantity
     ) {
     }
 }
