@@ -5,10 +5,7 @@ import jakarta.persistence.Embeddable;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
-import org.apache.commons.lang3.builder.HashCodeExclude;
 
-import java.io.Serial;
 import java.io.Serializable;
 
 @Getter

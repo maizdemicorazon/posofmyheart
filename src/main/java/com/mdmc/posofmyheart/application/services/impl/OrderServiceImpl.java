@@ -1,12 +1,11 @@
 package com.mdmc.posofmyheart.application.services.impl;
 
 import com.mdmc.posofmyheart.api.exceptions.ResourceNotFoundException;
+import com.mdmc.posofmyheart.application.dtos.OrderItemRequest;
+import com.mdmc.posofmyheart.application.dtos.OrderRequest;
 import com.mdmc.posofmyheart.application.dtos.OrderResponse;
 import com.mdmc.posofmyheart.application.mappers.OrderMapper;
 import com.mdmc.posofmyheart.application.services.OrderService;
-import com.mdmc.posofmyheart.application.dtos.OrderItemRequest;
-import com.mdmc.posofmyheart.application.dtos.OrderRequest;
-import com.mdmc.posofmyheart.domain.models.ProductExtrasDetail;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.*;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.*;
 import lombok.RequiredArgsConstructor;
