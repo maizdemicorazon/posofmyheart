@@ -10,6 +10,7 @@ import com.mdmc.posofmyheart.domain.models.ProductExtra;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.ProductExtraRepository;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository repository;
     private final ProductExtraRepository productExtraRepository;
 
+    @Cacheable("menu")
     public ProductsWithExtrasDto getMenuProducts() {
         List<Product> products = repository.findAll()
                 .stream()
