@@ -122,8 +122,8 @@ CREATE TABLE public.order_details (
 -- DROP TABLE public.product_extra_detail;
 
 CREATE TABLE public.product_extras_detail (
-    id_extra int4 NOT NULL,
-	id_order_detail int4 NOT NULL,
+    id_extra int8 NOT NULL,
+	id_order_detail int8 NOT NULL,
 	quantity int4 NOT NULL,
 	CONSTRAINT id_extra_detail_key unique (id_extra, id_order_detail),
 	CONSTRAINT order_details_extra_fkey FOREIGN KEY (id_extra) REFERENCES public.product_extras(id_extra)

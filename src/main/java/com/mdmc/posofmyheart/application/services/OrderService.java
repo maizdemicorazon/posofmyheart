@@ -12,5 +12,5 @@ public interface OrderService {
 
     List<OrderResponse> listOrdersByDate(LocalDate date);
 
-    OrderResponse findOrderById(Integer orderId);
+    OrderResponse findOrderById(Long orderId);
 }

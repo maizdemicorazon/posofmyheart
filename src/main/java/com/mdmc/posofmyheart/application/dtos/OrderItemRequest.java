@@ -9,17 +9,17 @@ import java.util.List;
 public record OrderItemRequest(
         @NotNull(message = "El ID de la orden es obligatorio")
         @Positive
-        Integer idOrder,
+        Long idOrder,
         @Positive
         @NotNull(message = "El ID del producto es obligatorio")
         @Positive
-        Integer idProduct,
+        Long idProduct,
         @NotNull(message = "El ID de la salsa es obligatorio")
         @Positive
-        Integer idSauce,
+        Long idSauce,
         @NotNull(message = "El ID del tamaño es obligatorio")
         @Positive
-        Integer idVariant,
+        Long idVariant,
         List<ProductExtrasDetail> extras
 ) {
 }

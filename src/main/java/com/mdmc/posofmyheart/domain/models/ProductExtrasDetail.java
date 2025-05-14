@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Positive;
 public record ProductExtrasDetail(
         @NotNull(message = "El ID de extras es obligatorio")
         @Positive
-        Integer idExtra,
+        Long idExtra,
         @NotNull(message ="La cantidad es obligatoria")
         @Min(value = 1, message = "La cantidad debe ser al menos 1")
         @Positive

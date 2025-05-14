@@ -3,8 +3,8 @@ package com.mdmc.posofmyheart.domain.models;
 import java.util.List;
 
 public record Product(
-        Integer id,
-        Integer idCategory,
+        Long id,
+        Long idCategory,
         String name,
         String image,
         List<ProductVariant> options) {

@@ -6,6 +6,7 @@ import com.mdmc.posofmyheart.application.dtos.OrderRequest;
 import com.mdmc.posofmyheart.application.dtos.OrderResponse;
 import com.mdmc.posofmyheart.application.mappers.OrderMapper;
 import com.mdmc.posofmyheart.application.services.OrderService;
+import com.mdmc.posofmyheart.domain.models.ProductExtrasDetail;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.*;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.*;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,12 +22,13 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
+    private final ProductExtraRepository productExtraRepository;
     private final PaymentMethodRepository paymentMethodRepository;
     private final SauceRepository sauceRepository;
     private final VariantRepository variantRepository;
 
     @Transactional(readOnly = true)
-    public OrderResponse findOrderById(Integer orderId) {
+    public OrderResponse findOrderById(Long orderId) {
         return orderRepository.findById(orderId)
                 .map(OrderMapper.INSTANCE::toResponse)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
@@ -42,6 +43,35 @@ public class OrderServiceImpl implements OrderService {
 
     @Transactional
     public OrderEntity createOrder(OrderRequest request) {
+        OrderEntity order = createOrderFromRequest(request);
+        createOrderAndExtrasDetailFromRequest(request, order);
+        return orderRepository.save(order);
+    }
+
+    private void createOrderAndExtrasDetailFromRequest(OrderRequest request, OrderEntity order) {
+        request.items().forEach(item -> {
+            OrderDetailEntity detail = createAndAddDetail(order, item);
+            item.extras().forEach(extra -> createAndAddExtraDetail(detail, extra));
+        });
+    }
+
+    private OrderDetailEntity createAndAddDetail(OrderEntity order, OrderItemRequest item) {
+        OrderDetailEntity detail = createOrderDetail(item);
+        order.addOrderDetail(detail);
+        return detail;
+    }
+
+    private void createAndAddExtraDetail(OrderDetailEntity detail, ProductExtrasDetail extra) {
+        ProductExtraEntity productExtra = productExtraRepository.findById(extra.idExtra())
+                .orElseThrow(() -> new IllegalArgumentException("Extra no encontrado"));
+
+        ProductExtrasDetailEntity extraDetail = new ProductExtrasDetailEntity();
+        extraDetail.setQuantity(extra.quantity());
+        extraDetail.setRelations(detail, productExtra);
+        detail.addExtraDetail(extraDetail);
+    }
+
+    private OrderEntity createOrderFromRequest(OrderRequest request) {
         // 1. Validar método de pago
         PaymentMethodEntity paymentMethod = paymentMethodRepository.findById(request.idPaymentMethod())
                 .orElseThrow(() -> new IllegalArgumentException("Método de pago no válido"));
@@ -50,44 +80,28 @@ public class OrderServiceImpl implements OrderService {
         OrderEntity order = new OrderEntity();
         order.setPaymentMethod(paymentMethod);
         order.setComment(request.comment());
-        order.setOrderDetails(new ArrayList<>());
         order.setTotalAmount(request.amount());
-
-        OrderEntity savedOrder = orderRepository.save(order);
-
-        createDetails(request.items(), savedOrder);
-
-        return savedOrder;
+        return order;
     }
 
-    private void createDetails(List<OrderItemRequest> items, OrderEntity order){
-        // 3. Procesar items
-        for (OrderItemRequest item : items) {
-            ProductEntity product = productRepository.findById(item.idProduct())
-                    .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado: " + item.idProduct()));
+    private OrderDetailEntity createOrderDetail(OrderItemRequest item) {
+        ProductEntity product = productRepository.findById(item.idProduct())
+                .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado"));
 
-            // Obtener la salsa
-            SauceEntity sauce = sauceRepository.findById(item.idSauce())
-                    .orElseThrow(() -> new IllegalArgumentException("Salsa no encontrada: " + item.idSauce()));
+        SauceEntity sauce = item.idSauce() != null ?
+                sauceRepository.findById(item.idSauce())
+                        .orElseThrow(() -> new IllegalArgumentException("Salsa no encontrada")) :
+                null;
 
-            // Obtener la salsa (si se especifica)
-            ProductVariantEntity variant = variantRepository.findById(item.idVariant())
-                    .orElseThrow(() -> new IllegalArgumentException("Tamaño no encontrado: " + item.idVariant()));
+        ProductVariantEntity variant = variantRepository.findById(item.idVariant())
+                .orElseThrow(() -> new IllegalArgumentException("Variante no encontrada"));
 
-            OrderDetailEntity detail = new OrderDetailEntity();
-            detail.setOrder(order);
-            detail.setProduct(product);
-            detail.setSauce(sauce);
-            detail.setVariant(variant);
+        OrderDetailEntity detail = new OrderDetailEntity();
+        detail.setProduct(product);
+        detail.setSauce(sauce);
+        detail.setVariant(variant);
 
-            item.extras().forEach(extra -> {
-                ProductExtrasDetailEntity extraDetail = new ProductExtrasDetailEntity();
-//                extraDetail.setIdExtra(extra.idExtra());
-                extraDetail.setQuantity(extra.quantity());
-            });
-
-            order.getOrderDetails().add(detail);
-
-        }
+        return detail;
     }
+
 }

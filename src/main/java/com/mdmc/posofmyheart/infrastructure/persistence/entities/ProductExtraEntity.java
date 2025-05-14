@@ -8,6 +8,8 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "product_extras")
@@ -19,7 +21,7 @@ public class ProductExtraEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_extra")
-    private Integer idExtra;
+    private Long idExtra;
 
     @Column(name = "name", length = 100, nullable = false)
     private String name;
@@ -41,4 +43,8 @@ public class ProductExtraEntity {
 
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    @OneToMany(mappedBy = "productExtra", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductExtrasDetailEntity> extraDetails = new ArrayList<>();
+
 }
