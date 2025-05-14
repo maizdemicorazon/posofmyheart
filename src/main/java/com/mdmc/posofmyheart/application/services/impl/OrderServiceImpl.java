@@ -28,6 +28,14 @@ public class OrderServiceImpl implements OrderService {
     private final SauceRepository sauceRepository;
     private final VariantRepository variantRepository;
 
+    @Override
+    public List<OrderResponse> findAllOrders() {
+        return orderRepository.findAll()
+                .stream()
+                .map(OrderMapper.INSTANCE::toResponse)
+                .toList();
+    }
+
     @Transactional(readOnly = true)
     public OrderResponse findOrderById(Long orderId) {
         return orderRepository.findById(orderId)
@@ -37,7 +45,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Transactional(readOnly = true)
     public List<OrderResponse> listOrdersByDate(LocalDate date) {
-        return orderRepository.findByOrderDate(date).stream()
+        return orderRepository.findByOrderDate(date)
+                .stream()
                 .map(OrderMapper.INSTANCE::toResponse)
                 .toList();
     }
@@ -66,7 +75,7 @@ public class OrderServiceImpl implements OrderService {
 
     private void createAndAddExtraDetail(OrderDetailEntity detail, ProductExtrasDetail extra) {
         ProductExtraEntity productExtra = productExtraRepository.findById(extra.idExtra())
-                .orElseThrow(() -> new IllegalArgumentException("Extra no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Extra no encontrado"));
 
         ProductExtrasDetailEntity extraDetail = new ProductExtrasDetailEntity();
         extraDetail.setQuantity(extra.quantity());
@@ -77,7 +86,7 @@ public class OrderServiceImpl implements OrderService {
     private OrderEntity createOrderFromRequest(OrderRequest request) {
         // 1. Validar método de pago
         PaymentMethodEntity paymentMethod = paymentMethodRepository.findById(request.idPaymentMethod())
-                .orElseThrow(() -> new IllegalArgumentException("Método de pago no válido"));
+                .orElseThrow(() -> new ResourceNotFoundException("Método de pago no válido"));
 
         // 2. Crear la orden
         OrderEntity order = new OrderEntity();
@@ -89,15 +98,15 @@ public class OrderServiceImpl implements OrderService {
 
     private OrderDetailEntity createOrderDetail(OrderItemRequest item) {
         ProductEntity product = productRepository.findById(item.idProduct())
-                .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Producto no encontrado"));
 
         SauceEntity sauce = item.idSauce() != null ?
                 sauceRepository.findById(item.idSauce())
-                        .orElseThrow(() -> new IllegalArgumentException("Salsa no encontrada")) :
+                        .orElseThrow(() -> new ResourceNotFoundException("Salsa no encontrada")) :
                 null;
 
         ProductVariantEntity variant = variantRepository.findById(item.idVariant())
-                .orElseThrow(() -> new IllegalArgumentException("Variante no encontrada"));
+                .orElseThrow(() -> new ResourceNotFoundException("Variante no encontrada"));
 
         OrderDetailEntity detail = new OrderDetailEntity();
         detail.setProduct(product);
