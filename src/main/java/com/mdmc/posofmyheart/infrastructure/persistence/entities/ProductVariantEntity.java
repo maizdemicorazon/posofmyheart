@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -34,6 +35,7 @@ public class ProductVariantEntity {
     @Column(name = "cost_price")
     private BigDecimal costPrice;
 
+    @ColumnDefault(value = "CURRENT_TIMESTAMP")
     @Column(name = "effective_date")
     private LocalDateTime effectiveDate;
 }

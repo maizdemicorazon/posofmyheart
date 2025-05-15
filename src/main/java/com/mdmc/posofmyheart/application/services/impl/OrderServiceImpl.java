@@ -8,7 +8,7 @@ import com.mdmc.posofmyheart.application.dtos.OrderUpdateRequest;
 import com.mdmc.posofmyheart.application.mappers.OrderMapper;
 import com.mdmc.posofmyheart.application.services.OrderService;
 import com.mdmc.posofmyheart.domain.dtos.CreateOrderResponse;
-import com.mdmc.posofmyheart.domain.models.ProductExtrasDetail;
+import com.mdmc.posofmyheart.domain.models.OrderExtrasDetail;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.*;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.*;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ public class OrderServiceImpl implements OrderService {
     private final ProductExtraRepository productExtraRepository;
     private final PaymentMethodRepository paymentMethodRepository;
     private final SauceRepository sauceRepository;
-    private final VariantRepository variantRepository;
+    private final ProductVariantRepository variantRepository;
 
     @Override
     public List<OrderResponse> findAllOrders() {
@@ -122,7 +122,7 @@ public class OrderServiceImpl implements OrderService {
                 ProductExtraEntity productExtra = productExtraRepository.findById(extraUpdate.idExtra())
                         .orElseThrow(() -> new ResourceNotFoundException("Extra no encontrado con ID: " + extraUpdate.idExtra()));
 
-                ProductExtrasDetailEntity extraDetail = new ProductExtrasDetailEntity();
+                OrderExtrasDetailEntity extraDetail = new OrderExtrasDetailEntity();
                 extraDetail.setQuantity(extraUpdate.quantity());
                 extraDetail.setRelations(newDetail, productExtra);
                 newDetail.addExtraDetail(extraDetail);
@@ -139,11 +139,11 @@ public class OrderServiceImpl implements OrderService {
         return detail;
     }
 
-    private void createAndAddExtraDetail(OrderDetailEntity detail, ProductExtrasDetail extra) {
+    private void createAndAddExtraDetail(OrderDetailEntity detail, OrderExtrasDetail extra) {
         ProductExtraEntity productExtra = productExtraRepository.findById(extra.idExtra())
-                .orElseThrow(ExtraNotFoundException::new);
+                .orElseThrow(ProductExtraNotFoundException::new);
 
-        ProductExtrasDetailEntity extraDetail = new ProductExtrasDetailEntity();
+        OrderExtrasDetailEntity extraDetail = new OrderExtrasDetailEntity();
         extraDetail.setQuantity(extra.quantity());
         extraDetail.setRelations(detail, productExtra);
         detail.addExtraDetail(extraDetail);
@@ -256,7 +256,7 @@ public class OrderServiceImpl implements OrderService {
         // Actualizar o añadir extras
         extrasUpdate.forEach(extraUpdate -> {
             ProductExtraEntity productExtra = productExtraRepository.findById(extraUpdate.idExtra())
-                    .orElseThrow(ExtraNotFoundException::new);
+                    .orElseThrow(ProductExtraNotFoundException::new);
 
             detail.getExtraDetails().stream()
                     .filter(e -> e.getProductExtra().getIdExtra().equals(extraUpdate.idExtra()))
@@ -264,7 +264,7 @@ public class OrderServiceImpl implements OrderService {
                     .ifPresentOrElse(
                             existingExtra -> existingExtra.setQuantity(extraUpdate.quantity()),
                             () -> {
-                                ProductExtrasDetailEntity newExtra = new ProductExtrasDetailEntity();
+                                OrderExtrasDetailEntity newExtra = new OrderExtrasDetailEntity();
                                 newExtra.setQuantity(extraUpdate.quantity());
                                 newExtra.setRelations(detail, productExtra);
                                 detail.addExtraDetail(newExtra);

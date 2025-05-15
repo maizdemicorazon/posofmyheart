@@ -5,9 +5,8 @@ import com.mdmc.posofmyheart.application.mappers.ProductExtraMapper;
 import com.mdmc.posofmyheart.application.mappers.ProductMapper;
 import com.mdmc.posofmyheart.application.services.ProductService;
 import com.mdmc.posofmyheart.domain.dtos.ProductsWithExtrasDto;
-import com.mdmc.posofmyheart.domain.models.Category;
-import com.mdmc.posofmyheart.domain.models.Product;
 import com.mdmc.posofmyheart.domain.models.ProductExtra;
+import com.mdmc.posofmyheart.domain.models.Product;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.ProductEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.ProductExtraRepository;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.ProductRepository;
@@ -26,17 +25,16 @@ public class ProductServiceImpl implements ProductService {
     public ProductsWithExtrasDto getMenuProducts() {
         List<Product> products = repository.findAll()
                 .stream()
-                .map(product -> {
-                    return new Product(
-                            product.getIdProduct(),
-                            getIdCategory(product),
-                            product.getName(),
-                            product.getImage(),
-                            ProductMapper.INSTANCE.toDomainVariants(
-                                    product.getVariants()
-                            )
-                    );
-                })
+                .map(product -> new Product(
+                                product.getIdProduct(),
+                                getIdCategory(product),
+                                product.getName(),
+                                product.getImage(),
+                                ProductMapper.INSTANCE.toDomainVariants(
+                                        product.getVariants()
+                                )
+                        )
+                )
                 .toList();
 
         List<ProductExtra> extras = ProductExtraMapper.INSTANCE.toDomainExtras(

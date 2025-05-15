@@ -1,8 +1,8 @@
 package com.mdmc.posofmyheart.application.mappers;
 
 import com.mdmc.posofmyheart.domain.dtos.ProductsWithExtrasDto;
-import com.mdmc.posofmyheart.domain.models.Product;
 import com.mdmc.posofmyheart.domain.models.ProductExtra;
+import com.mdmc.posofmyheart.domain.models.Product;
 import com.mdmc.posofmyheart.domain.models.ProductVariant;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.ProductVariantEntity;
 import org.mapstruct.Mapper;

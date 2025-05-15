@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
-public record ProductExtrasDetail(
+public record OrderExtrasDetail(
         @NotNull(message = "El ID de extras es obligatorio")
         @Positive
         Long idExtra,
@@ -14,7 +14,7 @@ public record ProductExtrasDetail(
         Integer quantity
 ) {
 
-    public ProductExtrasDetail {
+    public OrderExtrasDetail {
         if (idExtra == null || idExtra <= 0) {
             throw new IllegalArgumentException("idExtra de producto inválido");
         }
