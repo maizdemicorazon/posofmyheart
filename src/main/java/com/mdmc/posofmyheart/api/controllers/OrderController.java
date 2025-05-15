@@ -2,6 +2,7 @@ package com.mdmc.posofmyheart.api.controllers;
 
 import com.mdmc.posofmyheart.application.dtos.OrderRequest;
 import com.mdmc.posofmyheart.application.dtos.OrderResponse;
+import com.mdmc.posofmyheart.application.dtos.OrderUpdateRequest;
 import com.mdmc.posofmyheart.application.services.OrderService;
 import com.mdmc.posofmyheart.domain.dtos.CreateOrderResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -74,7 +75,7 @@ public class OrderController {
     }
 
     @Operation(
-            summary = "Creación de orden",
+            summary = "Creación de una orden",
             description = "Crea una orden con detalles y extras."
     )
     @ApiResponses(
@@ -94,6 +95,25 @@ public class OrderController {
             log.error("Error al crear la orden: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    @Operation(
+            summary = "Actualizar una orden",
+            description = "Actualiza y valida relaciones para una orden existente"
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Orden actualizada"),
+                    @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+            }
+    )
+    @ResponseStatus(code = HttpStatus.ACCEPTED)
+    @PutMapping("/{orderId}")
+    public ResponseEntity<OrderResponse> updateOrder(
+            @PathVariable Long orderId,
+            @Valid @RequestBody OrderUpdateRequest updateRequest) {
+        OrderResponse updatedOrder = orderService.updateOrder(orderId, updateRequest);
+        return ResponseEntity.ok(updatedOrder);
     }
 
 }
