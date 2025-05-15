@@ -3,7 +3,7 @@ package com.mdmc.posofmyheart.application.mappers;
 import com.mdmc.posofmyheart.application.dtos.OrderResponse;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderDetailEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderEntity;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.ProductExtrasDetailEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderExtrasDetailEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -28,7 +28,7 @@ public interface OrderMapper {
 
     @Mapping(target = "idExtra", source = "productExtra.idExtra")
     @Mapping(target = "quantity", source = "quantity")
-    OrderResponse.OrderExtrasResponse toExtrasResponse(ProductExtrasDetailEntity entity);
+    OrderResponse.OrderExtrasResponse toExtrasResponse(OrderExtrasDetailEntity entity);
 
 
 }

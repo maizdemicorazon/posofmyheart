@@ -7,14 +7,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "product_extras_detail")
+@Table(name = "order_extras_detail")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductExtrasDetailEntity {
+public class OrderExtrasDetailEntity {
     @EmbeddedId
-    private ProductExtraDetailKey id;
+    private OrderExtraDetailKey id;
 
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
@@ -32,6 +32,6 @@ public class ProductExtrasDetailEntity {
     public void setRelations(OrderDetailEntity orderDetail, ProductExtraEntity productExtra) {
         this.orderDetail = orderDetail;
         this.productExtra = productExtra;
-        this.id = new ProductExtraDetailKey(productExtra.getIdExtra(), orderDetail.getIdOrderDetail());
+        this.id = new OrderExtraDetailKey(productExtra.getIdExtra(), orderDetail.getIdOrderDetail());
     }
 }

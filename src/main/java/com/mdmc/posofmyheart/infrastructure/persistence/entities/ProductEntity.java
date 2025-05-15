@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -35,9 +36,11 @@ public class ProductEntity {
     @Column(name = "description", nullable = false)
     private String description;
 
+    @ColumnDefault(value = "CURRENT_TIMESTAMP")
     @Column(name = "created_at")
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 
+    @ColumnDefault(value = "CURRENT_TIMESTAMP")
     @Column(name = "updated_at")
     private LocalDateTime updatedAt = LocalDateTime.now();
 

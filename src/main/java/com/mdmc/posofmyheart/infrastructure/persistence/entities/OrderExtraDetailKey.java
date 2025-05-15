@@ -12,7 +12,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class ProductExtraDetailKey implements Serializable {
+public class OrderExtraDetailKey implements Serializable {
 
     @Column(name = "id_extra")
     private Long idExtra;

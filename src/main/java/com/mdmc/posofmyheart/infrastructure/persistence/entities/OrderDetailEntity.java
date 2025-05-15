@@ -38,9 +38,9 @@ public class OrderDetailEntity {
     private ProductVariantEntity variant;
 
     @OneToMany(mappedBy = "orderDetail", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProductExtrasDetailEntity> extraDetails = new ArrayList<>();
+    private List<OrderExtrasDetailEntity> extraDetails = new ArrayList<>();
 
-    public void addExtraDetail(ProductExtrasDetailEntity extraDetail) {
+    public void addExtraDetail(OrderExtrasDetailEntity extraDetail) {
         extraDetails.add(extraDetail);
         extraDetail.setOrderDetail(this);
     }

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -41,10 +42,11 @@ public class ProductExtraEntity {
     @Column(name = "image")
     private String image;
 
+    @ColumnDefault(value = "CURRENT_TIMESTAMP")
     @Column(name = "created_at")
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "productExtra", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProductExtrasDetailEntity> extraDetails = new ArrayList<>();
+    private List<OrderExtrasDetailEntity> extraDetails = new ArrayList<>();
 
 }
