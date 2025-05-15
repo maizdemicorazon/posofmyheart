@@ -25,17 +25,16 @@ public class ProductServiceImpl implements ProductService {
     public ProductsWithExtrasDto getMenuProducts() {
         List<Product> products = repository.findAll()
                 .stream()
-                .map(product -> {
-                    return new Product(
-                            product.getIdProduct(),
-                            getIdCategory(product),
-                            product.getName(),
-                            product.getImage(),
-                            ProductMapper.INSTANCE.toDomainVariants(
-                                    product.getVariants()
-                            )
-                    );
-                })
+                .map(product -> new Product(
+                                product.getIdProduct(),
+                                getIdCategory(product),
+                                product.getName(),
+                                product.getImage(),
+                                ProductMapper.INSTANCE.toDomainVariants(
+                                        product.getVariants()
+                                )
+                        )
+                )
                 .toList();
 
         List<ProductExtra> extras = ProductExtraMapper.INSTANCE.toDomainExtras(
