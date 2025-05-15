@@ -26,8 +26,8 @@ public interface OrderService {
      * idOrderDetail o (idProduct + idVariant) para items
      * idExtra para extras
      *
-     * @param idOrder
-     * @param updateRequest
+     * @param idOrder - id order which belongs detail or extra
+     * @param updateRequest - body to update
      * @return {@link OrderResponse}
      */
     OrderResponse updateOrder(Long idOrder, OrderUpdateRequest updateRequest);
