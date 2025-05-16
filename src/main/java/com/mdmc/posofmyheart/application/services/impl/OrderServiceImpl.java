@@ -71,7 +71,6 @@ public class OrderServiceImpl implements OrderService {
         OrderEntity order = new OrderEntity();
         order.setPaymentMethod(paymentMethod);
         order.setComment(request.comment());
-        order.setTotalAmount(request.amount());
         return order;
     }
 
@@ -82,6 +81,8 @@ public class OrderServiceImpl implements OrderService {
                     .orElseGet(Collections::emptyList)
                     .forEach(extra -> createAndAddExtraDetail(detail, extra));
         });
+
+        order.setTotalAmount(calculateOrderTotal(order));
     }
 
 

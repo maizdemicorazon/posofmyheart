@@ -85,150 +85,248 @@ ProductVariants → Products: Relación muchos-a-uno (id_product)
 
 ## Obtener menú completo con precios:
 ``` sql
-SELECT p.name AS product,
-   v.size,
-   v.sell_price AS price,
-   pc.name AS category
-FROM
-   products p
-JOIN
-   product_variants v ON p.id_product = v.id_product
-JOIN
-   product_categories pc ON p.id_category = pc.id_category
-ORDER BY
-   pc.name, p.name;
+select
+	p.name as product,
+	v.size,
+	v.sell_price as price,
+	pc.name as category
+from
+	products p
+join
+   product_variants v on
+	p.id_product = v.id_product
+join
+   product_categories pc on
+	p.id_category = pc.id_category
+order by
+	pc.name,
+	p.name;
 ```
 
 ## Calcular ventas por categoría:
 ``` sql
-SELECT
-   pc.name AS category,
-   SUM(od.quantity * v.sell_price) AS total_sales
-FROM
-   order_details od
-JOIN
-   products p ON od.id_product = p.id_product
-JOIN
-   product_categories pc ON p.id_category = pc.id_category
-JOIN
-   product_variants v ON od.id_variant = v.id_variant
-GROUP BY
-   pc.name;
+select
+	pc.name as category,
+	SUM(v.sell_price) as total_sales
+from
+	order_details od
+join
+   products p on
+	od.id_product = p.id_product
+join
+   product_categories pc on
+	p.id_category = pc.id_category
+join
+   product_variants v on
+	od.id_variant = v.id_variant
+group by
+	pc.name;
 ```
 ## Ventas por día (últimos 7 días)
 ``` sql
-SELECT 
-    DATE(order_date) AS fecha,
-    COUNT(*) AS total_ordenes,
-    SUM(total_amount) AS venta_total
-FROM orders
-WHERE order_date >= CURRENT_DATE - INTERVAL '7 days'
-GROUP BY DATE(order_date)
-ORDER BY fecha DESC;
+select
+	DATE(order_date) as fecha,
+	COUNT(*) as total_ordenes,
+	SUM(total_amount) as venta_total
+from
+	orders
+where
+	order_date >= CURRENT_DATE - interval '7 days'
+group by
+	DATE(order_date)
+order by
+	fecha desc;
 ```
 
 ## Productos más vendidos (top 10)
 ``` sql
-SELECT 
-    p.name AS producto,
-    SUM(od.quantity) AS unidades_vendidas,
-    SUM(od.quantity * pv.sell_price) AS ingresos
-FROM order_details od
-JOIN products p ON od.id_product = p.id_product
-JOIN product_variants pv ON od.id_variant = pv.id_variant
-GROUP BY p.name
-ORDER BY unidades_vendidas DESC
-LIMIT 10;
+select
+	p.name as producto,
+	count(p.name) as unidades_vendidas,
+	SUM(pv.sell_price) as ingresos
+from
+	order_details od
+join products p on
+	od.id_product = p.id_product
+join product_variants pv on
+	od.id_variant = pv.id_variant
+group by
+	p.name
+order by
+	unidades_vendidas desc
+limit 10;
 ```
 ## Productos con sus variantes y margen de ganancia
 
 ``` sql
-SELECT 
-    p.name AS producto,
-    v.size AS tamaño,
-    v.sell_price AS precio_venta,
-    v.cost_price AS costo,
-    (v.sell_price - v.cost_price) AS ganancia_unitaria,
-    ROUND(((v.sell_price - v.cost_price) / v.cost_price * 100), 2) AS margen_porcentaje,
-    pc.name AS categoria
-FROM 
-    products p
-JOIN 
-    product_variants v ON p.id_product = v.id_product
-JOIN 
-    product_categories pc ON p.id_category = pc.id_category
-ORDER BY 
-    margen_porcentaje DESC;
+select
+	p.name as producto,
+	v.size as tamaño,
+	v.sell_price as precio_venta,
+	v.cost_price as costo,
+	(v.sell_price - v.cost_price) as ganancia_unitaria,
+	ROUND(((v.sell_price - v.cost_price) / v.cost_price * 100), 2) as margen_porcentaje,
+	pc.name as categoria
+from
+	products p
+join 
+    product_variants v on
+	p.id_product = v.id_product
+join 
+    product_categories pc on
+	p.id_category = pc.id_category
+order by
+	margen_porcentaje desc;
 ```
 
 
 ## Inventario de productos (con margen de ganancia)
 
 ``` sql
-SELECT 
-    p.name,
-    v.size,
-    v.cost_price AS costo,
-    v.sell_price AS precio_venta,
-    ROUND((v.sell_price - v.cost_price) / v.cost_price * 100, 2) AS margen_porcentaje
-FROM product_variants v
-JOIN products p ON v.id_product = p.id_product
-ORDER BY margen_porcentaje DESC;
+select
+	p.name,
+	v.size,
+	v.cost_price as costo,
+	v.sell_price as precio_venta,
+	ROUND((v.sell_price - v.cost_price) / v.cost_price * 100, 2) as margen_porcentaje
+from
+	product_variants v
+join products p on
+	v.id_product = p.id_product
+order by
+	margen_porcentaje desc;
 ```
 ## Ticket promedio por método de pago
 ``` sql
-SELECT 
-    pm.name AS metodo_pago,
-    COUNT(*) AS transacciones,
-    AVG(o.total_amount) AS ticket_promedio
-FROM orders o
-JOIN payment_methods pm ON o.id_payment_method = pm.id_payment_method
-GROUP BY pm.name;
+select
+	pm.name as metodo_pago,
+	COUNT(*) as transacciones,
+	AVG(o.total_amount) as ticket_promedio
+from
+	orders o
+join payment_methods pm on
+	o.id_payment_method = pm.id_payment_method
+group by
+	pm.name;
 ```
 
 ## Horas pico de ventas
 ``` sql
-SELECT 
-    EXTRACT(HOUR FROM order_date) AS hora,
-    COUNT(*) AS ordenes
-FROM orders
-GROUP BY EXTRACT(HOUR FROM order_date)
-ORDER BY ordenes DESC;
+select
+	extract(hour from order_date) as hora,
+	COUNT(*) as ordenes
+from
+	orders
+group by
+	extract(hour from order_date)
+order by
+	ordenes desc;
 ```
 
 ## Buscar productos por categoría con sus variantes
 ``` sql
-SELECT 
-    p.name AS producto,
-    p.description,
-    v.size,
-    v.sell_price AS precio
-FROM products p
-JOIN product_variants v ON p.id_product = v.id_product
-WHERE p.id_category = 1  -- ID de categoría (Esquites)
-ORDER BY p.name, v.sell_price;
+select
+	p.name as producto,
+	p.description,
+	v.size,
+	v.sell_price as precio
+from
+	products p
+join product_variants v on
+	p.id_product = v.id_product
+where
+	p.id_category = 1
+	-- ID de categoría (Esquites)
+order by
+	p.name,
+	v.sell_price;
 ```
 ##  Resumen diario (para pantalla principal)
 ``` sql
-SELECT 
-    COUNT(*) AS ordenes_hoy,
-    SUM(total_amount) AS venta_hoy,
-    (SELECT SUM(total_amount) FROM orders 
-     WHERE DATE(order_date) = CURRENT_DATE - INTERVAL '1 day') AS venta_ayer
-FROM orders
-WHERE DATE(order_date) = CURRENT_DATE;
+select
+	COUNT(*) as ordenes_hoy,
+	SUM(total_amount) as venta_hoy,
+	(
+	select
+		SUM(total_amount)
+	from
+		orders
+	where
+		DATE(order_date) = CURRENT_DATE - interval '1 day') as venta_ayer
+from
+	orders
+where
+	DATE(order_date) = CURRENT_DATE;
 ```
 
 ## Distribución de ventas por categoría (para gráfico)
 ``` sql
-SELECT 
-    pc.name AS categoria,
-    ROUND(SUM(o.total_amount) / (SELECT SUM(total_amount) FROM orders) * 100, 2) AS porcentaje
-FROM orders o
-JOIN order_details od ON o.id_order = od.id_order
-JOIN products p ON od.id_product = p.id_product
-JOIN product_categories pc ON p.id_category = pc.id_category
-GROUP BY pc.name;
+select
+	pc.name as categoria,
+	ROUND(SUM(o.total_amount) / (select SUM(total_amount) from orders) * 100, 2) as porcentaje
+from
+	orders o
+join order_details od on
+	o.id_order = od.id_order
+join products p on
+	od.id_product = p.id_product
+join product_categories pc on
+	p.id_category = pc.id_category
+group by
+	pc.name;
+```
+
+## Detalle completo de la orden
+``` sql
+select
+	o.id_order as orden_id,
+	o.order_date as fecha,
+	pm.name as metodo_pago,
+	o.total_amount as total,
+	p.name as producto,
+	pv.size as variante,
+	pv.sell_price as precio_unitario,
+	s.name as salsa,
+	coalesce(ped.quantity, 0) as cantidad_extra,
+	sum(ped.quantity) as cantidad_por_extra,
+	coalesce(pe.price, 0) as precio_extra
+from
+	orders o
+join 
+    payment_methods pm on
+	o.id_payment_method = pm.id_payment_method
+join 
+    order_details od on
+	o.id_order = od.id_order
+join 
+    products p on
+	od.id_product = p.id_product
+join 
+    product_variants pv on
+	od.id_variant = pv.id_variant
+join 
+    sauces s on
+	od.id_sauce = s.id_sauce
+left join 
+    order_extras_detail ped on
+	od.id_order_detail = ped.id_order_detail
+left join 
+    product_extras pe on
+	ped.id_extra = pe.id_extra
+where
+	o.id_order = 2
+	-- reemplaza :ordenid con el id de la orden
+group by
+	o.id_order,
+	o.order_date,
+	pm.name,
+	o.total_amount,
+	p.name,
+	pv.size,
+	pv.sell_price,
+	s.name,
+	ped.quantity,
+	pe.price;
 ```
 
 ## Run
