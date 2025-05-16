@@ -4,6 +4,7 @@ import com.mdmc.posofmyheart.domain.dtos.ProductsWithExtrasDto;
 import com.mdmc.posofmyheart.domain.models.ProductExtra;
 import com.mdmc.posofmyheart.domain.models.Product;
 import com.mdmc.posofmyheart.domain.models.ProductVariant;
+import com.mdmc.posofmyheart.domain.models.Sauce;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.ProductVariantEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -28,6 +29,6 @@ public interface ProductMapper {
                 .collect(Collectors.toList());
     }
 
-    ProductsWithExtrasDto toDto(List<Product> products, List<ProductExtra> extras);
+    ProductsWithExtrasDto toDto(List<Product> products, List<ProductExtra> extras, List<Sauce> sauces);
 
 }

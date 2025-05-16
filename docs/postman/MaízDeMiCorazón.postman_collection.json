@@ -1,0 +1,366 @@
+{
+	"info": {
+		"_postman_id": "f7009232-f434-4194-9245-b3edd680e4a3",
+		"name": "MaízDeMiCorazón",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "680858"
+	},
+	"item": [
+		{
+			"name": "GetAllProducts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}:{{port}}/api/products",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateOrderJustProduct",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"amount\": 30,\r\n  \"idPaymentMethod\": 1,\r\n  \"comment\": \"\",\r\n  \"items\": [\r\n    {\r\n      \"idProduct\": 7,\r\n\t  \"idSauce\": 7,\r\n\t  \"idVariant\":11\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/api/orders",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateOrderWithExtra",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"idPaymentMethod\": 1,\r\n  \"comment\": \"\",\r\n  \"items\": [\r\n    {\r\n      \"idProduct\": 3,\r\n\t  \"idSauce\": 7,\r\n\t  \"idVariant\":12,\r\n      \"extras\": [\r\n        {\r\n          \"idExtra\": 1,\r\n          \"quantity\": 1\r\n        },\r\n\t\t{\r\n          \"idExtra\": 3,\r\n          \"quantity\": 1\r\n        }\r\n      ]\r\n    },\r\n    {\r\n      \"idProduct\": 3,\r\n\t  \"idSauce\": 7,\r\n\t  \"idVariant\":12,\r\n      \"extras\": [\r\n        {\r\n          \"idExtra\": 1,\r\n          \"quantity\": 1\r\n        },\r\n\t\t{\r\n          \"idExtra\": 3,\r\n          \"quantity\": 1\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/api/orders",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateOrderMultiple",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"amount\": 70,\r\n  \"idPaymentMethod\": 1,\r\n  \"comment\": \"\",\r\n  \"items\": [\r\n    {\r\n      \"idProduct\": 3,\r\n\t  \"idSauce\": 7,\r\n\t  \"idVariant\":19,\r\n      \"extras\": [\r\n        {\r\n          \"idExtra\": 1,\r\n          \"quantity\": 1\r\n        },\r\n\t\t{\r\n          \"idExtra\": 3,\r\n          \"quantity\": 1\r\n        }\r\n      ]\r\n    },\r\n     {\r\n      \"idProduct\": 8,\r\n\t  \"idSauce\": 7,\r\n\t  \"idVariant\":24\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/api/orders",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetOrderById",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}:{{port}}/api/orders/64",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"orders",
+						"64"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetOrderByDate(yyyy-mm-dd)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}:{{port}}/api/orders/date/2025-05-14",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"orders",
+						"date",
+						"2025-05-14"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllOrders",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}:{{port}}/api/orders",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateOrderPayMethod",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"comment\": \"Solicito salsa extra\",\r\n  \"idPaymentMethod\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/api/orders/64",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"orders",
+						"64"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateOrderAddItems",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"comment\": \"Por favor agregar más salsa\",\r\n    \"idPaymentMethod\": 2,\r\n    \"updatedItems\": [\r\n        {\r\n            \"idOrderDetail\": 74,\r\n            \"idSauce\": 3,\r\n            \"idVariant\": 19,\r\n            \"updatedExtras\": [\r\n                {\r\n                    \"idExtra\": 1,\r\n                    \"quantity\": 2\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"idOrderDetail\": 74,\r\n            \"idVariant\": 19,\r\n            \"idSauce\": 1,\r\n            \"updatedExtras\": [\r\n                {\r\n                    \"idExtra\": 3,\r\n                    \"quantity\": 1\r\n                },\r\n                {\r\n                    \"idExtra\": 2,\r\n                    \"quantity\": 1\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/api/orders/64",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"orders",
+						"64"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateOrderRemoveExtras",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"comment\": \"Por favor agregar más salsa\",\r\n    \"idPaymentMethod\": 2,\r\n    \"updatedItems\": [\r\n        {\r\n            \"idOrderDetail\": 2,\r\n            \"idSauce\": 3,\r\n            \"idVariant\": 12,\r\n            \"updatedExtras\": []\r\n        },\r\n        {\r\n            \"idOrderDetail\": 3,\r\n            \"idVariant\": 12,\r\n            \"idSauce\": 1,\r\n            \"updatedExtras\": []\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/api/orders/2",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"orders",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateOrdeDetail",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"comment\": \"Por favor agregar más salsa\",\r\n    \"idPaymentMethod\": 2,\r\n    \"updatedItems\": [\r\n        {\r\n            \"idOrderDetail\": 74,\r\n            \"idVariant\": 19,\r\n            \"idSauce\": 3\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/api/orders/64",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"orders",
+						"64"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateOrdeExtraDetail",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"comment\": \"Por favor agregar más salsa\",\r\n    \"idPaymentMethod\": 2,\r\n    \"updatedItems\": [\r\n        {\r\n            \"idOrderDetail\": 2,\r\n            \"idVariant\": 12,\r\n            \"idSauce\": 3,\r\n            \"updatedExtras\": [\r\n                {\r\n                    \"idExtra\": 3,\r\n                    \"quantity\": 1\r\n                },\r\n                {\r\n                    \"idExtra\": 1,\r\n                    \"quantity\": 1\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"idOrderDetail\": 4,\r\n            \"idVariant\": 12,\r\n            \"idSauce\": 3,\r\n            \"updatedExtras\": [\r\n                {\r\n                    \"idExtra\": 3,\r\n                    \"quantity\": 1\r\n                },\r\n                {\r\n                    \"idExtra\": 1,\r\n                    \"quantity\": 1\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/api/orders/2",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"orders",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateOrdeAddProductUpdateExtra",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"comment\": \"Por favor agregar más salsa\",\r\n    \"idPaymentMethod\": 2,\r\n    \"updatedItems\": [\r\n        {\r\n            \"idOrderDetail\": 2,\r\n            \"idVariant\": 12,\r\n            \"idSauce\": 3,\r\n            \"updatedExtras\": [\r\n                {\r\n                    \"idExtra\": 3,\r\n                    \"quantity\": 2\r\n                },\r\n                {\r\n                    \"idExtra\": 1,\r\n                    \"quantity\": 2\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"idProduct\": 3,\r\n            \"idVariant\": 12,\r\n            \"idSauce\": 3,\r\n            \"updatedExtras\": [\r\n                {\r\n                    \"idExtra\": 3,\r\n                    \"quantity\": 1\r\n                },\r\n                {\r\n                    \"idExtra\": 1,\r\n                    \"quantity\": 1\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/api/orders/64",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"orders",
+						"64"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteCache",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}:{{port}}/api/cache",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"cache"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
