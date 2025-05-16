@@ -136,6 +136,16 @@ public class DataInitializer implements ApplicationRunner {
                         "",
                         LocalDateTime.now(),
                         List.of()
+                ),
+                new ProductExtraEntity(5L,
+                        "Sin extras",
+                        "",
+                        BigDecimal.ZERO,
+                        BigDecimal.ZERO,
+                        true,
+                        "",
+                        LocalDateTime.now(),
+                        List.of()
                 )
         );
         productExtraRepository.saveAll(extras);

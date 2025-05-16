@@ -26,7 +26,7 @@ public class OrderEntity {
 
     @ColumnDefault(value = "CURRENT_TIMESTAMP")
     @Column(name = "order_date")
-    private LocalDateTime orderDate;
+    private LocalDateTime orderDate = LocalDateTime.now();
 
     @Column(name = "total_amount", precision = 10, scale = 2, nullable = false)
     private BigDecimal totalAmount;

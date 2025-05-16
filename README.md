@@ -35,7 +35,7 @@ Aplicación web desarrollada en **Java 17** con **Spring Boot** y **PostgreSQL**
 ## 📊 Diagrama Entidad-Relación (ER)
 
 > El diagrama editatable del modelo de datos se encuentra en `main/respurces/db/migration/mdmc.erd` en formato **GraphQL**.
-![mdmc_diagram.png](src/main/resources/db/migration/mdmc_diagram.png)
+![mdmc_diagram.png](src/main/resources/db/migration/mdmc_db.png)
 ---
 
 ## 🗄️ Modelo de Base de Datos

@@ -38,7 +38,7 @@ public class ProductEntity {
 
     @ColumnDefault(value = "CURRENT_TIMESTAMP")
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();;
 
     @ColumnDefault(value = "CURRENT_TIMESTAMP")
     @Column(name = "updated_at")
