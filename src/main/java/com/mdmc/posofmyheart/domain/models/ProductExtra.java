@@ -11,7 +11,7 @@ public record ProductExtra(
         if (idExtra == null || idExtra <= 0) {
             throw new IllegalArgumentException("idExtra de producto inválido");
         }
-        if (price == null || price.compareTo(BigDecimal.ZERO) <= 0) {
+        if (price == null) {
             throw new IllegalArgumentException("Precio de producto inválido");
         }
         if (name == null || name.isBlank()){
