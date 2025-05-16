@@ -18,7 +18,7 @@ import java.util.List;
 @Configuration
 @RequiredArgsConstructor
 @Log4j2
-@Profile("dev")
+@Profile({ "dev", "devrailway" })
 public class DataInitializer implements ApplicationRunner {
 
     private final PaymentMethodRepository paymentMethodRepository;
