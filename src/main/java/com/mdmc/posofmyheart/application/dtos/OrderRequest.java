@@ -10,7 +10,6 @@ import java.util.List;
 
 public record OrderRequest(
         @NotNull @Positive Long idPaymentMethod,
-        @NotNull @Positive BigDecimal amount,
         @Size(max = 100) String comment,
         @NotEmpty List<OrderItemRequest> items
 ) {
