@@ -288,6 +288,8 @@ public class DataInitializer implements ApplicationRunner {
         // Obtenemos los productos necesarios
         ProductEntity doriesquites = productRepository.findById(1L)
                 .orElseThrow(() -> new IllegalStateException("Producto Doriesquites no encontrado"));
+        ProductEntity tostiesquites = productRepository.findById(2L)
+                .orElseThrow(() -> new IllegalStateException("Producto Tostiesquites no encontrado"));
         ProductEntity esquitesTrad = productRepository.findById(3L)
                 .orElseThrow(() -> new IllegalStateException("Producto Esquites Tradicionales no encontrado"));
         ProductEntity esquitesConQueso = productRepository.findById(4L)
@@ -356,7 +358,9 @@ public class DataInitializer implements ApplicationRunner {
                 new ProductVariantEntity(19L, esquitesConQueso, "Chico (8oz)", BigDecimal.valueOf(35), BigDecimal.valueOf(15), LocalDateTime.now()),
                 new ProductVariantEntity(20L, esquitesConQueso, "Mediano (10oz)", BigDecimal.valueOf(45), BigDecimal.valueOf(20), LocalDateTime.now()),
                 new ProductVariantEntity(21L, esquitesConQueso, "Grande (12oz)", BigDecimal.valueOf(55), BigDecimal.valueOf(25), LocalDateTime.now()),
-                new ProductVariantEntity(22L, esquitesConQueso, "Extra Grande (14oz)", BigDecimal.valueOf(65), BigDecimal.valueOf(30), LocalDateTime.now())
+                new ProductVariantEntity(22L, esquitesConQueso, "Extra Grande (14oz)", BigDecimal.valueOf(65), BigDecimal.valueOf(30), LocalDateTime.now()),
+        new ProductVariantEntity(23L, tostiesquites, "Regular", BigDecimal.valueOf(55.00), BigDecimal.valueOf(30), LocalDateTime.now())
+
         );
 
         productVariantRepository.saveAll(variants);
