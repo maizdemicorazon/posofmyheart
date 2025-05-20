@@ -19,4 +19,5 @@ public class SauceEntity {
     private Long idSauce;
     private String name;
     private String description;
+    private String image;
 }

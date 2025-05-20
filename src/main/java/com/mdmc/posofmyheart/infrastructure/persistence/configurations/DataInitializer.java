@@ -84,13 +84,13 @@ public class DataInitializer implements ApplicationRunner {
 
     private void initializeSauces() {
         List<SauceEntity> sauces = Arrays.asList(
-                new SauceEntity(1L, "Tradicional", "Mayonesa, queso cotija y chile piquín"),
-                new SauceEntity(2L, "Valentina", "Salsa Valentina clásica"),
-                new SauceEntity(3L, "Habanero", "Salsa picante de habanero"),
-                new SauceEntity(4L, "Chipotle", "Salsa ahumada de chipotle"),
-                new SauceEntity(5L, "Sin picante", "Sin salsa picante"),
-                new SauceEntity(6L, "Mixta", "Combinación de salsas al gusto"),
-                new SauceEntity(7L, "Macha", "Salsa de la casa")
+                new SauceEntity(1L, "Tradicional", "Mayonesa, queso cotija y chile piquín", ""),
+                new SauceEntity(2L, "Valentina", "Salsa Valentina clásica", ""),
+                new SauceEntity(3L, "Habanero", "Salsa picante de habanero",""),
+                new SauceEntity(4L, "Chipotle", "Salsa ahumada de chipotle",""),
+                new SauceEntity(5L, "Sin picante", "Sin salsa picante",""),
+                new SauceEntity(6L, "Mixta", "Combinación de salsas al gusto",""),
+                new SauceEntity(7L, "Macha", "Salsa de la casa","")
         );
         sauceRepository.saveAll(sauces);
     }
