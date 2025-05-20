@@ -21,7 +21,6 @@ public interface OrderMapper {
     OrderResponse toResponse(OrderEntity entity);
 
     @Mapping(target = "idProduct", source = "product.idProduct")
-    @Mapping(target = "idSauce", source = "sauce.idSauce")
     @Mapping(target = "idVariant", source = "variant.idVariant")
     @Mapping(target = "extras", source = "extraDetails")
     OrderResponse.OrderItemResponse toItemResponse(OrderDetailEntity entity);

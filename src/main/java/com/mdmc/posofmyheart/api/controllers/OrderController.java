@@ -75,7 +75,7 @@ public class OrderController {
     }
 
     @Operation(
-            summary = "Creación de una orden",
+            summary = "Crear de una orden",
             description = "Crea una orden con detalles y extras."
     )
     @ApiResponses(
@@ -84,17 +84,11 @@ public class OrderController {
                     @ApiResponse(responseCode = "500", description = "Error interno del servidor")
             }
     )
-    @ResponseStatus(code = HttpStatus.CREATED)
+
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public ResponseEntity<CreateOrderResponse> createOrder(@Valid @RequestBody OrderRequest request) {
-        try {
-            return ResponseEntity.ok(
-                    orderService.createOrder(request)
-            );
-        } catch (Exception e) {
-            log.error("Error al crear la orden: {}", e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+    public CreateOrderResponse createOrder(@Valid @RequestBody OrderRequest request) {
+        return orderService.createOrder(request);
     }
 
     @Operation(
@@ -121,6 +115,5 @@ public class OrderController {
     public void deleteOrder(@PathVariable Long orderId) {
         orderService.deleteOrder(orderId);
     }
-
 
 }

@@ -1,6 +1,5 @@
 package com.mdmc.posofmyheart.api.controllers;
 
-import com.mdmc.posofmyheart.api.exceptions.MenuNotFoundException;
 import com.mdmc.posofmyheart.application.services.ProductService;
 import com.mdmc.posofmyheart.domain.dtos.ProductsWithExtrasDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,11 +34,7 @@ public class ProductController {
     )
     @Cacheable("menu")
     @GetMapping
-    public ResponseEntity<ProductsWithExtrasDto> getMenu() throws MenuNotFoundException {
-        ProductsWithExtrasDto menu = productService.getMenuProducts();
-        if (menu == null || (menu.products().isEmpty() && menu.extras().isEmpty())) {
-            throw new MenuNotFoundException();
-        }
-        return ResponseEntity.ok(menu);
+    public ResponseEntity<ProductsWithExtrasDto> getMenu() {
+        return ResponseEntity.ok(productService.getMenuProducts());
     }
 }

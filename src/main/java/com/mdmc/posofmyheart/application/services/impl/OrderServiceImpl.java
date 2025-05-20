@@ -1,14 +1,12 @@
 package com.mdmc.posofmyheart.application.services.impl;
 
 import com.mdmc.posofmyheart.api.exceptions.*;
-import com.mdmc.posofmyheart.application.dtos.OrderItemRequest;
-import com.mdmc.posofmyheart.application.dtos.OrderRequest;
-import com.mdmc.posofmyheart.application.dtos.OrderResponse;
-import com.mdmc.posofmyheart.application.dtos.OrderUpdateRequest;
+import com.mdmc.posofmyheart.application.dtos.*;
 import com.mdmc.posofmyheart.application.mappers.OrderMapper;
 import com.mdmc.posofmyheart.application.services.OrderService;
 import com.mdmc.posofmyheart.domain.dtos.CreateOrderResponse;
 import com.mdmc.posofmyheart.domain.models.OrderExtrasDetail;
+import com.mdmc.posofmyheart.domain.models.Sauce;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.*;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.*;
 import lombok.RequiredArgsConstructor;
@@ -57,11 +55,40 @@ public class OrderServiceImpl implements OrderService {
 
     @Transactional
     public CreateOrderResponse createOrder(OrderRequest request) {
+        // Validación básica
+        if (request.idPaymentMethod() == null || request.items() == null || request.items().isEmpty()) {
+            throw new IllegalArgumentException("Payment method and at least one item are required");
+        }
+
+        // Crear la orden base
         OrderEntity order = createOrderFromRequest(request);
-        createOrderAndExtrasDetailFromRequest(request, order);
-        return new CreateOrderResponse(
-                orderRepository.save(order).getIdOrder()
-        );
+
+        // Procesar items y sus relaciones
+        request.items().forEach(item -> {
+            OrderDetailEntity detail = createAndAddDetail(order, item);
+
+            // Procesar extras del item
+            Optional.ofNullable(item.extras())
+                    .orElseGet(Collections::emptyList)
+                    .forEach(extra -> createAndAddExtraDetail(detail, extra));
+
+            // Procesar salsas del item
+            Optional.ofNullable(item.sauces())
+                    .orElseGet(Collections::emptyList)
+                    .forEach(sauce -> addSauceToDetail(detail, sauce));
+        });
+
+        // Calcular y establecer el total
+        order.setTotalAmount(calculateOrderTotal(order));
+
+        // Guardar y retornar respuesta
+        return new CreateOrderResponse(orderRepository.save(order).getIdOrder());
+    }
+
+    private void addSauceToDetail(OrderDetailEntity detail, Sauce sauce) {
+        SauceEntity sauceEntity = sauceRepository.findById(sauce.idSauce())
+                .orElseThrow(SauceNotFoundException::new);
+        detail.addSauce(sauceEntity);
     }
 
     @Transactional
@@ -81,18 +108,6 @@ public class OrderServiceImpl implements OrderService {
         order.setComment(request.comment());
         return order;
     }
-
-    private void createOrderAndExtrasDetailFromRequest(OrderRequest request, OrderEntity order) {
-        request.items().forEach(item -> {
-            OrderDetailEntity detail = createAndAddDetail(order, item);
-            Optional.ofNullable(item.extras())
-                    .orElseGet(Collections::emptyList)
-                    .forEach(extra -> createAndAddExtraDetail(detail, extra));
-        });
-
-        order.setTotalAmount(calculateOrderTotal(order));
-    }
-
 
     private OrderDetailEntity createNewOrderDetail(OrderEntity order, OrderUpdateRequest.OrderItemUpdate itemUpdate) {
         // Validar datos requeridos
@@ -118,23 +133,29 @@ public class OrderServiceImpl implements OrderService {
         newDetail.setProduct(product);
         newDetail.setVariant(variant);
 
-        // Manejar salsa (opcional)
-        if (itemUpdate.idSauce() != null) {
-            SauceEntity sauce = sauceRepository.findById(itemUpdate.idSauce())
-                    .orElseThrow(() -> new ResourceNotFoundException("Salsa no encontrada con ID: " + itemUpdate.idSauce()));
-            newDetail.setSauce(sauce);
+        // Manejar salsas (ahora soporta múltiples con cantidad)
+        if (itemUpdate.updatedSauces() != null && !itemUpdate.updatedSauces().isEmpty()) {
+            itemUpdate.updatedSauces().forEach(sauceUpdate -> {
+                if (sauceUpdate.idSauce() > 0) { // Solo agregar si la cantidad es positiva
+                    SauceEntity sauce = sauceRepository.findById(sauceUpdate.idSauce())
+                            .orElseThrow(() -> new ResourceNotFoundException("Salsa no encontrada con ID: " + sauceUpdate.idSauce()));
+                    newDetail.addSauce(sauce);
+                }
+            });
         }
 
-        // Manejar extras si existen
+        // Manejar extras
         if (itemUpdate.updatedExtras() != null && !itemUpdate.updatedExtras().isEmpty()) {
             itemUpdate.updatedExtras().forEach(extraUpdate -> {
-                ProductExtraEntity productExtra = productExtraRepository.findById(extraUpdate.idExtra())
-                        .orElseThrow(() -> new ResourceNotFoundException("Extra no encontrado con ID: " + extraUpdate.idExtra()));
+                if (extraUpdate.quantity() > 0) { // Solo agregar si la cantidad es positiva
+                    ProductExtraEntity productExtra = productExtraRepository.findById(extraUpdate.idExtra())
+                            .orElseThrow(() -> new ResourceNotFoundException("Extra no encontrado con ID: " + extraUpdate.idExtra()));
 
-                OrderExtrasDetailEntity extraDetail = new OrderExtrasDetailEntity();
-                extraDetail.setQuantity(extraUpdate.quantity());
-                extraDetail.setRelations(newDetail, productExtra);
-                newDetail.addExtraDetail(extraDetail);
+                    OrderExtrasDetailEntity extraDetail = new OrderExtrasDetailEntity();
+                    extraDetail.setQuantity(extraUpdate.quantity());
+                    extraDetail.setRelations(newDetail, productExtra);
+                    newDetail.addExtraDetail(extraDetail);
+                }
             });
         }
 
@@ -162,29 +183,23 @@ public class OrderServiceImpl implements OrderService {
         ProductEntity product = productRepository.findById(item.idProduct())
                 .orElseThrow(ProductNotFoundException::new);
 
-        SauceEntity sauce = item.idSauce() != null ?
-                sauceRepository.findById(item.idSauce())
-                        .orElseThrow(SauceNotFoundException::new) :
-                null;
-
         ProductVariantEntity variant = variantRepository.findById(item.idVariant())
                 .orElseThrow(VariantNotFoundException::new);
 
         OrderDetailEntity detail = new OrderDetailEntity();
         detail.setProduct(product);
-        detail.setSauce(sauce);
         detail.setVariant(variant);
 
         return detail;
     }
 
+
     @Transactional
     public OrderResponse updateOrder(Long idOrder, OrderUpdateRequest updateRequest) {
-        // 1. Buscar la orden existente
         OrderEntity existingOrder = orderRepository.findById(idOrder)
                 .orElseThrow(OrderNotFoundException::new);
 
-        // 2. Validar y actualizar datos básicos
+        // Actualizar campos básicos
         if (updateRequest.comment() != null) {
             existingOrder.setComment(updateRequest.comment());
         }
@@ -195,26 +210,23 @@ public class OrderServiceImpl implements OrderService {
             existingOrder.setPaymentMethod(paymentMethod);
         }
 
-        // 3. Procesar actualización de items
+        // Procesar actualización de items
         if (updateRequest.updatedItems() != null && !updateRequest.updatedItems().isEmpty()) {
             updateOrderItems(existingOrder, updateRequest.updatedItems());
         }
 
-        // 4. Recalcular el total
-        BigDecimal newTotal = calculateOrderTotal(existingOrder);
-        existingOrder.setTotalAmount(newTotal);
+        // Recalcular total
+        existingOrder.setTotalAmount(calculateOrderTotal(existingOrder));
 
-        // 5. Guardar y retornar
-        OrderEntity updatedOrder = orderRepository.save(existingOrder);
-        return OrderMapper.INSTANCE.toResponse(updatedOrder);
+        return OrderMapper.INSTANCE.toResponse(orderRepository.save(existingOrder));
     }
 
     private void updateOrderItems(OrderEntity order, List<OrderUpdateRequest.OrderItemUpdate> updatedItems) {
-        // Eliminar items que ya no están en la orden actualizada
+        // Eliminar items que no están en la solicitud
         order.getOrderDetails().removeIf(detail ->
                 updatedItems.stream().noneMatch(item -> item.idOrderDetail().equals(detail.getIdOrderDetail())));
 
-        // Actualizar o añadir items
+        // Procesar items actualizados
         updatedItems.forEach(itemUpdate -> {
             if (itemUpdate.idOrderDetail() != null) {
                 // Actualizar item existente
@@ -233,28 +245,43 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private void updateExistingOrderDetail(OrderDetailEntity detail, OrderUpdateRequest.OrderItemUpdate itemUpdate) {
+        // Actualizar producto si es necesario
         if (itemUpdate.idProduct() != null) {
             ProductEntity product = productRepository.findById(itemUpdate.idProduct())
                     .orElseThrow(ProductNotFoundException::new);
             detail.setProduct(product);
         }
 
+        // Actualizar variante si es necesario
         if (itemUpdate.idVariant() != null) {
             ProductVariantEntity variant = variantRepository.findById(itemUpdate.idVariant())
                     .orElseThrow(VariantNotFoundException::new);
             detail.setVariant(variant);
         }
 
-        if (itemUpdate.idSauce() != null) {
-            SauceEntity sauce = sauceRepository.findById(itemUpdate.idSauce())
-                    .orElseThrow(SauceNotFoundException::new);
-            detail.setSauce(sauce);
-        }
-
         // Actualizar extras
         if (itemUpdate.updatedExtras() != null) {
             updateExtrasForDetail(detail, itemUpdate.updatedExtras());
         }
+
+        // Actualizar salsas
+        if (itemUpdate.updatedSauces() != null) {
+            updateSaucesForDetail(detail, itemUpdate.updatedSauces());
+        }
+    }
+
+    private void updateSaucesForDetail(OrderDetailEntity detail, List<OrderUpdateRequest.SauceUpdate> saucesUpdate) {
+        // Limpiar salsas existentes
+        detail.clearSauces();
+
+        // Añadir las nuevas salsas
+        saucesUpdate.forEach(sauceUpdate -> {
+            if (sauceUpdate.idSauce() > 0) {
+                SauceEntity sauce = sauceRepository.findById(sauceUpdate.idSauce())
+                        .orElseThrow(SauceNotFoundException::new);
+                detail.addSauce(sauce);
+            }
+        });
     }
 
     private void updateExtrasForDetail(OrderDetailEntity detail, List<OrderUpdateRequest.ProductExtraUpdate> extrasUpdate) {
@@ -286,6 +313,7 @@ public class OrderServiceImpl implements OrderService {
         BigDecimal total = BigDecimal.ZERO;
 
         for (OrderDetailEntity detail : order.getOrderDetails()) {
+            // Precio base de la variante
             BigDecimal itemTotal = detail.getVariant().getSellPrice();
 
             // Sumar extras

@@ -84,13 +84,16 @@ public class DataInitializer implements ApplicationRunner {
 
     private void initializeSauces() {
         List<SauceEntity> sauces = Arrays.asList(
-                new SauceEntity(1L, "Tradicional", "Mayonesa, queso cotija y chile piquín", ""),
-                new SauceEntity(2L, "Valentina", "Salsa Valentina clásica", ""),
-                new SauceEntity(3L, "Habanero", "Salsa picante de habanero",""),
-                new SauceEntity(4L, "Chipotle", "Salsa ahumada de chipotle",""),
-                new SauceEntity(5L, "Sin picante", "Sin salsa picante",""),
-                new SauceEntity(6L, "Mixta", "Combinación de salsas al gusto",""),
-                new SauceEntity(7L, "Macha", "Salsa de la casa","")
+                new SauceEntity(1L, "Sin picante", "Sin salsa picante",""),
+                new SauceEntity(2L, "Buffalo", "Salsa picante", ""),
+                new SauceEntity(3L, "Valentina", "Salsa Valentina clásica", ""),
+                new SauceEntity(4L, "Habanero", "Salsa picante de habanero",""),
+                new SauceEntity(5L, "Botanera", "Salsa para botanas",""),
+                new SauceEntity(6L, "Negra", "Combinación de salsas negras",""),
+                new SauceEntity(7L, "Macha", "Salsa de la casa",""),
+                new SauceEntity(8L, "Tajin", "Tajin en polvo",""),
+                new SauceEntity(9L, "Tajin picante", "Salsa alimonada picante",""),
+                new SauceEntity(10L, "Tajin afrutado", "Salsa con sabor afrutado","")
         );
         sauceRepository.saveAll(sauces);
     }
@@ -118,8 +121,8 @@ public class DataInitializer implements ApplicationRunner {
                         List.of()
                 ),
                 new ProductExtraEntity(3L,
-                        "Costilla extra",
-                        "200g de costilla de puerco extra",
+                        "Proteina extra",
+                        "200g de proteina de puerco",
                         BigDecimal.valueOf(20.00),
                         BigDecimal.valueOf(10.00),
                         true,
@@ -128,16 +131,6 @@ public class DataInitializer implements ApplicationRunner {
                         List.of()
                 ),
                 new ProductExtraEntity(4L,
-                        "Porción de Falda Extra",
-                        "200g de falda de res deshebrada extra",
-                        BigDecimal.valueOf(22.00),
-                        BigDecimal.valueOf(11.00),
-                        true,
-                        "",
-                        LocalDateTime.now(),
-                        List.of()
-                ),
-                new ProductExtraEntity(5L,
                         "Sin extras",
                         "",
                         BigDecimal.ZERO,
