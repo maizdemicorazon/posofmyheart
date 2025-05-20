@@ -31,4 +31,6 @@ public interface OrderService {
      * @return {@link OrderResponse}
      */
     OrderResponse updateOrder(Long idOrder, OrderUpdateRequest updateRequest);
+
+    void deleteOrder(Long idOrder);
 }

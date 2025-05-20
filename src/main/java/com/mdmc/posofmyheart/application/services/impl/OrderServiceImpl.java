@@ -64,6 +64,14 @@ public class OrderServiceImpl implements OrderService {
         );
     }
 
+    @Transactional
+    public void deleteOrder(Long idOrder) {
+        OrderEntity order = orderRepository.findById(idOrder)
+                .orElseThrow(OrderNotFoundException::new);
+
+        orderRepository.delete(order);
+    }
+
     private OrderEntity createOrderFromRequest(OrderRequest request) {
         PaymentMethodEntity paymentMethod = paymentMethodRepository.findById(request.idPaymentMethod())
                 .orElseThrow(PayMethodNotFoundException::new);
