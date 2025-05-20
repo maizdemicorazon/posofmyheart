@@ -278,6 +278,50 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "PaymentMethods",
+					"item": [
+						{
+							"name": "GetPayMethodById",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}:{{port}}/api/payment-methods/1",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"api",
+										"payment-methods",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetAllPayMethods",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}:{{port}}/api/payment-methods",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"api",
+										"payment-methods"
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		},
