@@ -16,13 +16,19 @@ public record OrderResponse(
     public record OrderItemResponse(
             Integer idProduct,
             Integer idVariant,
-            List<OrderExtrasResponse> extras
+            List<OrderExtrasResponse> extras,
+            List<OrderDetailSauceResponse> sauces
     ) {
     }
 
     public record OrderExtrasResponse(
             Integer idExtra,
             Integer quantity
+    ) {
+    }
+
+    public record OrderDetailSauceResponse(
+            Integer idSauce
     ) {
     }
 }
