@@ -25,7 +25,8 @@ public record OrderUpdateRequest(
             @Positive
             Long idSauce,
             @Valid
-            List<ProductExtraUpdate> updatedExtras
+            List<ProductExtraUpdate> updatedExtras,
+            List<SauceUpdate> updatedSauces
     ) {
     }
 
@@ -36,6 +37,8 @@ public record OrderUpdateRequest(
             Integer quantity
     ) {
     }
+
+    public record SauceUpdate(Long idSauce) {}
 
 }
 

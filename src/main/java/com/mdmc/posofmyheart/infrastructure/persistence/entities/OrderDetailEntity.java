@@ -16,10 +16,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderDetailEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_order_detail")
-    private Long idOrderDetail; // Debe ser Long para coincidir
+    private Long idOrderDetail;
 
     @ManyToOne
     @JoinColumn(name = "id_order", nullable = false)
@@ -30,12 +31,12 @@ public class OrderDetailEntity {
     private ProductEntity product;
 
     @ManyToOne
-    @JoinColumn(name = "id_sauce")
-    private SauceEntity sauce;
-
-    @ManyToOne
-    @JoinColumn(name = "id_variant")
+    @JoinColumn(name = "id_variant", nullable = false)
     private ProductVariantEntity variant;
+
+    // Relación con múltiples salsas
+    @OneToMany(mappedBy = "orderDetail", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderDetailSauceEntity> sauceDetails = new ArrayList<>();
 
     @OneToMany(mappedBy = "orderDetail", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderExtrasDetailEntity> extraDetails = new ArrayList<>();
@@ -43,6 +44,19 @@ public class OrderDetailEntity {
     public void addExtraDetail(OrderExtrasDetailEntity extraDetail) {
         extraDetails.add(extraDetail);
         extraDetail.setOrderDetail(this);
+    }
+
+    public void clearSauces() {
+        this.sauceDetails.clear();
+    }
+
+    // Método helper para agregar salsas
+    public void addSauce(SauceEntity sauce) {
+        OrderDetailSauceEntity detailSauce = new OrderDetailSauceEntity();
+        detailSauce.setOrderDetailSauceKey(new OrderDetailSauceKey(this.idOrderDetail, sauce.getIdSauce()));
+        detailSauce.setOrderDetail(this);
+        detailSauce.setSauce(sauce);
+        this.sauceDetails.add(detailSauce);
     }
 
 }

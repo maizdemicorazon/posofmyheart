@@ -15,7 +15,6 @@ public record OrderResponse(
 
     public record OrderItemResponse(
             Integer idProduct,
-            Integer idSauce,
             Integer idVariant,
             List<OrderExtrasResponse> extras
     ) {

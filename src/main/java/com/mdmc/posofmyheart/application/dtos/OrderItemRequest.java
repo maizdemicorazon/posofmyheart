@@ -1,6 +1,7 @@
 package com.mdmc.posofmyheart.application.dtos;
 
 import com.mdmc.posofmyheart.domain.models.OrderExtrasDetail;
+import com.mdmc.posofmyheart.domain.models.Sauce;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
@@ -20,6 +21,7 @@ public record OrderItemRequest(
         @NotNull(message = "El ID del tamaño es obligatorio")
         @Positive
         Long idVariant,
-        List<OrderExtrasDetail> extras
+        List<OrderExtrasDetail> extras,
+        List<Sauce> sauces
 ) {
 }
