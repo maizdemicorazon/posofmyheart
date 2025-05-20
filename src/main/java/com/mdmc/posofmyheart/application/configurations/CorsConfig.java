@@ -14,11 +14,12 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins(
-                                "https://posofmyheartfe-develop.up.railway.app",
-                                "https://posofmyheartfe-develop.up.railway.app/"
-                        )
-                        .allowedMethods("GET", "POST", "PUT", "DELETE")
+                        .allowedOrigins("*") // Para desarrollo, en producción especifica dominios
+                        //                        .allowedOrigins(
+//                                "https://posofmyheartfe-develop.up.railway.app",
+//                                "https://posofmyheartfe-develop.up.railway.app/"
+//                        )
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(false)
                         .maxAge(3600);
