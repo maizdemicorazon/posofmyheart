@@ -5,8 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,7 +21,7 @@ public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_product")
-    private Integer idProduct;
+    private Long idProduct;
 
     @ManyToOne
     @JoinColumn(name = "id_category", nullable = false)
@@ -34,12 +36,15 @@ public class ProductEntity {
     @Column(name = "description", nullable = false)
     private String description;
 
+    @ColumnDefault(value = "CURRENT_TIMESTAMP")
     @Column(name = "created_at")
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt = LocalDateTime.now();;
 
+    @ColumnDefault(value = "CURRENT_TIMESTAMP")
     @Column(name = "updated_at")
     private LocalDateTime updatedAt = LocalDateTime.now();
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private List<ProductVariantEntity> variants;
+    private List<ProductVariantEntity> variants = new ArrayList<>();
+
 }

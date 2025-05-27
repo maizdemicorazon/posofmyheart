@@ -1,33 +1,18 @@
 package com.mdmc.posofmyheart.application.mappers;
 
-import com.mdmc.posofmyheart.domain.dtos.ProductsWithExtrasDto;
 import com.mdmc.posofmyheart.domain.models.Product;
-import com.mdmc.posofmyheart.domain.models.ProductExtra;
-import com.mdmc.posofmyheart.domain.models.ProductVariant;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.ProductVariantEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.ProductEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
-
-@Mapper
+@Mapper(uses = {CategoryMapper.class, ProductVariantMapper.class})
 public interface ProductMapper {
 
     ProductMapper INSTANCE = Mappers.getMapper(ProductMapper.class);
 
-    @Mapping(target = "price", source = "sellPrice")
-    ProductVariant toDomainVariant(ProductVariantEntity variant);
-
-    default List<ProductVariant> toDomainVariants(List<ProductVariantEntity> variants){
-        return variants.stream()
-                .map(this::toDomainVariant)
-                .sorted(Comparator.comparing(ProductVariant::price))
-                .collect(Collectors.toList());
-    }
-
-    ProductsWithExtrasDto toDto(List<Product> products, List<ProductExtra> extras);
+    @Mapping(target = "idCategory", source = "category.idCategory")
+    @Mapping(target = "options", source = "variants")
+    Product toDomain(ProductEntity entity);
 
 }

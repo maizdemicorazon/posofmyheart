@@ -1,13 +1,18 @@
 package com.mdmc.posofmyheart.api.controllers;
 
+import com.mdmc.posofmyheart.application.dtos.OrderRequest;
 import com.mdmc.posofmyheart.application.dtos.OrderResponse;
-import com.mdmc.posofmyheart.domain.dtos.CreateOrderResponse;
+import com.mdmc.posofmyheart.application.dtos.OrderUpdateRequest;
 import com.mdmc.posofmyheart.application.services.OrderService;
-import com.mdmc.posofmyheart.domain.models.OrderRequest;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderEntity;
+import com.mdmc.posofmyheart.domain.dtos.CreateOrderResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,29 +22,98 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/orders")
 @RequiredArgsConstructor
+@Log4j2
 public class OrderController {
 
     private final OrderService orderService;
 
-    @GetMapping("/{orderId}")
-    public ResponseEntity<OrderResponse> getOrderById(@PathVariable Long orderId) {
-        return ResponseEntity.ok(orderService.findOrderById(orderId));
+    @Operation(
+            summary = "Listado de ordenes.",
+            description = "Recupera todas las ordenes creadas."
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Lista recuperada"),
+                    @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+            }
+    )
+    @GetMapping
+    public ResponseEntity<List<OrderResponse>> getAllOrders() {
+        return ResponseEntity.ok(orderService.findAllOrders());
     }
 
-    @GetMapping
+    @Operation(
+            summary = "Obtiene una orden.",
+            description = "Recupera una orden con idProduct como parametro"
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Encontrada"),
+                    @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+            }
+    )
+    @GetMapping("/{idOrder}")
+    public ResponseEntity<OrderResponse> getOrderById(@PathVariable Long idOrder) {
+        return ResponseEntity.ok(orderService.findOrderById(idOrder));
+    }
+
+    @Operation(
+            summary = "Listado de ordes por fecha",
+            description = "Recupera una lista de ordenes usando como parametro una fecha dada con formato yyyy-MM-dd"
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Lista encontrada"),
+                    @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+            }
+    )
+    @GetMapping("/date/{date}")
     public ResponseEntity<List<OrderResponse>> getOrdersByDate(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
+            @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
     ) {
         return ResponseEntity.ok(orderService.listOrdersByDate(date));
     }
 
+    @Operation(
+            summary = "Crear de una orden",
+            description = "Crea una orden con detalles y extras."
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Orden creada"),
+                    @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+            }
+    )
+
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public ResponseEntity<CreateOrderResponse> createOrder(@Valid @RequestBody OrderRequest request) {
-        return ResponseEntity.ok(
-                new CreateOrderResponse(
-                        orderService.createOrder(request).getIdOrder()
-                )
-        );
+    public CreateOrderResponse createOrder(@Valid @RequestBody OrderRequest request) {
+        return orderService.createOrder(request);
+    }
+
+    @Operation(
+            summary = "Actualizar una orden",
+            description = "Actualiza y valida relaciones para una orden existente"
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Orden actualizada"),
+                    @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+            }
+    )
+    @ResponseStatus(code = HttpStatus.ACCEPTED)
+    @PutMapping("/{orderId}")
+    public ResponseEntity<OrderResponse> updateOrder(
+            @PathVariable Long orderId,
+            @Valid @RequestBody OrderUpdateRequest updateRequest) {
+        OrderResponse updatedOrder = orderService.updateOrder(orderId, updateRequest);
+        return ResponseEntity.ok(updatedOrder);
+    }
+
+    @ResponseStatus(code = HttpStatus.OK)
+    @DeleteMapping("/{orderId}")
+    public void deleteOrder(@PathVariable Long orderId) {
+        orderService.deleteOrder(orderId);
     }
 
 }

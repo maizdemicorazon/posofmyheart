@@ -1,3 +1,19 @@
+<html lang="es">
+   <body>
+      <div class="center">
+          <a href="https://github.com/maizdemicorazon/posofmyheart">
+              <img src="src/main/resources/static/mdmc_logo.jpg" alt="Logo">
+          </a>
+      </div>
+      <style>
+          .center {
+            display: block;
+            margin: auto;
+            width: 40%;
+          }
+      </style>
+   </body>
+</html>
 
 # 🌽 Maíz de mi Corazón
 
@@ -19,7 +35,7 @@ Aplicación web desarrollada en **Java 17** con **Spring Boot** y **PostgreSQL**
 ## 📊 Diagrama Entidad-Relación (ER)
 
 > El diagrama editatable del modelo de datos se encuentra en `main/respurces/db/migration/mdmc.erd` en formato **GraphQL**.
-![mdmc_diagram.png](src/main/resources/db/migration/mdmc_diagram.png)
+![mdmc_diagram.png](src/main/resources/db/migration/mdmc_db.png)
 ---
 
 ## 🗄️ Modelo de Base de Datos

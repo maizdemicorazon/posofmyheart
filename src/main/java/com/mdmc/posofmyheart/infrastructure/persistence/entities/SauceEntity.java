@@ -16,7 +16,8 @@ public class SauceEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_sauce")
-    private Integer idSauce;
+    private Long idSauce;
     private String name;
     private String description;
+    private String image;
 }

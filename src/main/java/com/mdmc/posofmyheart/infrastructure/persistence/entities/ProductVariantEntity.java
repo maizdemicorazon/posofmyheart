@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -19,7 +20,7 @@ public class ProductVariantEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_variant")
-    private Integer idVariant;
+    private Long idVariant;
 
     @ManyToOne
     @JoinColumn(name = "id_product", nullable = false)
@@ -34,6 +35,7 @@ public class ProductVariantEntity {
     @Column(name = "cost_price")
     private BigDecimal costPrice;
 
+    @ColumnDefault(value = "CURRENT_TIMESTAMP")
     @Column(name = "effective_date")
-    private LocalDateTime effectiveDate;
+    private LocalDateTime effectiveDate = LocalDateTime.now();;
 }

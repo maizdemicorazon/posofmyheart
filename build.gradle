@@ -30,7 +30,9 @@ dependencies {
 	implementation 'org.postgresql:postgresql:42.7.3'
 	implementation 'org.hibernate.orm:hibernate-core:6.4.4.Final'
 	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
-	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.6")
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.6'
+	implementation 'org.springframework.boot:spring-boot-starter-cache:3.4.5'
+	implementation 'org.springframework:spring-context:6.2.6'
 
 	compileOnly 'org.projectlombok:lombok'
 
