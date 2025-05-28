@@ -37,5 +37,5 @@ public class ProductVariantEntity {
 
     @ColumnDefault(value = "CURRENT_TIMESTAMP")
     @Column(name = "effective_date")
-    private LocalDateTime effectiveDate = LocalDateTime.now();;
+    private LocalDateTime effectiveDate = LocalDateTime.now();
 }
