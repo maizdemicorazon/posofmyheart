@@ -72,7 +72,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"idPaymentMethod\": 1,\r\n    \"comment\": \"\",\r\n    \"items\": [\r\n        {\r\n            \"idProduct\": 1,\r\n            \"idVariant\": 3,\r\n            \"sauces\": [\r\n                {\r\n                    \"idSauce\": 1\r\n                },\r\n                {\r\n                    \"idSauce\": 3\r\n                }\r\n            ],\r\n            \"extras\": [\r\n                {\r\n                    \"idExtra\": 1,\r\n                    \"quantity\": 1\r\n                }, {\r\n                    \"idExtra\": 3,\r\n                    \"quantity\": 2\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+							"raw": "{\r\n    \"idPaymentMethod\": 1,\r\n    \"comment\": \"\",\r\n    \"items\": [\r\n        {\r\n            \"idProduct\": 1,\r\n            \"idVariant\": 13,\r\n            \"sauces\": [\r\n                {\r\n                    \"idSauce\": 7\r\n                },\r\n                {\r\n                    \"idSauce\": 2\r\n                }\r\n            ],\r\n            \"extras\": [\r\n                {\r\n                    \"idExtra\": 1,\r\n                    \"quantity\": 1\r\n                }, {\r\n                    \"idExtra\": 3,\r\n                    \"quantity\": 2\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

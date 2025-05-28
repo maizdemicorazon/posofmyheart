@@ -14,6 +14,6 @@ public interface ProductVariantMapper {
 
     List<ProductVariant> toDomainVariants(List<ProductVariantEntity> entities);
 
-    @Mapping(target = "price", source = "sellPrice")
+    @Mapping(target = "price", source = "actualSellPrice")
     ProductVariant toDomain(ProductVariantEntity entity);
 }

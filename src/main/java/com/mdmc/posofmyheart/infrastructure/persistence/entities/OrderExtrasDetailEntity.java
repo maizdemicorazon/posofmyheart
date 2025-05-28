@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "order_extras_detail")
 @Getter
@@ -28,6 +30,12 @@ public class OrderExtrasDetailEntity {
     @MapsId("idExtra")
     @JoinColumn(name = "id_extra")
     private ProductExtraEntity productExtra;
+
+    @Column(name = "sell_price", precision = 10, scale = 2, nullable = false)
+    private BigDecimal sellPrice;
+
+    @Column(name = "production_cost", precision = 10, scale = 2, nullable = false)
+    private BigDecimal productionCost;
 
     public void setRelations(OrderDetailEntity orderDetail, ProductExtraEntity productExtra) {
         this.orderDetail = orderDetail;

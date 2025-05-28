@@ -175,6 +175,8 @@ public class OrderServiceImpl implements OrderService {
 
         OrderExtrasDetailEntity extraDetail = new OrderExtrasDetailEntity();
         extraDetail.setQuantity(extra.quantity());
+        extraDetail.setSellPrice(productExtra.getActualPrice());
+        extraDetail.setProductionCost(productExtra.getActualCost());
         extraDetail.setRelations(detail, productExtra);
         detail.addExtraDetail(extraDetail);
     }
@@ -189,6 +191,8 @@ public class OrderServiceImpl implements OrderService {
         OrderDetailEntity detail = new OrderDetailEntity();
         detail.setProduct(product);
         detail.setVariant(variant);
+        detail.setSellPrice(variant.getActualSellPrice());
+        detail.setProductionCost(variant.getActualCostPrice());
 
         return detail;
     }
@@ -314,11 +318,11 @@ public class OrderServiceImpl implements OrderService {
 
         for (OrderDetailEntity detail : order.getOrderDetails()) {
             // Precio base de la variante
-            BigDecimal itemTotal = detail.getVariant().getSellPrice();
+            BigDecimal itemTotal = detail.getVariant().getActualSellPrice();
 
             // Sumar extras
             BigDecimal extrasTotal = detail.getExtraDetails().stream()
-                    .map(e -> e.getProductExtra().getPrice().multiply(BigDecimal.valueOf(e.getQuantity())))
+                    .map(e -> e.getProductExtra().getActualPrice().multiply(BigDecimal.valueOf(e.getQuantity())))
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
 
             total = total.add(itemTotal.add(extrasTotal));

@@ -30,11 +30,11 @@ public class ProductExtraEntity {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "price", precision = 10, scale = 2, nullable = false)
-    private BigDecimal price;
+    @Column(name = "actual_price", precision = 10, scale = 2, nullable = false)
+    private BigDecimal actualPrice;
 
-    @Column(name = "cost", precision = 10, scale = 2, nullable = false)
-    private BigDecimal cost;
+    @Column(name = "actual_cost", precision = 10, scale = 2, nullable = false)
+    private BigDecimal actualCost;
 
     @Column(name = "active")
     private Boolean active = true;
@@ -44,7 +44,7 @@ public class ProductExtraEntity {
 
     @ColumnDefault(value = "CURRENT_TIMESTAMP")
     @Column(name = "created_at")
-    private LocalDateTime createdAt = LocalDateTime.now();;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @OneToMany(mappedBy = "productExtra", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderExtrasDetailEntity> extraDetails = new ArrayList<>();
