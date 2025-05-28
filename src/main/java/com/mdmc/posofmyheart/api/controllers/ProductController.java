@@ -37,11 +37,13 @@ public class ProductController {
     @Cacheable("menu")
     @GetMapping
     public ResponseEntity<ProductsWithExtrasDto> getMenu() {
-        return ResponseEntity.ok(productService.getMenuProducts());
+        ProductsWithExtrasDto menuProducts = productService.getMenuProducts();
+        return ResponseEntity.ok(menuProducts);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable Long id) {
-        return ResponseEntity.ok(productService.getProductById(id));
+        Product productById = productService.getProductById(id);
+        return ResponseEntity.ok(productById);
     }
 }
