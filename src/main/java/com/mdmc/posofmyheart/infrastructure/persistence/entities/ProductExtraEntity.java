@@ -30,11 +30,11 @@ public class ProductExtraEntity {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "price", precision = 10, scale = 2, nullable = false)
-    private BigDecimal price;
+    @Column(name = "actual_price", precision = 10, scale = 2, nullable = false)
+    private BigDecimal actualPrice;
 
-    @Column(name = "cost", precision = 10, scale = 2, nullable = false)
-    private BigDecimal cost;
+    @Column(name = "actual_cost", precision = 10, scale = 2, nullable = false)
+    private BigDecimal actualCost;
 
     @Column(name = "active")
     private Boolean active = true;

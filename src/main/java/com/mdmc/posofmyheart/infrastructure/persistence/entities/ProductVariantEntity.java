@@ -29,11 +29,11 @@ public class ProductVariantEntity {
     @Column(name = "size", length = 30, nullable = false)
     private String size;
 
-    @Column(name = "sell_price")
-    private BigDecimal sellPrice;
+    @Column(name = "actual_sell_price")
+    private BigDecimal actualSellPrice;
 
-    @Column(name = "cost_price")
-    private BigDecimal costPrice;
+    @Column(name = "actual_cost_price")
+    private BigDecimal actualCostPrice;
 
     @ColumnDefault(value = "CURRENT_TIMESTAMP")
     @Column(name = "effective_date")

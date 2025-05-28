@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,11 +47,16 @@ public class OrderDetailEntity {
         extraDetail.setOrderDetail(this);
     }
 
+    @Column(name = "sell_price", precision = 10, scale = 2, nullable = false)
+    private BigDecimal sellPrice;
+
+    @Column(name = "production_cost", precision = 10, scale = 2, nullable = false)
+    private BigDecimal productionCost;
+
     public void clearSauces() {
         this.sauceDetails.clear();
     }
 
-    // Método helper para agregar salsas
     public void addSauce(SauceEntity sauce) {
         OrderDetailSauceEntity detailSauce = new OrderDetailSauceEntity();
         detailSauce.setOrderDetailSauceKey(new OrderDetailSauceKey(this.idOrderDetail, sauce.getIdSauce()));
