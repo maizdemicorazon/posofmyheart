@@ -16,7 +16,6 @@ import java.util.List;
 public interface ProductsWithExtrasMapper {
     ProductsWithExtrasMapper INSTANCE = Mappers.getMapper(ProductsWithExtrasMapper.class);
 
-    // Método alternativo si necesitas mapear desde entidades directamente
     ProductsWithExtrasDto toDtoFromEntities(List<ProductEntity> products,
                                             List<ProductExtraEntity> extras,
                                             List<SauceEntity> sauces);
