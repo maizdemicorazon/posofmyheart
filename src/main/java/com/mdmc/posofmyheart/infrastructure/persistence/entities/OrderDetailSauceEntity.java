@@ -22,12 +22,12 @@ public class OrderDetailSauceEntity {
     private OrderDetailSauceKey orderDetailSauceKey;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("orderDetailId")
+    @MapsId("idOrderDetail")
     @JoinColumn(name = "id_order_detail")
     private OrderDetailEntity orderDetail;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("sauceId")
+    @MapsId("idSauce")
     @JoinColumn(name = "id_sauce")
     private SauceEntity sauce;
 

@@ -12,11 +12,11 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class OrderDetailSauceKey implements Serializable {
+public class ProductFlavorKey implements Serializable {
 
-    @Column(name = "id_order_detail")
-    private Long idOrderDetail;
+    @Column(name = "id_flavor")
+    private Long idFlavor;
 
-    @Column(name = "id_sauce")
-    private Long idSauce;
+    @Column(name = "id_product")
+    private Long idProduct;
 }
