@@ -26,6 +26,7 @@ public class DataInitializer implements ApplicationRunner {
     private final ProductExtraRepository productExtraRepository;
     private final SauceRepository sauceRepository;
     private final ProductRepository productRepository;
+    private final ProductFlavorRepository productFlavorRepository;
     private final ProductVariantRepository productVariantRepository;
 
     @Override
@@ -51,6 +52,9 @@ public class DataInitializer implements ApplicationRunner {
         }
         if (productRepository.count() == 0) {
             initializeProducts();
+        }
+        if (productFlavorRepository.count() == 0) {
+            initializeProductFlavors();
         }
         if (productVariantRepository.count() == 0) {
             initializeProductVariants();
@@ -319,6 +323,148 @@ public class DataInitializer implements ApplicationRunner {
         productRepository.saveAll(products);
     }
 
+    private void initializeProductFlavors() {
+        // Primero obtenemos las categorías necesarias
+        ProductEntity doriesquites = productRepository.findById(1L)
+                .orElseThrow(() -> new IllegalStateException("Producto Doriesquites no encontrado"));
+        ProductEntity tostiesquites = productRepository.findById(2L)
+                .orElseThrow(() -> new IllegalStateException("Producto Tostiesquites no encontrado"));
+        ProductEntity esquitesConMaruchan = productRepository.findById(5L)
+                .orElseThrow(() -> new IllegalStateException("Producto Esquites Con Queso no encontrado"));
+        ProductEntity eloteRevolcado = productRepository.findById(9L)
+                .orElseThrow(() -> new IllegalStateException("Producto Coca cola no encontrado"));
+        ProductEntity boing = productRepository.findById(12L)
+                .orElseThrow(() -> new IllegalStateException("Producto Boing no encontrado"));
+        ProductEntity jumex = productRepository.findById(13L)
+                .orElseThrow(() -> new IllegalStateException("Producto Jumex no encontrado"));
+        ProductEntity agua = productRepository.findById(14L)
+                .orElseThrow(() -> new IllegalStateException("Producto Agua no encontrado"));
+
+        List<ProductFlavorEntity> flavors = Arrays.asList(
+                new ProductFlavorEntity(
+                        1L,
+                        "Nachos",
+                        doriesquites
+                ),
+                new ProductFlavorEntity(
+                        2L,
+                        "Incognita",
+                        doriesquites
+                ),
+                new ProductFlavorEntity(
+                        3L,
+                        "Flaming Hot",
+                        doriesquites
+                ),
+                new ProductFlavorEntity(
+                        4L,
+                        "Salsa Verde",
+                        tostiesquites
+                ),
+                new ProductFlavorEntity(
+                        5L,
+                        "Flaming Hot",
+                        tostiesquites
+                ),
+                new ProductFlavorEntity(
+                        6L,
+                        "Camaron",
+                        esquitesConMaruchan
+                ),
+                new ProductFlavorEntity(
+                        7L,
+                        "Camaron Habanero",
+                        esquitesConMaruchan
+                ),
+                new ProductFlavorEntity(
+                        8L,
+                        "Camaron Piquin",
+                        esquitesConMaruchan
+                ),
+                new ProductFlavorEntity(
+                        9L,
+                        "Pollo",
+                        esquitesConMaruchan
+                ),
+                new ProductFlavorEntity(
+                        10L,
+                        "Res",
+                        esquitesConMaruchan
+                ),
+                new ProductFlavorEntity(
+                        11L,
+                        "Sabritas Cruji FH",
+                        eloteRevolcado
+                ),
+                new ProductFlavorEntity(
+                        12L,
+                        "Rancheritos",
+                        eloteRevolcado
+                ),
+                new ProductFlavorEntity(
+                        13L,
+                        "Doritos Nachos",
+                        eloteRevolcado
+                ),
+                new ProductFlavorEntity(
+                        14L,
+                        "Mango",
+                        boing
+                ),
+                new ProductFlavorEntity(
+                        15L,
+                        "Manzana",
+                        boing
+                ),
+                new ProductFlavorEntity(
+                        16L,
+                        "Guayaba",
+                        boing
+                ),
+                new ProductFlavorEntity(
+                        17L,
+                        "Mango",
+                        jumex
+                ),
+                new ProductFlavorEntity(
+                        18L,
+                        "Durazno",
+                        jumex
+                ),
+                new ProductFlavorEntity(
+                        19L,
+                        "Manzana",
+                        jumex
+                ),
+                new ProductFlavorEntity(
+                        20L,
+                        "Jamaica",
+                        agua
+                ),
+                new ProductFlavorEntity(
+                        21L,
+                        "Limón",
+                        agua
+                ),
+                new ProductFlavorEntity(
+                        22L,
+                        "Limón con chia",
+                        agua
+                ),
+                new ProductFlavorEntity(
+                        23L,
+                        "Frutos Rojos",
+                        agua
+                ),
+                new ProductFlavorEntity(
+                        24L,
+                        "Mango",
+                        agua
+                )
+        );
+        productFlavorRepository.saveAll(flavors);
+    }
+
     private void initializeProductVariants() {
         // Obtenemos los productos necesarios
         ProductEntity doriesquites = productRepository.findById(1L)
@@ -394,7 +540,7 @@ public class DataInitializer implements ApplicationRunner {
                 new ProductVariantEntity(20L, esquitesConQueso, "Mediano (10oz)", BigDecimal.valueOf(45), BigDecimal.valueOf(20), LocalDateTime.now()),
                 new ProductVariantEntity(21L, esquitesConQueso, "Grande (12oz)", BigDecimal.valueOf(55), BigDecimal.valueOf(25), LocalDateTime.now()),
                 new ProductVariantEntity(22L, esquitesConQueso, "Extra Grande (14oz)", BigDecimal.valueOf(65), BigDecimal.valueOf(30), LocalDateTime.now()),
-        new ProductVariantEntity(23L, tostiesquites, "Regular", BigDecimal.valueOf(55.00), BigDecimal.valueOf(30), LocalDateTime.now())
+                new ProductVariantEntity(23L, tostiesquites, "Regular", BigDecimal.valueOf(55.00), BigDecimal.valueOf(30), LocalDateTime.now())
 
         );
 
