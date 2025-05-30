@@ -311,9 +311,9 @@ SELECT
     p.name AS producto,
     pv.size AS variante,
     COUNT(od.id_order_detail) AS cantidad_vendida,
-    SUM(od.sell_price - od.production_cost) AS ganancia_items,
-    COALESCE(SUM(ped.quantity * (ped.sell_price - ped.production_cost)), 0) AS ganancia_extras,
-    (SUM(od.sell_price - od.production_cost) + COALESCE(SUM(ped.quantity * (ped.sell_price - ped.production_cost)), 0)) AS ganancia_total
+    ROUND(SUM(od.sell_price - od.production_cost), 2) AS ganancia_producto,
+    ROUND(COALESCE(SUM(oed.quantity * (oed.sell_price - oed.production_cost)), 0), 2) AS ganancia_extras,
+    ROUND((SUM(od.sell_price - od.production_cost) + COALESCE(SUM(oed.quantity * (oed.sell_price - oed.production_cost)), 0)), 2) AS ganancia_total
 FROM 
     order_details od
 JOIN 
@@ -321,7 +321,7 @@ JOIN
 JOIN 
     product_variants pv ON od.id_variant = pv.id_variant
 LEFT JOIN 
-    product_extras_detail ped ON od.id_order_detail = ped.id_order_detail
+    order_extras_detail oed ON od.id_order_detail = oed.id_order_detail
 GROUP BY 
     p.id_product, p.name, pv.size
 ORDER BY 
@@ -334,9 +334,9 @@ SELECT
     pc.id_category,
     pc.name AS categoria,
     COUNT(od.id_order_detail) AS cantidad_vendida,
-    SUM(od.sell_price - od.production_cost) AS ganancia_items,
-    COALESCE(SUM(ped.quantity * (ped.sell_price - ped.production_cost)), 0) AS ganancia_extras,
-    (SUM(od.sell_price - od.production_cost) + COALESCE(SUM(ped.quantity * (ped.sell_price - ped.production_cost)), 0)) AS ganancia_total
+    ROUND(SUM(od.sell_price - od.production_cost), 2) AS ganancia_items,
+    ROUND(COALESCE(SUM(oed.quantity * (oed.sell_price - oed.production_cost)), 0), 2) AS ganancia_extras,
+    ROUND((SUM(od.sell_price - od.production_cost) + COALESCE(SUM(oed.quantity * (oed.sell_price - oed.production_cost)), 0)), 2) AS ganancia_total
 FROM 
     order_details od
 JOIN 
@@ -344,7 +344,7 @@ JOIN
 JOIN 
     product_categories pc ON p.id_category = pc.id_category
 LEFT JOIN 
-    product_extras_detail ped ON od.id_order_detail = ped.id_order_detail
+    order_extras_detail oed ON od.id_order_detail = oed.id_order_detail
 GROUP BY 
     pc.id_category, pc.name
 ORDER BY 
@@ -354,12 +354,49 @@ ORDER BY
 ## Margen de Ganancia Promedio
 ``` sql
 SELECT 
-    AVG((od.sell_price - od.production_cost) / od.sell_price * 100) AS margen_promedio_items,
-    AVG((ped.sell_price - ped.production_cost) / ped.sell_price * 100) AS margen_promedio_extras
+    ROUND(AVG(CASE WHEN od.sell_price > 0 THEN (od.sell_price - od.production_cost) / od.sell_price * 100 END), 2) AS margen_promedio_productos,
+    ROUND(AVG(CASE WHEN oed.sell_price > 0 THEN (oed.sell_price - oed.production_cost) / oed.sell_price * 100 END), 2) AS margen_promedio_extras
 FROM 
     order_details od
 LEFT JOIN 
-    product_extras_detail ped ON od.id_order_detail = ped.id_order_detail
+    order_extras_detail oed ON od.id_order_detail = oed.id_order_detail
 WHERE 
-    od.sell_price > 0;
+    od.sell_price IS 
+```
+
+## Consulta para Análisis por Producto
+``` sql
+SELECT
+p.id_product,
+p.name AS producto,
+pv.size AS variante,
+COUNT(od.id_order_detail) AS veces_vendido,
+SUM(od.sell_price) AS total_ventas_producto,
+SUM(od.production_cost) AS total_costo_producto,
+SUM(od.sell_price - od.production_cost) AS ganancia_producto,
+
+    -- Extras asociados a este producto
+    COUNT(DISTINCT oed.id_extra) AS extras_diferentes_vendidos,
+    COALESCE(SUM(oed.quantity), 0) AS cantidad_extras,
+    COALESCE(SUM(oed.quantity * oed.sell_price), 0) AS ventas_extras,
+    COALESCE(SUM(oed.quantity * oed.production_cost), 0) AS costo_extras,
+    COALESCE(SUM(oed.quantity * (oed.sell_price - oed.production_cost)), 0) AS ganancia_extras,
+    
+    -- Total general
+    (SUM(od.sell_price) + COALESCE(SUM(oed.quantity * oed.sell_price), 0)) AS ventas_totales,
+    (SUM(od.production_cost) + COALESCE(SUM(oed.quantity * oed.production_cost), 0)) AS costos_totales,
+    (SUM(od.sell_price - od.production_cost) + 
+     COALESCE(SUM(oed.quantity * (oed.sell_price - oed.production_cost)), 0)) AS ganancia_total
+FROM
+order_details od
+JOIN
+products p ON od.id_product = p.id_product
+JOIN
+product_variants pv ON od.id_variant = pv.id_variant
+LEFT JOIN
+order_extras_detail oed ON od.id_order_detail = oed.id_order_detail
+GROUP BY
+p.id_product, p.name, pv.size
+ORDER BY
+ganancia_total DESC;
 ```

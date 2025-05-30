@@ -75,7 +75,9 @@ public class DataInitializer implements ApplicationRunner {
         List<ProductCategoryEntity> categories = Arrays.asList(
                 new ProductCategoryEntity(1L, "Esquites", "Variedad de esquites tradicionales y especiales"),
                 new ProductCategoryEntity(2L, "Elotes", "Elotes preparados de diferentes formas"),
-                new ProductCategoryEntity(3L, "Bebidas", "Refrescos, jugos y aguas")
+                new ProductCategoryEntity(3L, "Bebidas", "Refrescos, jugos y aguas"),
+                new ProductCategoryEntity(4L, "De la casa", "Platillo de la casa"),
+                new ProductCategoryEntity(5L, "Botana", "Papas sin maíz")
         );
         productCategoryRepository.saveAll(categories);
         log.info("Categorías de productos inicializadas");
@@ -152,6 +154,10 @@ public class DataInitializer implements ApplicationRunner {
                 .orElseThrow(() -> new IllegalStateException("Categoría Elotes no encontrada"));
         ProductCategoryEntity bebidasCategory = productCategoryRepository.findById(3L)
                 .orElseThrow(() -> new IllegalStateException("Categoría Bebidas no encontrada"));
+        ProductCategoryEntity deLaCasaCategory = productCategoryRepository.findById(4L)
+                .orElseThrow(() -> new IllegalStateException("Categoría Bebidas no encontrada"));
+        ProductCategoryEntity botanasCategory = productCategoryRepository.findById(5L)
+                .orElseThrow(() -> new IllegalStateException("Categoría Bebidas no encontrada"));
 
         List<ProductEntity> products = Arrays.asList(
                 new ProductEntity(
@@ -201,7 +207,7 @@ public class DataInitializer implements ApplicationRunner {
                         List.of()),
                 new ProductEntity(
                         6L,
-                        esquitesCategory,
+                        deLaCasaCategory,
                         "Maíz Puerco",
                         "https://drive.google.com/thumbnail?id=1_DwAv9akn8dmrq-sO_PAAaAEEGPwPIF_",
                         "Maruchan con esquites y carne de puerco",
@@ -210,7 +216,7 @@ public class DataInitializer implements ApplicationRunner {
                         List.of()),
                 new ProductEntity(
                         7L,
-                        esquitesCategory,
+                        deLaCasaCategory,
                         "Maíz Puerco sin sopa",
                         "https://drive.google.com/thumbnail?id=1_DwAv9akn8dmrq-sO_PAAaAEEGPwPIF_",
                         "Esquites con carne de puerco sin maruchan",
@@ -279,7 +285,26 @@ public class DataInitializer implements ApplicationRunner {
                         "Vaso de agua natural",
                         LocalDateTime.now(),
                         LocalDateTime.now(),
+                        List.of()),
+                new ProductEntity(
+                        15L,
+                        botanasCategory,
+                        "Tostitos con queso",
+                        "https://drive.google.com/thumbnail?id=1DIsR7cDco6oOlL3YVngzRWkD9HnTH6yt",
+                        "Tostitos con queso amarillo y salsa a elegir",
+                        LocalDateTime.now(),
+                        LocalDateTime.now(),
+                        List.of()),
+                new ProductEntity(
+                        16L,
+                        botanasCategory,
+                        "Doritos con queso",
+                        "https://drive.google.com/thumbnail?id=1rmm4ahwUIf8Nixb3hRzkeuCI3mpfVTOk",
+                        "Doritos con queso amarillo y salsa a elegir",
+                        LocalDateTime.now(),
+                        LocalDateTime.now(),
                         List.of())
+
         );
         productRepository.saveAll(products);
     }
