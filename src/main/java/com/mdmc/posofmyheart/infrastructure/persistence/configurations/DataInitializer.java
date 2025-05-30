@@ -86,16 +86,26 @@ public class DataInitializer implements ApplicationRunner {
 
     private void initializeSauces() {
         List<SauceEntity> sauces = Arrays.asList(
-                new SauceEntity(1L, "Sin picante", "Sin salsa picante",""),
-                new SauceEntity(2L, "Buffalo", "Salsa picante", ""),
-                new SauceEntity(3L, "Valentina", "Salsa Valentina clásica", ""),
-                new SauceEntity(4L, "Habanero", "Salsa picante de habanero",""),
-                new SauceEntity(5L, "Botanera", "Salsa para botanas",""),
-                new SauceEntity(6L, "Negra", "Combinación de salsas negras",""),
-                new SauceEntity(7L, "Macha", "Salsa de la casa",""),
-                new SauceEntity(8L, "Tajin", "Tajin en polvo",""),
-                new SauceEntity(9L, "Tajin picante", "Salsa alimonada picante",""),
-                new SauceEntity(10L, "Tajin afrutado", "Salsa con sabor afrutado","")
+                new SauceEntity(1L, "Sin picante", "Sin salsa picante",
+                        "https://drive.google.com/thumbnail?id=11WPxG1tmzSVpZEN4PgtKNKwHhjxIBFu2"),
+                new SauceEntity(2L, "Buffalo", "Salsa picante",
+                        "https://drive.google.com/thumbnail?id=1gwgeHvhMCIH4XaOk-5OITul1pwbamATX"),
+                new SauceEntity(3L, "Valentina", "Salsa Valentina clásica",
+                        "https://drive.google.com/thumbnail?id=1CK-YPGAvKTzpkaZMXVYORJvCKhQFfr52"),
+                new SauceEntity(4L, "Habanero", "Salsa picante de habanero",
+                        "https://drive.google.com/thumbnail?id=1p2dpvcMzfmLAzP7WzcOqsBIKQ9ogAXN1"),
+                new SauceEntity(5L, "Botanera", "Salsa para botanas",
+                        "https://drive.google.com/thumbnail?id=1mMv8t1Wq4d7Yg9D08jZbRhby24mUUT6n"),
+                new SauceEntity(6L, "Salsas Negras", "Combinación de salsas negras",
+                        "https://drive.google.com/thumbnail?id=1SBh-unGzG9sIWMGjQEbpga14yH3B5gJt"),
+                new SauceEntity(7L, "Macha", "Salsa de la casa",
+                        "https://drive.google.com/thumbnail?id=18nJNjMam6IBnjGlswo2xbuLlqT9jdwHn"),
+                new SauceEntity(8L, "Tajin en polvo", "Tajin en polvo",
+                        "https://drive.google.com/thumbnail?id=1xEFTsxtIS1dLJJriFYAPBz0elvZb9Kvs"),
+                new SauceEntity(9L, "Tajin alimonado", "Salsa alimonada picante",
+                        "https://drive.google.com/thumbnail?id=10CwrVbBtCpMs4R8V1cPR499L8pJb2bbe"),
+                new SauceEntity(10L, "Tajin afrutado", "Salsa con sabor afrutado",
+                        "https://drive.google.com/thumbnail?id=1vxLCJpliHgrAkdXjv07N6wXIxd1i8HSw")
         );
         sauceRepository.saveAll(sauces);
     }
