@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "orders", indexes = {
@@ -30,7 +31,7 @@ public class OrderEntity {
 
     @ColumnDefault(value = "CURRENT_TIMESTAMP")
     @Column(name = "order_date")
-    private LocalDateTime orderDate = LocalDateTime.now();
+    private LocalDateTime orderDate;
 
     @Column(name = "total_amount", precision = 10, scale = 2, nullable = false)
     private BigDecimal totalAmount;

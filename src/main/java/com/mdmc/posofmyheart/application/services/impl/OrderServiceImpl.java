@@ -15,9 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -85,6 +84,44 @@ public class OrderServiceImpl implements OrderService {
         return new CreateOrderResponse(orderRepository.save(order).getIdOrder());
     }
 
+    @Transactional
+    public List<CreateOrderResponse> createOrders(List<OrderRequest> requests) {
+        List<CreateOrderResponse> responses = new LinkedList<>();
+
+        requests.forEach(request -> {
+        // Validación básica
+        if (request.idPaymentMethod() == null || request.items() == null || request.items().isEmpty()) {
+            throw new IllegalArgumentException("Payment method and at least one item are required");
+        }
+
+        // Crear la orden base
+        OrderEntity order = createOrderFromRequest(request);
+
+        // Procesar items y sus relaciones
+        request.items().forEach(item -> {
+            OrderDetailEntity detail = createAndAddDetail(order, item);
+
+            // Procesar extras del item
+            Optional.ofNullable(item.extras())
+                    .orElseGet(Collections::emptyList)
+                    .forEach(extra -> createAndAddExtraDetail(detail, extra));
+
+            // Procesar salsas del item
+            Optional.ofNullable(item.sauces())
+                    .orElseGet(Collections::emptyList)
+                    .forEach(sauce -> addSauceToDetail(detail, sauce));
+        });
+
+        // Calcular y establecer el total
+        order.setTotalAmount(calculateOrderTotal(order));
+
+            responses.add(new CreateOrderResponse(orderRepository.save(order).getIdOrder()));
+
+        });
+        // Guardar y retornar respuesta
+        return responses;
+    }
+
     private void addSauceToDetail(OrderDetailEntity detail, Sauce sauce) {
         SauceEntity sauceEntity = sauceRepository.findById(sauce.idSauce())
                 .orElseThrow(SauceNotFoundException::new);
@@ -106,6 +143,7 @@ public class OrderServiceImpl implements OrderService {
         OrderEntity order = new OrderEntity();
         order.setPaymentMethod(paymentMethod);
         order.setComment(request.comment());
+        order.setOrderDate(Objects.isNull(request.orderDate()) ? LocalDateTime.now() : request.orderDate());
         return order;
     }
 
