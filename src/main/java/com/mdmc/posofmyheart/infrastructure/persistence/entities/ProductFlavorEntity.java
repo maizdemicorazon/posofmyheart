@@ -1,10 +1,12 @@
 package com.mdmc.posofmyheart.infrastructure.persistence.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Null;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Table(name = "product_flavors", indexes = {
@@ -15,19 +17,20 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductFlavorEntity {
-    @EmbeddedId
-    private ProductFlavorKey productFlavorKey;
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idFlavor;
     private String flavor;
-    private boolean active = true;
+    @ColumnDefault("true")
+    @Null
+    private boolean active;
 
-    @MapsId("idProduct")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_product", nullable = false)
     private ProductEntity product;
 
     public ProductFlavorEntity(Long idFlavor, String flavor, ProductEntity product) {
-        this.productFlavorKey = new ProductFlavorKey(idFlavor, product.getIdProduct());
+        this.idFlavor = idFlavor;
         this.flavor = flavor;
         this.product = product;
     }

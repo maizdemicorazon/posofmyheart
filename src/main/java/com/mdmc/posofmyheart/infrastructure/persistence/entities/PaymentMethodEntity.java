@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
 
@@ -32,6 +33,7 @@ public class PaymentMethodEntity {
     @Column(name = "active")
     private Boolean active = true;
 
+    @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "created_at")
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 }

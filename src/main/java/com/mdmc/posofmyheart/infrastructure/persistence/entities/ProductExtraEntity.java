@@ -49,7 +49,7 @@ public class ProductExtraEntity {
 
     @ColumnDefault(value = "CURRENT_TIMESTAMP")
     @Column(name = "created_at")
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "productExtra", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderExtrasDetailEntity> extraDetails = new ArrayList<>();

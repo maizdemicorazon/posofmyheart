@@ -41,11 +41,11 @@ public class ProductEntity {
 
     @ColumnDefault(value = "CURRENT_TIMESTAMP")
     @Column(name = "created_at")
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 
     @ColumnDefault(value = "CURRENT_TIMESTAMP")
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt = LocalDateTime.now();
+    private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductVariantEntity> variants = new ArrayList<>();
