@@ -50,4 +50,7 @@ public class ProductEntity {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductVariantEntity> variants = new ArrayList<>();
 
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<ProductFlavorEntity> flavors = new ArrayList<>();
+
 }

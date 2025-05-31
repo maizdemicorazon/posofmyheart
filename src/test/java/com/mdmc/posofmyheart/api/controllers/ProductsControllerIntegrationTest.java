@@ -5,10 +5,7 @@ import com.mdmc.posofmyheart.api.exceptions.MenuNotFoundException;
 import com.mdmc.posofmyheart.api.exceptions.ProductNotFoundException;
 import com.mdmc.posofmyheart.application.services.ProductService;
 import com.mdmc.posofmyheart.domain.dtos.ProductsWithExtrasDto;
-import com.mdmc.posofmyheart.domain.models.Product;
-import com.mdmc.posofmyheart.domain.models.ProductExtra;
-import com.mdmc.posofmyheart.domain.models.ProductVariant;
-import com.mdmc.posofmyheart.domain.models.Sauce;
+import com.mdmc.posofmyheart.domain.models.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -47,8 +44,10 @@ class ProductControllerIntegrationTest {
     @Test
     void getMenu_ShouldReturnMenuWithProductsExtrasAndSauces() throws Exception {
         // Arrange
-        ProductVariant variant = new ProductVariant("Grande", new BigDecimal("12.99"));
-        Product product = new Product(1L, 1L, "Pizza Margarita", "pizza.jpg", List.of(variant));
+        ProductFlavor flavor = new ProductFlavor(3L, "Flaming Hot");
+        ProductVariant variant = new ProductVariant(3L, "Grande", new BigDecimal("12.99"));
+        Product product = new Product(1L, 1L, "Pizza Margarita", "pizza.jpg",
+                List.of(variant), List.of(flavor));
         ProductExtra extra = new ProductExtra(1L, "Queso extra", new BigDecimal("2.99"));
         Sauce sauce = new Sauce(1L, "Barbacoa");
 
@@ -98,8 +97,10 @@ class ProductControllerIntegrationTest {
     @Test
     void getProductById_ShouldReturnProduct() throws Exception {
         // Arrange
-        ProductVariant variant = new ProductVariant("Grande", new BigDecimal("12.99"));
-        Product expectedProduct = new Product(1L, 1L, "Pizza Margarita", "pizza.jpg", List.of(variant));
+        ProductFlavor flavor = new ProductFlavor(3L, "Flaming Hot");
+        ProductVariant variant = new ProductVariant(1L,"Grande", new BigDecimal("12.99"));
+        Product expectedProduct = new Product(1L, 1L, "Pizza Margarita", "pizza.jpg",
+                List.of(variant), List.of(flavor));
 
         when(productService.getProductById(1L)).thenReturn(expectedProduct);
 

@@ -7,7 +7,8 @@ public record Product(
         Long idCategory,
         String name,
         String image,
-        List<ProductVariant> options) {
+        List<ProductVariant> options,
+        List<ProductFlavor> flavors) {
 
     public Product {
         if (idProduct == null || idProduct <= 0) {

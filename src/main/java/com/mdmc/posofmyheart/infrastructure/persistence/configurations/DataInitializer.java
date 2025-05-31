@@ -182,7 +182,9 @@ public class DataInitializer implements ApplicationRunner {
                         "Doritos con esquites",
                         LocalDateTime.now(),
                         LocalDateTime.now(),
-                        List.of()),
+                        List.of(),
+                        List.of()
+                ),
                 new ProductEntity(
                         2L,
                         esquitesCategory,
@@ -191,7 +193,9 @@ public class DataInitializer implements ApplicationRunner {
                         "Tostiesquites con esquites",
                         LocalDateTime.now(),
                         LocalDateTime.now(),
-                        List.of()),
+                        List.of(),
+                        List.of()
+                ),
                 new ProductEntity(
                         3L,
                         esquitesCategory,
@@ -200,7 +204,9 @@ public class DataInitializer implements ApplicationRunner {
                         "Esquites con mayonesa, queso y picante",
                         LocalDateTime.now(),
                         LocalDateTime.now(),
-                        List.of()),
+                        List.of(),
+                        List.of()
+                ),
                 new ProductEntity(
                         4L,
                         esquitesCategory,
@@ -209,7 +215,9 @@ public class DataInitializer implements ApplicationRunner {
                         "Esquites tradicionales con queso extra",
                         LocalDateTime.now(),
                         LocalDateTime.now(),
-                        List.of()),
+                        List.of(),
+                        List.of()
+                ),
                 new ProductEntity(
                         5L,
                         esquitesCategory,
@@ -218,6 +226,7 @@ public class DataInitializer implements ApplicationRunner {
                         "Sopa maruchan con esquites",
                         LocalDateTime.now(),
                         LocalDateTime.now(),
+                        List.of(),
                         List.of()),
                 new ProductEntity(
                         6L,
@@ -227,7 +236,9 @@ public class DataInitializer implements ApplicationRunner {
                         "Maruchan con esquites y carne de puerco",
                         LocalDateTime.now(),
                         LocalDateTime.now(),
-                        List.of()),
+                        List.of(),
+                        List.of()
+                ),
                 new ProductEntity(
                         7L,
                         deLaCasaCategory,
@@ -236,7 +247,9 @@ public class DataInitializer implements ApplicationRunner {
                         "Esquites con carne de puerco sin maruchan",
                         LocalDateTime.now(),
                         LocalDateTime.now(),
-                        List.of()),
+                        List.of(),
+                        List.of()
+                ),
                 new ProductEntity(
                         8L,
                         elotesCategory,
@@ -245,7 +258,9 @@ public class DataInitializer implements ApplicationRunner {
                         "Elote con mayonesa, queso y picante",
                         LocalDateTime.now(),
                         LocalDateTime.now(),
-                        List.of()),
+                        List.of(),
+                        List.of()
+                ),
                 new ProductEntity(
                         9L,
                         elotesCategory,
@@ -254,7 +269,9 @@ public class DataInitializer implements ApplicationRunner {
                         "Elote con topping a elegir",
                         LocalDateTime.now(),
                         LocalDateTime.now(),
-                        List.of()),
+                        List.of(),
+                        List.of()
+                ),
                 new ProductEntity(
                         10L,
                         bebidasCategory,
@@ -263,7 +280,9 @@ public class DataInitializer implements ApplicationRunner {
                         "Refresco en botella PET",
                         LocalDateTime.now(),
                         LocalDateTime.now(),
-                        List.of()),
+                        List.of(),
+                        List.of()
+                ),
                 new ProductEntity(
                         11L,
                         bebidasCategory,
@@ -272,7 +291,9 @@ public class DataInitializer implements ApplicationRunner {
                         "Refresco en botella PET o lata",
                         LocalDateTime.now(),
                         LocalDateTime.now(),
-                        List.of()),
+                        List.of(),
+                        List.of()
+                ),
                 new ProductEntity(
                         12L,
                         bebidasCategory,
@@ -281,7 +302,9 @@ public class DataInitializer implements ApplicationRunner {
                         "Jugo en caja 500ml",
                         LocalDateTime.now(),
                         LocalDateTime.now(),
-                        List.of()),
+                        List.of(),
+                        List.of()
+                ),
                 new ProductEntity(
                         13L,
                         bebidasCategory,
@@ -290,6 +313,7 @@ public class DataInitializer implements ApplicationRunner {
                         "Jugo en lata 355ml",
                         LocalDateTime.now(),
                         LocalDateTime.now(),
+                        List.of(),
                         List.of()),
                 new ProductEntity(
                         14L,
@@ -299,7 +323,9 @@ public class DataInitializer implements ApplicationRunner {
                         "Vaso de agua natural",
                         LocalDateTime.now(),
                         LocalDateTime.now(),
-                        List.of()),
+                        List.of(),
+                        List.of()
+                ),
                 new ProductEntity(
                         15L,
                         botanasCategory,
@@ -308,7 +334,9 @@ public class DataInitializer implements ApplicationRunner {
                         "Tostitos con queso amarillo y salsa a elegir",
                         LocalDateTime.now(),
                         LocalDateTime.now(),
-                        List.of()),
+                        List.of(),
+                        List.of()
+                ),
                 new ProductEntity(
                         16L,
                         botanasCategory,
@@ -317,7 +345,9 @@ public class DataInitializer implements ApplicationRunner {
                         "Doritos con queso amarillo y salsa a elegir",
                         LocalDateTime.now(),
                         LocalDateTime.now(),
-                        List.of())
+                        List.of(),
+                        List.of()
+                )
 
         );
         productRepository.saveAll(products);
