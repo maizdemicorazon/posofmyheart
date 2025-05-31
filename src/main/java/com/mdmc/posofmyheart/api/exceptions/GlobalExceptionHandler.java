@@ -15,6 +15,9 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    public static final String PETITION_ERROR_LOG = "Error en la petición {}: {}";
+    public static final String VALIDATION_ERROR = "VALIDATION_ERROR";
+
     // Método para extraer el 'reason' de @ResponseStatus o usar getMessage()
     private String getReasonFromException(RuntimeException ex) {
         ResponseStatus responseStatus = AnnotationUtils.findAnnotation(ex.getClass(), ResponseStatus.class);
@@ -33,6 +36,22 @@ public class GlobalExceptionHandler {
                 ));
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorResponse> handleIllegalArgumentException(
+            IllegalArgumentException ex,
+            WebRequest request) {
+
+        logError(request, ex.getMessage());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(
+                                ex.getMessage(),
+                                VALIDATION_ERROR,
+                                request.getDescription(false)
+                        )
+                );
+    }
+
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<ErrorResponse> handleMethodArgumentTypeMismatchException(
             MethodArgumentTypeMismatchException ex,
@@ -49,12 +68,12 @@ public class GlobalExceptionHandler {
                 ex.getValue()
         );
 
-        log.error("Error en la petición {}: {}", request.getDescription(false), errorMessage);
+        logError(request, errorMessage);
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(
                                 errorMessage,
-                                "VALIDATION_ERROR",
+                                VALIDATION_ERROR,
                                 request.getDescription(false)
                         )
                 );
@@ -113,5 +132,9 @@ public class GlobalExceptionHandler {
     private ResponseEntity<ErrorResponse> buildNotFoundResponse(RuntimeException ex, WebRequest request) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse(getReasonFromException(ex), ex.getClass().getSimpleName(), request.getDescription(false)));
+    }
+
+    private static void logError(WebRequest request, String errorMessage) {
+        log.error(PETITION_ERROR_LOG, request.getDescription(false), errorMessage);
     }
 }

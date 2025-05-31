@@ -138,7 +138,7 @@ public class DataInitializer implements ApplicationRunner {
                 ),
                 new ProductExtraEntity(3L,
                         "Proteina extra",
-                        "200g de proteina de puerco",
+                        "200g aprox. de proteina de puerco",
                         BigDecimal.valueOf(25.00),
                         BigDecimal.valueOf(12.00),
                         true,

@@ -19,7 +19,7 @@ public record OrderExtrasDetail(
             throw new IllegalArgumentException("idExtra de producto inválido");
         }
         if (quantity == null || quantity <= 0) {
-            throw new IllegalArgumentException("Precio de producto inválido");
+            throw new IllegalArgumentException("Cantidad inválida");
         }
     }
 }
