@@ -1,7 +1,6 @@
 package com.mdmc.posofmyheart.infrastructure.persistence.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Null;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +21,6 @@ public class ProductFlavorEntity {
     private Long idFlavor;
     private String flavor;
     @ColumnDefault("true")
-    @Null
     private boolean active;
 
     @ManyToOne(fetch = FetchType.LAZY)
