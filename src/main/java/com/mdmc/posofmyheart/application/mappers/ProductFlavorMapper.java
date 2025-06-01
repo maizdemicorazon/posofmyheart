@@ -12,6 +12,6 @@ public interface ProductFlavorMapper {
     ProductFlavorMapper INSTANCE = Mappers.getMapper(ProductFlavorMapper.class);
 
     @Mapping(target = "idFlavor", source = "productFlavorKey.idFlavor")
-    ProductFlavor toModel(ProductFlavorEntity flavorEntity);
+    ProductFlavor toDomain(ProductFlavorEntity flavorEntity);
 
 }

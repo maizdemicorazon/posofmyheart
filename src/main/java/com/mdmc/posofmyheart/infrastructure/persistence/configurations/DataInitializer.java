@@ -69,7 +69,8 @@ public class DataInitializer implements ApplicationRunner {
                 new PaymentMethodEntity(2L, "Tarjeta de crédito", "Pago con tarjeta de crédito", true, LocalDateTime.now()),
                 new PaymentMethodEntity(3L, "Tarjeta de débito", "Pago con tarjeta de débito", true, LocalDateTime.now()),
                 new PaymentMethodEntity(4L, "Transferencia", "Pago por transferencia bancaria", true, LocalDateTime.now()),
-                new PaymentMethodEntity(5L, "QR", "Pago a través de Mercado Pago", true, LocalDateTime.now())
+                new PaymentMethodEntity(5L, "QR", "QR de pago a través de Mercado Pago", true, LocalDateTime.now()),
+                new PaymentMethodEntity(6L, "Link", "Link de pago a través de Mercado Pago", true, LocalDateTime.now())
         );
         paymentMethodRepository.saveAll(methods);
     }
@@ -554,7 +555,7 @@ public class DataInitializer implements ApplicationRunner {
                 new ProductVariantEntity(12L, esquitesTrad, "Extra Grande (14oz)", BigDecimal.valueOf(60.00), BigDecimal.valueOf(25.00), LocalDateTime.now()),
 
                 // Doriesquites
-                new ProductVariantEntity(13L, doriesquites, "Regular", BigDecimal.valueOf(55.00), BigDecimal.valueOf(20.00), LocalDateTime.now()),
+                new ProductVariantEntity(13L, doriesquites, "Único", BigDecimal.valueOf(55.00), BigDecimal.valueOf(20.00), LocalDateTime.now()),
 
                 //Coca
                 new ProductVariantEntity(14L, cocaCola, "400ml", BigDecimal.valueOf(20), BigDecimal.valueOf(13.42), LocalDateTime.now()),
@@ -570,7 +571,9 @@ public class DataInitializer implements ApplicationRunner {
                 new ProductVariantEntity(20L, esquitesConQueso, "Mediano (10oz)", BigDecimal.valueOf(45), BigDecimal.valueOf(20), LocalDateTime.now()),
                 new ProductVariantEntity(21L, esquitesConQueso, "Grande (12oz)", BigDecimal.valueOf(55), BigDecimal.valueOf(25), LocalDateTime.now()),
                 new ProductVariantEntity(22L, esquitesConQueso, "Extra Grande (14oz)", BigDecimal.valueOf(65), BigDecimal.valueOf(30), LocalDateTime.now()),
-                new ProductVariantEntity(23L, tostiesquites, "Regular", BigDecimal.valueOf(55.00), BigDecimal.valueOf(30), LocalDateTime.now())
+                new ProductVariantEntity(23L, tostiesquites, "Único", BigDecimal.valueOf(55.00), BigDecimal.valueOf(30), LocalDateTime.now()),
+                new ProductVariantEntity(24L, tostiesquites, "Único", BigDecimal.valueOf(25.00), BigDecimal.valueOf(17), LocalDateTime.now()),
+                new ProductVariantEntity(25L, tostiesquites, "Único", BigDecimal.valueOf(25.00), BigDecimal.valueOf(17), LocalDateTime.now())
 
         );
 
