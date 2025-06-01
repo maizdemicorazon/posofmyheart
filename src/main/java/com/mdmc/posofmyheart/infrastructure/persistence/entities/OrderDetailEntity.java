@@ -1,13 +1,9 @@
 package com.mdmc.posofmyheart.infrastructure.persistence.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,6 +18,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class OrderDetailEntity {
 
     @Id
@@ -41,17 +38,11 @@ public class OrderDetailEntity {
     @JoinColumn(name = "id_variant", nullable = false)
     private ProductVariantEntity variant;
 
-    // Relación con múltiples salsas
     @OneToMany(mappedBy = "orderDetail", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderDetailSauceEntity> sauceDetails = new ArrayList<>();
+    private List<OrderDetailSauceEntity> sauceDetails;
 
     @OneToMany(mappedBy = "orderDetail", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderExtrasDetailEntity> extraDetails = new ArrayList<>();
-
-    public void addExtraDetail(OrderExtrasDetailEntity extraDetail) {
-        extraDetails.add(extraDetail);
-        extraDetail.setOrderDetail(this);
-    }
+    private List<OrderExtrasDetailEntity> extraDetails;
 
     @Column(name = "sell_price", precision = 10, scale = 2, nullable = false)
     private BigDecimal sellPrice;
@@ -59,16 +50,17 @@ public class OrderDetailEntity {
     @Column(name = "production_cost", precision = 10, scale = 2, nullable = false)
     private BigDecimal productionCost;
 
-    public void clearSauces() {
-        this.sauceDetails.clear();
+    @OneToMany(mappedBy = "orderDetail", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderFlavorDetailEntity> flavorDetails;
+
+    public void addExtraDetail(OrderExtrasDetailEntity extraDetail) {
+        extraDetails.add(extraDetail);
+        extraDetail.setOrderDetail(this);
     }
 
     public void addSauce(SauceEntity sauce) {
-        OrderDetailSauceEntity detailSauce = new OrderDetailSauceEntity();
-        detailSauce.setOrderDetailSauceKey(new OrderDetailSauceKey(this.idOrderDetail, sauce.getIdSauce()));
-        detailSauce.setOrderDetail(this);
-        detailSauce.setSauce(sauce);
-        this.sauceDetails.add(detailSauce);
+        OrderDetailSauceEntity detailSauce = new OrderDetailSauceEntity(this, sauce);
+        sauceDetails.add(detailSauce);
     }
 
 }

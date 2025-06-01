@@ -29,7 +29,7 @@ public class OrderFlavorDetailEntity {
 
     @ManyToOne
     @JoinColumn(name = "id_flavor")
-    private ProductFlavorEntity flavor; // Relación simple
+    private ProductFlavorEntity flavor;
 
     @ColumnDefault(value = "CURRENT_TIMESTAMP")
     @Column(name = "created_at", nullable = false, updatable = false)

@@ -1,17 +1,13 @@
 package com.mdmc.posofmyheart.infrastructure.persistence.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "orders", indexes = {
@@ -23,15 +19,21 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class OrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_order")
     private Long idOrder;
+    //TODO add client name
 
     @ColumnDefault(value = "CURRENT_TIMESTAMP")
     @Column(name = "order_date")
     private LocalDateTime orderDate;
+
+    @ColumnDefault(value = "CURRENT_TIMESTAMP")
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     @Column(name = "total_amount", precision = 10, scale = 2, nullable = false)
     private BigDecimal totalAmount;
@@ -43,6 +45,7 @@ public class OrderEntity {
     @Column(name = "comment")
     private String comment;
 
+    @Builder.Default
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderDetailEntity> orderDetails = new ArrayList<>();
 

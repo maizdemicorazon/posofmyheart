@@ -19,7 +19,7 @@ import lombok.*;
 @EqualsAndHashCode
 public class OrderDetailSauceEntity {
     @EmbeddedId
-    private OrderDetailSauceKey orderDetailSauceKey;
+    private OrderDetailSauceKey id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("idOrderDetail")
@@ -31,4 +31,9 @@ public class OrderDetailSauceEntity {
     @JoinColumn(name = "id_sauce")
     private SauceEntity sauce;
 
+    public OrderDetailSauceEntity(OrderDetailEntity orderDetail, SauceEntity sauce) {
+        this.id = new OrderDetailSauceKey(orderDetail.getIdOrderDetail(), sauce.getIdSauce());
+        this.orderDetail = orderDetail;
+        this.sauce = sauce;
+    }
 }

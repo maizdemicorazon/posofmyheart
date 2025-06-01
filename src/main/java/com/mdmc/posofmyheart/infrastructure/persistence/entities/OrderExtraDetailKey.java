@@ -13,11 +13,9 @@ import java.io.Serializable;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class OrderExtraDetailKey implements Serializable {
-
-    @Column(name = "id_extra")
-    private Long idExtra;
-
     @Column(name = "id_order_detail")
     private Long idOrderDetail;
 
+    @Column(name = "id_extra")
+    private Long idExtra;
 }

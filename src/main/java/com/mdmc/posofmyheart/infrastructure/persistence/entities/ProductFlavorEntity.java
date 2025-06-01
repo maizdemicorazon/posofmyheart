@@ -19,17 +19,18 @@ public class ProductFlavorEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idFlavor;
-    private String flavor;
+    private String name;
     @ColumnDefault("true")
-    private boolean active;
+    @Column(nullable = false)
+    private boolean active = true;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_product", nullable = false)
     private ProductEntity product;
 
-    public ProductFlavorEntity(Long idFlavor, String flavor, ProductEntity product) {
+    public ProductFlavorEntity(Long idFlavor, String name, ProductEntity product) {
         this.idFlavor = idFlavor;
-        this.flavor = flavor;
+        this.name = name;
         this.product = product;
     }
 }
