@@ -1,7 +1,6 @@
 package com.mdmc.posofmyheart.application.services.impl;
 
 import com.mdmc.posofmyheart.api.exceptions.PayMethodNotFoundException;
-import com.mdmc.posofmyheart.api.exceptions.VariantNotFoundException;
 import com.mdmc.posofmyheart.application.mappers.PaymentMethodMapper;
 import com.mdmc.posofmyheart.application.services.PaymentMethodService;
 import com.mdmc.posofmyheart.domain.models.PaymentMethod;

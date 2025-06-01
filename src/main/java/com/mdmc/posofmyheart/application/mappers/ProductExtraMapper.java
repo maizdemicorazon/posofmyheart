@@ -12,6 +12,6 @@ public interface ProductExtraMapper {
     ProductExtraMapper INSTANCE = Mappers.getMapper(ProductExtraMapper.class);
 
     @Mapping(target = "price", source = "actualPrice")
-    ProductExtra toDomain(ProductExtraEntity extras);
+    ProductExtra toModel(ProductExtraEntity extras);
 
 }

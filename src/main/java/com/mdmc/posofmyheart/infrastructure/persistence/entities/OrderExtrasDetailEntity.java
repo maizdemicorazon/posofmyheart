@@ -1,10 +1,9 @@
 package com.mdmc.posofmyheart.infrastructure.persistence.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import java.math.BigDecimal;
 
 import java.math.BigDecimal;
 
@@ -21,6 +20,7 @@ import java.math.BigDecimal;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class OrderExtrasDetailEntity {
     @EmbeddedId
     private OrderExtraDetailKey id;
@@ -45,8 +45,8 @@ public class OrderExtrasDetailEntity {
     private BigDecimal productionCost;
 
     public void setRelations(OrderDetailEntity orderDetail, ProductExtraEntity productExtra) {
+        this.id = new OrderExtraDetailKey(orderDetail.getIdOrderDetail(), productExtra.getIdExtra());
         this.orderDetail = orderDetail;
         this.productExtra = productExtra;
-        this.id = new OrderExtraDetailKey(productExtra.getIdExtra(), orderDetail.getIdOrderDetail());
     }
 }

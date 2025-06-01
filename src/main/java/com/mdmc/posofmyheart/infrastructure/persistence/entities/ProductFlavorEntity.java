@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Table(name = "product_flavors", indexes = {
@@ -15,20 +16,21 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductFlavorEntity {
-    @EmbeddedId
-    private ProductFlavorKey productFlavorKey;
-
-    private String flavor;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idFlavor;
+    private String name;
+    @ColumnDefault("true")
+    @Column(nullable = false)
     private boolean active = true;
 
-    @MapsId("idProduct")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_product", nullable = false)
     private ProductEntity product;
 
-    public ProductFlavorEntity(Long idFlavor, String flavor, ProductEntity product) {
-        this.productFlavorKey = new ProductFlavorKey(idFlavor, product.getIdProduct());
-        this.flavor = flavor;
+    public ProductFlavorEntity(Long idFlavor, String name, ProductEntity product) {
+        this.idFlavor = idFlavor;
+        this.name = name;
         this.product = product;
     }
 }
