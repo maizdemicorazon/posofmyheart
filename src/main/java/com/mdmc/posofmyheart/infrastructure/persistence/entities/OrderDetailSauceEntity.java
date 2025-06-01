@@ -5,7 +5,12 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "order_detail_sauce")
+@Table(name = "order_detail_sauce", indexes = {
+        @Index(name = "idx_order_sauce_composite", columnList = "id_order_detail,id_sauce", unique = true),
+        @Index(name = "idx_sauce_order_composite", columnList = "id_sauce,id_order_detail"),
+        @Index(name = "idx_order_detail_sauce_order", columnList = "id_order_detail"),
+        @Index(name = "idx_order_detail_sauce_sauce", columnList = "id_sauce")
+})
 @Embeddable
 @Getter
 @Setter
@@ -14,16 +19,21 @@ import lombok.*;
 @EqualsAndHashCode
 public class OrderDetailSauceEntity {
     @EmbeddedId
-    private OrderDetailSauceKey orderDetailSauceKey;
+    private OrderDetailSauceKey id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("orderDetailId")
+    @MapsId("idOrderDetail")
     @JoinColumn(name = "id_order_detail")
     private OrderDetailEntity orderDetail;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("sauceId")
+    @MapsId("idSauce")
     @JoinColumn(name = "id_sauce")
     private SauceEntity sauce;
 
+    public OrderDetailSauceEntity(OrderDetailEntity orderDetail, SauceEntity sauce) {
+        this.id = new OrderDetailSauceKey(orderDetail.getIdOrderDetail(), sauce.getIdSauce());
+        this.orderDetail = orderDetail;
+        this.sauce = sauce;
+    }
 }

@@ -1,10 +1,7 @@
 package com.mdmc.posofmyheart.infrastructure.persistence.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.math.BigDecimal;
@@ -13,20 +10,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "orders")
+@Table(name = "orders", indexes = {
+        @Index(name = "idx_order_date", columnList = "order_date"),
+        @Index(name = "idx_order_payment_method", columnList = "id_payment_method"),
+        @Index(name = "idx_order_total_amount", columnList = "total_amount")
+})
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class OrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_order")
     private Long idOrder;
+    //TODO add client name
 
     @ColumnDefault(value = "CURRENT_TIMESTAMP")
     @Column(name = "order_date")
-    private LocalDateTime orderDate = LocalDateTime.now();
+    private LocalDateTime orderDate;
+
+    @ColumnDefault(value = "CURRENT_TIMESTAMP")
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     @Column(name = "total_amount", precision = 10, scale = 2, nullable = false)
     private BigDecimal totalAmount;
@@ -38,6 +45,7 @@ public class OrderEntity {
     @Column(name = "comment")
     private String comment;
 
+    @Builder.Default
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderDetailEntity> orderDetails = new ArrayList<>();
 

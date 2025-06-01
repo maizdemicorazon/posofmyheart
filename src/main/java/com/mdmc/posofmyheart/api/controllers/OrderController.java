@@ -21,6 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/orders")
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 @Log4j2
 public class OrderController {
@@ -67,7 +68,7 @@ public class OrderController {
                     @ApiResponse(responseCode = "500", description = "Error interno del servidor")
             }
     )
-    @GetMapping("/date/{date}")
+    @GetMapping("/by-date/{date}")
     public ResponseEntity<List<OrderResponse>> getOrdersByDate(
             @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
     ) {
@@ -85,10 +86,34 @@ public class OrderController {
             }
     )
 
-    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public CreateOrderResponse createOrder(@Valid @RequestBody OrderRequest request) {
-        return orderService.createOrder(request);
+    public ResponseEntity<CreateOrderResponse> createOrder(@Valid @RequestBody OrderRequest orderRequest) {
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(
+                        orderService.createOrder(orderRequest)
+                );
+    }
+
+    @Operation(
+            summary = "Crear una lista de ordenes",
+            description = "Crea una lista de ordenes con detalles y extras."
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Ordenes creadas"),
+                    @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+            }
+    )
+
+    @PostMapping("/batch")
+    public ResponseEntity<List<CreateOrderResponse>> createOrders(
+            @Valid @RequestBody List<OrderRequest> orderRequests) {
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(
+                        orderService.createOrders(orderRequests)
+                );
     }
 
     @Operation(
@@ -102,18 +127,18 @@ public class OrderController {
             }
     )
     @ResponseStatus(code = HttpStatus.ACCEPTED)
-    @PutMapping("/{orderId}")
+    @PutMapping("/{id}")
     public ResponseEntity<OrderResponse> updateOrder(
-            @PathVariable Long orderId,
+            @PathVariable Long id,
             @Valid @RequestBody OrderUpdateRequest updateRequest) {
-        OrderResponse updatedOrder = orderService.updateOrder(orderId, updateRequest);
+        OrderResponse updatedOrder = orderService.updateOrder(id, updateRequest);
         return ResponseEntity.ok(updatedOrder);
     }
 
     @ResponseStatus(code = HttpStatus.OK)
-    @DeleteMapping("/{orderId}")
-    public void deleteOrder(@PathVariable Long orderId) {
-        orderService.deleteOrder(orderId);
+    @DeleteMapping("/{id}")
+    public void deleteOrder(@PathVariable Long id) {
+        orderService.deleteOrder(id);
     }
 
 }

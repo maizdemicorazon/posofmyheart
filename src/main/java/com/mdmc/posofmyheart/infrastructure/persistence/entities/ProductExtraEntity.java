@@ -13,7 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "product_extras")
+@Table(name = "product_extras", indexes = {
+        @Index(name = "idx_extra_name", columnList = "name"),
+        @Index(name = "idx_extra_active", columnList = "active"),
+        @Index(name = "idx_extra_price", columnList = "actual_price"),
+        @Index(name = "idx_extra_cost", columnList = "actual_cost")
+})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -30,11 +35,11 @@ public class ProductExtraEntity {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "price", precision = 10, scale = 2, nullable = false)
-    private BigDecimal price;
+    @Column(name = "actual_price", precision = 10, scale = 2, nullable = false)
+    private BigDecimal actualPrice;
 
-    @Column(name = "cost", precision = 10, scale = 2, nullable = false)
-    private BigDecimal cost;
+    @Column(name = "actual_cost", precision = 10, scale = 2, nullable = false)
+    private BigDecimal actualCost;
 
     @Column(name = "active")
     private Boolean active = true;
@@ -44,7 +49,7 @@ public class ProductExtraEntity {
 
     @ColumnDefault(value = "CURRENT_TIMESTAMP")
     @Column(name = "created_at")
-    private LocalDateTime createdAt = LocalDateTime.now();;
+    private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "productExtra", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderExtrasDetailEntity> extraDetails = new ArrayList<>();

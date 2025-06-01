@@ -1,9 +1,6 @@
 package com.mdmc.posofmyheart.application.mappers;
 
 import com.mdmc.posofmyheart.domain.dtos.ProductsWithExtrasDto;
-import com.mdmc.posofmyheart.domain.models.Product;
-import com.mdmc.posofmyheart.domain.models.ProductExtra;
-import com.mdmc.posofmyheart.domain.models.Sauce;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.ProductEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.ProductExtraEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.SauceEntity;
@@ -16,7 +13,6 @@ import java.util.List;
 public interface ProductsWithExtrasMapper {
     ProductsWithExtrasMapper INSTANCE = Mappers.getMapper(ProductsWithExtrasMapper.class);
 
-    // Método alternativo si necesitas mapear desde entidades directamente
     ProductsWithExtrasDto toDtoFromEntities(List<ProductEntity> products,
                                             List<ProductExtraEntity> extras,
                                             List<SauceEntity> sauces);

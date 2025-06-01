@@ -1,12 +1,11 @@
 package com.mdmc.posofmyheart.application.services.impl;
 
 import com.mdmc.posofmyheart.api.exceptions.ProductNotFoundException;
-import com.mdmc.posofmyheart.application.mappers.*;
+import com.mdmc.posofmyheart.application.mappers.ProductMapper;
+import com.mdmc.posofmyheart.application.mappers.ProductsWithExtrasMapper;
 import com.mdmc.posofmyheart.application.services.ProductService;
 import com.mdmc.posofmyheart.domain.dtos.ProductsWithExtrasDto;
-import com.mdmc.posofmyheart.domain.models.ProductExtra;
 import com.mdmc.posofmyheart.domain.models.Product;
-import com.mdmc.posofmyheart.domain.models.Sauce;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.ProductEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.ProductExtraEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.SauceEntity;
@@ -38,6 +37,7 @@ public class ProductServiceImpl implements ProductService {
         List<ProductEntity> products = productRepository.findAll();
         List<ProductExtraEntity> extras = productExtraRepository.findAll();
         List<SauceEntity> sauces = sauceRepository.findAll();
+        //TODO Add PayMethods
 
         return ProductsWithExtrasMapper.INSTANCE.toDtoFromEntities(products, extras, sauces);
     }

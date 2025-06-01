@@ -16,6 +16,7 @@ public interface OrderService {
     OrderResponse findOrderById(Long orderId);
 
     CreateOrderResponse createOrder(OrderRequest request);
+    List<CreateOrderResponse> createOrders(List<OrderRequest> requests);
 
     /**
      * <bold>Notas importantes:</bold>

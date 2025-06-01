@@ -11,7 +11,12 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "product_variants")
+@Table(name = "product_variants", indexes = {
+        @Index(name = "idx_variant_product", columnList = "id_product"),
+        @Index(name = "idx_variant_size", columnList = "size"),
+        @Index(name = "idx_variant_sell_price", columnList = "actual_sell_price"),
+        @Index(name = "idx_variant_cost_price", columnList = "actual_cost_price")
+})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -29,13 +34,13 @@ public class ProductVariantEntity {
     @Column(name = "size", length = 30, nullable = false)
     private String size;
 
-    @Column(name = "sell_price")
-    private BigDecimal sellPrice;
+    @Column(name = "actual_sell_price")
+    private BigDecimal actualSellPrice;
 
-    @Column(name = "cost_price")
-    private BigDecimal costPrice;
+    @Column(name = "actual_cost_price")
+    private BigDecimal actualCostPrice;
 
     @ColumnDefault(value = "CURRENT_TIMESTAMP")
     @Column(name = "effective_date")
-    private LocalDateTime effectiveDate = LocalDateTime.now();;
+    private LocalDateTime effectiveDate = LocalDateTime.now();
 }

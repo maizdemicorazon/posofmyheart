@@ -1,20 +1,24 @@
 package com.mdmc.posofmyheart.infrastructure.persistence.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import java.util.ArrayList;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
-@Table(name = "order_details")
+@Table(name = "order_details", indexes = {
+        @Index(name = "idx_order_detail_order", columnList = "id_order"),
+        @Index(name = "idx_order_detail_product", columnList = "id_product"),
+        @Index(name = "idx_order_detail_variant", columnList = "id_variant"),
+        @Index(name = "idx_order_detail_sell_price", columnList = "sell_price"),
+        @Index(name = "idx_order_detail_production_cost", columnList = "production_cost")
+})
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class OrderDetailEntity {
 
     @Id
@@ -34,29 +38,29 @@ public class OrderDetailEntity {
     @JoinColumn(name = "id_variant", nullable = false)
     private ProductVariantEntity variant;
 
-    // Relación con múltiples salsas
     @OneToMany(mappedBy = "orderDetail", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderDetailSauceEntity> sauceDetails = new ArrayList<>();
+    private List<OrderDetailSauceEntity> sauceDetails;
 
     @OneToMany(mappedBy = "orderDetail", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderExtrasDetailEntity> extraDetails = new ArrayList<>();
+    private List<OrderExtrasDetailEntity> extraDetails;
+
+    @Column(name = "sell_price", precision = 10, scale = 2, nullable = false)
+    private BigDecimal sellPrice;
+
+    @Column(name = "production_cost", precision = 10, scale = 2, nullable = false)
+    private BigDecimal productionCost;
+
+    @OneToMany(mappedBy = "orderDetail", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderFlavorDetailEntity> flavorDetails;
 
     public void addExtraDetail(OrderExtrasDetailEntity extraDetail) {
         extraDetails.add(extraDetail);
         extraDetail.setOrderDetail(this);
     }
 
-    public void clearSauces() {
-        this.sauceDetails.clear();
-    }
-
-    // Método helper para agregar salsas
     public void addSauce(SauceEntity sauce) {
-        OrderDetailSauceEntity detailSauce = new OrderDetailSauceEntity();
-        detailSauce.setOrderDetailSauceKey(new OrderDetailSauceKey(this.idOrderDetail, sauce.getIdSauce()));
-        detailSauce.setOrderDetail(this);
-        detailSauce.setSauce(sauce);
-        this.sauceDetails.add(detailSauce);
+        OrderDetailSauceEntity detailSauce = new OrderDetailSauceEntity(this, sauce);
+        sauceDetails.add(detailSauce);
     }
 
 }

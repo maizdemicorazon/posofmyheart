@@ -3,7 +3,7 @@ package com.mdmc.posofmyheart.domain.models;
 import java.math.BigDecimal;
 
 public record ProductExtra(
-        Integer idExtra,
+        Long idExtra,
         String name,
         BigDecimal price
 ) {

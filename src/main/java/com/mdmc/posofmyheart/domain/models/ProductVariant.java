@@ -3,6 +3,7 @@ package com.mdmc.posofmyheart.domain.models;
 import java.math.BigDecimal;
 
 public record ProductVariant(
+        Long idVariant,
         String size,
         BigDecimal price
 ) {

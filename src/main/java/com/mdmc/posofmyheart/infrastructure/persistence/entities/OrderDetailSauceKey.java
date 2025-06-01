@@ -15,8 +15,8 @@ import java.io.Serializable;
 public class OrderDetailSauceKey implements Serializable {
 
     @Column(name = "id_order_detail")
-    private Long orderDetailId;
+    private Long idOrderDetail;
 
     @Column(name = "id_sauce")
-    private Long sauceId;
+    private Long idSauce;
 }
