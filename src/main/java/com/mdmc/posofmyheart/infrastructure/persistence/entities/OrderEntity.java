@@ -25,7 +25,8 @@ public class OrderEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_order")
     private Long idOrder;
-    //TODO add client name
+    @Column(name = "client_name", length = 40)
+    String clientName;
 
     @ColumnDefault(value = "CURRENT_TIMESTAMP")
     @Column(name = "order_date")

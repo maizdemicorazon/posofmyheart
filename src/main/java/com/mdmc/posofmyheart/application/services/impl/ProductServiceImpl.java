@@ -6,9 +6,11 @@ import com.mdmc.posofmyheart.application.mappers.ProductsWithExtrasMapper;
 import com.mdmc.posofmyheart.application.services.ProductService;
 import com.mdmc.posofmyheart.domain.dtos.ProductsWithExtrasDto;
 import com.mdmc.posofmyheart.domain.models.Product;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.PaymentMethodEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.ProductEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.ProductExtraEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.SauceEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.repositories.PaymentMethodRepository;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.ProductExtraRepository;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.ProductRepository;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.SauceRepository;
@@ -23,6 +25,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final ProductExtraRepository productExtraRepository;
     private final SauceRepository sauceRepository;
+    private final PaymentMethodRepository paymentMethodRepository;
 
     @Override
     public Product getProductById(Long idProduct) {
@@ -37,9 +40,9 @@ public class ProductServiceImpl implements ProductService {
         List<ProductEntity> products = productRepository.findAll();
         List<ProductExtraEntity> extras = productExtraRepository.findAll();
         List<SauceEntity> sauces = sauceRepository.findAll();
-        //TODO Add PayMethods
+        List<PaymentMethodEntity> paymentMethods = paymentMethodRepository.findAll();
 
-        return ProductsWithExtrasMapper.INSTANCE.toDtoFromEntities(products, extras, sauces);
+        return ProductsWithExtrasMapper.INSTANCE.toDtoFromEntities(products, extras, sauces, paymentMethods);
     }
 
 }

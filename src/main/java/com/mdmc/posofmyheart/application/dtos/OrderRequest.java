@@ -9,6 +9,8 @@ public record OrderRequest(
         @NotNull
         @Positive
         Long idPaymentMethod,
+        @Size(max = 40)
+        String clientName,
         @Size(max = 100)
         String comment,
         @NotEmpty

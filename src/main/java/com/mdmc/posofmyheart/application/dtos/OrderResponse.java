@@ -9,6 +9,7 @@ public record OrderResponse(
         LocalDateTime orderDate,
         BigDecimal bill,
         Integer paymentMethod,
+        String clientName,
         String comment,
         List<OrderItemResponse> items
 ) {
@@ -17,7 +18,8 @@ public record OrderResponse(
             Integer idProduct,
             Integer idVariant,
             List<OrderExtrasResponse> extras,
-            List<OrderDetailSauceResponse> sauces
+            List<OrderDetailSauceResponse> sauces,
+            List<OrderFlavorDetailResponse> flavors
     ) {
     }
 
@@ -28,7 +30,15 @@ public record OrderResponse(
     }
 
     public record OrderDetailSauceResponse(
-            Integer idSauce
+            Integer idSauce,
+            String name
+    ) {
+    }
+
+    public record OrderFlavorDetailResponse(
+            Integer idFlavorDetail,
+            String name,
+            Long idOrderDetail
     ) {
     }
 }

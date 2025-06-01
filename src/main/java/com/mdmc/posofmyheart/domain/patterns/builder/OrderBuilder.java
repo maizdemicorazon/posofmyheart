@@ -21,6 +21,7 @@ public class OrderBuilder {
 
         return OrderEntity.builder()
                 .paymentMethod(paymentMethod)
+                .clientName(request.clientName())
                 .comment(request.comment())
                 .orderDate(Optional.ofNullable(request.orderDate()).orElse(LocalDateTime.now()))
                 .updatedAt(LocalDateTime.now())

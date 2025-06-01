@@ -117,23 +117,6 @@ public class OrderController {
     }
 
     @Operation(
-            summary = "Crear una lista de ordenes",
-            description = "Crea una lista de ordenes con detalles y extras."
-    )
-    @ApiResponses(
-            value = {
-                    @ApiResponse(responseCode = "200", description = "Ordenes creadas"),
-                    @ApiResponse(responseCode = "500", description = "Error interno del servidor")
-            }
-    )
-
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/batch")
-    public List<CreateOrderResponse> createOrders(@Valid @RequestBody List<OrderRequest> requests) {
-        return orderService.createOrders(requests);
-    }
-
-    @Operation(
             summary = "Actualizar una orden",
             description = "Actualiza y valida relaciones para una orden existente"
     )

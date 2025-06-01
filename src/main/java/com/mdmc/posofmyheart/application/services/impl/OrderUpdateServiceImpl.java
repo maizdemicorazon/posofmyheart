@@ -58,7 +58,11 @@ public class OrderUpdateServiceImpl implements OrderUpdateService {
             order.setComment(updateRequest.comment());
         }
 
-        // Actualizar método de pago si está presente
+        if (updateRequest.clientName() != null) {
+            order.setComment(updateRequest.clientName());
+        }
+
+        // Actualizar tipo de pago si está presente
         if (updateRequest.idPaymentMethod() != null) {
             PaymentMethodEntity newPaymentMethod = entityFinder
                     .findPaymentMethod(updateRequest.idPaymentMethod());

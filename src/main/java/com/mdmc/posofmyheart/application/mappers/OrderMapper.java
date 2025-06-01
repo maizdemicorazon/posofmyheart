@@ -1,10 +1,7 @@
 package com.mdmc.posofmyheart.application.mappers;
 
 import com.mdmc.posofmyheart.application.dtos.OrderResponse;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderDetailEntity;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderDetailSauceEntity;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderEntity;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderExtrasDetailEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -25,14 +22,19 @@ public interface OrderMapper {
     @Mapping(target = "idVariant", source = "variant.idVariant")
     @Mapping(target = "extras", source = "extraDetails")
     @Mapping(target = "sauces", source = "sauceDetails")
+    @Mapping(target = "flavors", source = "flavorDetails")
     OrderResponse.OrderItemResponse toItemResponse(OrderDetailEntity entity);
 
     @Mapping(target = "idExtra", source = "productExtra.idExtra")
     @Mapping(target = "quantity", source = "quantity")
     OrderResponse.OrderExtrasResponse toExtrasResponse(OrderExtrasDetailEntity entity);
 
-
     @Mapping(target = "idSauce", source = "sauce.idSauce")
+    @Mapping(target = "name", source = "sauce.name")
     OrderResponse.OrderDetailSauceResponse toDetailSauceResponse(OrderDetailSauceEntity entity);
+
+    @Mapping(target = "name", source = "flavor.name")
+    @Mapping(target = "idOrderDetail", source = "orderDetail.idOrderDetail")
+    OrderResponse.OrderFlavorDetailResponse toFlavorDetailResponse(OrderFlavorDetailEntity entity);
 
 }
