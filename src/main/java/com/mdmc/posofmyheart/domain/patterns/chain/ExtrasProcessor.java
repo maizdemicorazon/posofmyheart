@@ -4,7 +4,7 @@ import com.mdmc.posofmyheart.application.dtos.OrderItemRequest;
 import com.mdmc.posofmyheart.domain.models.OrderExtrasDetail;
 import com.mdmc.posofmyheart.domain.patterns.facade.EntityFinder;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderDetailEntity;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderExtrasDetailEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderExtraDetailEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.ProductExtraEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -29,7 +29,7 @@ public class ExtrasProcessor extends OrderItemProcessor {
     private void addExtraToDetail(OrderDetailEntity detail, OrderExtrasDetail extra) {
         ProductExtraEntity productExtra = entityFinder.findProductExtra(extra.idExtra());
 
-        OrderExtrasDetailEntity extraDetail = new OrderExtrasDetailEntity();
+        OrderExtraDetailEntity extraDetail = new OrderExtraDetailEntity();
         extraDetail.setRelations(detail, productExtra);
         extraDetail.setQuantity(extra.quantity());
         extraDetail.setSellPrice(productExtra.getActualPrice());

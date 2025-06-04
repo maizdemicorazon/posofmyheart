@@ -9,11 +9,11 @@ import com.mdmc.posofmyheart.domain.models.Product;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.PaymentMethodEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.ProductEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.ProductExtraEntity;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.SauceEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.ProductSauceEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.PaymentMethodRepository;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.ProductExtraRepository;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.ProductRepository;
-import com.mdmc.posofmyheart.infrastructure.persistence.repositories.SauceRepository;
+import com.mdmc.posofmyheart.infrastructure.persistence.repositories.ProductSauceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +24,7 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final ProductExtraRepository productExtraRepository;
-    private final SauceRepository sauceRepository;
+    private final ProductSauceRepository productSauceRepository;
     private final PaymentMethodRepository paymentMethodRepository;
 
     @Override
@@ -39,7 +39,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductsWithExtrasDto getMenuProducts() {
         List<ProductEntity> products = productRepository.findAll();
         List<ProductExtraEntity> extras = productExtraRepository.findAll();
-        List<SauceEntity> sauces = sauceRepository.findAll();
+        List<ProductSauceEntity> sauces = productSauceRepository.findAll();
         List<PaymentMethodEntity> paymentMethods = paymentMethodRepository.findAll();
 
         return ProductsWithExtrasMapper.INSTANCE.toDtoFromEntities(products, extras, sauces, paymentMethods);

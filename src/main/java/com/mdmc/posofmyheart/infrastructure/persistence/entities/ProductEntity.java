@@ -33,7 +33,7 @@ public class ProductEntity {
     @Column(name = "name", length = 100, nullable = false)
     private String name;
 
-    @Column(name = "image", length = 100, nullable = false)
+    @Column(name = "image", length = 200, nullable = false)
     private String image;
 
     @Column(name = "description", nullable = false)

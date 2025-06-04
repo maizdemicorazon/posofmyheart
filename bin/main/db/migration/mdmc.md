@@ -1,6 +1,6 @@
 Sistema de registro de ventas:
 
-Tabla orders para registrar cada venta con fecha/hora exacta
+Tabla dailyEarnings para registrar cada venta con fecha/hora exacta
 Tabla order_details para registrar cada producto vendido en una orden
 
 

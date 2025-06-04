@@ -3,7 +3,7 @@ package com.mdmc.posofmyheart.domain.patterns.strategies.impl;
 import com.mdmc.posofmyheart.application.dtos.OrderRequest;
 import com.mdmc.posofmyheart.application.services.OrderCalculationService;
 import com.mdmc.posofmyheart.application.services.OrderPersistenceService;
-import com.mdmc.posofmyheart.domain.dtos.CreateOrderResponse;
+import com.mdmc.posofmyheart.domain.dtos.CreateOrderResponseDto;
 import com.mdmc.posofmyheart.domain.patterns.factory.OrderFactory;
 import com.mdmc.posofmyheart.domain.patterns.strategies.OrderOperationStrategy;
 import com.mdmc.posofmyheart.domain.patterns.validator.OrderValidator;
@@ -13,14 +13,14 @@ import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
-public class CreateOrderStrategy implements OrderOperationStrategy<OrderRequest, CreateOrderResponse> {
+public class CreateOrderStrategy implements OrderOperationStrategy<OrderRequest, CreateOrderResponseDto> {
     private final OrderFactory orderFactory;
     private final OrderValidator orderValidator;
     private final OrderPersistenceService persistenceService;
     private final OrderCalculationService calculationService;
 
     @Override
-    public CreateOrderResponse execute(OrderRequest orderRequest) {
+    public CreateOrderResponseDto execute(OrderRequest orderRequest) {
         // Validar la orden
         orderValidator.validateOrderRequest(orderRequest);
 

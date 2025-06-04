@@ -47,7 +47,7 @@ La base de datos se compone de las siguientes tablas:
 - `product_extras` — Extras opcionales (ej. queso extra, chile en polvo).
 - `sauces` — Salsas disponibles.
 - `products` — Productos disponibles para la venta.
-- `orders` — Registro de ventas realizadas.
+- `dailyEarnings` — Registro de ventas realizadas.
 - `order_details` — Detalle de los productos vendidos en cada orden.
 
 ### 📊 Diagrama conceptual (descripción rápida)

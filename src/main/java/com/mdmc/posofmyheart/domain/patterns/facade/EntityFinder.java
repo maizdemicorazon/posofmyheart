@@ -13,7 +13,7 @@ public class EntityFinder {
     private final PaymentMethodRepository paymentMethodRepository;
     private final ProductVariantRepository variantRepository;
     private final ProductExtraRepository productExtraRepository;
-    private final SauceRepository sauceRepository;
+    private final ProductSauceRepository productSauceRepository;
     private final ProductFlavorRepository flavorRepository;
 
     public PaymentMethodEntity findPaymentMethod(Long id) {
@@ -36,8 +36,8 @@ public class EntityFinder {
                 .orElseThrow(ProductExtraNotFoundException::new);
     }
 
-    public SauceEntity findSauce(Long id) {
-        return sauceRepository.findById(id)
+    public ProductSauceEntity findSauce(Long id) {
+        return productSauceRepository.findById(id)
                 .orElseThrow(SauceNotFoundException::new);
     }
 

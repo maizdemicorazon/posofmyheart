@@ -1,7 +1,7 @@
 package com.mdmc.posofmyheart.application.dtos;
 
 import com.mdmc.posofmyheart.domain.models.OrderExtrasDetail;
-import com.mdmc.posofmyheart.domain.models.Sauce;
+import com.mdmc.posofmyheart.domain.models.ProductSauce;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -25,7 +25,7 @@ public record OrderItemRequest(
         List<OrderExtrasDetail> extras,
 
         @Valid
-        List<Sauce> sauces,
+        List<ProductSauce> productSauces,
 
         @Valid
         Long flavor

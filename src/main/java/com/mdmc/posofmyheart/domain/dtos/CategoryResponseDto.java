@@ -12,8 +12,8 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoryResponseDTO {
+public class CategoryResponseDto {
     private Integer idCategory;
     private String name;
-    private List<ProductOptionDTO> options = new ArrayList<>();
+    private List<ProductOptionDto> options = new ArrayList<>();
 }

@@ -7,14 +7,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "sauces", indexes = {
-        @Index(name = "idx_sauce_name", columnList = "name")
+@Table(name = "product_sauces", indexes = {
+        @Index(name = "idx_product_sauce_name", columnList = "name")
 })
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SauceEntity {
+public class ProductSauceEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_sauce")

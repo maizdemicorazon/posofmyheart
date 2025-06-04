@@ -94,6 +94,76 @@
 					"response": []
 				},
 				{
+					"name": "CreateOrderWithExtraAndSaucesAndFlavor",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Función para generar fechas aleatorias con microsegundos\r",
+									"function generateRandomDateTime() {\r",
+									"    // 1. Definir rango de fechas (ajusta según necesites)\r",
+									"    const startDate = new Date('2024-01-01');\r",
+									"    const endDate = new Date('2025-12-31');\r",
+									"    \r",
+									"    // 2. Generar fecha aleatoria dentro del rango\r",
+									"    const randomDate = new Date(\r",
+									"        startDate.getTime() + Math.random() * (endDate.getTime() - startDate.getTime())\r",
+									"    );\r",
+									"    \r",
+									"    // 3. Formatear con microsegundos (6 dígitos decimales)\r",
+									"    const year = randomDate.getFullYear();\r",
+									"    const month = String(randomDate.getMonth() + 1).padStart(2, '0');\r",
+									"    const day = String(randomDate.getDate()).padStart(2, '0');\r",
+									"    const hours = String(randomDate.getHours()).padStart(2, '0');\r",
+									"    const minutes = String(randomDate.getMinutes()).padStart(2, '0');\r",
+									"    const seconds = String(randomDate.getSeconds()).padStart(2, '0');\r",
+									"    const milliseconds = String(randomDate.getMilliseconds()).padStart(3, '0');\r",
+									"    \r",
+									"    // 4. Agregar 3 dígitos adicionales para microsegundos (aleatorios)\r",
+									"    const microseconds = String(Math.floor(Math.random() * 1000)).padStart(3, '0');\r",
+									"    \r",
+									"    // 5. Combinar todo en el formato requerido\r",
+									"    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}${microseconds}`;\r",
+									"}\r",
+									"\r",
+									"// Generar y guardar la variable\r",
+									"const randomDateTime = generateRandomDateTime();\r",
+									"pm.environment.set(\"fecha_hora_microsegundos\", randomDateTime);\r",
+									"console.log(\"Fecha generada:\", randomDateTime);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id_payment_method\": 2,\r\n    \"client_name\": \"Raúl\",\r\n    \"order_date\": \"{{fecha_hora_microsegundos}}\",\r\n    \"comment\": \"\",\r\n    \"items\": [\r\n        {\r\n            \"id_product\": 1,\r\n            \"id_variant\": 13,\r\n            \"sauces\": [\r\n                {\r\n                    \"id_sauce\": 7\r\n                },\r\n                {\r\n                    \"id_sauce\": 2\r\n                }\r\n            ],\r\n            \"extras\": [\r\n                {\r\n                    \"id_extra\": 1,\r\n                    \"quantity\": 1\r\n                },\r\n                {\r\n                    \"id_extra\": 3,\r\n                    \"quantity\": 1\r\n                }\r\n            ],\r\n            \"flavor\": 1\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}:{{port}}/api/orders",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "CreateOrderMultiple",
 					"request": {
 						"method": "POST",
@@ -228,7 +298,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{host}}:{{port}}/api/orders/date/2025-05-14",
+									"raw": "{{host}}:{{port}}/api/orders/by-date/2025-06-01",
 									"host": [
 										"{{host}}"
 									],
@@ -236,8 +306,8 @@
 									"path": [
 										"api",
 										"orders",
-										"date",
-										"2025-05-14"
+										"by-date",
+										"2025-06-01"
 									]
 								}
 							},
@@ -599,6 +669,32 @@
 								"api",
 								"orders",
 								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Metrics",
+			"item": [
+				{
+					"name": "DailyEarnings",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}:{{port}}/api/metrics/daily-earnings/15",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"metrics",
+								"daily-earnings",
+								"15"
 							]
 						}
 					},

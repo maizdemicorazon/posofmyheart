@@ -1,7 +1,7 @@
 package com.mdmc.posofmyheart.application.services.impl;
 
 import com.mdmc.posofmyheart.application.services.OrderPersistenceService;
-import com.mdmc.posofmyheart.domain.dtos.CreateOrderResponse;
+import com.mdmc.posofmyheart.domain.dtos.CreateOrderResponseDto;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.OrderRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,13 +14,13 @@ import java.util.List;
 public class OrderPersistenceServiceImpl implements OrderPersistenceService {
     private final OrderRepository orderRepository;
 
-    public CreateOrderResponse saveOrder(OrderEntity order) {
-        return new CreateOrderResponse(
+    public CreateOrderResponseDto saveOrder(OrderEntity order) {
+        return new CreateOrderResponseDto(
                 orderRepository.save(order).getIdOrder()
         );
     }
 
-    public List<CreateOrderResponse> saveOrders(List<OrderEntity> orders) {
+    public List<CreateOrderResponseDto> saveOrders(List<OrderEntity> orders) {
         return orders.stream()
                 .map(this::saveOrder)
                 .toList();

@@ -110,7 +110,7 @@ public class OrderUpdateServiceImpl implements OrderUpdateService {
                 .forEach(extra -> {
                     ProductExtraEntity productExtra = entityFinder.findProductExtra(extra.idExtra());
 
-                    OrderExtrasDetailEntity extraDetail = OrderExtrasDetailEntity.builder()
+                    OrderExtraDetailEntity extraDetail = OrderExtraDetailEntity.builder()
                             .quantity(extra.quantity())
                             .sellPrice(productExtra.getActualPrice())
                             .productionCost(productExtra.getActualCost())
@@ -124,8 +124,8 @@ public class OrderUpdateServiceImpl implements OrderUpdateService {
         Optional.ofNullable(item.updatedSauces())
                 .orElseGet(Collections::emptyList)
                 .forEach(sauce -> {
-                    SauceEntity sauceEntity = entityFinder.findSauce(sauce.idSauce());
-                    detail.addSauce(sauceEntity);
+                    ProductSauceEntity productSauceEntity = entityFinder.findSauce(sauce.idSauce());
+                    detail.addSauce(productSauceEntity);
                 });
 
         // Procesar sabores

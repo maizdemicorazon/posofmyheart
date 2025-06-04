@@ -24,7 +24,7 @@ public class DataInitializer implements ApplicationRunner {
     private final PaymentMethodRepository paymentMethodRepository;
     private final ProductCategoryRepository productCategoryRepository;
     private final ProductExtraRepository productExtraRepository;
-    private final SauceRepository sauceRepository;
+    private final ProductSauceRepository productSauceRepository;
     private final ProductRepository productRepository;
     private final ProductFlavorRepository productFlavorRepository;
     private final ProductVariantRepository productVariantRepository;
@@ -44,8 +44,8 @@ public class DataInitializer implements ApplicationRunner {
         if (productCategoryRepository.count() == 0) {
             initializeProductCategories();
         }
-        if (sauceRepository.count() == 0) {
-            initializeSauces();
+        if (productSauceRepository.count() == 0) {
+            initializeProductSauces();
         }
         if (productExtraRepository.count() == 0) {
             initializeProductExtras();
@@ -66,11 +66,10 @@ public class DataInitializer implements ApplicationRunner {
     private void initializePaymentMethods() {
         List<PaymentMethodEntity> methods = Arrays.asList(
                 new PaymentMethodEntity(1L, "Efectivo", "Pago en efectivo", true, LocalDateTime.now()),
-                new PaymentMethodEntity(2L, "Tarjeta de crédito", "Pago con tarjeta de crédito", true, LocalDateTime.now()),
-                new PaymentMethodEntity(3L, "Tarjeta de débito", "Pago con tarjeta de débito", true, LocalDateTime.now()),
-                new PaymentMethodEntity(4L, "Transferencia", "Pago por transferencia bancaria", true, LocalDateTime.now()),
-                new PaymentMethodEntity(5L, "QR", "QR de pago a través de Mercado Pago", true, LocalDateTime.now()),
-                new PaymentMethodEntity(6L, "Link", "Link de pago a través de Mercado Pago", true, LocalDateTime.now())
+                new PaymentMethodEntity(2L, "Tarjeta", "Pago con tarjeta mediante terminal", true, LocalDateTime.now()),
+                new PaymentMethodEntity(3L, "Transferencia", "Pago por transferencia bancaria", true, LocalDateTime.now()),
+                new PaymentMethodEntity(4L, "QR", "QR de pago a través de Mercado Pago", true, LocalDateTime.now()),
+                new PaymentMethodEntity(5L, "Link", "Link de pago a través de Mercado Pago", true, LocalDateTime.now())
         );
         paymentMethodRepository.saveAll(methods);
     }
@@ -89,30 +88,30 @@ public class DataInitializer implements ApplicationRunner {
 
     }
 
-    private void initializeSauces() {
-        List<SauceEntity> sauces = Arrays.asList(
-                new SauceEntity(1L, "Sin picante", "Sin salsa picante",
+    private void initializeProductSauces() {
+        List<ProductSauceEntity> sauces = Arrays.asList(
+                new ProductSauceEntity(1L, "Sin picante", "Sin salsa picante",
                         "https://drive.google.com/thumbnail?id=11WPxG1tmzSVpZEN4PgtKNKwHhjxIBFu2"),
-                new SauceEntity(2L, "Buffalo", "Salsa picante",
+                new ProductSauceEntity(2L, "Buffalo", "Salsa picante",
                         "https://drive.google.com/thumbnail?id=1gwgeHvhMCIH4XaOk-5OITul1pwbamATX"),
-                new SauceEntity(3L, "Valentina", "Salsa Valentina clásica",
+                new ProductSauceEntity(3L, "Valentina", "Salsa Valentina clásica",
                         "https://drive.google.com/thumbnail?id=1CK-YPGAvKTzpkaZMXVYORJvCKhQFfr52"),
-                new SauceEntity(4L, "Habanero", "Salsa picante de habanero",
+                new ProductSauceEntity(4L, "Habanero", "Salsa picante de habanero",
                         "https://drive.google.com/thumbnail?id=1p2dpvcMzfmLAzP7WzcOqsBIKQ9ogAXN1"),
-                new SauceEntity(5L, "Botanera", "Salsa para botanas",
+                new ProductSauceEntity(5L, "Botanera", "Salsa para botanas",
                         "https://drive.google.com/thumbnail?id=1mMv8t1Wq4d7Yg9D08jZbRhby24mUUT6n"),
-                new SauceEntity(6L, "Salsas Negras", "Combinación de salsas negras",
+                new ProductSauceEntity(6L, "Salsas Negras", "Combinación de salsas negras",
                         "https://drive.google.com/thumbnail?id=1SBh-unGzG9sIWMGjQEbpga14yH3B5gJt"),
-                new SauceEntity(7L, "Macha", "Salsa de la casa",
+                new ProductSauceEntity(7L, "Macha", "Salsa de la casa",
                         "https://drive.google.com/thumbnail?id=18nJNjMam6IBnjGlswo2xbuLlqT9jdwHn"),
-                new SauceEntity(8L, "Tajin en polvo", "Tajin en polvo",
+                new ProductSauceEntity(8L, "Tajin en polvo", "Tajin en polvo",
                         "https://drive.google.com/thumbnail?id=1xEFTsxtIS1dLJJriFYAPBz0elvZb9Kvs"),
-                new SauceEntity(9L, "Tajin alimonado", "Salsa alimonada picante",
+                new ProductSauceEntity(9L, "Tajin alimonado", "Salsa alimonada picante",
                         "https://drive.google.com/thumbnail?id=10CwrVbBtCpMs4R8V1cPR499L8pJb2bbe"),
-                new SauceEntity(10L, "Tajin afrutado", "Salsa con sabor afrutado",
+                new ProductSauceEntity(10L, "Tajin afrutado", "Salsa con sabor afrutado",
                         "https://drive.google.com/thumbnail?id=1vxLCJpliHgrAkdXjv07N6wXIxd1i8HSw")
         );
-        sauceRepository.saveAll(sauces);
+        productSauceRepository.saveAll(sauces);
     }
 
     private void initializeProductExtras() {
@@ -223,7 +222,7 @@ public class DataInitializer implements ApplicationRunner {
                         5L,
                         esquitesCategory,
                         "Esquite Maruchan",
-                        "https://drive.google.com/thumbnail?id=1xOzM-Yl3VVgGufYwaxmIpDHQ94yEzEIY",
+                        "https://drive.google.com/thumbnail?id=1Hz-cFGIRsnYp4ynm8pJsoHB9oTRc8HYg",
                         "Sopa maruchan con esquites",
                         LocalDateTime.now(),
                         LocalDateTime.now(),
@@ -526,6 +525,10 @@ public class DataInitializer implements ApplicationRunner {
                 .orElseThrow(() -> new IllegalStateException("Producto Jumex no encontrado"));
         ProductEntity agua = productRepository.findById(14L)
                 .orElseThrow(() -> new IllegalStateException("Producto Agua no encontrado"));
+        ProductEntity tostiQueso = productRepository.findById(15L)
+                .orElseThrow(() -> new IllegalStateException("Producto TostiQueso no encontrado"));
+        ProductEntity doriQueso = productRepository.findById(16L)
+                .orElseThrow(() -> new IllegalStateException("Producto DoriQueso no encontrado"));
 
         List<ProductVariantEntity> variants = Arrays.asList(
                 //Maiz puerco
@@ -572,8 +575,8 @@ public class DataInitializer implements ApplicationRunner {
                 new ProductVariantEntity(21L, esquitesConQueso, "Grande (12oz)", BigDecimal.valueOf(55), BigDecimal.valueOf(25), LocalDateTime.now()),
                 new ProductVariantEntity(22L, esquitesConQueso, "Extra Grande (14oz)", BigDecimal.valueOf(65), BigDecimal.valueOf(30), LocalDateTime.now()),
                 new ProductVariantEntity(23L, tostiesquites, "Único", BigDecimal.valueOf(55.00), BigDecimal.valueOf(30), LocalDateTime.now()),
-                new ProductVariantEntity(24L, tostiesquites, "Único", BigDecimal.valueOf(25.00), BigDecimal.valueOf(17), LocalDateTime.now()),
-                new ProductVariantEntity(25L, tostiesquites, "Único", BigDecimal.valueOf(25.00), BigDecimal.valueOf(17), LocalDateTime.now())
+                new ProductVariantEntity(24L, tostiQueso, "Único", BigDecimal.valueOf(25.00), BigDecimal.valueOf(17), LocalDateTime.now()),
+                new ProductVariantEntity(25L, doriQueso, "Único", BigDecimal.valueOf(25.00), BigDecimal.valueOf(17), LocalDateTime.now())
 
         );
 

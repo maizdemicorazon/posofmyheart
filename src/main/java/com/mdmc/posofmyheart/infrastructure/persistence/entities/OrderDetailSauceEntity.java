@@ -29,11 +29,11 @@ public class OrderDetailSauceEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("idSauce")
     @JoinColumn(name = "id_sauce")
-    private SauceEntity sauce;
+    private ProductSauceEntity productSauce;
 
-    public OrderDetailSauceEntity(OrderDetailEntity orderDetail, SauceEntity sauce) {
-        this.id = new OrderDetailSauceKey(orderDetail.getIdOrderDetail(), sauce.getIdSauce());
+    public OrderDetailSauceEntity(OrderDetailEntity orderDetail, ProductSauceEntity productSauce) {
+        this.id = new OrderDetailSauceKey(orderDetail.getIdOrderDetail(), productSauce.getIdSauce());
         this.orderDetail = orderDetail;
-        this.sauce = sauce;
+        this.productSauce = productSauce;
     }
 }

@@ -27,10 +27,10 @@ public interface OrderMapper {
 
     @Mapping(target = "idExtra", source = "productExtra.idExtra")
     @Mapping(target = "quantity", source = "quantity")
-    OrderResponse.OrderExtrasResponse toExtrasResponse(OrderExtrasDetailEntity entity);
+    OrderResponse.OrderExtrasResponse toExtrasResponse(OrderExtraDetailEntity entity);
 
-    @Mapping(target = "idSauce", source = "sauce.idSauce")
-    @Mapping(target = "name", source = "sauce.name")
+    @Mapping(target = "idSauce", source = "productSauce.idSauce")
+    @Mapping(target = "name", source = "productSauce.name")
     OrderResponse.OrderDetailSauceResponse toDetailSauceResponse(OrderDetailSauceEntity entity);
 
     @Mapping(target = "name", source = "flavor.name")

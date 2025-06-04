@@ -7,7 +7,7 @@ import com.mdmc.posofmyheart.application.dtos.OrderUpdateRequest;
 import com.mdmc.posofmyheart.application.dtos.UpdateOrderData;
 import com.mdmc.posofmyheart.application.mappers.OrderMapper;
 import com.mdmc.posofmyheart.application.services.OrderService;
-import com.mdmc.posofmyheart.domain.dtos.CreateOrderResponse;
+import com.mdmc.posofmyheart.domain.dtos.CreateOrderResponseDto;
 import com.mdmc.posofmyheart.domain.patterns.strategies.impl.CreateOrderStrategy;
 import com.mdmc.posofmyheart.domain.patterns.strategies.impl.UpdateOrderStrategy;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderEntity;
@@ -55,13 +55,13 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public CreateOrderResponse createOrder(OrderRequest request) {
+    public CreateOrderResponseDto createOrder(OrderRequest request) {
         return createOrderStrategy.execute(request);
     }
 
     @Override
     @Transactional
-    public List<CreateOrderResponse> createOrders(List<OrderRequest> requests) {
+    public List<CreateOrderResponseDto> createOrders(List<OrderRequest> requests) {
         return requests.stream()
                 .map(createOrderStrategy::execute)
                 .toList();
@@ -82,4 +82,5 @@ public class OrderServiceImpl implements OrderService {
 
         orderRepository.delete(order);
     }
+
 }

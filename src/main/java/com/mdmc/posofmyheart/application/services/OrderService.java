@@ -3,7 +3,7 @@ package com.mdmc.posofmyheart.application.services;
 import com.mdmc.posofmyheart.application.dtos.OrderRequest;
 import com.mdmc.posofmyheart.application.dtos.OrderResponse;
 import com.mdmc.posofmyheart.application.dtos.OrderUpdateRequest;
-import com.mdmc.posofmyheart.domain.dtos.CreateOrderResponse;
+import com.mdmc.posofmyheart.domain.dtos.CreateOrderResponseDto;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -15,8 +15,8 @@ public interface OrderService {
 
     OrderResponse findOrderById(Long orderId);
 
-    CreateOrderResponse createOrder(OrderRequest request);
-    List<CreateOrderResponse> createOrders(List<OrderRequest> requests);
+    CreateOrderResponseDto createOrder(OrderRequest request);
+    List<CreateOrderResponseDto> createOrders(List<OrderRequest> requests);
 
     /**
      * <bold>Notas importantes:</bold>
@@ -34,4 +34,5 @@ public interface OrderService {
     OrderResponse updateOrder(Long idOrder, OrderUpdateRequest updateRequest);
 
     void deleteOrder(Long idOrder);
+
 }

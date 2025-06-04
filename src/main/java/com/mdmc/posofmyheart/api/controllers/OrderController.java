@@ -4,7 +4,7 @@ import com.mdmc.posofmyheart.application.dtos.OrderRequest;
 import com.mdmc.posofmyheart.application.dtos.OrderResponse;
 import com.mdmc.posofmyheart.application.dtos.OrderUpdateRequest;
 import com.mdmc.posofmyheart.application.services.OrderService;
-import com.mdmc.posofmyheart.domain.dtos.CreateOrderResponse;
+import com.mdmc.posofmyheart.domain.dtos.CreateOrderResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -21,7 +21,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/orders")
-@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 @Log4j2
 public class OrderController {
@@ -87,7 +86,7 @@ public class OrderController {
     )
 
     @PostMapping
-    public ResponseEntity<CreateOrderResponse> createOrder(@Valid @RequestBody OrderRequest orderRequest) {
+    public ResponseEntity<CreateOrderResponseDto> createOrder(@Valid @RequestBody OrderRequest orderRequest) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(
@@ -107,7 +106,7 @@ public class OrderController {
     )
 
     @PostMapping("/batch")
-    public ResponseEntity<List<CreateOrderResponse>> createOrders(
+    public ResponseEntity<List<CreateOrderResponseDto>> createOrders(
             @Valid @RequestBody List<OrderRequest> orderRequests) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)

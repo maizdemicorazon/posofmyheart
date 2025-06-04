@@ -42,7 +42,7 @@ public class OrderDetailEntity {
     private List<OrderDetailSauceEntity> sauceDetails;
 
     @OneToMany(mappedBy = "orderDetail", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderExtrasDetailEntity> extraDetails;
+    private List<OrderExtraDetailEntity> extraDetails;
 
     @Column(name = "sell_price", precision = 10, scale = 2, nullable = false)
     private BigDecimal sellPrice;
@@ -53,12 +53,12 @@ public class OrderDetailEntity {
     @OneToMany(mappedBy = "orderDetail", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderFlavorDetailEntity> flavorDetails;
 
-    public void addExtraDetail(OrderExtrasDetailEntity extraDetail) {
+    public void addExtraDetail(OrderExtraDetailEntity extraDetail) {
         extraDetails.add(extraDetail);
         extraDetail.setOrderDetail(this);
     }
 
-    public void addSauce(SauceEntity sauce) {
+    public void addSauce(ProductSauceEntity sauce) {
         OrderDetailSauceEntity detailSauce = new OrderDetailSauceEntity(this, sauce);
         sauceDetails.add(detailSauce);
     }

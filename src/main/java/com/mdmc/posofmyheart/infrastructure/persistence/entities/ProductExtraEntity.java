@@ -52,6 +52,6 @@ public class ProductExtraEntity {
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "productExtra", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderExtrasDetailEntity> extraDetails = new ArrayList<>();
+    private List<OrderExtraDetailEntity> extraDetails = new ArrayList<>();
 
 }

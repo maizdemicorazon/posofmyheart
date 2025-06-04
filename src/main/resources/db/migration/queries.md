@@ -1,402 +1,366 @@
-# Documentación de consultas de Base de Datos - POS de MyHeart
+# Documentación Actualizada de Consultas SQL - POS de MyHeart
 
-## Obtener menú completo con precios:
-``` sql
-select
-	p.name as product,
-	v.size,
-	v.actual_sell_price as price,
-	pc.name as category
-from
-	products p
-join
-   product_variants v on
-	p.id_product = v.id_product
-join
-   product_categories pc on
-	p.id_category = pc.id_category
-order by
-	pc.name,
-	p.name;
+## 📌 Tabla de Contenidos
+
+- Consultas Básicas del Menú
+- Consultas de Ventas y Análisis Comercial
+- Consultas de Rentabilidad y Margen
+- Consultas de Órdenes y Detalles
+- Consultas de Análisis Temporal
+- Consultas de Productos y Categorías
+
+## 🍽️ Consultas Básicas del Menú
+
+### 1. Menú completo con precios y categorías
+```sql
+SELECT
+    p.name AS producto,
+    v.size AS tamaño,
+    v.actual_sell_price AS precio,
+    pc.name AS categoria,
+    p.description AS descripción
+FROM
+    products p
+JOIN
+    product_variants v ON p.id_product = v.id_product
+JOIN
+    product_categories pc ON p.id_category = pc.id_category
+ORDER BY
+    pc.name,
+    p.name,
+    v.actual_sell_price;
 ```
 
-## Calcular ventas por categoría:
-``` sql
-select
-	pc.name as category,
-	SUM(v.actual_sell_price) as total_sales
-from
-	order_details od
-join
-   products p on
-	od.id_product = p.id_product
-join
-   product_categories pc on
-	p.id_category = pc.id_category
-join
-   product_variants v on
-	od.id_variant = v.id_variant
-group by
-	pc.name;
-```
-## Ventas por día (últimos 7 días)
-``` sql
-select
-	DATE(order_date) as fecha,
-	COUNT(*) as total_ordenes,
-	SUM(total_amount) as venta_total
-from
-	orders
-where
-	order_date >= CURRENT_DATE - interval '7 days'
-group by
-	DATE(order_date)
-order by
-	fecha desc;
-```
-
-## Productos más vendidos (top 10)
-``` sql
-select
-	p.name as producto,
-	count(p.name) as unidades_vendidas,
-	SUM(pv.actual_sell_price) as ingresos
-from
-	order_details od
-join products p on
-	od.id_product = p.id_product
-join product_variants pv on
-	od.id_variant = pv.id_variant
-group by
-	p.name
-order by
-	unidades_vendidas desc
-limit 10;
-```
-## Productos con sus variantes y margen de ganancia
-
-``` sql
-select
-	p.name as producto,
-	v.size as tamaño,
-	v.actual_sell_price as precio_venta,
-	v.actual_cost_price as costo,
-	(v.actual_sell_price - v.actual_cost_price) as ganancia_unitaria,
-	ROUND(((v.actual_sell_price - v.actual_cost_price) / v.actual_cost_price * 100), 2) as margen_porcentaje,
-	pc.name as categoria
-from
-	products p
-join 
-    product_variants v on
-	p.id_product = v.id_product
-join 
-    product_categories pc on
-	p.id_category = pc.id_category
-order by
-	margen_porcentaje desc;
-```
-
-
-## Inventario de productos (con margen de ganancia)
-
-``` sql
-select
-	p.name,
-	v.size,
-	v.actual_cost_price as costo,
-	v.actual_sell_price as precio_venta,
-	ROUND((v.actual_sell_price - v.actual_cost_price) / v.actual_cost_price * 100, 2) as margen_porcentaje
-from
-	product_variants v
-join products p on
-	v.id_product = p.id_product
-order by
-	margen_porcentaje desc;
-```
-## Ticket promedio por método de pago
-``` sql
-select
-	pm.name as metodo_pago,
-	COUNT(*) as transacciones,
-	AVG(o.total_amount) as ticket_promedio
-from
-	orders o
-join payment_methods pm on
-	o.id_payment_method = pm.id_payment_method
-group by
-	pm.name;
-```
-
-## Horas pico de ventas
-``` sql
-select
-	extract(hour from order_date) as hora,
-	COUNT(*) as ordenes
-from
-	orders
-group by
-	extract(hour from order_date)
-order by
-	ordenes desc;
-```
-
-## Buscar productos por categoría con sus variantes
-``` sql
-select
-	p.name as producto,
-	p.description,
-	v.size,
-	v.actual_sell_price as precio
-from
-	products p
-join product_variants v on
-	p.id_product = v.id_product
-where
-	p.id_category = 1
-	-- ID de categoría (Esquites)
-order by
-	p.name,
-	v.actual_sell_price;
-```
-##  Resumen diario (para pantalla principal)
-``` sql
-select
-	COUNT(*) as ordenes_hoy,
-	SUM(total_amount) as venta_hoy,
-	(
-	select
-		SUM(total_amount)
-	from
-		orders
-	where
-		DATE(order_date) = CURRENT_DATE - interval '1 day') as venta_ayer
-from
-	orders
-where
-	DATE(order_date) = CURRENT_DATE;
-```
-
-## Distribución de ventas por categoría (para gráfico)
-``` sql
-select
-	pc.name as categoria,
-	ROUND(SUM(o.total_amount) / (select SUM(total_amount) from orders) * 100, 2) as porcentaje
-from
-	orders o
-join order_details od on
-	o.id_order = od.id_order
-join products p on
-	od.id_product = p.id_product
-join product_categories pc on
-	p.id_category = pc.id_category
-group by
-	pc.name;
-```
-
-## Detalle completo de la orden
-``` sql
-select
-	o.id_order as orden_id,
-	o.order_date as fecha,
-	pm.name as metodo_pago,
-	o.total_amount as total,
-	p.name as producto,
-	pv.size as variante,
-	pv.actual_sell_price as precio_unitario,
-	s.name as salsa,
-	coalesce(ped.quantity, 0) as cantidad_extra,
-	sum(ped.quantity) as cantidad_por_extra,
-	coalesce(pe.price, 0) as precio_extra
-from
-	orders o
-join 
-    payment_methods pm on
-	o.id_payment_method = pm.id_payment_method
-join 
-    order_details od on
-	o.id_order = od.id_order
-join 
-    products p on
-	od.id_product = p.id_product
-join 
-    product_variants pv on
-	od.id_variant = pv.id_variant
-join 
-    sauces s on
-	od.id_sauce = s.id_sauce
-left join 
-    order_extras_detail ped on
-	od.id_order_detail = ped.id_order_detail
-left join 
-    product_extras pe on
-	ped.id_extra = pe.id_extra
-where
-	o.id_order = 2
-	-- reemplaza :ordenid con el id de la orden
-group by
-	o.id_order,
-	o.order_date,
-	pm.name,
-	o.total_amount,
-	p.name,
-	pv.size,
-	pv.actual_sell_price,
-	s.name,
-	ped.quantity,
-	pe.price;
-```
-
-## Ganancias por Pedido (incluyendo extras)
-``` sql
-SELECT 
-    o.id_order,
-    o.order_date,
-    o.total_amount AS total_venta,
-    SUM(od.sell_price - od.production_cost) AS ganancia_items,
-    COALESCE(SUM(ped.quantity * (ped.sell_price - ped.production_cost)), 0) AS ganancia_extras,
-    (SUM(od.sell_price - od.production_cost) + COALESCE(SUM(ped.quantity * (ped.sell_price - ped.production_cost)), 0)) AS ganancia_total
-FROM 
-    orders o
+### 2. Productos por categoría con variantes
+```sql
+SELECT
+    p.name AS producto,
+    p.description,
+    v.size,
+    v.actual_sell_price AS precio,
+    (v.actual_sell_price - v.actual_cost_price) AS ganancia_unitaria
+FROM
+    products p
 JOIN 
-    order_details od ON o.id_order = od.id_order
-LEFT JOIN 
-    product_extras_detail ped ON od.id_order_detail = ped.id_order_detail
-GROUP BY 
-    o.id_order, o.order_date, o.total_amount
-ORDER BY 
-    o.order_date DESC;
+    product_variants v ON p.id_product = v.id_product
+WHERE
+    p.id_category = :categoria_id  -- Parámetro para filtrar por categoría
+ORDER BY
+    p.name,
+    v.actual_sell_price;
 ```
 
-## Ganancias por Período (diario, mensual, anual)
-``` sql
+## 📈 Consultas de Ventas y Análisis Comercial
+
+### 3. Ventas por categoría (con porcentaje)
+```sql
+SELECT
+    pc.name AS categoria,
+    COUNT(od.id_order_detail) AS cantidad_vendida,
+    SUM(v.actual_sell_price) AS total_ventas,
+    ROUND(COUNT(od.id_order_detail) * 100.0 / SUM(COUNT(od.id_order_detail)) OVER (), 2) AS porcentaje
+FROM
+    order_details od
+JOIN
+    products p ON od.id_product = p.id_product
+JOIN
+    product_categories pc ON p.id_category = pc.id_category
+JOIN
+    product_variants v ON od.id_variant = v.id_variant
+GROUP BY
+    pc.name
+ORDER BY
+    total_ventas DESC;
+```
+
+### 4. Productos más vendidos (top 10 con margen)
+```sql
+SELECT
+    p.name AS producto,
+    v.size AS variante,
+    COUNT(*) AS unidades_vendidas,
+    SUM(v.actual_sell_price) AS ingresos,
+    SUM(v.actual_sell_price - v.actual_cost_price) AS ganancia,
+    ROUND(AVG((v.actual_sell_price - v.actual_cost_price) / v.actual_sell_price * 100), 2) AS margen_porcentual
+FROM
+    order_details od
+JOIN 
+    products p ON od.id_product = p.id_product
+JOIN 
+    product_variants v ON od.id_variant = v.id_variant
+GROUP BY
+    p.name, v.size
+ORDER BY
+    unidades_vendidas DESC
+LIMIT 10;
+```
+
+### 5. Ticket promedio por método de pago
+```sql
+SELECT
+    pm.name AS metodo_pago,
+    COUNT(*) AS transacciones,
+    ROUND(AVG(o.total_amount), 2) AS ticket_promedio,
+    SUM(o.total_amount) AS venta_total
+FROM
+    dailyEarnings o
+JOIN 
+    payment_methods pm ON o.id_payment_method = pm.id_payment_method
+WHERE
+    o.order_date >= CURRENT_DATE - INTERVAL '30 days'
+GROUP BY
+    pm.name
+ORDER BY
+    transacciones DESC;
+```
+
+## 💰 Consultas de Rentabilidad y Margen
+
+### 6. Margen de ganancia por producto
+```sql
+SELECT
+    p.name AS producto,
+    v.size AS variante,
+    v.actual_sell_price AS precio_venta,
+    v.actual_cost_price AS costo,
+    (v.actual_sell_price - v.actual_cost_price) AS ganancia_unitaria,
+    ROUND(((v.actual_sell_price - v.actual_cost_price) / v.actual_cost_price * 100), 2) AS margen_porcentaje,
+    pc.name AS categoria
+FROM
+    products p
+JOIN 
+    product_variants v ON p.id_product = v.id_product
+JOIN 
+    product_categories pc ON p.id_category = pc.id_category
+WHERE
+    v.effective_date <= CURRENT_DATE
+ORDER BY
+    margen_porcentaje DESC;
+```
+
+### 7. Ganancias por período (diario, semanal, mensual)
+```sql
 -- Ganancias diarias
-SELECT 
+SELECT
     DATE(o.order_date) AS fecha,
-    SUM(od.sell_price - od.production_cost) AS ganancia_items,
-    COALESCE(SUM(ped.quantity * (ped.sell_price - ped.production_cost)), 0) AS ganancia_extras,
-    (SUM(od.sell_price - od.production_cost) + COALESCE(SUM(ped.quantity * (ped.sell_price - ped.production_cost)), 0)) AS ganancia_total
-FROM 
-    orders o
-JOIN 
+    COUNT(*) AS ordenes,
+    SUM(o.total_amount) AS ventas_totales,
+    SUM(od.sell_price - od.production_cost) AS ganancia_productos,
+    COALESCE(SUM(oed.quantity * (oed.sell_price - oed.production_cost)), 0) AS ganancia_extras,
+    SUM(od.sell_price - od.production_cost) + COALESCE(SUM(oed.quantity * (oed.sell_price - oed.production_cost)), 0) AS ganancia_total
+FROM
+    dailyEarnings o
+JOIN
     order_details od ON o.id_order = od.id_order
-LEFT JOIN 
-    product_extras_detail ped ON od.id_order_detail = ped.id_order_detail
-GROUP BY 
+LEFT JOIN
+    order_extras_detail oed ON od.id_order_detail = oed.id_order_detail
+WHERE
+    o.order_date >= CURRENT_DATE - INTERVAL '30 days'
+GROUP BY
     DATE(o.order_date)
-ORDER BY 
+ORDER BY
     fecha DESC;
 
--- Ganancias mensuales
-SELECT 
-    DATE_TRUNC('month', o.order_date) AS mes,
-    SUM(od.sell_price - od.production_cost) AS ganancia_items,
-    COALESCE(SUM(ped.quantity * (ped.sell_price - ped.production_cost)), 0) AS ganancia_extras,
-    (SUM(od.sell_price - od.production_cost) + COALESCE(SUM(ped.quantity * (ped.sell_price - ped.production_cost)), 0) AS ganancia_total
-FROM 
-    orders o
-JOIN 
+-- Ganancias semanales
+SELECT
+    DATE_TRUNC('week', o.order_date) AS semana,
+    COUNT(*) AS ordenes,
+    SUM(o.total_amount) AS ventas_totales,
+    SUM(od.sell_price - od.production_cost) AS ganancia_productos,
+    COALESCE(SUM(oed.quantity * (oed.sell_price - oed.production_cost)), 0) AS ganancia_extras
+FROM
+    dailyEarnings o
+JOIN
     order_details od ON o.id_order = od.id_order
-LEFT JOIN 
-    product_extras_detail ped ON od.id_order_detail = ped.id_order_detail
-GROUP BY 
-    DATE_TRUNC('month', o.order_date)
-ORDER BY 
-    mes DESC;
+LEFT JOIN
+    order_extras_detail oed ON od.id_order_detail = oed.id_order_detail
+GROUP BY
+    DATE_TRUNC('week', o.order_date)
+ORDER BY
+    semana DESC;
 ```
 
-## Ganancias por Producto
-``` sql
-SELECT 
-    p.id_product,
+## 🕒 Consultas de Análisis Temporal
+
+### 8. Ventas por hora (horas pico)
+```sql
+SELECT
+    EXTRACT(HOUR FROM o.order_date) AS hora,
+    COUNT(*) AS ordenes,
+    SUM(o.total_amount) AS ventas_totales,
+    ROUND(AVG(o.total_amount), 2) AS ticket_promedio
+FROM
+    dailyEarnings o
+WHERE
+    o.order_date >= CURRENT_DATE - INTERVAL '30 days'
+GROUP BY
+    EXTRACT(HOUR FROM o.order_date)
+ORDER BY
+    ordenes DESC;
+```
+
+### 9. Comparativo ventas día actual vs día anterior
+```sql
+SELECT
+    'Hoy' AS periodo,
+    COUNT(*) AS ordenes,
+    SUM(total_amount) AS ventas_totales
+FROM
+    dailyEarnings
+WHERE
+    DATE(order_date) = CURRENT_DATE
+UNION ALL
+SELECT
+    'Ayer' AS periodo,
+    COUNT(*) AS ordenes,
+    SUM(total_amount) AS ventas_totales
+FROM
+    dailyEarnings
+WHERE
+    DATE(order_date) = CURRENT_DATE - INTERVAL '1 day'
+UNION ALL
+SELECT
+    'Misma día semana pasada' AS periodo,
+    COUNT(*) AS ordenes,
+    SUM(total_amount) AS ventas_totales
+FROM
+    dailyEarnings
+WHERE
+    DATE(order_date) = CURRENT_DATE - INTERVAL '7 days';
+```
+
+## 🛒 Consultas de Órdenes y Detalles
+
+### 10. Detalle completo de una orden
+```sql
+SELECT
+    o.id_order,
+    o.order_date,
+    pm.name AS metodo_pago,
+    o.total_amount,
+    o.client_name,
     p.name AS producto,
     pv.size AS variante,
-    COUNT(od.id_order_detail) AS cantidad_vendida,
-    ROUND(SUM(od.sell_price - od.production_cost), 2) AS ganancia_producto,
-    ROUND(COALESCE(SUM(oed.quantity * (oed.sell_price - oed.production_cost)), 0), 2) AS ganancia_extras,
-    ROUND((SUM(od.sell_price - od.production_cost) + COALESCE(SUM(oed.quantity * (oed.sell_price - oed.production_cost)), 0)), 2) AS ganancia_total
-FROM 
-    order_details od
+    od.sell_price AS precio_unitario,
+    (SELECT STRING_AGG(ps.name, ', ') 
+     FROM order_detail_sauce ods 
+     JOIN product_sauces ps ON ods.id_sauce = ps.id_sauce
+     WHERE ods.id_order_detail = od.id_order_detail) AS salsas,
+    (SELECT STRING_AGG(CONCAT(pe.name, ' (x', oed.quantity, ')'), ', ') 
+     FROM order_extras_detail oed 
+     JOIN product_extras pe ON oed.id_extra = pe.id_extra
+     WHERE oed.id_order_detail = od.id_order_detail) AS extras,
+    (od.sell_price - od.production_cost) AS ganancia_item
+FROM
+    dailyEarnings o
+JOIN 
+    payment_methods pm ON o.id_payment_method = pm.id_payment_method
+JOIN 
+    order_details od ON o.id_order = od.id_order
 JOIN 
     products p ON od.id_product = p.id_product
 JOIN 
     product_variants pv ON od.id_variant = pv.id_variant
+WHERE
+    o.id_order = :orden_id  -- Parámetro para filtrar por orden
+ORDER BY
+    p.name;
+```
+
+### 11. Ganancias por pedido (incluyendo extras)
+```sql
+SELECT 
+    o.id_order,
+    o.order_date,
+    o.total_amount AS total_venta,
+    SUM(od.sell_price) AS subtotal_productos,
+    SUM(od.production_cost) AS costo_productos,
+    SUM(od.sell_price - od.production_cost) AS ganancia_productos,
+    COALESCE(SUM(oed.quantity * oed.sell_price), 0) AS subtotal_extras,
+    COALESCE(SUM(oed.quantity * oed.production_cost), 0) AS costo_extras,
+    COALESCE(SUM(oed.quantity * (oed.sell_price - oed.production_cost)), 0) AS ganancia_extras,
+    (SUM(od.sell_price - od.production_cost) + 
+     COALESCE(SUM(oed.quantity * (oed.sell_price - oed.production_cost)), 0)) AS ganancia_total,
+    ROUND((SUM(od.sell_price - od.production_cost) + 
+          COALESCE(SUM(oed.quantity * (oed.sell_price - oed.production_cost)), 0)) / 
+          o.total_amount * 100, 2) AS margen_porcentual
+FROM 
+    dailyEarnings o
+JOIN 
+    order_details od ON o.id_order = od.id_order
 LEFT JOIN 
     order_extras_detail oed ON od.id_order_detail = oed.id_order_detail
 GROUP BY 
-    p.id_product, p.name, pv.size
+    o.id_order, o.order_date, o.total_amount
 ORDER BY 
-    ganancia_total DESC;
+    o.order_date DESC
+LIMIT 50;
 ```
 
-## Ganancias por Categoría de Producto
-``` sql
-SELECT 
-    pc.id_category,
-    pc.name AS categoria,
-    COUNT(od.id_order_detail) AS cantidad_vendida,
-    ROUND(SUM(od.sell_price - od.production_cost), 2) AS ganancia_items,
-    ROUND(COALESCE(SUM(oed.quantity * (oed.sell_price - oed.production_cost)), 0), 2) AS ganancia_extras,
-    ROUND((SUM(od.sell_price - od.production_cost) + COALESCE(SUM(oed.quantity * (oed.sell_price - oed.production_cost)), 0)), 2) AS ganancia_total
-FROM 
-    order_details od
-JOIN 
-    products p ON od.id_product = p.id_product
-JOIN 
-    product_categories pc ON p.id_category = pc.id_category
-LEFT JOIN 
-    order_extras_detail oed ON od.id_order_detail = oed.id_order_detail
-GROUP BY 
-    pc.id_category, pc.name
-ORDER BY 
-    ganancia_total DESC;
-```
+## 📊 Consultas de Análisis de Productos
 
-## Margen de Ganancia Promedio
-``` sql
-SELECT 
-    ROUND(AVG(CASE WHEN od.sell_price > 0 THEN (od.sell_price - od.production_cost) / od.sell_price * 100 END), 2) AS margen_promedio_productos,
-    ROUND(AVG(CASE WHEN oed.sell_price > 0 THEN (oed.sell_price - oed.production_cost) / oed.sell_price * 100 END), 2) AS margen_promedio_extras
-FROM 
-    order_details od
-LEFT JOIN 
-    order_extras_detail oed ON od.id_order_detail = oed.id_order_detail
-WHERE 
-    od.sell_price IS 
-```
-
-## Consulta para Análisis por Producto
-``` sql
+### 12. Análisis completo por producto
+```sql
 SELECT
-p.id_product,
-p.name AS producto,
-pv.size AS variante,
-COUNT(od.id_order_detail) AS veces_vendido,
-SUM(od.sell_price) AS total_ventas_producto,
-SUM(od.production_cost) AS total_costo_producto,
-SUM(od.sell_price - od.production_cost) AS ganancia_producto,
-
-    -- Extras asociados a este producto
-    COUNT(DISTINCT oed.id_extra) AS extras_diferentes_vendidos,
+    p.id_product,
+    p.name AS producto,
+    pv.size AS variante,
+    pc.name AS categoria,
+    COUNT(od.id_order_detail) AS veces_vendido,
+    SUM(od.sell_price) AS ventas_producto,
+    SUM(od.production_cost) AS costo_producto,
+    SUM(od.sell_price - od.production_cost) AS ganancia_producto,
+    COUNT(DISTINCT oed.id_extra) AS extras_diferentes,
     COALESCE(SUM(oed.quantity), 0) AS cantidad_extras,
     COALESCE(SUM(oed.quantity * oed.sell_price), 0) AS ventas_extras,
     COALESCE(SUM(oed.quantity * oed.production_cost), 0) AS costo_extras,
     COALESCE(SUM(oed.quantity * (oed.sell_price - oed.production_cost)), 0) AS ganancia_extras,
-    
-    -- Total general
     (SUM(od.sell_price) + COALESCE(SUM(oed.quantity * oed.sell_price), 0)) AS ventas_totales,
     (SUM(od.production_cost) + COALESCE(SUM(oed.quantity * oed.production_cost), 0)) AS costos_totales,
     (SUM(od.sell_price - od.production_cost) + 
-     COALESCE(SUM(oed.quantity * (oed.sell_price - oed.production_cost)), 0)) AS ganancia_total
+     COALESCE(SUM(oed.quantity * (oed.sell_price - oed.production_cost)), 0)) AS ganancia_total,
+    ROUND((SUM(od.sell_price - od.production_cost) + 
+          COALESCE(SUM(oed.quantity * (oed.sell_price - oed.production_cost)), 0)) / 
+          NULLIF((SUM(od.sell_price) + COALESCE(SUM(oed.quantity * oed.sell_price), 0)), 0) * 100, 2) AS margen_porcentual
 FROM
-order_details od
+    products p
 JOIN
-products p ON od.id_product = p.id_product
+    product_variants pv ON p.id_product = pv.id_product
 JOIN
-product_variants pv ON od.id_variant = pv.id_variant
+    product_categories pc ON p.id_category = pc.id_category
 LEFT JOIN
-order_extras_detail oed ON od.id_order_detail = oed.id_order_detail
+    order_details od ON p.id_product = od.id_product AND pv.id_variant = od.id_variant
+LEFT JOIN
+    order_extras_detail oed ON od.id_order_detail = oed.id_order_detail
 GROUP BY
-p.id_product, p.name, pv.size
+    p.id_product, p.name, pv.size, pc.name
 ORDER BY
-ganancia_total DESC;
+    ganancia_total DESC;
+
+```
+
+### 13. Productos con bajo rendimiento
+```sql
+SELECT
+    p.name AS producto,
+    pv.size AS variante,
+    COUNT(od.id_order_detail) AS veces_vendido,
+    SUM(od.sell_price - od.production_cost) AS ganancia_total,
+    ROUND(AVG((od.sell_price - od.production_cost) / od.sell_price * 100), 2) AS margen_porcentual
+FROM
+    products p
+JOIN
+    product_variants pv ON p.id_product = pv.id_product
+LEFT JOIN
+    order_details od ON p.id_product = od.id_product AND pv.id_variant = od.id_variant
+WHERE
+    od.order_date >= CURRENT_DATE - INTERVAL '3 months' OR
+    od.id_order_detail IS NULL
+GROUP BY
+    p.name, pv.size
+HAVING
+    COUNT(od.id_order_detail) < 5 OR
+    COUNT(od.id_order_detail) IS NULL
+ORDER BY
+    veces_vendido ASC;
 ```

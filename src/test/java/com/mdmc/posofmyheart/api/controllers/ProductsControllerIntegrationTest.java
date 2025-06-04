@@ -50,12 +50,12 @@ class ProductControllerIntegrationTest {
         Product product = new Product(1L, 1L, "Pizza Margarita", "pizza.jpg",
                 List.of(variant), List.of(flavor));
         ProductExtra extra = new ProductExtra(1L, "Queso extra", new BigDecimal("2.99"));
-        Sauce sauce = new Sauce(1L, "Barbacoa");
+        ProductSauce productSauce = new ProductSauce(1L, "Barbacoa");
 
         ProductsWithExtrasDto expectedDto = new ProductsWithExtrasDto(
                 List.of(product),
                 List.of(extra),
-                List.of(sauce)
+                List.of(productSauce)
         );
 
         when(productService.getMenuProducts()).thenReturn(expectedDto);

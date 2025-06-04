@@ -5,8 +5,6 @@ import lombok.*;
 
 import java.math.BigDecimal;
 
-import java.math.BigDecimal;
-
 @Entity
 @Table(name = "order_extras_detail", indexes = {
         @Index(name = "idx_extra_detail_composite", columnList = "id_order_detail,id_extra", unique = true),
@@ -21,7 +19,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OrderExtrasDetailEntity {
+public class OrderExtraDetailEntity {
     @EmbeddedId
     private OrderExtraDetailKey id;
 
