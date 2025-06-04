@@ -51,11 +51,13 @@ class ProductControllerIntegrationTest {
                 List.of(variant), List.of(flavor));
         ProductExtra extra = new ProductExtra(1L, "Queso extra", new BigDecimal("2.99"));
         ProductSauce productSauce = new ProductSauce(1L, "Barbacoa");
+        PaymentMethod paymentMethod = new PaymentMethod(1L, "Efectivo");
 
         ProductsWithExtrasDto expectedDto = new ProductsWithExtrasDto(
                 List.of(product),
                 List.of(extra),
-                List.of(productSauce)
+                List.of(productSauce),
+                List.of(paymentMethod)
         );
 
         when(productService.getMenuProducts()).thenReturn(expectedDto);
@@ -66,7 +68,8 @@ class ProductControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.products[0].idProduct").value(1L))
                 .andExpect(jsonPath("$.extras[0].idExtra").value(1L))
-                .andExpect(jsonPath("$.sauces[0].idSauce").value(1L));
+                .andExpect(jsonPath("$.sauces[0].idSauce").value(1L))
+                .andExpect(jsonPath("$.paymentMethods[0].idPayment").value(1L));
 
         verify(productService, times(1)).getMenuProducts();
     }
