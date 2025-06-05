@@ -241,7 +241,7 @@ public class OrderCalculationServiceImpl implements OrderCalculationService {
 
     public BigDecimal calculateNetProfitAmount(BigDecimal totalProfit, BigDecimal profit) {
         BigDecimal percentageToUse = Optional.ofNullable(profit)
-                .orElse(reinvestmentPercentage);
+                .orElse(profitPercentage);
 
         BigDecimal multiplicand = percentageToUse
                 .divide(new BigDecimal(DIVIDEND), 2, RoundingMode.HALF_UP);
