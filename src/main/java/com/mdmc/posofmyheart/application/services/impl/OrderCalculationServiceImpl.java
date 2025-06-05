@@ -228,20 +228,16 @@ public class OrderCalculationServiceImpl implements OrderCalculationService {
     }
 
     public BigDecimal calculateReinvestmentAmount(BigDecimal totalProfit, BigDecimal invest) {
-
-        BigDecimal percentageToUse = Optional.ofNullable(invest)
-                .orElse(reinvestmentPercentage);
-
-        BigDecimal multiplicand = percentageToUse
-                .divide(new BigDecimal(DIVIDEND), 2, RoundingMode.HALF_UP);
-
-        return totalProfit.multiply(multiplicand)
-                .setScale(2, RoundingMode.HALF_UP);
+        return getMultiplicand(totalProfit, invest, reinvestmentPercentage);
     }
 
     public BigDecimal calculateNetProfitAmount(BigDecimal totalProfit, BigDecimal profit) {
-        BigDecimal percentageToUse = Optional.ofNullable(profit)
-                .orElse(profitPercentage);
+        return getMultiplicand(totalProfit, profit, profitPercentage);
+    }
+
+    private BigDecimal getMultiplicand(BigDecimal totalProfit, BigDecimal invest, BigDecimal percentage) {
+        BigDecimal percentageToUse = Optional.ofNullable(invest)
+                .orElse(percentage);
 
         BigDecimal multiplicand = percentageToUse
                 .divide(new BigDecimal(DIVIDEND), 2, RoundingMode.HALF_UP);
@@ -249,4 +245,5 @@ public class OrderCalculationServiceImpl implements OrderCalculationService {
         return totalProfit.multiply(multiplicand)
                 .setScale(2, RoundingMode.HALF_UP);
     }
+
 }
