@@ -5,7 +5,6 @@ import com.mdmc.posofmyheart.domain.dtos.ResultCommission;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderEntity;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
 
 public interface OrderCalculationService {
@@ -73,7 +72,7 @@ public interface OrderCalculationService {
      * @param orders Lista de órdenes
      * @return objeto FinancialResult con netProfit, mandatoryReinvestment y finalProfit
      */
-    public DailyEarnings.EarningsSummary calculateFinalProfit(
+    DailyEarnings.EarningsSummary calculateFinalProfit(
             List<OrderEntity> orders,
             BigDecimal profit
     );
@@ -81,11 +80,11 @@ public interface OrderCalculationService {
     /**
      * Calcula el monto obligatorio a reinvertir (60% del beneficio total)
      */
-    public BigDecimal calculateReinvestmentAmount(BigDecimal totalProfit, BigDecimal invest);
+    BigDecimal calculateReinvestmentAmount(BigDecimal totalProfit, BigDecimal invest);
 
     /**
      * Calcula la ganancia neta disponible (40% del beneficio total)
      */
-    public BigDecimal calculateNetProfitAmount(BigDecimal totalProfit, BigDecimal profit);
+    BigDecimal calculateNetProfitAmount(BigDecimal totalProfit, BigDecimal profit);
 
 }

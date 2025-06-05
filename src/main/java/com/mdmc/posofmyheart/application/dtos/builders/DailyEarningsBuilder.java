@@ -4,7 +4,6 @@ import com.mdmc.posofmyheart.application.dtos.DailyEarnings;
 import com.mdmc.posofmyheart.application.services.OrderCalculationService;
 import com.mdmc.posofmyheart.domain.dtos.ResultCommission;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderEntity;
-import lombok.Builder;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
