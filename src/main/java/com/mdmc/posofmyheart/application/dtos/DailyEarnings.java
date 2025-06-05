@@ -5,14 +5,14 @@ import lombok.Builder;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Builder
+@Builder(setterPrefix = "with")
 public record DailyEarnings(
         //fecha de consulta
         LocalDate date,
         //numero de ordenes
         int countOrders,
         //venta bruta
-        BigDecimal bruteSell,
+        BigDecimal grossSells,
         //ganancia de productos neta
         BigDecimal netProfitProduct,
         //ganancia de extras neta
@@ -20,9 +20,10 @@ public record DailyEarnings(
         //commission
         Commission commission,
         //ganancia real
-        BigDecimal realProfit
+        BigDecimal grossProfit,
+        EarningsSummary earningsSummary
 ) {
-    @Builder
+    @Builder(setterPrefix = "with")
     public record Commission(
             //pagos con tarjeta
             int countCardPays,
@@ -31,6 +32,12 @@ public record DailyEarnings(
             //venta en terminal
             BigDecimal sellTerminal
     ) {
+    }
 
+    @Builder(setterPrefix = "with")
+    public record EarningsSummary (
+            BigDecimal reinvestment,
+            BigDecimal netProfit
+    ) {
     }
 }

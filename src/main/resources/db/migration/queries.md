@@ -55,22 +55,28 @@ ORDER BY
 ### 3. Ventas por categoría (con porcentaje)
 ```sql
 SELECT
-    pc.name AS categoria,
-    COUNT(od.id_order_detail) AS cantidad_vendida,
-    SUM(v.actual_sell_price) AS total_ventas,
-    ROUND(COUNT(od.id_order_detail) * 100.0 / SUM(COUNT(od.id_order_detail)) OVER (), 2) AS porcentaje
+    p.name AS producto,
+    pv.size AS variante,
+    COUNT(od.id_order_detail) AS veces_vendido,
+    SUM(od.sell_price - od.production_cost) AS ganancia_total,
+    ROUND(AVG((od.sell_price - od.production_cost) / od.sell_price * 100), 2) AS margen_porcentual
 FROM
-    order_details od
+    products p
 JOIN
-    products p ON od.id_product = p.id_product
-JOIN
-    product_categories pc ON p.id_category = pc.id_category
-JOIN
-    product_variants v ON od.id_variant = v.id_variant
+    product_variants pv ON p.id_product = pv.id_product
+LEFT JOIN
+    order_details od ON p.id_product = od.id_product AND pv.id_variant = od.id_variant
+left join orders o on o.id_order = od.id_order
+WHERE
+    o.order_date >= CURRENT_DATE - INTERVAL '3 months' OR
+    od.id_order_detail IS NULL
 GROUP BY
-    pc.name
+    p.name, pv.size
+HAVING
+    COUNT(od.id_order_detail) < 5 OR
+    COUNT(od.id_order_detail) IS NULL
 ORDER BY
-    total_ventas DESC;
+    veces_vendido ASC;
 ```
 
 ### 4. Productos más vendidos (top 10 con margen)

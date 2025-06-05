@@ -1,5 +1,6 @@
 package com.mdmc.posofmyheart.application.services.impl;
 
+import com.mdmc.posofmyheart.application.dtos.DailyEarnings;
 import com.mdmc.posofmyheart.application.services.OrderCalculationService;
 import com.mdmc.posofmyheart.domain.dtos.ResultCommission;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderDetailEntity;
@@ -18,11 +19,16 @@ import java.util.Optional;
 @Service
 public class OrderCalculationServiceImpl implements OrderCalculationService {
 
-    // ===== CONSTANTES =====
-    @Value( "${terminal.commission}")
+    public static final String DIVIDEND = "100";
+    // ===== Properties =====
+    @Value("${terminal.commission}")
     private BigDecimal terminalCommission;
-    @Value( "${card.method.id}")
+    @Value("${card.method.id}")
     private Long cardPaymentId;
+    @Value("${daily.earnings.summary.invest}")
+    private BigDecimal reinvestmentPercentage;
+    @Value("${daily.earnings.summary.profit}")
+    private BigDecimal profitPercentage;
 
     // ===== MÉTODOS PARA ORDEN INDIVIDUAL =====
 
@@ -206,5 +212,41 @@ public class OrderCalculationServiceImpl implements OrderCalculationService {
         BigDecimal gananciaDeProductosNeta = calculateNetProductProfit(orders);
         BigDecimal gananciaExtrasNeta = calculateNetExtrasProfit(orders);
         return gananciaDeProductosNeta.add(gananciaExtrasNeta);
+    }
+
+// ===== MÉTODOS PARA CÁLCULO DE GANANCIAS FINALES =====
+
+    public DailyEarnings.EarningsSummary calculateFinalProfit(List<OrderEntity> orders, BigDecimal profit) {
+        BigDecimal totalProfit = calculateTotalRealProfit(orders);
+        BigDecimal fullPercentage = new BigDecimal(DIVIDEND);
+        BigDecimal invest = fullPercentage.subtract(Optional.ofNullable(profit).orElse(BigDecimal.ZERO));
+
+        return DailyEarnings.EarningsSummary.builder()
+                .withReinvestment(calculateReinvestmentAmount(totalProfit, (invest)))
+                .withNetProfit(calculateNetProfitAmount(totalProfit, profit))
+                .build();
+    }
+
+    public BigDecimal calculateReinvestmentAmount(BigDecimal totalProfit, BigDecimal invest) {
+
+        BigDecimal percentageToUse = Optional.ofNullable(invest)
+                .orElse(reinvestmentPercentage);
+
+        BigDecimal multiplicand = percentageToUse
+                .divide(new BigDecimal(DIVIDEND), 2, RoundingMode.HALF_UP);
+
+        return totalProfit.multiply(multiplicand)
+                .setScale(2, RoundingMode.HALF_UP);
+    }
+
+    public BigDecimal calculateNetProfitAmount(BigDecimal totalProfit, BigDecimal profit) {
+        BigDecimal percentageToUse = Optional.ofNullable(profit)
+                .orElse(reinvestmentPercentage);
+
+        BigDecimal multiplicand = percentageToUse
+                .divide(new BigDecimal(DIVIDEND), 2, RoundingMode.HALF_UP);
+
+        return totalProfit.multiply(multiplicand)
+                .setScale(2, RoundingMode.HALF_UP);
     }
 }

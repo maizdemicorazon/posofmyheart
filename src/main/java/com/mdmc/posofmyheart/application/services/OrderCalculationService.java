@@ -1,9 +1,11 @@
 package com.mdmc.posofmyheart.application.services;
 
+import com.mdmc.posofmyheart.application.dtos.DailyEarnings;
 import com.mdmc.posofmyheart.domain.dtos.ResultCommission;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderEntity;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 public interface OrderCalculationService {
@@ -51,6 +53,7 @@ public interface OrderCalculationService {
 
     /**
      * Calcula el resultado de comisiones para pagos con tarjeta
+     *
      * @param orders Lista de órdenes a procesar
      * @return ResultCommission con conteo de pagos, descuento total y ventas netas
      */
@@ -58,8 +61,31 @@ public interface OrderCalculationService {
 
     /**
      * Calcula la ganancia real total combinando productos y extras
+     *
      * @param orders Lista de órdenes a procesar
      * @return BigDecimal con la ganancia real (productos + extras)
      */
     BigDecimal calculateTotalRealProfit(List<OrderEntity> orders);
+
+    /**
+     * Calcula la ganancia final después de reinversión obligatoria
+     *
+     * @param orders Lista de órdenes
+     * @return objeto FinancialResult con netProfit, mandatoryReinvestment y finalProfit
+     */
+    public DailyEarnings.EarningsSummary calculateFinalProfit(
+            List<OrderEntity> orders,
+            BigDecimal profit
+    );
+
+    /**
+     * Calcula el monto obligatorio a reinvertir (60% del beneficio total)
+     */
+    public BigDecimal calculateReinvestmentAmount(BigDecimal totalProfit, BigDecimal invest);
+
+    /**
+     * Calcula la ganancia neta disponible (40% del beneficio total)
+     */
+    public BigDecimal calculateNetProfitAmount(BigDecimal totalProfit, BigDecimal profit);
+
 }

@@ -2,10 +2,10 @@ package com.mdmc.posofmyheart.application.services.impl;
 
 import com.mdmc.posofmyheart.application.dtos.DailyEarnings;
 import com.mdmc.posofmyheart.application.dtos.DailyEarningsResponse;
+import com.mdmc.posofmyheart.application.dtos.builders.DailyEarningsBuilder;
 import com.mdmc.posofmyheart.application.mappers.DailyEarningsResponseMapper;
 import com.mdmc.posofmyheart.application.services.MetricsService;
 import com.mdmc.posofmyheart.application.services.OrderCalculationService;
-import com.mdmc.posofmyheart.domain.dtos.ResultCommission;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.OrderRepository;
 import lombok.AllArgsConstructor;
@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class MetricsServiceImpl implements MetricsService {
 
+    public static final int DEFAULT_BACK_DAYS = 0;
     private final OrderRepository orderRepository;
     private final OrderCalculationService orderCalculationService;
 
@@ -35,7 +36,40 @@ public class MetricsServiceImpl implements MetricsService {
         List<DailyEarnings> dailyEarnings = groupOrdersByDate(orders)
                 .entrySet()
                 .stream()
-                .map(this::createDailyEarnings)
+                .map(entry -> DailyEarningsBuilder.fromEntry(entry, orderCalculationService))
+                .sorted(Comparator.comparing(DailyEarnings::date).reversed())
+                .toList();
+
+        return DailyEarningsResponseMapper.INSTANCE.toResponse(dailyEarnings);
+    }
+
+    @Override
+    public DailyEarningsResponse getTodayDailyEarnings() {
+        LocalDateTime startDate = LocalDateTime.of(LocalDate.now().minusDays(DEFAULT_BACK_DAYS), LocalTime.MIN);
+        List<OrderEntity> orders = orderRepository.findByDateRange(startDate, LocalDateTime.now());
+
+        List<DailyEarnings> dailyEarnings = groupOrdersByDate(orders)
+                .entrySet()
+                .stream()
+                .map(entry -> DailyEarningsBuilder.fromEntry(entry, orderCalculationService))
+                .sorted(Comparator.comparing(DailyEarnings::date).reversed())
+                .toList();
+
+        return DailyEarningsResponseMapper.INSTANCE.toResponse(dailyEarnings);
+    }
+
+    @Override
+    public DailyEarningsResponse getTodayDailyEarningsWithPercentage(BigDecimal profit) {
+        LocalDateTime startDate = LocalDateTime.of(LocalDate.now().minusDays(DEFAULT_BACK_DAYS), LocalTime.MIN);
+        List<OrderEntity> orders = orderRepository.findByDateRange(startDate, LocalDateTime.now());
+
+        List<DailyEarnings> dailyEarnings = groupOrdersByDate(orders)
+                .entrySet()
+                .stream()
+                .map(entry -> DailyEarningsBuilder
+                        .fromEntry(
+                                entry, orderCalculationService, profit)
+                )
                 .sorted(Comparator.comparing(DailyEarnings::date).reversed())
                 .toList();
 
@@ -47,30 +81,6 @@ public class MetricsServiceImpl implements MetricsService {
                 .collect(Collectors.groupingBy(
                         order -> order.getOrderDate().toLocalDate()
                 ));
-    }
-
-    private DailyEarnings createDailyEarnings(Map.Entry<LocalDate, List<OrderEntity>> entry) {
-        BigDecimal ventaBruta = orderCalculationService.calculateTotalAmount(entry.getValue());
-        BigDecimal gananciaDeProductosNeta = orderCalculationService.calculateNetProductProfit(entry.getValue());
-        BigDecimal gananciaExtrasNeta = orderCalculationService.calculateNetExtrasProfit(entry.getValue());
-        BigDecimal gananciaReal = orderCalculationService.calculateTotalRealProfit(entry.getValue());
-        ResultCommission resultCommission = orderCalculationService.calculateCommissionResult(entry.getValue());
-
-        return DailyEarnings
-                .builder()
-                .date(entry.getKey())
-                .countOrders(entry.getValue().size())
-                .bruteSell(ventaBruta)
-                .netProfitProduct(gananciaDeProductosNeta)
-                .netProfitExtra(gananciaExtrasNeta)
-                .commission(DailyEarnings.Commission
-                        .builder()
-                        .countCardPays(resultCommission.countCardPays())
-                        .terminalDiscount(resultCommission.terminalDiscount())
-                        .sellTerminal(resultCommission.sellTerminal())
-                        .build())
-                .realProfit(gananciaReal)
-                .build();
     }
 
 }
