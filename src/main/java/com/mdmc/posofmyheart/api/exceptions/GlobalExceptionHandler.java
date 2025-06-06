@@ -18,12 +18,6 @@ public class GlobalExceptionHandler {
     public static final String PETITION_ERROR_LOG = "Error en la petición {}: {}";
     public static final String VALIDATION_ERROR = "VALIDATION_ERROR";
 
-    // Método para extraer el 'reason' de @ResponseStatus o usar getMessage()
-    private String getReasonFromException(RuntimeException ex) {
-        ResponseStatus responseStatus = AnnotationUtils.findAnnotation(ex.getClass(), ResponseStatus.class);
-        return (responseStatus != null) ? responseStatus.reason() : ex.getMessage();
-    }
-
     // Manejador para errores no controlados
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneralException(Exception ex, WebRequest request) {
@@ -131,7 +125,13 @@ public class GlobalExceptionHandler {
     // Método helper para respuestas 404 estandarizadas
     private ResponseEntity<ErrorResponse> buildNotFoundResponse(RuntimeException ex, WebRequest request) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(new ErrorResponse(getReasonFromException(ex), ex.getClass().getSimpleName(), request.getDescription(false)));
+                .body(
+                        new ErrorResponse(
+                               ex.getMessage(),
+                                ex.getClass().getSimpleName(),
+                                request.getDescription(false)
+                        )
+                );
     }
 
     private static void logError(WebRequest request, String errorMessage) {

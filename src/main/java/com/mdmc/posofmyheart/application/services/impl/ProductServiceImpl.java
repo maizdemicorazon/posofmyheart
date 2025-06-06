@@ -31,7 +31,7 @@ public class ProductServiceImpl implements ProductService {
     public Product getProductById(Long idProduct) {
         return ProductMapper.INSTANCE.toDomain(
                 productRepository.findById(idProduct)
-                .orElseThrow(ProductNotFoundException::new)
+                .orElseThrow(()-> new ProductNotFoundException(idProduct))
         );
     }
 

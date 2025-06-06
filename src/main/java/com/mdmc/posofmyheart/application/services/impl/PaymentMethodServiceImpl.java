@@ -27,7 +27,7 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
     public PaymentMethod getPaymentMethodById(Long id) {
         return PaymentMethodMapper.INSTANCE.toDomain(
                 paymentMethodRepository.findById(id)
-                        .orElseThrow(PayMethodNotFoundException::new)
+                        .orElseThrow(() -> new PayMethodNotFoundException(id))
         );
     }
 

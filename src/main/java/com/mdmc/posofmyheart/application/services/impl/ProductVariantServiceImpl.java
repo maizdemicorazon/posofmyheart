@@ -25,7 +25,7 @@ public class ProductVariantServiceImpl implements ProductVariantService {
     public ProductVariant getVariantById(Long id) {
         return ProductVariantMapper.INSTANCE.toModel(
                 variantRepository.findById(id)
-                        .orElseThrow(VariantNotFoundException::new)
+                        .orElseThrow(() -> new VariantNotFoundException(id))
         );
     }
 

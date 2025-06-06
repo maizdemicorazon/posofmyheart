@@ -119,7 +119,7 @@ class ProductControllerIntegrationTest {
     @Test
     void getProductById_ShouldReturn404WhenProductNotFound() throws Exception {
         // Arrange
-        when(productService.getProductById(99L)).thenThrow(new ProductNotFoundException());
+        when(productService.getProductById(99L)).thenThrow(new ProductNotFoundException(99L));
 
         // Act & Assert
         mockMvc.perform(get("/api/products/99")

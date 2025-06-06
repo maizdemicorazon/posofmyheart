@@ -34,7 +34,7 @@ public class OrderUpdateServiceImpl implements OrderUpdateService {
 
         // Buscar orden existente
         OrderEntity existingOrder = orderRepository.findById(idOrder)
-                .orElseThrow(OrderNotFoundException::new);
+                .orElseThrow(() -> new OrderNotFoundException(idOrder));
 
         // Aplicar actualizaciones
         updateOrderFields(existingOrder, updateRequest);

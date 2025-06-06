@@ -41,7 +41,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderResponse findOrderById(Long orderId) {
         return orderRepository.findById(orderId)
                 .map(OrderMapper.INSTANCE::toResponse)
-                .orElseThrow(OrderNotFoundException::new);
+                .orElseThrow(() -> new OrderNotFoundException(orderId));
     }
 
     @Override
@@ -78,7 +78,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public void deleteOrder(Long idOrder) {
         OrderEntity order = orderRepository.findById(idOrder)
-                .orElseThrow(OrderNotFoundException::new);
+                .orElseThrow(() -> new OrderNotFoundException(idOrder));
 
         orderRepository.delete(order);
     }

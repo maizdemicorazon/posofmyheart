@@ -27,7 +27,7 @@ public record OrderItemRequest(
         List<OrderExtrasDetail> extras,
 
         @Valid
-        List<ProductSauce> productSauces,
+        List<ProductSauce> sauces,
 
         @Valid
         Long flavor

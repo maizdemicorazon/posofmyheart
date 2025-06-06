@@ -22,7 +22,7 @@ public class SaucesProcessor extends OrderItemProcessor {
             detail.setSauceDetails(new ArrayList<>());
         }
 
-        Optional.ofNullable(item.productSauces())
+        Optional.ofNullable(item.sauces())
                 .orElseGet(Collections::emptyList)
                 .forEach(sauce -> {
                     ProductSauceEntity productSauceEntity = entityFinder.findSauce(sauce.idSauce());
