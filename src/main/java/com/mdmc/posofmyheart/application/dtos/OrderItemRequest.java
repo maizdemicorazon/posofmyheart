@@ -5,9 +5,11 @@ import com.mdmc.posofmyheart.domain.models.ProductSauce;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import lombok.Builder;
 
 import java.util.List;
 
+@Builder(setterPrefix = "with")
 public record OrderItemRequest(
         @NotNull(message = "Product ID is required")
         @Positive(message = "Product ID must be positive")

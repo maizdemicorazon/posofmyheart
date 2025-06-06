@@ -35,7 +35,6 @@ dependencies {
     implementation 'org.springframework:spring-context:6.2.6'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.0'
 
-
     compileOnly 'org.projectlombok:lombok'
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'

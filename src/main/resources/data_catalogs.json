@@ -1,0 +1,704 @@
+{
+  "payment_methods": [
+    {
+      "id_payment": 1,
+      "name": "Efectivo",
+      "description": "Pago en efectivo",
+      "active": true
+    },
+    {
+      "id_payment": 2,
+      "name": "Tarjeta",
+      "description": "Pago con tarjeta mediante terminal",
+      "active": true
+    },
+    {
+      "id_payment": 3,
+      "name": "Transferencia",
+      "description": "Pago por transferencia bancaria",
+      "active": true
+    },
+    {
+      "id_payment": 4,
+      "name": "QR",
+      "description": "QR de pago a través de Mercado Pago",
+      "active": true
+    },
+    {
+      "id_payment": 5,
+      "name": "Link",
+      "description": "Link de pago a través de Mercado Pago",
+      "active": true
+    }
+  ],
+  "product_categories": [
+    {
+      "id_category": 1,
+      "name": "Esquites",
+      "description": "Variedad de esquites tradicionales y especiales"
+    },
+    {
+      "id_category": 2,
+      "name": "Elotes",
+      "description": "Elotes preparados de diferentes formas"
+    },
+    {
+      "id_category": 3,
+      "name": "Bebidas",
+      "description": "Refrescos, jugos y aguas"
+    },
+    {
+      "id_category": 4,
+      "name": "De la casa",
+      "description": "Platillo de la casa"
+    },
+    {
+      "id_category": 5,
+      "name": "Botana",
+      "description": "Papas sin maíz"
+    }
+  ],
+  "product_sauces": [
+    {
+      "id_sauce": 1,
+      "name": "Sin picante",
+      "description": "Sin salsa picante",
+      "image": "https://drive.google.com/thumbnail?id=11WPxG1tmzSVpZEN4PgtKNKwHhjxIBFu2"
+    },
+    {
+      "id_sauce": 2,
+      "name": "Buffalo",
+      "description": "Salsa picante",
+      "image": "https://drive.google.com/thumbnail?id=1gwgeHvhMCIH4XaOk-5OITul1pwbamATX"
+    },
+    {
+      "id_sauce": 3,
+      "name": "Valentina",
+      "description": "Salsa Valentina clásica",
+      "image": "https://drive.google.com/thumbnail?id=1CK-YPGAvKTzpkaZMXVYORJvCKhQFfr52"
+    },
+    {
+      "id_sauce": 4,
+      "name": "Habanero",
+      "description": "Salsa picante de habanero",
+      "image": "https://drive.google.com/thumbnail?id=1p2dpvcMzfmLAzP7WzcOqsBIKQ9ogAXN1"
+    },
+    {
+      "id_sauce": 5,
+      "name": "Botanera",
+      "description": "Salsa para botanas",
+      "image": "https://drive.google.com/thumbnail?id=1mMv8t1Wq4d7Yg9D08jZbRhby24mUUT6n"
+    },
+    {
+      "id_sauce": 6,
+      "name": "Salsas Negras",
+      "description": "Combinación de salsas negras",
+      "image": "https://drive.google.com/thumbnail?id=1SBh-unGzG9sIWMGjQEbpga14yH3B5gJt"
+    },
+    {
+      "id_sauce": 7,
+      "name": "Macha",
+      "description": "Salsa de la casa",
+      "image": "https://drive.google.com/thumbnail?id=18nJNjMam6IBnjGlswo2xbuLlqT9jdwHn"
+    },
+    {
+      "id_sauce": 8,
+      "name": "Tajin en polvo",
+      "description": "Tajin en polvo",
+      "image": "https://drive.google.com/thumbnail?id=1xEFTsxtIS1dLJJriFYAPBz0elvZb9Kvs"
+    },
+    {
+      "id_sauce": 9,
+      "name": "Tajin alimonado",
+      "description": "Salsa alimonada picante",
+      "image": "https://drive.google.com/thumbnail?id=10CwrVbBtCpMs4R8V1cPR499L8pJb2bbe"
+    },
+    {
+      "id_sauce": 10,
+      "name": "Tajin afrutado",
+      "description": "Salsa con sabor afrutado",
+      "image": "https://drive.google.com/thumbnail?id=1vxLCJpliHgrAkdXjv07N6wXIxd1i8HSw"
+    },
+    {
+      "id_sauce": 11,
+      "name": "Chile que pica",
+      "description": "Chile en polvo picante",
+      "image": "https://drive.google.com/thumbnail?id=1xp32EvAqIW0Zw3P5n_RcVVLWK59H_OWH"
+    },
+    {
+      "id_sauce": 12,
+      "name": "Chile que no pica",
+      "description": "Chile en polvo no picante",
+      "image": "https://drive.google.com/thumbnail?id=1v68_I4ng5VaHtdUPc_lAaHff7QyimjjQ"
+    }
+  ],
+  "product_extras": [
+    {
+      "id_extra": 1,
+      "name": "Queso Manchego Extra",
+      "description": "Rebanada de queso extra",
+      "actual_price": 10.00,
+      "actual_cost": 3.50,
+      "active": true
+    },
+    {
+      "id_extra": 2,
+      "name": "Queso Amarillo Extra",
+      "description": "50 ml Queso amarillo líquido extra",
+      "actual_price": 10.00,
+      "actual_cost": 2.00,
+      "active": true
+    },
+    {
+      "id_extra": 3,
+      "name": "Proteina extra",
+      "description": "200g aprox. de proteina de puerco",
+      "actual_price": 25.00,
+      "actual_cost": 12.00,
+      "active": true
+    }
+  ],
+  "products": [
+    {
+      "id_product": 1,
+      "category": {
+        "id_category": 1
+      },
+      "name": "Doriesquites",
+      "image": "https://drive.google.com/thumbnail?id=1GmaqB_ifP0h-Ck6S_ENZi45PfH7tbwEq",
+      "description": "Doritos con esquites"
+    },
+    {
+      "id_product": 2,
+      "category": {
+        "id_category": 1
+      },
+      "name": "Tostiesquites",
+      "image": "https://drive.google.com/thumbnail?id=1v2OT5_GYNYSsr7XaHqnsxEEax1jLtWit",
+      "description": "Tostitos con esquites"
+    },
+    {
+      "id_product": 3,
+      "category": {
+        "id_category": 1
+      },
+      "name": "Esquites Tradicionales",
+      "image": "https://drive.google.com/thumbnail?id=1ph3Iog_GrUF6VY2DmiapwquOCUcTDTNx",
+      "description": "Esquites con mayonesa, queso y picante"
+    },
+    {
+      "id_product": 4,
+      "category": {
+        "id_category": 1
+      },
+      "name": "Esquites con Queso Manchego/Amarillo",
+      "image": "https://drive.google.com/thumbnail?id=1ZG_sIFvIvUyBNK0x1as1WvDNAC2RIP10",
+      "description": "Esquites tradicionales con queso extra"
+    },
+    {
+      "id_product": 5,
+      "category": {
+        "id_category": 1
+      },
+      "name": "Esquite Maruchan",
+      "image": "https://drive.google.com/thumbnail?id=1Hz-cFGIRsnYp4ynm8pJsoHB9oTRc8HYg",
+      "description": "Sopa maruchan con esquites"
+    },
+    {
+      "id_product": 6,
+      "category": {
+        "id_category": 4
+      },
+      "name": "Maíz Puerco",
+      "image": "https://drive.google.com/thumbnail?id=1_DwAv9akn8dmrq-sO_PAAaAEEGPwPIF_",
+      "description": "Maruchan con esquites y carne de puerco"
+    },
+    {
+      "id_product": 7,
+      "category": {
+        "id_category": 4
+      },
+      "name": "Maíz Puerco sin sopa",
+      "image": "https://drive.google.com/thumbnail?id=1_DwAv9akn8dmrq-sO_PAAaAEEGPwPIF_",
+      "description": "Esquites con carne de puerco sin maruchan"
+    },
+    {
+      "id_product": 8,
+      "category": {
+        "id_category": 2
+      },
+      "name": "Elote Tradicional",
+      "image": "https://drive.google.com/thumbnail?id=1R0z_q1JH1H7mlpSvbUt36pGbfGuUPmJk",
+      "description": "Elote con mayonesa, queso y picante"
+    },
+    {
+      "id_product": 9,
+      "category": {
+        "id_category": 2
+      },
+      "name": "Elote Revolcado",
+      "image": "https://drive.google.com/thumbnail?id=1i1r2iQQIfm0TsfbCJxxlEGahcmT5TwWc",
+      "description": "Elote con topping a elegir"
+    },
+    {
+      "id_product": 10,
+      "category": {
+        "id_category": 3
+      },
+      "name": "Red Cola 600ml",
+      "image": "https://drive.google.com/thumbnail?id=1bDM3IJmOQDtl1xz1OquqH4UFiKU90J5d",
+      "description": "Refresco en botella PET"
+    },
+    {
+      "id_product": 11,
+      "category": {
+        "id_category": 3
+      },
+      "name": "Coca Cola",
+      "image": "https://drive.google.com/thumbnail?id=1C41w2JUpvJleSgnrUiLR5s4jXek0bMUM",
+      "description": "Refresco en botella PET o lata"
+    },
+    {
+      "id_product": 12,
+      "category": {
+        "id_category": 3
+      },
+      "name": "Boing 500ml",
+      "image": "https://drive.google.com/thumbnail?id=1PUk_tLBQoctGdNcG1MsbrGHEE6SONwTd",
+      "description": "Jugo en caja 500ml"
+    },
+    {
+      "id_product": 13,
+      "category": {
+        "id_category": 3
+      },
+      "name": "Jumex Lata",
+      "image": "https://drive.google.com/thumbnail?id=1UlTILnkyeo25amhkSwTfDGAa4tteEGeg",
+      "description": "Jugo en lata 355ml"
+    },
+    {
+      "id_product": 14,
+      "category": {
+        "id_category": 3
+      },
+      "name": "Agua de frutos",
+      "image": "https://drive.google.com/thumbnail?id=1c8g7ud-wX-As_8f5Mxz2m7xv1XjFUXuv",
+      "description": "Vaso de agua natural"
+    },
+    {
+      "id_product": 15,
+      "category": {
+        "id_category": 5
+      },
+      "name": "Tostitos con queso",
+      "image": "https://drive.google.com/thumbnail?id=1DIsR7cDco6oOlL3YVngzRWkD9HnTH6yt",
+      "description": "Tostitos con queso amarillo y salsa a elegir"
+    },
+    {
+      "id_product": 16,
+      "category": {
+        "id_category": 5
+      },
+      "name": "Doritos con queso",
+      "image": "https://drive.google.com/thumbnail?id=1rmm4ahwUIf8Nixb3hRzkeuCI3mpfVTOk",
+      "description": "Doritos con queso amarillo y salsa a elegir"
+    }
+  ],
+  "product_flavors": [
+    {
+      "id_flavor": 1,
+      "name": "Nachos",
+      "product": {
+        "id_product": 1
+      }
+    },
+    {
+      "id_flavor": 2,
+      "name": "Incognita",
+      "product": {
+        "id_product": 1
+      }
+    },
+    {
+      "id_flavor": 3,
+      "name": "Flaming Hot",
+      "product": {
+        "id_product": 1
+      }
+    },
+    {
+      "id_flavor": 4,
+      "name": "Salsa Verde",
+      "product": {
+        "id_product": 2
+      }
+    },
+    {
+      "id_flavor": 5,
+      "name": "Flaming Hot",
+      "product": {
+        "id_product": 2
+      }
+    },
+    {
+      "id_flavor": 6,
+      "name": "Camaron",
+      "product": {
+        "id_product": 5
+      }
+    },
+    {
+      "id_flavor": 7,
+      "name": "Camaron Habanero",
+      "product": {
+        "id_product": 5
+      }
+    },
+    {
+      "id_flavor": 8,
+      "name": "Camaron Piquin",
+      "product": {
+        "id_product": 5
+      }
+    },
+    {
+      "id_flavor": 9,
+      "name": "Pollo",
+      "product": {
+        "id_product": 5
+      }
+    },
+    {
+      "id_flavor": 10,
+      "name": "Res",
+      "product": {
+        "id_product": 5
+      }
+    },
+    {
+      "id_flavor": 11,
+      "name": "Sabritas Cruji FH",
+      "product": {
+        "id_product": 9
+      }
+    },
+    {
+      "id_flavor": 12,
+      "name": "Rancheritos",
+      "product": {
+        "id_product": 9
+      }
+    },
+    {
+      "id_flavor": 13,
+      "name": "Doritos Nachos",
+      "product": {
+        "id_product": 9
+      }
+    },
+    {
+      "id_flavor": 14,
+      "name": "Mango",
+      "product": {
+        "id_product": 12
+      }
+    },
+    {
+      "id_flavor": 15,
+      "name": "Manzana",
+      "product": {
+        "id_product": 12
+      }
+    },
+    {
+      "id_flavor": 16,
+      "name": "Guayaba",
+      "product": {
+        "id_product": 12
+      }
+    },
+    {
+      "id_flavor": 17,
+      "name": "Mango",
+      "product": {
+        "id_product": 13
+      }
+    },
+    {
+      "id_flavor": 18,
+      "name": "Durazno",
+      "product": {
+        "id_product": 13
+      }
+    },
+    {
+      "id_flavor": 19,
+      "name": "Manzana",
+      "product": {
+        "id_product": 13
+      }
+    },
+    {
+      "id_flavor": 20,
+      "name": "Jamaica",
+      "product": {
+        "id_product": 14
+      }
+    },
+    {
+      "id_flavor": 21,
+      "name": "Limón",
+      "product": {
+        "id_product": 14
+      }
+    },
+    {
+      "id_flavor": 22,
+      "name": "Limón con chia",
+      "product": {
+        "id_product": 14
+      }
+    },
+    {
+      "id_flavor": 23,
+      "name": "Frutos Rojos",
+      "product": {
+        "id_product": 14
+      }
+    },
+    {
+      "id_flavor": 24,
+      "name": "Mango",
+      "product": {
+        "id_product": 14
+      }
+    }
+  ],
+  "product_variants": [
+    {
+      "id_variant": 1,
+      "product": {
+        "id_product": 6
+      },
+      "size": "Único",
+      "actual_sell_price": 120,
+      "actual_cost_price": 80
+    },
+    {
+      "id_variant": 2,
+      "product": {
+        "id_product": 7
+      },
+      "size": "Único",
+      "actual_sell_price": 100,
+      "actual_cost_price": 60
+    },
+    {
+      "id_variant": 3,
+      "product": {
+        "id_product": 10
+      },
+      "size": "600ml",
+      "actual_sell_price": 20,
+      "actual_cost_price": 12.31
+    },
+    {
+      "id_variant": 4,
+      "product": {
+        "id_product": 12
+      },
+      "size": "500ml",
+      "actual_sell_price": 20,
+      "actual_cost_price": 12.55
+    },
+    {
+      "id_variant": 5,
+      "product": {
+        "id_product": 13
+      },
+      "size": "355ml",
+      "actual_sell_price": 20,
+      "actual_cost_price": 11
+    },
+    {
+      "id_variant": 6,
+      "product": {
+        "id_product": 5
+      },
+      "size": "Único",
+      "actual_sell_price": 70,
+      "actual_cost_price": 32
+    },
+    {
+      "id_variant": 7,
+      "product": {
+        "id_product": 8
+      },
+      "size": "Único",
+      "actual_sell_price": 30,
+      "actual_cost_price": 12
+    },
+    {
+      "id_variant": 8,
+      "product": {
+        "id_product": 9
+      },
+      "size": "Único",
+      "actual_sell_price": 45,
+      "actual_cost_price": 25
+    },
+    {
+      "id_variant": 9,
+      "product": {
+        "id_product": 3
+      },
+      "size": "Chico (8oz)",
+      "actual_sell_price": 30.00,
+      "actual_cost_price": 10.00
+    },
+    {
+      "id_variant": 10,
+      "product": {
+        "id_product": 3
+      },
+      "size": "Mediano (10oz)",
+      "actual_sell_price": 40.00,
+      "actual_cost_price": 15.00
+    },
+    {
+      "id_variant": 11,
+      "product": {
+        "id_product": 3
+      },
+      "size": "Grande (12oz)",
+      "actual_sell_price": 50.00,
+      "actual_cost_price": 20.00
+    },
+    {
+      "id_variant": 12,
+      "product": {
+        "id_product": 3
+      },
+      "size": "Extra Grande (16oz)",
+      "actual_sell_price": 60.00,
+      "actual_cost_price": 25.00
+    },
+    {
+      "id_variant": 13,
+      "product": {
+        "id_product": 1
+      },
+      "size": "Único",
+      "actual_sell_price": 55.00,
+      "actual_cost_price": 20.00
+    },
+    {
+      "id_variant": 14,
+      "product": {
+        "id_product": 11
+      },
+      "size": "400ml",
+      "actual_sell_price": 20,
+      "actual_cost_price": 13.42
+    },
+    {
+      "id_variant": 15,
+      "product": {
+        "id_product": 11
+      },
+      "size": "600ml",
+      "actual_sell_price": 25,
+      "actual_cost_price": 17.9
+    },
+    {
+      "id_variant": 16,
+      "product": {
+        "id_product": 11
+      },
+      "size": "355ml",
+      "actual_sell_price": 25,
+      "actual_cost_price": 17.9
+    },
+    {
+      "id_variant": 17,
+      "product": {
+        "id_product": 14
+      },
+      "size": "500ml",
+      "actual_sell_price": 25,
+      "actual_cost_price": 15
+    },
+    {
+      "id_variant": 18,
+      "product": {
+        "id_product": 14
+      },
+      "size": "1000ml",
+      "actual_sell_price": 45,
+      "actual_cost_price": 25
+    },
+    {
+      "id_variant": 19,
+      "product": {
+        "id_product": 4
+      },
+      "size": "Chico (8oz)",
+      "actual_sell_price": 35,
+      "actual_cost_price": 15
+    },
+    {
+      "id_variant": 20,
+      "product": {
+        "id_product": 4
+      },
+      "size": "Mediano (10oz)",
+      "actual_sell_price": 45,
+      "actual_cost_price": 20
+    },
+    {
+      "id_variant": 21,
+      "product": {
+        "id_product": 4
+      },
+      "size": "Grande (12oz)",
+      "actual_sell_price": 55,
+      "actual_cost_price": 25
+    },
+    {
+      "id_variant": 22,
+      "product": {
+        "id_product": 4
+      },
+      "size": "Extra Grande (16oz)",
+      "actual_sell_price": 65,
+      "actual_cost_price": 30
+    },
+    {
+      "id_variant": 23,
+      "product": {
+        "id_product": 2
+      },
+      "size": "Único",
+      "actual_sell_price": 55.00,
+      "actual_cost_price": 30.00
+    },
+    {
+      "id_variant": 24,
+      "product": {
+        "id_product": 15
+      },
+      "size": "Único",
+      "actual_sell_price": 25.00,
+      "actual_cost_price": 17.00
+    },
+    {
+      "id_variant": 25,
+      "product": {
+        "id_product": 15
+      },
+      "size": "Único",
+      "actual_sell_price": 25.00,
+      "actual_cost_price": 17.00
+    }
+  ]
+}
