@@ -191,9 +191,9 @@
       "category": {
         "id_category": 1
       },
-      "name": "Esquites con Queso Manchego/Amarillo",
+      "name": "Esquites con Queso",
       "image": "https://drive.google.com/thumbnail?id=1ZG_sIFvIvUyBNK0x1as1WvDNAC2RIP10",
-      "description": "Esquites tradicionales con queso extra"
+      "description": "Esquites tradicionales con queso incluido"
     },
     {
       "id_product": 5,
@@ -471,6 +471,41 @@
       "name": "Mango",
       "product": {
         "id_product": 14
+      }
+    },
+    {
+      "id_flavor": 25,
+      "name": "Camaron",
+      "product": {
+        "id_product": 6
+      }
+    },
+    {
+      "id_flavor": 26,
+      "name": "Camaron Habanero",
+      "product": {
+        "id_product": 6
+      }
+    },
+    {
+      "id_flavor": 27,
+      "name": "Camaron Piquin",
+      "product": {
+        "id_product": 6
+      }
+    },
+    {
+      "id_flavor": 28,
+      "name": "Pollo",
+      "product": {
+        "id_product": 6
+      }
+    },
+    {
+      "id_flavor": 29,
+      "name": "Res",
+      "product": {
+        "id_product": 6
       }
     }
   ],

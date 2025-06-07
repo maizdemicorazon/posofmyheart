@@ -2,9 +2,13 @@ package com.mdmc.posofmyheart.application.mappers;
 
 import com.mdmc.posofmyheart.application.dtos.OrderResponse;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.*;
+import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
+
+import java.util.List;
 
 @Mapper
 public interface OrderMapper {
@@ -22,7 +26,7 @@ public interface OrderMapper {
     @Mapping(target = "idVariant", source = "variant.idVariant")
     @Mapping(target = "extras", source = "extraDetails")
     @Mapping(target = "sauces", source = "sauceDetails")
-    @Mapping(target = "flavors", source = "flavorDetails")
+    @Mapping(target = "flavor", source = "flavorDetails", qualifiedByName = "toOneFlavor")
     OrderResponse.OrderItemResponse toItemResponse(OrderDetailEntity entity);
 
     @Mapping(target = "idExtra", source = "productExtra.idExtra")
@@ -37,4 +41,8 @@ public interface OrderMapper {
     @Mapping(target = "idOrderDetail", source = "orderDetail.idOrderDetail")
     OrderResponse.OrderFlavorDetailResponse toFlavorDetailResponse(OrderFlavorDetailEntity entity);
 
+    @Named("toOneFlavor")
+    default OrderFlavorDetailEntity toOneFlavor(List<OrderFlavorDetailEntity> flavorDetails){
+        return flavorDetails.stream().findFirst().orElseGet(() -> null);
+    }
 }

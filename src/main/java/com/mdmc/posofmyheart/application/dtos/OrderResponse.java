@@ -19,8 +19,17 @@ public record OrderResponse(
             Integer idVariant,
             List<OrderExtrasResponse> extras,
             List<OrderDetailSauceResponse> sauces,
-            List<OrderFlavorDetailResponse> flavors
+            OrderFlavorDetailResponse flavor
     ) {
+
+        public OrderItemResponse(
+                Integer idProduct,
+                Integer idVariant,
+                List<OrderExtrasResponse> extras,
+                List<OrderDetailSauceResponse> sauces
+        ) {
+            this(idProduct, idVariant, extras, sauces, null);
+        }
     }
 
     public record OrderExtrasResponse(
