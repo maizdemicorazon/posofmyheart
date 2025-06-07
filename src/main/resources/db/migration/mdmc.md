@@ -91,7 +91,7 @@ Sabores disponibles para productos
 - name
 - active
 
-### 8. dailyEarnings
+### 8. orders
 Registro de órdenes/pedidos
 
 **Campos:**
@@ -173,7 +173,7 @@ El sistema incluye un inicializador de datos que carga:
 -- Obtener órdenes con detalles completos
 SELECT o.id_order, o.order_date, o.total_amount, pm.name as payment_method,
        p.name as product, pv.size, od.sell_price
-FROM dailyEarnings o
+FROM orders o
 JOIN payment_methods pm ON o.id_payment_method = pm.id_payment_method
 JOIN order_details od ON o.id_order = od.id_order
 JOIN products p ON od.id_product = p.id_product

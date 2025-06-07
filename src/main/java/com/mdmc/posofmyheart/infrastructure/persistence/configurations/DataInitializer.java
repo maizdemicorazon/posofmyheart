@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.mdmc.posofmyheart.domain.models.DataCatalogs;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.*;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -14,7 +13,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -55,38 +53,24 @@ public class DataInitializer implements ApplicationRunner {
 
         if (paymentMethodRepository.count() == 0) {
             paymentMethodRepository.saveAll(data.paymentMethods());
-        } else {
-            paymentMethodRepository.deleteAll();
         }
         if (productCategoryRepository.count() == 0) {
             productCategoryRepository.saveAll(data.productCategories());
-        } else {
-            productCategoryRepository.deleteAll();
         }
         if (productSauceRepository.count() == 0) {
             productSauceRepository.saveAll(data.productSauces());
-        } else {
-            productSauceRepository.deleteAll();
         }
         if (productExtraRepository.count() == 0) {
             productExtraRepository.saveAll(data.productExtras());
-        } else {
-            productExtraRepository.deleteAll();
         }
         if (productRepository.count() == 0) {
             productRepository.saveAll(data.products());
-        } else {
-            productRepository.deleteAll();
         }
         if (productFlavorRepository.count() == 0) {
             productFlavorRepository.saveAll(data.productFlavors());
-        } else {
-            productFlavorRepository.deleteAll();
         }
         if (productVariantRepository.count() == 0) {
             productVariantRepository.saveAll(data.productVariants());
-        } else {
-            productVariantRepository.deleteAll();
         }
     }
 }
