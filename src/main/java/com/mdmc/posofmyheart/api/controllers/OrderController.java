@@ -2,6 +2,7 @@ package com.mdmc.posofmyheart.api.controllers;
 
 import com.mdmc.posofmyheart.application.dtos.OrderRequest;
 import com.mdmc.posofmyheart.application.dtos.OrderResponse;
+import com.mdmc.posofmyheart.application.dtos.OrderResponseCreate;
 import com.mdmc.posofmyheart.application.dtos.OrderUpdateRequest;
 import com.mdmc.posofmyheart.application.services.OrderService;
 import com.mdmc.posofmyheart.domain.dtos.CreateOrderResponseDto;
@@ -40,6 +41,21 @@ public class OrderController {
     @GetMapping
     public ResponseEntity<List<OrderResponse>> getAllOrders() {
         return ResponseEntity.ok(orderService.findAllOrders());
+    }
+
+    @Operation(
+            summary = "Listado de ordenes con formato de creación.",
+            description = "Recupera todas las ordenes creadas en formato de POST."
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Lista recuperada"),
+                    @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+            }
+    )
+    @GetMapping("/to-create")
+    public ResponseEntity<List<OrderResponseCreate>> getAllOrdersToCreate() {
+        return ResponseEntity.ok(orderService.findAllOrdersToCreate());
     }
 
     @Operation(
@@ -85,12 +101,16 @@ public class OrderController {
             }
     )
 
-    @PostMapping
-    public ResponseEntity<CreateOrderResponseDto> createOrder(@Valid @RequestBody OrderRequest orderRequest) {
+    @PostMapping({"", "/", "{date}"})
+    public ResponseEntity<CreateOrderResponseDto> createOrder(@Valid @RequestBody OrderRequest orderRequest,
+                                                              @PathVariable(required = false, name = "date")
+                                                              @DateTimeFormat
+                                                                      (iso = DateTimeFormat.ISO.DATE) LocalDate date
+    ) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(
-                        orderService.createOrder(orderRequest)
+                        orderService.createOrder(orderRequest, date)
                 );
     }
 
@@ -105,7 +125,7 @@ public class OrderController {
             }
     )
 
-    @PostMapping("/batch")
+    @PostMapping({"/batch", "/batch/"})
     public ResponseEntity<List<CreateOrderResponseDto>> createOrders(
             @Valid @RequestBody List<OrderRequest> orderRequests) {
         return ResponseEntity

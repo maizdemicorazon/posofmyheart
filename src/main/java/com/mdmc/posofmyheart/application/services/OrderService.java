@@ -2,6 +2,7 @@ package com.mdmc.posofmyheart.application.services;
 
 import com.mdmc.posofmyheart.application.dtos.OrderRequest;
 import com.mdmc.posofmyheart.application.dtos.OrderResponse;
+import com.mdmc.posofmyheart.application.dtos.OrderResponseCreate;
 import com.mdmc.posofmyheart.application.dtos.OrderUpdateRequest;
 import com.mdmc.posofmyheart.domain.dtos.CreateOrderResponseDto;
 
@@ -10,12 +11,13 @@ import java.util.List;
 
 public interface OrderService {
     List<OrderResponse> findAllOrders();
+    List<OrderResponseCreate> findAllOrdersToCreate();
 
     List<OrderResponse> listOrdersByDate(LocalDate date);
 
     OrderResponse findOrderById(Long orderId);
 
-    CreateOrderResponseDto createOrder(OrderRequest request);
+    CreateOrderResponseDto createOrder(OrderRequest request, LocalDate date);
     List<CreateOrderResponseDto> createOrders(List<OrderRequest> requests);
 
     /**

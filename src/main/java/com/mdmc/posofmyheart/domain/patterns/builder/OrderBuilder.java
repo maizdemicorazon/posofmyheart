@@ -19,12 +19,11 @@ public class OrderBuilder {
     public OrderEntity buildFromRequest(OrderRequest request) {
         PaymentMethodEntity paymentMethod = entityFinder.findPaymentMethod(request.idPaymentMethod());
 
-        LocalDateTime orderDate = Optional.ofNullable(request.orderDate()).orElse(LocalDateTime.now());
         return OrderEntity.builder()
                 .paymentMethod(paymentMethod)
                 .clientName(request.clientName())
                 .comment(request.comment())
-                .orderDate(orderDate)
+                .orderDate(request.orderDate())
                 .updatedAt(LocalDateTime.now())
                 .build();
     }
