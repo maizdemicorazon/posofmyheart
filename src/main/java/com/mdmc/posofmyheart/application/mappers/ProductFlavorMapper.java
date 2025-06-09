@@ -18,7 +18,7 @@ public interface ProductFlavorMapper {
 
     @Named("toOneFlavor")
     default OrderFlavorDetailEntity toOneFlavor(List<OrderFlavorDetailEntity> flavorDetails) {
-        return flavorDetails.stream().findFirst().orElseGet(() -> null);
+        return flavorDetails.stream().findFirst().orElse(null);
     }
 
 }
