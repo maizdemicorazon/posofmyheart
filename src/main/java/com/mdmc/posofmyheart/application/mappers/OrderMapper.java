@@ -3,7 +3,6 @@ package com.mdmc.posofmyheart.application.mappers;
 import com.mdmc.posofmyheart.application.dtos.OrderResponse;
 import com.mdmc.posofmyheart.application.dtos.OrderResponseCreate;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.*;
-import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -50,6 +49,6 @@ public interface OrderMapper {
 
     @Named("toOneFlavor")
     default OrderFlavorDetailEntity toOneFlavor(List<OrderFlavorDetailEntity> flavorDetails){
-        return flavorDetails.stream().findFirst().orElseGet(() -> null);
+        return flavorDetails.stream().findFirst().orElse(null);
     }
 }

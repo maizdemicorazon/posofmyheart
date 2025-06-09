@@ -1,6 +1,5 @@
 package com.mdmc.posofmyheart.application.mappers;
 
-import com.mdmc.posofmyheart.application.dtos.OrderResponse;
 import com.mdmc.posofmyheart.domain.models.ProductFlavor;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderFlavorDetailEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.ProductFlavorEntity;
@@ -9,7 +8,6 @@ import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
-import java.util.Optional;
 
 @Mapper
 public interface ProductFlavorMapper {
