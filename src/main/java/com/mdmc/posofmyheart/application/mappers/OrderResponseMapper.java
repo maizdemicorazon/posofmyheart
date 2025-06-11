@@ -43,7 +43,7 @@ public interface OrderResponseMapper {
 
     @Named("toOneFlavor")
     default OrderResponse.OrderFlavorDetailResponse toOneFlavor(List<OrderFlavorDetailEntity> flavorDetails) {
-        return flavorDetails.stream().findFirst().map(this::toFlavorDetailResponse).orElseThrow();
+        return flavorDetails.stream().findFirst().map(this::toFlavorDetailResponse).orElse(null);
     }
 
 }
