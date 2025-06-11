@@ -5,18 +5,18 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public record OrderResponse(
-        Integer idOrder,
+        Long idOrder,
         LocalDateTime orderDate,
         BigDecimal bill,
-        Integer paymentMethod,
+        Long paymentMethod,
         String clientName,
         String comment,
         List<OrderItemResponse> items
 ) {
 
     public record OrderItemResponse(
-            Integer idProduct,
-            Integer idVariant,
+            Long idProduct,
+            Long idVariant,
             List<OrderExtrasResponse> extras,
             List<OrderDetailSauceResponse> sauces,
             OrderFlavorDetailResponse flavor
@@ -24,19 +24,20 @@ public record OrderResponse(
     }
 
     public record OrderExtrasResponse(
-            Integer idExtra,
+            Long idExtra,
             Integer quantity
     ) {
     }
 
     public record OrderDetailSauceResponse(
-            Integer idSauce,
+            Long idSauce,
             String name
     ) {
     }
 
     public record OrderFlavorDetailResponse(
-            Integer idFlavorDetail,
+            Long idFlavor,
+            Long idFlavorDetail,
             String name,
             Long idOrderDetail
     ) {

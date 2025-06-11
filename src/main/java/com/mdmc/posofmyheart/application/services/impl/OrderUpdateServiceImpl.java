@@ -3,7 +3,7 @@ package com.mdmc.posofmyheart.application.services.impl;
 import com.mdmc.posofmyheart.api.exceptions.OrderNotFoundException;
 import com.mdmc.posofmyheart.application.dtos.OrderResponse;
 import com.mdmc.posofmyheart.application.dtos.OrderUpdateRequest;
-import com.mdmc.posofmyheart.application.mappers.OrderMapper;
+import com.mdmc.posofmyheart.application.mappers.OrderResponseMapper;
 import com.mdmc.posofmyheart.application.services.OrderCalculationService;
 import com.mdmc.posofmyheart.application.services.OrderUpdateService;
 import com.mdmc.posofmyheart.domain.patterns.facade.EntityFinder;
@@ -49,7 +49,7 @@ public class OrderUpdateServiceImpl implements OrderUpdateService {
 
         // Guardar y retornar
         OrderEntity updatedOrder = orderRepository.save(existingOrder);
-        return OrderMapper.INSTANCE.toResponse(updatedOrder);
+        return OrderResponseMapper.INSTANCE.toResponse(updatedOrder);
     }
 
     private void updateOrderFields(OrderEntity order, OrderUpdateRequest updateRequest) {

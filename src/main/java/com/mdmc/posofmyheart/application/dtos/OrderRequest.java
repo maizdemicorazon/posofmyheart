@@ -4,12 +4,10 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
-import lombok.Builder;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Builder(setterPrefix = "with")
 public record OrderRequest(
         @NotNull
         @Positive
@@ -18,9 +16,9 @@ public record OrderRequest(
         String clientName,
         @Size(max = 100)
         String comment,
+        LocalDateTime orderDate,
         @NotEmpty
-        List<OrderItemRequest> items,
-        LocalDateTime orderDate
+        List<OrderItemRequest> items
 ) {
 }
 

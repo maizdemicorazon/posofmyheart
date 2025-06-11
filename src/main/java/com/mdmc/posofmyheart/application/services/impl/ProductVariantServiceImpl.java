@@ -23,7 +23,7 @@ public class ProductVariantServiceImpl implements ProductVariantService {
 
     @Override
     public ProductVariant getVariantById(Long id) {
-        return ProductVariantMapper.INSTANCE.toModel(
+        return ProductVariantMapper.INSTANCE.toProductVariant(
                 variantRepository.findById(id)
                         .orElseThrow(() -> new VariantNotFoundException(id))
         );

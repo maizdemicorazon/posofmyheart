@@ -11,8 +11,8 @@ import java.util.List;
 public interface PaymentMethodMapper {
     PaymentMethodMapper INSTANCE = Mappers.getMapper(PaymentMethodMapper.class);
 
-    PaymentMethod toDomain(PaymentMethodEntity entity);
+    PaymentMethod toPaymentMethod(PaymentMethodEntity entity);
 
-    List<PaymentMethod> toDomainList(List<PaymentMethodEntity> entities);
+    List<PaymentMethod> toPaymentMethodList(List<PaymentMethodEntity> entities);
 
 }

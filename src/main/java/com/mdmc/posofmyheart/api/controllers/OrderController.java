@@ -2,7 +2,7 @@ package com.mdmc.posofmyheart.api.controllers;
 
 import com.mdmc.posofmyheart.application.dtos.OrderRequest;
 import com.mdmc.posofmyheart.application.dtos.OrderResponse;
-import com.mdmc.posofmyheart.application.dtos.OrderResponseCreate;
+import com.mdmc.posofmyheart.application.dtos.OrderRestore;
 import com.mdmc.posofmyheart.application.dtos.OrderUpdateRequest;
 import com.mdmc.posofmyheart.application.services.OrderService;
 import com.mdmc.posofmyheart.domain.dtos.CreateOrderResponseDto;
@@ -53,9 +53,9 @@ public class OrderController {
                     @ApiResponse(responseCode = "500", description = "Error interno del servidor")
             }
     )
-    @GetMapping("/to-create")
-    public ResponseEntity<List<OrderResponseCreate>> getAllOrdersToCreate() {
-        return ResponseEntity.ok(orderService.findAllOrdersToCreate());
+    @GetMapping({"/backup", "/backup/"})
+    public ResponseEntity<OrderRestore> getAllOrdersToCreate() {
+        return ResponseEntity.ok(orderService.findOrdersToBackup());
     }
 
     @Operation(
@@ -101,16 +101,12 @@ public class OrderController {
             }
     )
 
-    @PostMapping({"", "/", "{date}"})
-    public ResponseEntity<CreateOrderResponseDto> createOrder(@Valid @RequestBody OrderRequest orderRequest,
-                                                              @PathVariable(required = false, name = "date")
-                                                              @DateTimeFormat
-                                                                      (iso = DateTimeFormat.ISO.DATE) LocalDate date
-    ) {
+    @PostMapping
+    public ResponseEntity<CreateOrderResponseDto> createOrder(@Valid @RequestBody OrderRequest orderRequest) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(
-                        orderService.createOrder(orderRequest, date)
+                        orderService.createOrder(orderRequest)
                 );
     }
 
@@ -125,13 +121,13 @@ public class OrderController {
             }
     )
 
-    @PostMapping({"/batch", "/batch/"})
-    public ResponseEntity<List<CreateOrderResponseDto>> createOrders(
-            @Valid @RequestBody List<OrderRequest> orderRequests) {
+    @PostMapping({"/restore", "/restore/"})
+    public ResponseEntity<List<OrderRequest>> restoreBackup(
+            @Valid @RequestBody OrderRestore orderRestore) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(
-                        orderService.createOrders(orderRequests)
+                        orderService.restoreBackup(orderRestore)
                 );
     }
 

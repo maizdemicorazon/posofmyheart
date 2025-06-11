@@ -10,12 +10,12 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(uses = {ProductMapper.class, ProductExtraMapper.class, SauceMapper.class, PaymentMethodsMapper.class})
+@Mapper(uses = {ProductMapper.class, ProductExtraMapper.class, PaymentMethodsMapper.class})
 public interface ProductsWithExtrasMapper {
     ProductsWithExtrasMapper INSTANCE = Mappers.getMapper(ProductsWithExtrasMapper.class);
 
-    ProductsWithExtrasDto toDtoFromEntities(List<ProductEntity> products,
-                                            List<ProductExtraEntity> extras,
-                                            List<ProductSauceEntity> sauces,
-                                            List<PaymentMethodEntity> paymentMethods);
+    ProductsWithExtrasDto toProductsWithExtras(List<ProductEntity> products,
+                                               List<ProductExtraEntity> extras,
+                                               List<ProductSauceEntity> sauces,
+                                               List<PaymentMethodEntity> paymentMethods);
 }

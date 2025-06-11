@@ -18,14 +18,14 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
 
     @Override
     public List<PaymentMethod> getAllPaymentMethods() {
-        return PaymentMethodMapper.INSTANCE.toDomainList(
+        return PaymentMethodMapper.INSTANCE.toPaymentMethodList(
                 paymentMethodRepository.findAll()
         );
     }
 
     @Override
     public PaymentMethod getPaymentMethodById(Long id) {
-        return PaymentMethodMapper.INSTANCE.toDomain(
+        return PaymentMethodMapper.INSTANCE.toPaymentMethod(
                 paymentMethodRepository.findById(id)
                         .orElseThrow(() -> new PayMethodNotFoundException(id))
         );

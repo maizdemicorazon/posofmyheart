@@ -9,5 +9,5 @@ import org.mapstruct.factory.Mappers;
 public interface PaymentMethodsMapper {
     PaymentMethodsMapper INSTANCE = Mappers.getMapper(PaymentMethodsMapper.class);
 
-    PaymentMethod toDomain(PaymentMethodEntity entity);
+    PaymentMethod toPaymentMethod(PaymentMethodEntity entity);
 }

@@ -29,7 +29,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product getProductById(Long idProduct) {
-        return ProductMapper.INSTANCE.toDomain(
+        return ProductMapper.INSTANCE.toProduct(
                 productRepository.findById(idProduct)
                 .orElseThrow(()-> new ProductNotFoundException(idProduct))
         );
@@ -42,7 +42,7 @@ public class ProductServiceImpl implements ProductService {
         List<ProductSauceEntity> sauces = productSauceRepository.findAll();
         List<PaymentMethodEntity> paymentMethods = paymentMethodRepository.findAll();
 
-        return ProductsWithExtrasMapper.INSTANCE.toDtoFromEntities(products, extras, sauces, paymentMethods);
+        return ProductsWithExtrasMapper.INSTANCE.toProductsWithExtras(products, extras, sauces, paymentMethods);
     }
 
 }

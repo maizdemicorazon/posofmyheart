@@ -1,9 +1,8 @@
-package com.mdmc.posofmyheart.domain.patterns.strategies.impl;
+package com.mdmc.posofmyheart.domain.patterns.strategies;
 
 import com.mdmc.posofmyheart.application.dtos.OrderResponse;
 import com.mdmc.posofmyheart.application.dtos.UpdateOrderData;
 import com.mdmc.posofmyheart.application.services.OrderUpdateService;
-import com.mdmc.posofmyheart.domain.patterns.strategies.OrderOperationStrategy;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
