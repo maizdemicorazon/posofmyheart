@@ -2,7 +2,7 @@ package com.mdmc.posofmyheart.application.services.impl;
 
 import com.mdmc.posofmyheart.application.dtos.DailyEarnings;
 import com.mdmc.posofmyheart.application.services.OrderCalculationService;
-import com.mdmc.posofmyheart.domain.dtos.ResultCommission;
+import com.mdmc.posofmyheart.domain.dtos.ResultCommissionDto;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderDetailEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderExtraDetailEntity;
@@ -170,7 +170,7 @@ public class OrderCalculationServiceImpl implements OrderCalculationService {
 
     // ===== MÉTODOS PARA CÁLCULOS DE COMISIONES =====
 
-    public ResultCommission calculateCommissionResult(List<OrderEntity> orders) {
+    public ResultCommissionDto calculateCommissionResult(List<OrderEntity> orders) {
         List<OrderEntity> cardPayments = filterCardPayments(orders);
 
         List<BigDecimal> commissions = cardPayments.stream()
@@ -184,7 +184,7 @@ public class OrderCalculationServiceImpl implements OrderCalculationService {
         BigDecimal totalDiscount = sumBigDecimalList(commissions);
         BigDecimal totalTerminalSales = sumBigDecimalList(salesMinusCommissions);
 
-        return new ResultCommission(cardPayments.size(), totalDiscount, totalTerminalSales);
+        return new ResultCommissionDto(cardPayments.size(), totalDiscount, totalTerminalSales);
     }
 
     private List<OrderEntity> filterCardPayments(List<OrderEntity> orders) {

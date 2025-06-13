@@ -1,7 +1,7 @@
 package com.mdmc.posofmyheart.application.services;
 
 import com.mdmc.posofmyheart.application.dtos.DailyEarnings;
-import com.mdmc.posofmyheart.domain.dtos.ResultCommission;
+import com.mdmc.posofmyheart.domain.dtos.ResultCommissionDto;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderEntity;
 
 import java.math.BigDecimal;
@@ -56,7 +56,7 @@ public interface OrderCalculationService {
      * @param orders Lista de órdenes a procesar
      * @return ResultCommission con conteo de pagos, descuento total y ventas netas
      */
-    ResultCommission calculateCommissionResult(List<OrderEntity> orders);
+    ResultCommissionDto calculateCommissionResult(List<OrderEntity> orders);
 
     /**
      * Calcula la ganancia real total combinando productos y extras

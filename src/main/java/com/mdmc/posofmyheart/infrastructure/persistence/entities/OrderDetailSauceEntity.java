@@ -1,6 +1,5 @@
 package com.mdmc.posofmyheart.infrastructure.persistence.entities;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,7 +10,6 @@ import lombok.*;
         @Index(name = "idx_order_detail_sauce_order", columnList = "id_order_detail"),
         @Index(name = "idx_order_detail_sauce_sauce", columnList = "id_sauce")
 })
-@Embeddable
 @Getter
 @Setter
 @NoArgsConstructor

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  * - A GET endpoint that responds with a "pong!" message when accessed.
  */
 @RestController
-public class Ping {
+public class PingController {
 
 
     @ResponseStatus(HttpStatus.OK)

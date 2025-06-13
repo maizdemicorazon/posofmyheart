@@ -28,9 +28,10 @@ public class OrderEntity {
     @Column(name = "client_name", length = 40)
     String clientName;
 
+    @Builder.Default
     @ColumnDefault(value = "CURRENT_TIMESTAMP")
     @Column(name = "order_date")
-    private LocalDateTime orderDate;
+    private LocalDateTime orderDate = LocalDateTime.now();
 
     @ColumnDefault(value = "CURRENT_TIMESTAMP")
     @Column(name = "updated_at")

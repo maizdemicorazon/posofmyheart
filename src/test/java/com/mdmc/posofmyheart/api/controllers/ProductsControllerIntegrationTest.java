@@ -4,7 +4,7 @@ import com.mdmc.posofmyheart.api.exceptions.GlobalExceptionHandler;
 import com.mdmc.posofmyheart.api.exceptions.MenuNotFoundException;
 import com.mdmc.posofmyheart.api.exceptions.ProductNotFoundException;
 import com.mdmc.posofmyheart.application.services.ProductService;
-import com.mdmc.posofmyheart.domain.dtos.ProductsWithExtrasDto;
+import com.mdmc.posofmyheart.domain.dtos.ProductsMenuDto;
 import com.mdmc.posofmyheart.domain.models.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -53,7 +53,7 @@ class ProductControllerIntegrationTest {
         ProductSauce productSauce = new ProductSauce(1L, "Barbacoa");
         PaymentMethod paymentMethod = new PaymentMethod(1L, "Efectivo");
 
-        ProductsWithExtrasDto expectedDto = new ProductsWithExtrasDto(
+        ProductsMenuDto expectedDto = new ProductsMenuDto(
                 List.of(product),
                 List.of(extra),
                 List.of(productSauce),

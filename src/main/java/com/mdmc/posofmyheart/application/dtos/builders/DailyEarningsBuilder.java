@@ -2,7 +2,7 @@ package com.mdmc.posofmyheart.application.dtos.builders;
 
 import com.mdmc.posofmyheart.application.dtos.DailyEarnings;
 import com.mdmc.posofmyheart.application.services.OrderCalculationService;
-import com.mdmc.posofmyheart.domain.dtos.ResultCommission;
+import com.mdmc.posofmyheart.domain.dtos.ResultCommissionDto;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderEntity;
 
 import java.math.BigDecimal;
@@ -30,7 +30,7 @@ public class DailyEarningsBuilder {
         BigDecimal gananciaProductos = service.calculateNetProductProfit(entry.getValue());
         BigDecimal gananciaExtras = service.calculateNetExtrasProfit(entry.getValue());
         BigDecimal gananciaReal = service.calculateTotalRealProfit(entry.getValue());
-        ResultCommission commission = service.calculateCommissionResult(entry.getValue());
+        ResultCommissionDto commission = service.calculateCommissionResult(entry.getValue());
         DailyEarnings.EarningsSummary earningsSummary = service.calculateFinalProfit(entry.getValue(), profit);
 
         return DailyEarnings.builder()

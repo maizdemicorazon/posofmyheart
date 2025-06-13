@@ -7,7 +7,7 @@ import com.mdmc.posofmyheart.domain.models.ProductSauce;
 
 import java.util.List;
 
-public record ProductsWithExtrasDto(
+public record ProductsMenuDto(
         List<Product> products,
         List<ProductExtra> extras,
         List<ProductSauce> sauces,

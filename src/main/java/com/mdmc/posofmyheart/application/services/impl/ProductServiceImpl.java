@@ -2,14 +2,18 @@ package com.mdmc.posofmyheart.application.services.impl;
 
 import com.mdmc.posofmyheart.api.exceptions.ProductNotFoundException;
 import com.mdmc.posofmyheart.application.mappers.ProductMapper;
-import com.mdmc.posofmyheart.application.mappers.ProductsWithExtrasMapper;
+import com.mdmc.posofmyheart.application.mappers.ProductMenuDtoMapper;
 import com.mdmc.posofmyheart.application.services.ProductService;
-import com.mdmc.posofmyheart.domain.dtos.ProductsWithExtrasDto;
+import com.mdmc.posofmyheart.domain.dtos.ProductsMenuDto;
 import com.mdmc.posofmyheart.domain.models.Product;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.PaymentMethodEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.ProductEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.ProductExtraEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.ProductSauceEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.mappers.PaymentMethodEntityMapper;
+import com.mdmc.posofmyheart.infrastructure.persistence.mappers.ProductEntityMapper;
+import com.mdmc.posofmyheart.infrastructure.persistence.mappers.ProductExtrasEntityMapper;
+import com.mdmc.posofmyheart.infrastructure.persistence.mappers.ProductSauceEntityMapper;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.PaymentMethodRepository;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.ProductExtraRepository;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.ProductRepository;
@@ -36,13 +40,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductsWithExtrasDto getMenuProducts() {
-        List<ProductEntity> products = productRepository.findAll();
-        List<ProductExtraEntity> extras = productExtraRepository.findAll();
-        List<ProductSauceEntity> sauces = productSauceRepository.findAll();
-        List<PaymentMethodEntity> paymentMethods = paymentMethodRepository.findAll();
+    public ProductsMenuDto getMenuProducts() {
+        List<ProductEntity> products = ProductEntityMapper.INSTANCE
+                .toProductsOrderedById(productRepository.findAll());
+        List<ProductExtraEntity> extras = ProductExtrasEntityMapper.INSTANCE
+                .toExtrasOrderedById(productExtraRepository.findAll());
+        List<ProductSauceEntity> sauces = ProductSauceEntityMapper.INSTANCE
+                .toExtrasOrderedById(productSauceRepository.findAll());
+        List<PaymentMethodEntity> paymentMethods = PaymentMethodEntityMapper.INSTANCE
+                .toPaymentsOrderedById(paymentMethodRepository.findAll());
 
-        return ProductsWithExtrasMapper.INSTANCE.toProductsWithExtras(products, extras, sauces, paymentMethods);
+        return ProductMenuDtoMapper.INSTANCE.toProductsMenu(products, extras, sauces, paymentMethods);
     }
 
 }
