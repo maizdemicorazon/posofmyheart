@@ -82,7 +82,6 @@ public class GlobalExceptionHandler {
         return buildNotFoundResponse(ex, request);
     }
 
-    // [Repetir el mismo patrón para todas las demás excepciones...]
     @ExceptionHandler(OrderNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleOrderNotFound(OrderNotFoundException ex, WebRequest request) {
         return buildNotFoundResponse(ex, request);
