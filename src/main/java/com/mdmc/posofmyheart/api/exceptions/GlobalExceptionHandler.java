@@ -21,7 +21,6 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
     public static final String PETITION_ERROR_LOG = "Error en la petición {}: {}";
-    public static final String VALIDATION_ERROR = "VALIDATION_ERROR";
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, Object>> handleValidationExceptions(MethodArgumentNotValidException ex) {

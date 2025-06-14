@@ -8,7 +8,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public interface SalesDataProcessor {
-
     List<SalesReportResponse.DailySalesData> processDailySalesData(List<OrderProjection> orders);
 
     List<SalesReportResponse.WeekdayAnalysisData> processWeekdayAnalysis(List<OrderProjection> orders);
@@ -17,7 +16,4 @@ public interface SalesDataProcessor {
 
     List<SalesReportResponse.CategoryAnalysisData> processCategories(
             List<SalesReportProjections.CategorySalesProjection> categories, BigDecimal totalSales);
-
-    List<SalesReportResponse.CategoryAnalysisData> processCategoriesFromOrders(
-            List<OrderProjection> orders, BigDecimal totalSales);
 }

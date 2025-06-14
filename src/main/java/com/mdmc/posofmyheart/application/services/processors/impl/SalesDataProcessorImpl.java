@@ -127,37 +127,6 @@ public class SalesDataProcessorImpl implements SalesDataProcessor {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Procesa órdenes detalladas para análisis por categorías con información adicional
-     */
-    @Override
-    public List<CategoryAnalysisData> processCategoriesFromOrders(
-            List<OrderProjection> orders, BigDecimal totalSales) {
-
-        log.debug("Processing category analysis from order details for {} orders", orders.size());
-
-        Map<String, CategoryModel> categoryDataMap = orders.stream()
-                .filter(order -> order.hasCategoryInfo() && order.hasOrderDetailInfo())
-                .collect(Collectors.groupingBy(
-                        OrderProjection::getCategoryName,
-                        Collectors.reducing(
-                                new CategoryModel(),
-                                order -> new CategoryModel(order.getSafeOrderDetailSellPrice(), 1L),
-                                CategoryModel::combine
-                        )
-                ));
-
-        return categoryDataMap.entrySet().stream()
-                .map(entry -> CategoryAnalysisData.builder()
-                        .name(entry.getKey())
-                        .sales(entry.getValue().getTotalSales())
-                        .orders(entry.getValue().getTotalOrders().intValue())
-                        .percentage(calculatePercentage(entry.getValue().getTotalSales(), totalSales))
-                        .build())
-                .sorted(Comparator.comparing(CategoryAnalysisData::getSales).reversed())
-                .collect(Collectors.toList());
-    }
-
     // Métodos auxiliares privados
 
     private DailySalesData createDailySalesData(LocalDate date, DailySalesModel model) {

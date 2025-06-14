@@ -3,7 +3,6 @@ package com.mdmc.posofmyheart.application.dtos.projection;
 import lombok.Builder;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 /**
  * Record concretas para proyecciones de reportes de ventas
@@ -26,16 +25,6 @@ public record SalesReportProjections() {
      */
     @Builder
     public record PeriodSummaryProjection(
-            BigDecimal totalSales,
-            Long totalOrders) {
-    }
-
-    /**
-     * Proyección para ventas diarias
-     */
-    @Builder
-    public record DailySalesProjection(
-            LocalDateTime orderDate,
             BigDecimal totalSales,
             Long totalOrders) {
     }
