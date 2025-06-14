@@ -1,13 +1,20 @@
 package com.mdmc.posofmyheart.api.exceptions;
 
 import com.mdmc.posofmyheart.application.dtos.ErrorResponse;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @Log4j2
 @RestControllerAdvice
@@ -16,59 +23,68 @@ public class GlobalExceptionHandler {
     public static final String PETITION_ERROR_LOG = "Error en la petición {}: {}";
     public static final String VALIDATION_ERROR = "VALIDATION_ERROR";
 
-    // Manejador para errores no controlados
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleGeneralException(Exception ex, WebRequest request) {
-        log.error("Error no manejado: {}", ex.getMessage(), ex);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(new ErrorResponse(
-                        "Ocurrió un error inesperado",
-                        ex.getClass().getSimpleName(),
-                        request.getDescription(false)
-                ));
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, Object>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("timestamp", LocalDateTime.now());
+        response.put("status", HttpStatus.BAD_REQUEST.value());
+        response.put("error", "Validation Failed");
+        response.put("errors", errors);
+
+        return ResponseEntity.badRequest().body(response);
     }
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ErrorResponse> handleIllegalArgumentException(
-            IllegalArgumentException ex,
-            WebRequest request) {
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<Map<String, Object>> handleConstraintViolation(ConstraintViolationException ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("timestamp", LocalDateTime.now());
+        response.put("status", HttpStatus.BAD_REQUEST.value());
+        response.put("error", "Constraint Violation");
+        response.put("message", ex.getMessage());
 
-        logError(request, ex.getMessage());
-
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new ErrorResponse(
-                                ex.getMessage(),
-                                VALIDATION_ERROR,
-                                request.getDescription(false)
-                        )
-                );
+        return ResponseEntity.badRequest().body(response);
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<ErrorResponse> handleMethodArgumentTypeMismatchException(
-            MethodArgumentTypeMismatchException ex,
-            WebRequest request) {
+    public ResponseEntity<Map<String, Object>> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("timestamp", LocalDateTime.now());
+        response.put("status", HttpStatus.BAD_REQUEST.value());
+        response.put("error", "Type Mismatch");
+        response.put("message", String.format("Invalid value for parameter '%s': %s", ex.getName(), ex.getValue()));
 
-        String parameterName = ex.getName();
-        Class<?> requiredType = ex.getRequiredType();
-        String requiredTypeName = requiredType != null ? requiredType.getSimpleName() : "tipo desconocido";
+        return ResponseEntity.badRequest().body(response);
+    }
 
-        String errorMessage = String.format(
-                "El parámetro '%s' debe ser de tipo %s. Valor recibido: '%s'",
-                parameterName,
-                requiredTypeName,
-                ex.getValue()
-        );
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Map<String, Object>> handleGenericException(Exception ex) {
+        log.error("Unhandled exception: ", ex);
 
-        logError(request, errorMessage);
+        Map<String, Object> response = new HashMap<>();
+        response.put("timestamp", LocalDateTime.now());
+        response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+        response.put("error", "Internal Server Error");
+        response.put("message", "An unexpected error occurred");
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new ErrorResponse(
-                                errorMessage,
-                                VALIDATION_ERROR,
-                                request.getDescription(false)
-                        )
-                );
+        // En desarrollo, incluir más detalles
+        if (isDevEnvironment()) {
+            response.put("debug", ex.getMessage());
+            response.put("type", ex.getClass().getSimpleName());
+        }
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+    }
+
+    private boolean isDevEnvironment() {
+        String profile = System.getProperty("spring.profiles.active", "");
+        return profile.contains("dev") || profile.contains("local");
     }
 
     // Manejadores específicos para cada excepción personalizada
