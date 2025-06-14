@@ -30,7 +30,8 @@ import java.util.stream.Collectors;
 public class SalesDataProcessorImpl implements SalesDataProcessor {
 
     private static final Locale SPANISH_LOCALE = new Locale("es", "ES");
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd MMM", SPANISH_LOCALE);
+    private static final DateTimeFormatter DATE_FORMATTER_PHRASE = DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy", SPANISH_LOCALE);
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy", SPANISH_LOCALE);
 
     /**
      * Procesa órdenes para crear datos diarios agrupados
@@ -131,8 +132,8 @@ public class SalesDataProcessorImpl implements SalesDataProcessor {
 
     private DailySalesData createDailySalesData(LocalDate date, DailySalesModel model) {
         return DailySalesData.builder()
-                .date(date.format(DATE_FORMATTER))
-                .fullDate(date.toString())
+                .date(date.format(DATE_FORMATTER_PHRASE))
+                .fullDate(date.format(DATE_FORMATTER))
                 .sales(model.getTotalSales())
                 .orders(model.getTotalOrders().intValue())
                 .averageTicket(calculateAverageTicket(model.getTotalSales(), model.getTotalOrders()))
@@ -236,25 +237,6 @@ public class SalesDataProcessorImpl implements SalesDataProcessor {
 
         public HourModel combine(HourModel other) {
             return new HourModel(
-                    this.totalSales.add(other.totalSales),
-                    this.totalOrders + other.totalOrders
-            );
-        }
-    }
-
-    @Data
-    @NoArgsConstructor
-    public static class CategoryModel {
-        private BigDecimal totalSales = BigDecimal.ZERO;
-        private Long totalOrders = 0L;
-
-        public CategoryModel(BigDecimal sales, Long orders) {
-            this.totalSales = sales != null ? sales : BigDecimal.ZERO;
-            this.totalOrders = orders != null ? orders : 0L;
-        }
-
-        public CategoryModel combine(CategoryModel other) {
-            return new CategoryModel(
                     this.totalSales.add(other.totalSales),
                     this.totalOrders + other.totalOrders
             );

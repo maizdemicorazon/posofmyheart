@@ -139,14 +139,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(
                         new ErrorResponse(
-                               ex.getMessage(),
+                                ex.getMessage(),
                                 ex.getClass().getSimpleName(),
                                 request.getDescription(false)
                         )
                 );
     }
 
-    private static void logError(WebRequest request, String errorMessage) {
-        log.error(PETITION_ERROR_LOG, request.getDescription(false), errorMessage);
-    }
 }
