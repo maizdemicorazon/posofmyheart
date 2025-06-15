@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/variants")
 @RequiredArgsConstructor
-public class VariantController {
+public class ProductVariantController {
 
     private final ProductVariantService variantService;
 

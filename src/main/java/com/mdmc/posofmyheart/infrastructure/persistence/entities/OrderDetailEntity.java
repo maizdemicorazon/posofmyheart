@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.LinkedList;
 import java.util.List;
 
 @Entity
@@ -38,11 +39,13 @@ public class OrderDetailEntity {
     @JoinColumn(name = "id_variant", nullable = false)
     private ProductVariantEntity variant;
 
+    @Builder.Default
     @OneToMany(mappedBy = "orderDetail", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderDetailSauceEntity> sauceDetails;
+    private List<OrderDetailSauceEntity> sauceDetails = new LinkedList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "orderDetail", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderExtraDetailEntity> extraDetails;
+    private List<OrderExtraDetailEntity> extraDetails = new LinkedList<>();
 
     @Column(name = "sell_price", precision = 10, scale = 2, nullable = false)
     private BigDecimal sellPrice;
@@ -50,8 +53,9 @@ public class OrderDetailEntity {
     @Column(name = "production_cost", precision = 10, scale = 2, nullable = false)
     private BigDecimal productionCost;
 
+    @Builder.Default
     @OneToMany(mappedBy = "orderDetail", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderFlavorDetailEntity> flavorDetails;
+    private List<OrderFlavorDetailEntity> flavorDetails = new LinkedList<>();
 
     public void addExtraDetail(OrderExtraDetailEntity extraDetail) {
         extraDetails.add(extraDetail);

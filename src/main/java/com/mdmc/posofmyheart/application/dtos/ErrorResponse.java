@@ -1,16 +1,20 @@
 package com.mdmc.posofmyheart.application.dtos;
 
+import lombok.Builder;
+
 import java.time.LocalDateTime;
 
-// Clase para respuestas de error estandarizadas
+@Builder
 public record ErrorResponse(
         String message,
-        String errorCode,
-        String path,
-        LocalDateTime timestamp
-) {
+        Integer status,
+        String error,
+        LocalDateTime timestamp,
+        String debug,
+        String type
 
-    public ErrorResponse(String message, String errorCode, String path) {
-        this(message, errorCode, path, LocalDateTime.now());
+) {
+    public ErrorResponse(String message, Integer status, String path) {
+        this(message, status, path, LocalDateTime.now(), null, null);
     }
 }

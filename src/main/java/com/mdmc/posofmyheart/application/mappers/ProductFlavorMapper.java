@@ -5,11 +5,14 @@ import com.mdmc.posofmyheart.infrastructure.persistence.entities.ProductFlavorEn
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper
 public interface ProductFlavorMapper {
 
     ProductFlavorMapper INSTANCE = Mappers.getMapper(ProductFlavorMapper.class);
 
     ProductFlavor toProductFlavor(ProductFlavorEntity flavorEntity);
+    List<ProductFlavor> toProductFlavors(List<ProductFlavorEntity> flavorEntities);
 
 }

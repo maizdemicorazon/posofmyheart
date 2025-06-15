@@ -3,6 +3,7 @@ package com.mdmc.posofmyheart.api.exceptions;
 import com.mdmc.posofmyheart.application.dtos.ErrorResponse;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -19,8 +20,6 @@ import java.util.Map;
 @Log4j2
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-
-    public static final String PETITION_ERROR_LOG = "Error en la petición {}: {}";
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, Object>> handleValidationExceptions(MethodArgumentNotValidException ex) {
@@ -41,49 +40,37 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<Map<String, Object>> handleConstraintViolation(ConstraintViolationException ex) {
-        Map<String, Object> response = new HashMap<>();
-        response.put("timestamp", LocalDateTime.now());
-        response.put("status", HttpStatus.BAD_REQUEST.value());
-        response.put("error", "Constraint Violation");
-        response.put("message", ex.getMessage());
-
-        return ResponseEntity.badRequest().body(response);
+    public ResponseEntity<ErrorResponse> handleConstraintViolation(ConstraintViolationException ex) {
+        return buildBadRequestResponse(ex,
+                String.format("Constraint Violations '%s': %s", ex.getConstraintViolations(), ex.getMessage())
+        );
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<Map<String, Object>> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
-        Map<String, Object> response = new HashMap<>();
-        response.put("timestamp", LocalDateTime.now());
-        response.put("status", HttpStatus.BAD_REQUEST.value());
-        response.put("error", "Type Mismatch");
-        response.put("message", String.format("Invalid value for parameter '%s': %s", ex.getName(), ex.getValue()));
-
-        return ResponseEntity.badRequest().body(response);
+    public ResponseEntity<ErrorResponse> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
+        return buildBadRequestResponse(ex,
+                String.format("Invalid value for parameter '%s': %s", ex.getName(), ex.getValue())
+        );
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Map<String, Object>> handleGenericException(Exception ex) {
+    public ResponseEntity<ErrorResponse> handleGenericException(Exception ex, WebRequest request) {
         log.error("Unhandled exception: ", ex);
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("timestamp", LocalDateTime.now());
-        response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
-        response.put("error", "Internal Server Error");
-        response.put("message", "An unexpected error occurred");
+        return buildHttpResponse(ex, request, HttpStatus.INTERNAL_SERVER_ERROR, "Unhandled exception");
+    }
 
-        // En desarrollo, incluir más detalles
-        if (isDevEnvironment()) {
-            response.put("debug", ex.getMessage());
-            response.put("type", ex.getClass().getSimpleName());
-        }
-
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+    @ExceptionHandler(InvalidDataAccessApiUsageException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidDataAccessApiUsageException(
+            InvalidDataAccessApiUsageException ex,
+            WebRequest request
+    ) {
+        return buildHttpResponse(ex, request, HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
     private boolean isDevEnvironment() {
         String profile = System.getProperty("spring.profiles.active", "");
-        return profile.contains("dev") || profile.contains("local");
+        return profile.contains("dev") || profile.contains("dev_remote");
     }
 
     // Manejadores específicos para cada excepción personalizada
@@ -127,22 +114,37 @@ public class GlobalExceptionHandler {
         return buildNotFoundResponse(ex, request);
     }
 
-    // Manejador especial para ResourceNotFoundException (sin @ResponseStatus)
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleResourceNotFound(ResourceNotFoundException ex, WebRequest request) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(new ErrorResponse(ex.getMessage(), ex.getClass().getSimpleName(), request.getDescription(false)));
+    // Función helper para respuestas 404 estandarizadas
+    private ResponseEntity<ErrorResponse> buildNotFoundResponse(
+            Exception ex,
+            WebRequest request
+    ) {
+        return buildHttpResponse(ex, request, HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
-    // Método helper para respuestas 404 estandarizadas
-    private ResponseEntity<ErrorResponse> buildNotFoundResponse(RuntimeException ex, WebRequest request) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+    // Función helper para respuestas 404 estandarizadas
+    private ResponseEntity<ErrorResponse> buildBadRequestResponse(
+            Exception ex,
+            String message
+    ) {
+        return buildHttpResponse(ex, null, HttpStatus.BAD_REQUEST, message);
+    }
+
+    // Función helper para respuestas status custom
+    private ResponseEntity<ErrorResponse> buildHttpResponse(
+            Exception ex,
+            WebRequest request,
+            HttpStatus status,
+            String message
+    ) {
+        return ResponseEntity.status(status)
                 .body(
-                        new ErrorResponse(
-                                ex.getMessage(),
-                                ex.getClass().getSimpleName(),
-                                request.getDescription(false)
-                        )
+                        ErrorResponse.builder()
+                                .timestamp(LocalDateTime.now())
+                                .message(message)
+                                .status(status.value())
+                                .debug(request.getDescription(false))
+                                .type(ex.getClass().getSimpleName()).build()
                 );
     }
 

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/payment-methods")
+@RequestMapping("/api/payments")
 @RequiredArgsConstructor
 public class PaymentMethodController {
 
@@ -25,7 +25,7 @@ public class PaymentMethodController {
     }
 
     @GetMapping("/{idPay}")
-    public PaymentMethod getAllPaymentMethods(@PathVariable Long idPay) {
+    public PaymentMethod getPaymentMethodById(@PathVariable Long idPay) {
         return paymentMethodService.getPaymentMethodById(idPay);
     }
 

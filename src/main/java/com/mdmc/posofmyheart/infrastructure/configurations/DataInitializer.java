@@ -1,4 +1,4 @@
-package com.mdmc.posofmyheart.infrastructure.persistence.configurations;
+package com.mdmc.posofmyheart.infrastructure.configurations;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
