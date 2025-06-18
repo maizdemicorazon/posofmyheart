@@ -22,7 +22,7 @@ public record OrderUpdateRequest(
             Long idVariant,
             List<ProductExtraUpdate> updatedExtras,
             List<SauceUpdate> updatedSauces,
-            List<FlavorUpdate> updatedFlavors
+            FlavorUpdate updatedFlavor
     ) {}
 
     public record ProductExtraUpdate(

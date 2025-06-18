@@ -8,13 +8,8 @@ import java.time.LocalDateTime;
 public record ErrorResponse(
         String message,
         Integer status,
-        String error,
         LocalDateTime timestamp,
         String debug,
         String type
-
 ) {
-    public ErrorResponse(String message, Integer status, String path) {
-        this(message, status, path, LocalDateTime.now(), null, null);
-    }
 }

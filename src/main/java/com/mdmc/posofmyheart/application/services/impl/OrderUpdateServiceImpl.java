@@ -59,7 +59,7 @@ public class OrderUpdateServiceImpl implements OrderUpdateService {
         }
 
         if (updateRequest.clientName() != null) {
-            order.setComment(updateRequest.clientName());
+            order.setClientName(updateRequest.clientName());
         }
 
         // Actualizar tipo de pago si está presente
@@ -129,14 +129,9 @@ public class OrderUpdateServiceImpl implements OrderUpdateService {
                 });
 
         // Procesar sabores
-        Optional.ofNullable(item.updatedFlavors())
-                .filter(list -> !list.isEmpty())
-                .ifPresent(flavors -> {
-                    if (flavors.size() > 1) {
-                        throw new IllegalArgumentException("Solo se puede seleccionar un sabor por item");
-                    }
-
-                    ProductFlavorEntity flavorEntity = entityFinder.findFlavor(flavors.get(0).idFlavor());
+        Optional.ofNullable(item.updatedFlavor())
+                .ifPresent(flavor -> {
+                    ProductFlavorEntity flavorEntity = entityFinder.findFlavor(flavor.idFlavor());
                     OrderFlavorDetailEntity flavorDetail = new OrderFlavorDetailEntity(detail, flavorEntity);
                     flavorDetail.setCreatedAt(LocalDateTime.now());
                     detail.getFlavorDetails().add(flavorDetail);
