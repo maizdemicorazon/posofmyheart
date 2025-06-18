@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.mdmc.posofmyheart.application.dtos.OrderRestore.addOrderTime;
@@ -55,7 +56,9 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional(readOnly = true)
     public List<OrderResponse> listOrdersByDate(LocalDate date) {
-        return orderRepository.findByOrderDate(date)
+        LocalDateTime startOfDay = date.atStartOfDay();
+        LocalDateTime endOfDay = startOfDay.plusDays(1);
+        return orderRepository.findByOrderDate(startOfDay, endOfDay)
                 .stream()
                 .map(OrderResponseMapper.INSTANCE::toResponse)
                 .toList();
