@@ -30,7 +30,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional(readOnly = true)
     public List<OrderResponse> findAllOrders() {
-        return orderRepository.findAll()
+        return orderRepository.findAllWithDetails()
                 .stream()
                 .map(OrderMapper.INSTANCE::toResponse)
                 .toList();
@@ -39,15 +39,17 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional(readOnly = true)
     public OrderResponse findOrderById(Long orderId) {
-        return orderRepository.findById(orderId)
-                .map(OrderMapper.INSTANCE::toResponse)
-                .orElseThrow(OrderNotFoundException::new);
+        OrderEntity order = orderRepository.findByIdWithDetails(orderId);
+        if (order == null) {
+            throw new OrderNotFoundException();
+        }
+        return OrderMapper.INSTANCE.toResponse(order);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<OrderResponse> listOrdersByDate(LocalDate date) {
-        return orderRepository.findByOrderDate(date)
+        return orderRepository.findByOrderDateWithDetails(date)
                 .stream()
                 .map(OrderMapper.INSTANCE::toResponse)
                 .toList();
