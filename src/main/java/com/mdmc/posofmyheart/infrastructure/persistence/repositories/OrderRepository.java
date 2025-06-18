@@ -34,4 +34,21 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
             @Param("endDate") LocalDateTime endDate
     );
 
+    /**
+     * Recupera todas las órdenes con sus relaciones para evitar N+1
+     */
+    @Query("""
+        SELECT DISTINCT o FROM OrderEntity o
+            LEFT JOIN FETCH o.paymentMethod
+            LEFT JOIN FETCH o.orderDetails od
+            LEFT JOIN FETCH od.extraDetails ed
+            LEFT JOIN FETCH ed.productExtra
+            LEFT JOIN FETCH od.sauceDetails sd
+            LEFT JOIN FETCH sd.productSauce
+            LEFT JOIN FETCH od.flavorDetails fd
+            LEFT JOIN FETCH fd.flavor
+        ORDER BY o.orderDate DESC
+        """)
+    List<OrderEntity> findAllWithDetails();
+
 }

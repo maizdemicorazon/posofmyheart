@@ -26,7 +26,7 @@ public class ProductEntity {
     @Column(name = "id_product")
     private Long idProduct;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_category", nullable = false)
     private ProductCategoryEntity category;
 

@@ -40,7 +40,7 @@ public class OrderEntity {
     @Column(name = "total_amount", precision = 10, scale = 2, nullable = false)
     private BigDecimal totalAmount;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_payment_method", nullable = false)
     private PaymentMethodEntity paymentMethod;
 

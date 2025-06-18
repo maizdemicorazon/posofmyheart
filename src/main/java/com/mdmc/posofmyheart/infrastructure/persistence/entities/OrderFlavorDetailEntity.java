@@ -27,7 +27,7 @@ public class OrderFlavorDetailEntity {
     @JoinColumn(name = "id_order_detail", nullable = false)
     private OrderDetailEntity orderDetail;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_flavor")
     private ProductFlavorEntity flavor;
 
