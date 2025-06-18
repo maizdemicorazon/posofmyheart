@@ -4,8 +4,10 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "order_details", indexes = {
@@ -41,11 +43,11 @@ public class OrderDetailEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "orderDetail", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderDetailSauceEntity> sauceDetails = new LinkedList<>();
+    private Set<OrderDetailSauceEntity> sauceDetails = new HashSet<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "orderDetail", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderExtraDetailEntity> extraDetails = new LinkedList<>();
+    private Set<OrderExtraDetailEntity> extraDetails = new HashSet<>();
 
     @Column(name = "sell_price", precision = 10, scale = 2, nullable = false)
     private BigDecimal sellPrice;
@@ -55,7 +57,7 @@ public class OrderDetailEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "orderDetail", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderFlavorDetailEntity> flavorDetails = new LinkedList<>();
+    private Set<OrderFlavorDetailEntity> flavorDetails = new HashSet<>();
 
     public void addExtraDetail(OrderExtraDetailEntity extraDetail) {
         extraDetails.add(extraDetail);

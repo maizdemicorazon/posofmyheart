@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
@@ -16,7 +17,7 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
         WHERE o.orderDate >= :startOfDay AND o.orderDate < :endOfDay
         ORDER BY o.orderDate DESC
         """)
-    List<OrderEntity> findByOrderDate(
+    Set<OrderEntity> findByOrderDate(
             @Param("startOfDay") LocalDateTime startOfDay,
             @Param("endOfDay") LocalDateTime endOfDay
     );
@@ -29,7 +30,7 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
         WHERE o.orderDate BETWEEN :startDate AND :endDate 
         ORDER BY o.orderDate DESC
         """)
-    List<OrderEntity> findOrdersByDateRange(
+    Set<OrderEntity> findOrdersByDateRange(
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate
     );

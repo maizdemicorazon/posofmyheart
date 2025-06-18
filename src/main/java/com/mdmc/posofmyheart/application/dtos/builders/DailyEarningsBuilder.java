@@ -9,20 +9,21 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class DailyEarningsBuilder {
 
     public static final BigDecimal DEFAULT_PROFIT = null;
 
     public static DailyEarnings fromEntry(
-            Map.Entry<LocalDate, List<OrderEntity>> entry,
+            Map.Entry<LocalDate, Set<OrderEntity>> entry,
             OrderCalculationService service
     ){
         return fromEntry(entry, service, DEFAULT_PROFIT);
     }
 
     public static DailyEarnings fromEntry(
-            Map.Entry<LocalDate, List<OrderEntity>> entry,
+            Map.Entry<LocalDate, Set<OrderEntity>> entry,
             OrderCalculationService service,
             BigDecimal profit
     ) {

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Optional;
 
 @Component
@@ -37,9 +38,9 @@ public class OrderBuilder {
                 .variant(variant)
                 .sellPrice(variant.getActualSellPrice())
                 .productionCost(variant.getActualCostPrice())
-                .sauceDetails(new ArrayList<>())
-                .extraDetails(new ArrayList<>())
-                .flavorDetails(new ArrayList<>())
+                .sauceDetails(new HashSet<>())
+                .extraDetails(new HashSet<>())
+                .flavorDetails(new HashSet<>())
                 .build();
     }
 }

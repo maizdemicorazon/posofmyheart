@@ -49,7 +49,6 @@ public class ProductServiceImpl implements ProductService {
                 .toExtrasOrderedById(productSauceRepository.findAll());
         List<PaymentMethodEntity> paymentMethods = PaymentMethodEntityMapper.INSTANCE
                 .toPaymentsOrderedById(paymentMethodRepository.findAll());
-
         return ProductMenuDtoMapper.INSTANCE.toProductsMenu(products, extras, sauces, paymentMethods);
     }
 

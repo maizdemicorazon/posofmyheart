@@ -3,6 +3,7 @@ package com.mdmc.posofmyheart.application.dtos;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 public record OrderResponse(
         Long idOrder,
@@ -12,7 +13,7 @@ public record OrderResponse(
         String paymentName,
         String clientName,
         String comment,
-        List<OrderItemResponse> items
+        Set<OrderItemResponse> items
 ) {
 
     public record OrderItemResponse(
@@ -22,8 +23,8 @@ public record OrderResponse(
             BigDecimal productPrice,
             Long idVariant,
             String variantName,
-            List<OrderExtrasResponse> extras,
-            List<OrderDetailSauceResponse> sauces,
+            Set<OrderExtrasResponse> extras,
+            Set<OrderDetailSauceResponse> sauces,
             OrderFlavorDetailResponse flavor
     ) {
     }

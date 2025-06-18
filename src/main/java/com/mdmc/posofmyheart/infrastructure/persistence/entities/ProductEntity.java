@@ -9,7 +9,9 @@ import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "products", indexes = {
@@ -48,9 +50,9 @@ public class ProductEntity {
     private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private List<ProductVariantEntity> variants = new ArrayList<>();
+    private Set<ProductVariantEntity> variants = new HashSet<>();
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private List<ProductFlavorEntity> flavors = new ArrayList<>();
+    private Set<ProductFlavorEntity> flavors = new HashSet<>();
 
 }

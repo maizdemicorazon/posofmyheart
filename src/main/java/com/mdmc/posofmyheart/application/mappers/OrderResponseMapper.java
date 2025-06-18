@@ -8,6 +8,7 @@ import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
+import java.util.Set;
 
 @Mapper
 public interface OrderResponseMapper {
@@ -50,7 +51,7 @@ public interface OrderResponseMapper {
     OrderResponse.OrderFlavorDetailResponse toFlavorDetailResponse(OrderFlavorDetailEntity entity);
 
     @Named("toOneFlavor")
-    default OrderResponse.OrderFlavorDetailResponse toOneFlavor(List<OrderFlavorDetailEntity> flavorDetails) {
+    default OrderResponse.OrderFlavorDetailResponse toOneFlavor(Set<OrderFlavorDetailEntity> flavorDetails) {
         return flavorDetails.stream().findFirst().map(this::toFlavorDetailResponse).orElse(null);
     }
 

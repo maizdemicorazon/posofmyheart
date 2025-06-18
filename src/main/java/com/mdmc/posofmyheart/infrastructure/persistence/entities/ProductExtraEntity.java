@@ -10,7 +10,9 @@ import org.hibernate.annotations.ColumnDefault;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "product_extras", indexes = {
@@ -52,6 +54,6 @@ public class ProductExtraEntity {
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "productExtra", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderExtraDetailEntity> extraDetails = new ArrayList<>();
+    private Set<OrderExtraDetailEntity> extraDetails = new HashSet<>();
 
 }

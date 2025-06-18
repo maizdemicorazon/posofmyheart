@@ -5,7 +5,7 @@ import com.mdmc.posofmyheart.domain.dtos.ResultCommissionDto;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderEntity;
 
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.Set;
 
 public interface OrderCalculationService {
 
@@ -19,61 +19,61 @@ public interface OrderCalculationService {
     // ===== MÉTODOS PARA MÚLTIPLES ÓRDENES =====
 
     /**
-     * Calcula el monto total de ventas brutas para una lista de órdenes
+     * Calcula el monto total de ventas brutas para una Seta de órdenes
      */
-    BigDecimal calculateTotalAmount(List<OrderEntity> orders);
+    BigDecimal calculateTotalAmount(Set<OrderEntity> orders);
 
     /**
      * Calcula la ganancia neta de productos (precio de venta - costo de producción)
      */
-    BigDecimal calculateNetProductProfit(List<OrderEntity> orders);
+    BigDecimal calculateNetProductProfit(Set<OrderEntity> orders);
 
     /**
      * Calcula la ganancia neta de extras (precio de venta - costo de producción)
      */
-    BigDecimal calculateNetExtrasProfit(List<OrderEntity> orders);
+    BigDecimal calculateNetExtrasProfit(Set<OrderEntity> orders);
 
     /**
      * Calcula el costo total de producción (productos + extras)
      */
-    BigDecimal calculateTotalProductionCost(List<OrderEntity> orders);
+    BigDecimal calculateTotalProductionCost(Set<OrderEntity> orders);
 
     /**
      * Cuenta el total de items en las órdenes
      */
-    int countTotalItems(List<OrderEntity> orders);
+    int countTotalItems(Set<OrderEntity> orders);
 
     /**
      * Cuenta el total de extras en las órdenes
      */
-    int countTotalExtras(List<OrderEntity> orders);
+    int countTotalExtras(Set<OrderEntity> orders);
 
     // ===== MÉTODOS PARA CÁLCULOS DE COMISIONES =====
 
     /**
      * Calcula el resultado de comisiones para pagos con tarjeta
      *
-     * @param orders Lista de órdenes a procesar
+     * @param orders Seta de órdenes a procesar
      * @return ResultCommission con conteo de pagos, descuento total y ventas netas
      */
-    ResultCommissionDto calculateCommissionResult(List<OrderEntity> orders);
+    ResultCommissionDto calculateCommissionResult(Set<OrderEntity> orders);
 
     /**
      * Calcula la ganancia real total combinando productos y extras
      *
-     * @param orders Lista de órdenes a procesar
+     * @param orders Seta de órdenes a procesar
      * @return BigDecimal con la ganancia real (productos + extras)
      */
-    BigDecimal calculateTotalRealProfit(List<OrderEntity> orders);
+    BigDecimal calculateTotalRealProfit(Set<OrderEntity> orders);
 
     /**
      * Calcula la ganancia final después de reinversión obligatoria
      *
-     * @param orders Lista de órdenes
+     * @param orders Seta de órdenes
      * @return objeto FinancialResult con netProfit, mandatoryReinvestment y finalProfit
      */
     DailyEarnings.EarningsSummary calculateFinalProfit(
-            List<OrderEntity> orders,
+            Set<OrderEntity> orders,
             BigDecimal profit
     );
 

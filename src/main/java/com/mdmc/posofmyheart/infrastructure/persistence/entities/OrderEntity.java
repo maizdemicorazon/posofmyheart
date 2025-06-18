@@ -7,7 +7,9 @@ import org.hibernate.annotations.ColumnDefault;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "orders", indexes = {
@@ -49,7 +51,7 @@ public class OrderEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderDetailEntity> orderDetails = new ArrayList<>();
+    private Set<OrderDetailEntity> orderDetails = new HashSet<>();
 
     public void addOrderDetail(OrderDetailEntity detail) {
         orderDetails.add(detail);

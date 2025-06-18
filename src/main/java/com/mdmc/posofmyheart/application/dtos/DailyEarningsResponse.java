@@ -3,6 +3,7 @@ package com.mdmc.posofmyheart.application.dtos;
 import lombok.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -11,5 +12,5 @@ import java.util.List;
 @Builder
 public class DailyEarningsResponse {
     private int totalCount;
-    private List<DailyEarnings> dailyEarnings;
+    private Set<DailyEarnings> dailyEarnings;
 }

@@ -15,9 +15,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,14 +29,13 @@ public class MetricsServiceImpl implements MetricsService {
     @Override
     public DailyEarningsResponse getDailyEarnings(Integer backDays) {
         LocalDateTime startDate = LocalDateTime.of(LocalDate.now().minusDays(backDays), LocalTime.MIN);
-        List<OrderEntity> orders = orderRepository.findOrdersByDateRange(startDate, LocalDateTime.now());
+        Set<OrderEntity> orders = orderRepository.findOrdersByDateRange(startDate, LocalDateTime.now());
 
-        List<DailyEarnings> dailyEarnings = groupOrdersByDate(orders)
+        Set<DailyEarnings> dailyEarnings = groupOrdersByDate(orders)
                 .entrySet()
                 .stream()
                 .map(entry -> DailyEarningsBuilder.fromEntry(entry, orderCalculationService))
-                .sorted(Comparator.comparing(DailyEarnings::date).reversed())
-                .toList();
+                .collect(Collectors.toSet());
 
         return DailyEarningsResponseMapper.INSTANCE.toResponse(dailyEarnings);
     }
@@ -46,14 +43,13 @@ public class MetricsServiceImpl implements MetricsService {
     @Override
     public DailyEarningsResponse getTodayDailyEarnings() {
         LocalDateTime startDate = LocalDateTime.of(LocalDate.now().minusDays(DEFAULT_BACK_DAYS), LocalTime.MIN);
-        List<OrderEntity> orders = orderRepository.findOrdersByDateRange(startDate, LocalDateTime.now());
+        Set<OrderEntity> orders = orderRepository.findOrdersByDateRange(startDate, LocalDateTime.now());
 
-        List<DailyEarnings> dailyEarnings = groupOrdersByDate(orders)
+        Set<DailyEarnings> dailyEarnings = groupOrdersByDate(orders)
                 .entrySet()
                 .stream()
                 .map(entry -> DailyEarningsBuilder.fromEntry(entry, orderCalculationService))
-                .sorted(Comparator.comparing(DailyEarnings::date).reversed())
-                .toList();
+                .collect(Collectors.toSet());
 
         return DailyEarningsResponseMapper.INSTANCE.toResponse(dailyEarnings);
     }
@@ -61,9 +57,9 @@ public class MetricsServiceImpl implements MetricsService {
     @Override
     public DailyEarningsResponse getTodayDailyEarningsWithPercentage(BigDecimal profit) {
         LocalDateTime startDate = LocalDateTime.of(LocalDate.now().minusDays(DEFAULT_BACK_DAYS), LocalTime.MIN);
-        List<OrderEntity> orders = orderRepository.findOrdersByDateRange(startDate, LocalDateTime.now());
+        Set<OrderEntity> orders = orderRepository.findOrdersByDateRange(startDate, LocalDateTime.now());
 
-        List<DailyEarnings> dailyEarnings = groupOrdersByDate(orders)
+        Set<DailyEarnings> dailyEarnings = groupOrdersByDate(orders)
                 .entrySet()
                 .stream()
                 .map(entry -> DailyEarningsBuilder
@@ -71,16 +67,17 @@ public class MetricsServiceImpl implements MetricsService {
                                 entry, orderCalculationService, profit)
                 )
                 .sorted(Comparator.comparing(DailyEarnings::date).reversed())
-                .toList();
+                .collect(Collectors.toSet());
 
         return DailyEarningsResponseMapper.INSTANCE.toResponse(dailyEarnings);
     }
 
-    private Map<LocalDate, List<OrderEntity>> groupOrdersByDate(List<OrderEntity> orders) {
-        return orders.stream()
-                .collect(Collectors.groupingBy(
-                        order -> order.getOrderDate().toLocalDate()
-                ));
+    private Map<LocalDate, Set<OrderEntity>> groupOrdersByDate(Set<OrderEntity> orders) {
+        Map<LocalDate, Set<OrderEntity>> map = new HashMap<>();
+        for (OrderEntity order : orders) {
+            map.computeIfAbsent(order.getOrderDate().toLocalDate(), k -> new HashSet<>()).add(order);
+        }
+        return map;
     }
 
 }

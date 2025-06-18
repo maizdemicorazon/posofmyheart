@@ -12,9 +12,10 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Collections;
-import java.util.List;
+import java.util.Set;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderCalculationServiceImpl implements OrderCalculationService {
@@ -64,7 +65,7 @@ public class OrderCalculationServiceImpl implements OrderCalculationService {
 
     // ===== MÉTODOS PARA MÚLTIPLES ÓRDENES (METRICS) =====
 
-    public BigDecimal calculateTotalAmount(List<OrderEntity> orders) {
+    public BigDecimal calculateTotalAmount(Set<OrderEntity> orders) {
         return orders.stream()
                 .filter(Objects::nonNull)
                 .map(OrderEntity::getTotalAmount)
@@ -72,7 +73,7 @@ public class OrderCalculationServiceImpl implements OrderCalculationService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    public BigDecimal calculateNetProductProfit(List<OrderEntity> orders) {
+    public BigDecimal calculateNetProductProfit(Set<OrderEntity> orders) {
         return orders.stream()
                 .filter(Objects::nonNull)
                 .flatMap(order -> safeGetOrderDetails(order).stream())
@@ -81,7 +82,7 @@ public class OrderCalculationServiceImpl implements OrderCalculationService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    public BigDecimal calculateNetExtrasProfit(List<OrderEntity> orders) {
+    public BigDecimal calculateNetExtrasProfit(Set<OrderEntity> orders) {
         return orders.stream()
                 .filter(Objects::nonNull)
                 .flatMap(order -> safeGetOrderDetails(order).stream())
@@ -108,27 +109,27 @@ public class OrderCalculationServiceImpl implements OrderCalculationService {
 
     // ===== MÉTODOS UTILITARIOS PARA MANEJO SEGURO DE NULLS =====
 
-    private List<OrderDetailEntity> safeGetOrderDetails(OrderEntity order) {
+    private Set<OrderDetailEntity> safeGetOrderDetails(OrderEntity order) {
         return Optional.ofNullable(order)
                 .map(OrderEntity::getOrderDetails)
-                .orElse(Collections.emptyList());
+                .orElse(Collections.emptySet());
     }
 
-    private List<OrderExtraDetailEntity> safeGetExtraDetails(OrderDetailEntity detail) {
+    private Set<OrderExtraDetailEntity> safeGetExtraDetails(OrderDetailEntity detail) {
         return Optional.ofNullable(detail)
                 .map(OrderDetailEntity::getExtraDetails)
-                .orElse(Collections.emptyList());
+                .orElse(Collections.emptySet());
     }
 
     // ===== MÉTODOS ADICIONALES PARA ANÁLISIS =====
 
-    public BigDecimal calculateTotalProductionCost(List<OrderEntity> orders) {
+    public BigDecimal calculateTotalProductionCost(Set<OrderEntity> orders) {
         BigDecimal productCosts = calculateTotalProductionCostForProducts(orders);
         BigDecimal extrasCosts = calculateTotalProductionCostForExtras(orders);
         return productCosts.add(extrasCosts);
     }
 
-    private BigDecimal calculateTotalProductionCostForProducts(List<OrderEntity> orders) {
+    private BigDecimal calculateTotalProductionCostForProducts(Set<OrderEntity> orders) {
         return orders.stream()
                 .filter(Objects::nonNull)
                 .flatMap(order -> safeGetOrderDetails(order).stream())
@@ -137,7 +138,7 @@ public class OrderCalculationServiceImpl implements OrderCalculationService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    private BigDecimal calculateTotalProductionCostForExtras(List<OrderEntity> orders) {
+    private BigDecimal calculateTotalProductionCostForExtras(Set<OrderEntity> orders) {
         return orders.stream()
                 .filter(Objects::nonNull)
                 .flatMap(order -> safeGetOrderDetails(order).stream())
@@ -148,7 +149,7 @@ public class OrderCalculationServiceImpl implements OrderCalculationService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    public int countTotalItems(List<OrderEntity> orders) {
+    public int countTotalItems(Set<OrderEntity> orders) {
         return orders.stream()
                 .filter(Objects::nonNull)
                 .flatMap(order -> safeGetOrderDetails(order).stream())
@@ -157,7 +158,7 @@ public class OrderCalculationServiceImpl implements OrderCalculationService {
                 .sum();
     }
 
-    public int countTotalExtras(List<OrderEntity> orders) {
+    public int countTotalExtras(Set<OrderEntity> orders) {
         return orders.stream()
                 .filter(Objects::nonNull)
                 .flatMap(order -> safeGetOrderDetails(order).stream())
@@ -170,29 +171,29 @@ public class OrderCalculationServiceImpl implements OrderCalculationService {
 
     // ===== MÉTODOS PARA CÁLCULOS DE COMISIONES =====
 
-    public ResultCommissionDto calculateCommissionResult(List<OrderEntity> orders) {
-        List<OrderEntity> cardPayments = filterCardPayments(orders);
+    public ResultCommissionDto calculateCommissionResult(Set<OrderEntity> orders) {
+        Set<OrderEntity> cardPayments = filterCardPayments(orders);
 
-        List<BigDecimal> commissions = cardPayments.stream()
+        Set<BigDecimal> commissions = cardPayments.stream()
                 .map(this::calculateCommission)
-                .toList();
+                .collect(Collectors.toSet());
 
-        List<BigDecimal> salesMinusCommissions = cardPayments.stream()
+        Set<BigDecimal> salesMinusCommissions = cardPayments.stream()
                 .map(order -> order.getTotalAmount().subtract(calculateCommission(order)))
-                .toList();
+                .collect(Collectors.toSet());
 
-        BigDecimal totalDiscount = sumBigDecimalList(commissions);
-        BigDecimal totalTerminalSales = sumBigDecimalList(salesMinusCommissions);
+        BigDecimal totalDiscount = sumBigDecimalSet(commissions);
+        BigDecimal totalTerminalSales = sumBigDecimalSet(salesMinusCommissions);
 
         return new ResultCommissionDto(cardPayments.size(), totalDiscount, totalTerminalSales);
     }
 
-    private List<OrderEntity> filterCardPayments(List<OrderEntity> orders) {
+    private Set<OrderEntity> filterCardPayments(Set<OrderEntity> orders) {
         return orders.stream()
                 .filter(Objects::nonNull)
                 .filter(order -> order.getPaymentMethod() != null)
                 .filter(order -> cardPaymentId.equals(order.getPaymentMethod().getIdPayment()))
-                .toList();
+                .collect(Collectors.toSet());
     }
 
     private BigDecimal calculateCommission(OrderEntity order) {
@@ -202,13 +203,13 @@ public class OrderCalculationServiceImpl implements OrderCalculationService {
                 .setScale(2, RoundingMode.HALF_UP);
     }
 
-    private BigDecimal sumBigDecimalList(List<BigDecimal> values) {
+    private BigDecimal sumBigDecimalSet(Set<BigDecimal> values) {
         return values.stream()
                 .filter(Objects::nonNull)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    public BigDecimal calculateTotalRealProfit(List<OrderEntity> orders) {
+    public BigDecimal calculateTotalRealProfit(Set<OrderEntity> orders) {
         BigDecimal gananciaDeProductosNeta = calculateNetProductProfit(orders);
         BigDecimal gananciaExtrasNeta = calculateNetExtrasProfit(orders);
         return gananciaDeProductosNeta.add(gananciaExtrasNeta);
@@ -216,7 +217,7 @@ public class OrderCalculationServiceImpl implements OrderCalculationService {
 
 // ===== MÉTODOS PARA CÁLCULO DE GANANCIAS FINALES =====
 
-    public DailyEarnings.EarningsSummary calculateFinalProfit(List<OrderEntity> orders, BigDecimal profit) {
+    public DailyEarnings.EarningsSummary calculateFinalProfit(Set<OrderEntity> orders, BigDecimal profit) {
         BigDecimal totalProfit = calculateTotalRealProfit(orders);
         BigDecimal fullPercentage = new BigDecimal(DIVIDEND);
         BigDecimal invest = fullPercentage.subtract(Optional.ofNullable(profit).orElse(BigDecimal.ZERO));

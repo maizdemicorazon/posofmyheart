@@ -18,5 +18,4 @@ public interface ProductMenuDtoMapper {
                                    List<ProductExtraEntity> extras,
                                    List<ProductSauceEntity> sauces,
                                    List<PaymentMethodEntity> paymentMethods);
-
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Optional;
 
 @Component
@@ -19,7 +20,7 @@ public class SaucesProcessor extends OrderItemProcessor {
     @Override
     public void process(OrderDetailEntity detail, OrderItemRequest item) {
         if (detail.getSauceDetails() == null) {
-            detail.setSauceDetails(new ArrayList<>());
+            detail.setSauceDetails(new HashSet<>());
         }
 
         Optional.ofNullable(item.sauces())
