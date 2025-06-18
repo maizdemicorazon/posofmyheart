@@ -68,11 +68,6 @@ public class GlobalExceptionHandler {
         return buildHttpResponse(ex, request, HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
-    private boolean isDevEnvironment() {
-        String profile = System.getProperty("spring.profiles.active", "");
-        return profile.contains("dev") || profile.contains("dev_remote");
-    }
-
     // Manejadores específicos para cada excepción personalizada
     @ExceptionHandler(MenuNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleMenuNotFound(MenuNotFoundException ex, WebRequest request) {
@@ -122,14 +117,6 @@ public class GlobalExceptionHandler {
         return buildHttpResponse(ex, request, HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
-    // Función helper para respuestas 404 estandarizadas
-    private ResponseEntity<ErrorResponse> buildBadRequestResponse(
-            Exception ex,
-            String message
-    ) {
-        return buildHttpResponse(ex, null, HttpStatus.BAD_REQUEST, message);
-    }
-
     // Función helper para respuestas status custom
     private ResponseEntity<ErrorResponse> buildHttpResponse(
             Exception ex,
@@ -144,6 +131,21 @@ public class GlobalExceptionHandler {
                                 .message(message)
                                 .status(status.value())
                                 .debug(request.getDescription(false))
+                                .type(ex.getClass().getSimpleName()).build()
+                );
+    }
+
+    // Función helper para respuestas status custom
+    private ResponseEntity<ErrorResponse> buildBadRequestResponse(
+            Exception ex,
+            String message
+    ) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(
+                        ErrorResponse.builder()
+                                .timestamp(LocalDateTime.now())
+                                .message(message)
+                                .status(HttpStatus.BAD_REQUEST.value())
                                 .type(ex.getClass().getSimpleName()).build()
                 );
     }
