@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -22,7 +23,7 @@ public class OrderBuilder {
                 .paymentMethod(paymentMethod)
                 .clientName(request.clientName())
                 .comment(request.comment())
-                .orderDate(request.orderDate())
+                .orderDate(Optional.ofNullable(request.orderDate()).orElse(LocalDateTime.now()))
                 .updatedAt(LocalDateTime.now())
                 .build();
     }

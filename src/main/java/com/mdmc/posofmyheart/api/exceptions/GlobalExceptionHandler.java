@@ -147,5 +147,4 @@ public class GlobalExceptionHandler {
                                 .type(ex.getClass().getSimpleName()).build()
                 );
     }
-
 }

@@ -13,36 +13,36 @@ public class EntityFinder {
     private final PaymentMethodRepository paymentMethodRepository;
     private final ProductVariantRepository variantRepository;
     private final ProductExtraRepository productExtraRepository;
-    private final ProductSauceRepository productSauceRepository;
+    private final SauceRepository sauceRepository;
     private final ProductFlavorRepository flavorRepository;
 
     public PaymentMethodEntity findPaymentMethod(Long id) {
         return paymentMethodRepository.findById(id)
-                .orElseThrow(() -> new PayMethodNotFoundException(id));
+                .orElseThrow(PayMethodNotFoundException::new);
     }
 
     public ProductEntity findProduct(Long id) {
         return productRepository.findById(id)
-                .orElseThrow(() -> new ProductNotFoundException(id));
+                .orElseThrow(ProductNotFoundException::new);
     }
 
     public ProductVariantEntity findVariant(Long id) {
         return variantRepository.findById(id)
-                .orElseThrow(() -> new VariantNotFoundException(id));
+                .orElseThrow(VariantNotFoundException::new);
     }
 
     public ProductExtraEntity findProductExtra(Long id) {
         return productExtraRepository.findById(id)
-                .orElseThrow(() -> new ProductExtraNotFoundException(id));
+                .orElseThrow(ProductExtraNotFoundException::new);
     }
 
-    public ProductSauceEntity findSauce(Long id) {
-        return productSauceRepository.findById(id)
-                .orElseThrow(() -> new SauceNotFoundException(id));
+    public SauceEntity findSauce(Long id) {
+        return sauceRepository.findById(id)
+                .orElseThrow(SauceNotFoundException::new);
     }
 
     public ProductFlavorEntity findFlavor(Long id) {
         return flavorRepository.findById(id)
-                .orElseThrow(() -> new FlavorNotFoundException(id));
+                .orElseThrow(FlavorNotFoundException::new);
     }
 }
