@@ -104,8 +104,8 @@ public class GlobalExceptionHandler {
         return buildNotFoundResponse(ex, request);
     }
 
-    @ExceptionHandler(SauceNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleSauceNotFound(SauceNotFoundException ex, WebRequest request) {
+    @ExceptionHandler(ProductSauceNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleSauceNotFound(ProductSauceNotFoundException ex, WebRequest request) {
         return buildNotFoundResponse(ex, request);
     }
 

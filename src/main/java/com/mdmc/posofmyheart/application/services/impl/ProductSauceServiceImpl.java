@@ -1,6 +1,6 @@
 package com.mdmc.posofmyheart.application.services.impl;
 
-import com.mdmc.posofmyheart.api.exceptions.SauceNotFoundException;
+import com.mdmc.posofmyheart.api.exceptions.ProductSauceNotFoundException;
 import com.mdmc.posofmyheart.application.mappers.ProductSauceMapper;
 import com.mdmc.posofmyheart.application.services.ProductSauceService;
 import com.mdmc.posofmyheart.domain.models.ProductSauce;
@@ -20,7 +20,7 @@ public class ProductSauceServiceImpl implements ProductSauceService {
     public ProductSauce getSauceById(Long idSauce) {
         return ProductSauceMapper.INSTANCE.toProductSauce(
                 productSauceRepository.findById(idSauce)
-                        .orElseThrow(() -> new SauceNotFoundException(idSauce))
+                        .orElseThrow(() -> new ProductSauceNotFoundException(idSauce))
         );
     }
 
