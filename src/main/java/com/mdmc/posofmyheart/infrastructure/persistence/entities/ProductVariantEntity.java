@@ -27,7 +27,7 @@ public class ProductVariantEntity {
     @Column(name = "id_variant")
     private Long idVariant;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_product", nullable = false)
     private ProductEntity product;
 

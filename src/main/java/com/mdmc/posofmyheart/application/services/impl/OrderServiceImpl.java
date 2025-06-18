@@ -33,7 +33,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional(readOnly = true)
     public List<OrderResponse> findAllOrders() {
-        return orderRepository.findAll()
+        return orderRepository.findAllWithDetails()
                 .stream()
                 .map(OrderResponseMapper.INSTANCE::toResponse)
                 .toList();
