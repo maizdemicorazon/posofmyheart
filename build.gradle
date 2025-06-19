@@ -34,6 +34,9 @@ dependencies {
     implementation 'org.springframework:spring-context:6.2.6'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.0'
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9")
+    implementation 'com.github.ben-manes.caffeine:caffeine:3.2.1'
+    implementation 'org.hibernate:hibernate-jcache:7.0.2.Final'
+    implementation 'org.ehcache:ehcache:3.10.8'
 
     compileOnly 'org.projectlombok:lombok'
 

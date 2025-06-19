@@ -29,7 +29,7 @@ public class MetricsServiceImpl implements MetricsService {
     @Override
     public DailyEarningsResponse getDailyEarnings(Integer backDays) {
         LocalDateTime startDate = LocalDateTime.of(LocalDate.now().minusDays(backDays), LocalTime.MIN);
-        Set<OrderEntity> orders = orderRepository.findOrdersByDateRange(startDate, LocalDateTime.now());
+        Set<OrderEntity> orders = orderRepository.findByOrderDateOptimized(startDate, LocalDateTime.now());
 
         Set<DailyEarnings> dailyEarnings = groupOrdersByDate(orders)
                 .entrySet()
@@ -43,7 +43,7 @@ public class MetricsServiceImpl implements MetricsService {
     @Override
     public DailyEarningsResponse getTodayDailyEarnings() {
         LocalDateTime startDate = LocalDateTime.of(LocalDate.now().minusDays(DEFAULT_BACK_DAYS), LocalTime.MIN);
-        Set<OrderEntity> orders = orderRepository.findOrdersByDateRange(startDate, LocalDateTime.now());
+        Set<OrderEntity> orders = orderRepository.findByOrderDateOptimized(startDate, LocalDateTime.now());
 
         Set<DailyEarnings> dailyEarnings = groupOrdersByDate(orders)
                 .entrySet()
@@ -57,7 +57,7 @@ public class MetricsServiceImpl implements MetricsService {
     @Override
     public DailyEarningsResponse getTodayDailyEarningsWithPercentage(BigDecimal profit) {
         LocalDateTime startDate = LocalDateTime.of(LocalDate.now().minusDays(DEFAULT_BACK_DAYS), LocalTime.MIN);
-        Set<OrderEntity> orders = orderRepository.findOrdersByDateRange(startDate, LocalDateTime.now());
+        Set<OrderEntity> orders = orderRepository.findByOrderDateOptimized(startDate, LocalDateTime.now());
 
         Set<DailyEarnings> dailyEarnings = groupOrdersByDate(orders)
                 .entrySet()
