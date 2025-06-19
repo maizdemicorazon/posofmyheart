@@ -6,6 +6,11 @@ import com.mdmc.posofmyheart.infrastructure.persistence.repositories.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 @Component
 @AllArgsConstructor
 public class EntityFinder {
@@ -44,5 +49,70 @@ public class EntityFinder {
     public ProductFlavorEntity findFlavor(Long id) {
         return flavorRepository.findById(id)
                 .orElseThrow(() -> new FlavorNotFoundException(id));
+    }
+
+    public Map<Long, ProductEntity> findProducts(Collection<Long> ids) {
+        Map<Long, ProductEntity> map = productRepository.findAllById(ids)
+                .stream()
+                .collect(Collectors.toMap(ProductEntity::getIdProduct, Function.identity()));
+        ids.stream()
+                .filter(id -> !map.containsKey(id))
+                .findFirst()
+                .ifPresent(id -> {
+                    throw new ProductNotFoundException(id);
+                });
+        return map;
+    }
+
+    public Map<Long, ProductVariantEntity> findVariants(Collection<Long> ids) {
+        Map<Long, ProductVariantEntity> map = variantRepository.findAllById(ids)
+                .stream()
+                .collect(Collectors.toMap(ProductVariantEntity::getIdVariant, Function.identity()));
+        ids.stream()
+                .filter(id -> !map.containsKey(id))
+                .findFirst()
+                .ifPresent(id -> {
+                    throw new VariantNotFoundException(id);
+                });
+        return map;
+    }
+
+    public Map<Long, ProductExtraEntity> findProductExtras(Collection<Long> ids) {
+        Map<Long, ProductExtraEntity> map = productExtraRepository.findAllById(ids)
+                .stream()
+                .collect(Collectors.toMap(ProductExtraEntity::getIdExtra, Function.identity()));
+        ids.stream()
+                .filter(id -> !map.containsKey(id))
+                .findFirst()
+                .ifPresent(id -> {
+                    throw new ProductExtraNotFoundException(id);
+                });
+        return map;
+    }
+
+    public Map<Long, ProductSauceEntity> findSauces(Collection<Long> ids) {
+        Map<Long, ProductSauceEntity> map = productSauceRepository.findAllById(ids)
+                .stream()
+                .collect(Collectors.toMap(ProductSauceEntity::getIdSauce, Function.identity()));
+        ids.stream()
+                .filter(id -> !map.containsKey(id))
+                .findFirst()
+                .ifPresent(id -> {
+                    throw new ProductSauceNotFoundException(id);
+                });
+        return map;
+    }
+
+    public Map<Long, ProductFlavorEntity> findFlavors(Collection<Long> ids) {
+        Map<Long, ProductFlavorEntity> map = flavorRepository.findAllById(ids)
+                .stream()
+                .collect(Collectors.toMap(ProductFlavorEntity::getIdFlavor, Function.identity()));
+        ids.stream()
+                .filter(id -> !map.containsKey(id))
+                .findFirst()
+                .ifPresent(id -> {
+                    throw new FlavorNotFoundException(id);
+                });
+        return map;
     }
 }
