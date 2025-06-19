@@ -15,7 +15,7 @@ import java.util.Set;
 public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
 
     /**
-     * ⚡ SÚPER OPTIMIZADA: Una query que trae TODAS las relaciones
+     * SÚPER OPTIMIZADA: Una query que trae TODAS las relaciones
      * ELIMINA EL PROBLEMA N+1 - LA MEJORA MÁS IMPORTANTE
      */
     @Query("""
@@ -74,22 +74,9 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
         WHERE o.orderDate >= :startOfDay AND o.orderDate < :endOfDay
         ORDER BY o.orderDate DESC
         """)
-    Set<OrderEntity> findByOrderDateOptimized(
+    Set<OrderEntity> findByOrderDate(
             @Param("startOfDay") LocalDateTime startOfDay,
             @Param("endOfDay") LocalDateTime endOfDay
     );
 
-    /**
-     * ⚡ MÉTODO BACKWARD COMPATIBLE
-     */
-    default Set<OrderEntity> findByOrderDate(LocalDateTime startOfDay, LocalDateTime endOfDay) {
-        return findByOrderDateOptimized(startOfDay, endOfDay);
-    }
-
-    /**
-     * ⚡ MÉTODO BACKWARD COMPATIBLE
-     */
-    default List<OrderEntity> findAllWithDetails() {
-        return findAllWithCompleteDetails();
-    }
 }

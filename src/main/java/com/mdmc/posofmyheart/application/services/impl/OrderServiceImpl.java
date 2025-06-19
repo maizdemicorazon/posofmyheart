@@ -74,7 +74,7 @@ public class OrderServiceImpl implements OrderService {
         LocalDateTime endOfDay = date.atTime(LocalTime.MAX);
 
         // ⚡ Query optimizada con FETCH JOIN
-        var orders = orderRepository.findByOrderDateOptimized(startOfDay, endOfDay);
+        var orders = orderRepository.findByOrderDate(startOfDay, endOfDay);
 
         List<OrderResponse> responses = orders.stream()
                 .map(OrderResponseMapper.INSTANCE::toResponse)
