@@ -13,8 +13,8 @@ import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.OrderRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,7 +35,7 @@ public class OrderServiceImpl implements OrderService {
     private final UpdateOrderStrategy updateOrderStrategy;
 
     /**
-     * ⚡ SÚPER OPTIMIZADA: Una sola query para todas las órdenes con caché
+     * Una sola query para todas las órdenes con caché
      */
     @Override
     @Transactional(readOnly = true)
@@ -60,7 +60,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * ⚡ OPTIMIZADA: Búsqueda por fecha con caché
+     * Búsqueda por fecha con caché
      */
     @Override
     @Transactional(readOnly = true)
@@ -87,7 +87,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * ⚡ OPTIMIZADA: Búsqueda por ID con caché
+     * Búsqueda por ID con caché
      */
     @Override
     @Transactional(readOnly = true)
@@ -110,7 +110,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * ⚡ OPTIMIZADA: Backup con procesamiento paralelo
+     * Backup con procesamiento paralelo
      */
     @Override
     @Transactional(readOnly = true)
@@ -120,9 +120,9 @@ public class OrderServiceImpl implements OrderService {
 
         long startTime = System.currentTimeMillis();
 
-        // ⚡ Procesamiento asíncrono para backup
+        // Procesamiento asíncrono para backup
         CompletableFuture<List<OrderEntity>> ordersFuture = CompletableFuture
-                .supplyAsync(() -> orderRepository.findAllWithCompleteDetails());
+                .supplyAsync(orderRepository::findAllWithCompleteDetails);
 
         try {
             List<OrderEntity> orders = ordersFuture.get();
@@ -143,7 +143,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * ⚡ OPTIMIZADA: Creación con cache evict
+     * Creación con cache evict
      */
     @Override
     @Transactional
@@ -160,7 +160,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * ⚡ OPTIMIZADA: Restauración de backup con procesamiento en lotes
+     * Restauración de backup con procesamiento en lotes
      */
     @Override
     @Transactional
@@ -183,7 +183,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * ⚡ OPTIMIZADA: Actualización con cache evict selectivo
+     * Actualización con cache evict selectivo
      */
     @Override
     @Transactional
@@ -196,7 +196,7 @@ public class OrderServiceImpl implements OrderService {
         UpdateOrderData updateData = new UpdateOrderData(idOrder, updateRequest);
         OrderResponse response = updateOrderStrategy.execute(updateData);
 
-        // ⚡ Limpiar caché relacionado
+        // Limpiar caché relacionado
         evictRelatedCaches();
 
         long endTime = System.currentTimeMillis();
@@ -206,7 +206,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * ⚡ OPTIMIZADA: Eliminación con cache evict
+     * Eliminación con cache evict
      */
     @Override
     @Transactional
@@ -226,29 +226,19 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * ⚡ HELPER: Construye OrderRequest para restore
+     * Construye OrderRequest para restore
      */
     private OrderRequest buildOrderRequest(OrderRequest request, LocalDate restoreDate) {
         return new OrderRequest(
                 request.idPaymentMethod(),
                 request.clientName(),
                 request.comment(),
-                addOrderTime(restoreDate),
+                OrderRestore.addOrderTime(restoreDate),
                 request.items()
         );
     }
-
     /**
-     * ⚡ HELPER: Añade tiempo a la fecha de restore
-     */
-    private LocalDateTime addOrderTime(LocalDate restoreDate) {
-        return restoreDate.atStartOfDay().plusSeconds(
-                (long) (Math.random() * 86400) // Tiempo aleatorio en el día
-        );
-    }
-
-    /**
-     * ⚡ HELPER: Limpia cachés relacionados de forma selectiva
+     * Limpia cachés relacionados de forma selectiva
      */
     @CacheEvict(value = "orders", key = "'allOrders'")
     private void evictRelatedCaches() {

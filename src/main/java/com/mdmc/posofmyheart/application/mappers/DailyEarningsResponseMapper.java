@@ -5,7 +5,6 @@ import com.mdmc.posofmyheart.application.dtos.DailyEarningsResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-import java.util.List;
 import java.util.Set;
 
 @Mapper
