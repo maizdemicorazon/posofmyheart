@@ -2,7 +2,6 @@ package com.mdmc.posofmyheart.application.dtos;
 
 import lombok.*;
 
-import java.util.List;
 import java.util.Set;
 
 @Setter

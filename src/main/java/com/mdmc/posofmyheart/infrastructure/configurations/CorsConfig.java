@@ -1,4 +1,4 @@
-package com.mdmc.posofmyheart.application.configurations;
+package com.mdmc.posofmyheart.infrastructure.configurations;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class CorsConfig {
 
     @Bean
-    public WebMvcConfigurer corsDevConfigurer() {
+    public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
@@ -26,5 +26,4 @@ public class CorsConfig {
             }
         };
     }
-
 }

@@ -7,7 +7,6 @@ import com.mdmc.posofmyheart.infrastructure.persistence.entities.ProductSauceEnt
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Optional;
