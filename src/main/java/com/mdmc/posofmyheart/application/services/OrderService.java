@@ -13,7 +13,7 @@ public interface OrderService {
     List<OrderResponse> findAllOrders();
     OrderRestore findOrdersToBackup();
 
-    List<OrderResponse> listOrdersByDate(LocalDate date);
+    List<OrderResponse> findOrdersByDate(LocalDate date);
 
     OrderResponse findOrderById(Long orderId);
 

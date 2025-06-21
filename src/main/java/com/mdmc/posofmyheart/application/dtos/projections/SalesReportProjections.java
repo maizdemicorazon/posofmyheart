@@ -1,4 +1,4 @@
-package com.mdmc.posofmyheart.application.dtos.projection;
+package com.mdmc.posofmyheart.application.dtos.projections;
 
 import lombok.Builder;
 

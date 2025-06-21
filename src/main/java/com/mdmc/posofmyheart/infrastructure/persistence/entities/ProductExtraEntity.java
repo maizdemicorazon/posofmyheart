@@ -42,7 +42,7 @@ public class ProductExtraEntity {
     private BigDecimal actualCost;
 
     @Column(name = "active")
-    private Boolean active = true;
+    private Boolean active;
 
     @Column(name = "image")
     private String image;
@@ -51,7 +51,14 @@ public class ProductExtraEntity {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "productExtra", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "productExtra", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<OrderExtraDetailEntity> extraDetails = new HashSet<>();
 
+    @PrePersist
+    protected void onCreate() {
+        if (createdAt == null) {
+            createdAt = LocalDateTime.now();
+        }
+        active = true;
+    }
 }

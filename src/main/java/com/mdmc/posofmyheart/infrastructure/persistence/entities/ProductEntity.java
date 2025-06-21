@@ -16,11 +16,22 @@ import java.util.Set;
         @Index(name = "idx_product_category", columnList = "id_category"),
         @Index(name = "idx_product_name", columnList = "name")
 })
+@NamedEntityGraphs({
+        @NamedEntityGraph(
+                name = "Product.withAllRelations",
+                attributeNodes = {
+                        @NamedAttributeNode("category"),
+                        @NamedAttributeNode("variants"),
+                        @NamedAttributeNode("flavors")
+                }
+        )
+})
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_product")
@@ -47,10 +58,28 @@ public class ProductEntity {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private Set<ProductVariantEntity> variants = new HashSet<>();
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<ProductVariantEntity> variants;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private Set<ProductFlavorEntity> flavors = new HashSet<>();
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<ProductFlavorEntity> flavors;
 
+    @PrePersist
+    protected void onCreate() {
+        if (variants == null) {
+            variants = new HashSet<>();
+        }
+        if (flavors == null) {
+            flavors = new HashSet<>();
+        }
+        if (createdAt == null) {
+            createdAt = LocalDateTime.now();
+        }
+        updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
 }

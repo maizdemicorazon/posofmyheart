@@ -1,10 +1,10 @@
 package com.mdmc.posofmyheart.application.mappers;
 
 import com.mdmc.posofmyheart.domain.dtos.ProductsMenuDto;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.PaymentMethodEntity;
+import com.mdmc.posofmyheart.domain.models.PaymentMethod;
+import com.mdmc.posofmyheart.domain.models.ProductExtra;
+import com.mdmc.posofmyheart.domain.models.ProductSauce;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.ProductEntity;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.ProductExtraEntity;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.ProductSauceEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -15,7 +15,7 @@ public interface ProductMenuDtoMapper {
     ProductMenuDtoMapper INSTANCE = Mappers.getMapper(ProductMenuDtoMapper.class);
 
     ProductsMenuDto toProductsMenu(List<ProductEntity> products,
-                                   List<ProductExtraEntity> extras,
-                                   List<ProductSauceEntity> sauces,
-                                   List<PaymentMethodEntity> paymentMethods);
+                                   List<ProductExtra> extras,
+                                   List<ProductSauce> sauces,
+                                   List<PaymentMethod> paymentMethods);
 }

@@ -5,51 +5,81 @@ import com.mdmc.posofmyheart.application.mappers.ProductMapper;
 import com.mdmc.posofmyheart.application.mappers.ProductMenuDtoMapper;
 import com.mdmc.posofmyheart.application.services.ProductService;
 import com.mdmc.posofmyheart.domain.dtos.ProductsMenuDto;
+import com.mdmc.posofmyheart.domain.models.PaymentMethod;
 import com.mdmc.posofmyheart.domain.models.Product;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.PaymentMethodEntity;
+import com.mdmc.posofmyheart.domain.models.ProductExtra;
+import com.mdmc.posofmyheart.domain.models.ProductSauce;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.ProductEntity;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.ProductExtraEntity;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.ProductSauceEntity;
-import com.mdmc.posofmyheart.infrastructure.persistence.mappers.PaymentMethodEntityMapper;
-import com.mdmc.posofmyheart.infrastructure.persistence.mappers.ProductEntityMapper;
-import com.mdmc.posofmyheart.infrastructure.persistence.mappers.ProductExtrasEntityMapper;
-import com.mdmc.posofmyheart.infrastructure.persistence.mappers.ProductSauceEntityMapper;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.PaymentMethodRepository;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.ProductExtraRepository;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.ProductRepository;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.ProductSauceRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class ProductServiceImpl implements ProductService {
+
     private final ProductRepository productRepository;
     private final ProductExtraRepository productExtraRepository;
     private final ProductSauceRepository productSauceRepository;
     private final PaymentMethodRepository paymentMethodRepository;
 
+    /**
+     * getMenuProducts() con UNA SOLA QUERY por tipo
+     * Elimina múltiples findAll() - MEJORA CRÍTICA DE PERFORMANCE
+     */
     @Override
-    public Product getProductById(Long idProduct) {
-        return ProductMapper.INSTANCE.toProduct(
-                productRepository.findById(idProduct)
-                .orElseThrow(()-> new ProductNotFoundException(idProduct))
-        );
+    @Transactional(readOnly = true)
+    @Cacheable(value = "products", key = "'menu'")
+    public ProductsMenuDto getMenuProducts() {
+        log.debug("🔍 Obteniendo menú completo con optimización EntityGraph");
+
+        long startTime = System.currentTimeMillis();
+
+        // ⚡ UNA SOLA QUERY con EntityGraph para productos + categorías + variantes
+        List<ProductEntity> products = productRepository.findByIdWithAllRelations();
+
+        List<ProductExtra> extras = productExtraRepository.findAllExtras();
+
+        List<ProductSauce> sauces = productSauceRepository.findAllSauces();
+
+        List<PaymentMethod> paymentMethods = paymentMethodRepository.findAllPaymentMethods();
+
+        ProductsMenuDto menu = ProductMenuDtoMapper.INSTANCE
+                .toProductsMenu(products, extras, sauces, paymentMethods);
+
+        long endTime = System.currentTimeMillis();
+        log.info("✅ Menú completo obtenido en {}ms", (endTime - startTime));
+
+        return menu;
     }
 
     @Override
-    public ProductsMenuDto getMenuProducts() {
-        List<ProductEntity> products = ProductEntityMapper.INSTANCE
-                .toProductsOrderedById(productRepository.findAll());
-        List<ProductExtraEntity> extras = ProductExtrasEntityMapper.INSTANCE
-                .toExtrasOrderedById(productExtraRepository.findAll());
-        List<ProductSauceEntity> sauces = ProductSauceEntityMapper.INSTANCE
-                .toExtrasOrderedById(productSauceRepository.findAll());
-        List<PaymentMethodEntity> paymentMethods = PaymentMethodEntityMapper.INSTANCE
-                .toPaymentsOrderedById(paymentMethodRepository.findAll());
-        return ProductMenuDtoMapper.INSTANCE.toProductsMenu(products, extras, sauces, paymentMethods);
+    @Transactional(readOnly = true)
+    @Cacheable(value = "products", key = "'product-' + #idProduct")
+    public Product getProductById(Long idProduct) {
+        log.debug("🔍 Obteniendo producto por ID: {} con EntityGraph", idProduct);
+
+        long startTime = System.currentTimeMillis();
+
+        // ⚡ Query optimizada con EntityGraph completo
+        ProductEntity productEntity = productRepository.findByIdWithAllRelationsByIdProduct(idProduct)
+                .orElseThrow(() -> new ProductNotFoundException(idProduct));
+
+        Product product = ProductMapper.INSTANCE.toProduct(productEntity);
+
+        long endTime = System.currentTimeMillis();
+        log.info("✅ Producto {} obtenido en {}ms", idProduct, (endTime - startTime));
+
+        return product;
     }
 
 }

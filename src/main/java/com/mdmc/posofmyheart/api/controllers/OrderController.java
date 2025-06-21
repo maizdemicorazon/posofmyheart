@@ -87,7 +87,7 @@ public class OrderController {
     public ResponseEntity<List<OrderResponse>> getOrdersByDate(
             @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
     ) {
-        return ResponseEntity.ok(orderService.listOrdersByDate(date));
+        return ResponseEntity.ok(orderService.findOrdersByDate(date));
     }
 
     @Operation(

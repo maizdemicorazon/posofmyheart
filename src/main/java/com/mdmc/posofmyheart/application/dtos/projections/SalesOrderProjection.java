@@ -1,4 +1,4 @@
-package com.mdmc.posofmyheart.application.dtos.projection;
+package com.mdmc.posofmyheart.application.dtos.projections;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderProjection {
+public class SalesOrderProjection {
 
     /**
      * Fecha y hora de la orden
@@ -64,7 +64,7 @@ public class OrderProjection {
      * Constructor para consultas básicas de órdenes
      * Usado en findAllOrdersInPeriod
      */
-    public OrderProjection(LocalDateTime orderDate, BigDecimal totalAmount, Long orderId) {
+    public SalesOrderProjection(LocalDateTime orderDate, BigDecimal totalAmount, Long orderId) {
         this.orderDate = orderDate;
         this.totalAmount = totalAmount;
         this.orderId = orderId;
@@ -74,8 +74,8 @@ public class OrderProjection {
      * Constructor para consultas con categoría
      * Usado en análisis por categorías
      */
-    public OrderProjection(LocalDateTime orderDate, BigDecimal totalAmount, Long orderId,
-                           String categoryName, BigDecimal orderDetailSellPrice) {
+    public SalesOrderProjection(LocalDateTime orderDate, BigDecimal totalAmount, Long orderId,
+                                String categoryName, BigDecimal orderDetailSellPrice) {
         this.orderDate = orderDate;
         this.totalAmount = totalAmount;
         this.orderId = orderId;

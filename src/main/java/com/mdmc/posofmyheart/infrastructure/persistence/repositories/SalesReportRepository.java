@@ -1,7 +1,7 @@
 package com.mdmc.posofmyheart.infrastructure.persistence.repositories;
 
-import com.mdmc.posofmyheart.application.dtos.projection.OrderProjection;
-import com.mdmc.posofmyheart.application.dtos.projection.SalesReportProjections;
+import com.mdmc.posofmyheart.application.dtos.projections.SalesOrderProjection;
+import com.mdmc.posofmyheart.application.dtos.projections.SalesReportProjections;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -23,7 +23,7 @@ public interface SalesReportRepository extends JpaRepository<OrderEntity, Long> 
      * Usa solo JPQL estándar sin funciones específicas de BD
      */
     @Query("""
-            SELECT new com.mdmc.posofmyheart.application.dtos.projection.OrderProjection(
+            SELECT new com.mdmc.posofmyheart.application.dtos.projections.SalesOrderProjection(
                 o.orderDate,
                 o.totalAmount,
                 o.idOrder
@@ -32,7 +32,7 @@ public interface SalesReportRepository extends JpaRepository<OrderEntity, Long> 
             WHERE o.orderDate >= :startDate AND o.orderDate < :endDate
             ORDER BY o.orderDate
             """)
-    List<OrderProjection> findAllOrdersInPeriod(
+    List<SalesOrderProjection> findAllOrdersInPeriod(
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate);
 
@@ -40,7 +40,7 @@ public interface SalesReportRepository extends JpaRepository<OrderEntity, Long> 
      * Obtiene ventas por categoría usando JPQL estándar
      */
     @Query("""
-            SELECT new com.mdmc.posofmyheart.application.dtos.projection.SalesReportProjections$CategorySalesProjection(
+            SELECT new com.mdmc.posofmyheart.application.dtos.projections.SalesReportProjections$CategorySalesProjection(
                 pc.name,
                 SUM(od.sellPrice),
                 COUNT(od.idOrderDetail)
@@ -61,7 +61,7 @@ public interface SalesReportRepository extends JpaRepository<OrderEntity, Long> 
      * Obtiene resumen del período usando JPQL estándar
      */
     @Query("""
-            SELECT new com.mdmc.posofmyheart.application.dtos.projection.SalesReportProjections$PeriodSummaryProjection(
+            SELECT new com.mdmc.posofmyheart.application.dtos.projections.SalesReportProjections$PeriodSummaryProjection(
                 SUM(o.totalAmount),
                 COUNT(o.idOrder)
             )

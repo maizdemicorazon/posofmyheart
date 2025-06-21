@@ -13,6 +13,6 @@ public interface PaymentMethodMapper {
 
     PaymentMethod toPaymentMethod(PaymentMethodEntity entity);
 
-    List<PaymentMethod> toPaymentMethodList(List<PaymentMethodEntity> entities);
+    List<PaymentMethod> toPaymentMethods(List<PaymentMethodEntity> entities);
 
 }

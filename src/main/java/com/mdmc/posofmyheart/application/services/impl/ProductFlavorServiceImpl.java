@@ -50,7 +50,7 @@ public class ProductFlavorServiceImpl implements ProductFlavorService {
         productRepository.findById(productId)
                 .orElseThrow(() -> new ProductNotFoundException(productId));
 
-        return flavorRepository.findAllFlavorsByProductId(productId)
+        return flavorRepository.findAllFlavorsByProductIdWithProduct(productId)
                 .stream()
                 .map(ProductFlavorMapper.INSTANCE::toProductFlavor)
                 .toList();
@@ -66,7 +66,7 @@ public class ProductFlavorServiceImpl implements ProductFlavorService {
         productRepository.findById(productId)
                 .orElseThrow(() -> new ProductNotFoundException(productId));
 
-        return flavorRepository.findActiveFlavorsByProductId(productId)
+        return flavorRepository.findActiveFlavorsByProductIdWithProduct(productId)
                 .stream()
                 .map(ProductFlavorMapper.INSTANCE::toProductFlavor)
                 .toList();

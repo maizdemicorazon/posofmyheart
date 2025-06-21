@@ -1,7 +1,7 @@
 package com.mdmc.posofmyheart.application.services.impl;
 
-import com.mdmc.posofmyheart.application.dtos.projection.OrderProjection;
-import com.mdmc.posofmyheart.application.dtos.projection.SalesReportProjections;
+import com.mdmc.posofmyheart.application.dtos.projections.SalesOrderProjection;
+import com.mdmc.posofmyheart.application.dtos.projections.SalesReportProjections;
 import com.mdmc.posofmyheart.application.dtos.reports.SalesReportResponse;
 import com.mdmc.posofmyheart.application.dtos.reports.SalesReportResponse.CategoryAnalysisData;
 import com.mdmc.posofmyheart.application.dtos.reports.SalesReportResponse.DailySalesData;
@@ -45,7 +45,7 @@ public class SalesReportServiceImpl implements SalesReportService {
         SalesReportProjections.PeriodSummaryProjection previousPeriod = salesReportRepository.findPeriodSummary(previousStartDate, startDate);
 
         // Obtener órdenes detalladas para procesamiento
-        List<OrderProjection> currentOrders = salesReportRepository.findAllOrdersInPeriod(startDate, endDate);
+        List<SalesOrderProjection> currentOrders = salesReportRepository.findAllOrdersInPeriod(startDate, endDate);
 
         // Obtener análisis por categorías usando JPQL
         List<SalesReportProjections.CategorySalesProjection> categoryData = salesReportRepository.findCategorySalesInPeriod(startDate, endDate);
@@ -57,7 +57,7 @@ public class SalesReportServiceImpl implements SalesReportService {
             Integer days,
             SalesReportProjections.PeriodSummaryProjection currentPeriod,
             SalesReportProjections.PeriodSummaryProjection previousPeriod,
-            List<OrderProjection> orders,
+            List<SalesOrderProjection> orders,
             List<SalesReportProjections.CategorySalesProjection> categoryData) {
 
         BigDecimal totalSales = currentPeriod.totalSales();
@@ -84,7 +84,7 @@ public class SalesReportServiceImpl implements SalesReportService {
                 .build();
     }
 
-    private List<DailySalesData> buildDailyData(List<OrderProjection> orders) {
+    private List<DailySalesData> buildDailyData(List<SalesOrderProjection> orders) {
         log.debug("Building daily data from {} orders", orders.size());
         return salesDataProcessor.processDailySalesData(orders);
     }
@@ -96,12 +96,12 @@ public class SalesReportServiceImpl implements SalesReportService {
         return salesDataProcessor.processCategories(categoryData, totalSales);
     }
 
-    private List<WeekdayAnalysisData> buildWeekdayAnalysis(List<OrderProjection> orders) {
+    private List<WeekdayAnalysisData> buildWeekdayAnalysis(List<SalesOrderProjection> orders) {
         log.debug("Building weekday analysis from {} orders", orders.size());
         return salesDataProcessor.processWeekdayAnalysis(orders);
     }
 
-    private List<PeakHourData> buildPeakHoursData(List<OrderProjection> orders, BigDecimal totalSales) {
+    private List<PeakHourData> buildPeakHoursData(List<SalesOrderProjection> orders, BigDecimal totalSales) {
         log.debug("Building peak hours data from {} orders", orders.size());
         return salesDataProcessor.processPeakHours(orders, totalSales);
     }

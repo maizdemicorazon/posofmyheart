@@ -13,6 +13,6 @@ public class UpdateOrderStrategy implements OrderOperationStrategy<UpdateOrderDa
 
     @Override
     public OrderResponse execute(UpdateOrderData updateData) {
-        return updateService.updateOrder(updateData.orderId(), updateData.updateRequest());
+        return updateService.updateOrder(updateData.idOrder(), updateData.updateRequest());
     }
 }

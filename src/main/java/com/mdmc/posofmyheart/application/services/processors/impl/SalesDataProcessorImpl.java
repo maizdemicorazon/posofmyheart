@@ -1,7 +1,7 @@
 package com.mdmc.posofmyheart.application.services.processors.impl;
 
-import com.mdmc.posofmyheart.application.dtos.projection.OrderProjection;
-import com.mdmc.posofmyheart.application.dtos.projection.SalesReportProjections;
+import com.mdmc.posofmyheart.application.dtos.projections.SalesOrderProjection;
+import com.mdmc.posofmyheart.application.dtos.projections.SalesReportProjections;
 import com.mdmc.posofmyheart.application.dtos.reports.SalesReportResponse.CategoryAnalysisData;
 import com.mdmc.posofmyheart.application.dtos.reports.SalesReportResponse.DailySalesData;
 import com.mdmc.posofmyheart.application.dtos.reports.SalesReportResponse.PeakHourData;
@@ -37,12 +37,12 @@ public class SalesDataProcessorImpl implements SalesDataProcessor {
      * Procesa órdenes para crear datos diarios agrupados
      */
     @Override
-    public List<DailySalesData> processDailySalesData(List<OrderProjection> orders) {
+    public List<DailySalesData> processDailySalesData(List<SalesOrderProjection> orders) {
         log.debug("Processing daily sales data for {} orders", orders.size());
 
         Map<LocalDate, DailySalesModel> dailyDataMap = orders.stream()
                 .collect(Collectors.groupingBy(
-                        OrderProjection::getOrderLocalDate,
+                        SalesOrderProjection::getOrderLocalDate,
                         LinkedHashMap::new,
                         Collectors.reducing(
                                 new DailySalesModel(),
@@ -60,12 +60,12 @@ public class SalesDataProcessorImpl implements SalesDataProcessor {
      * Procesa órdenes para análisis por días de la semana
      */
     @Override
-    public List<WeekdayAnalysisData> processWeekdayAnalysis(List<OrderProjection> orders) {
+    public List<WeekdayAnalysisData> processWeekdayAnalysis(List<SalesOrderProjection> orders) {
         log.debug("Processing weekday analysis for {} orders", orders.size());
 
         Map<DayOfWeek, WeekdayModel> weekdayDataMap = orders.stream()
                 .collect(Collectors.groupingBy(
-                        OrderProjection::getOrderDayOfWeek,
+                        SalesOrderProjection::getOrderDayOfWeek,
                         () -> new EnumMap<>(DayOfWeek.class),
                         Collectors.reducing(
                                 new WeekdayModel(),
@@ -88,13 +88,13 @@ public class SalesDataProcessorImpl implements SalesDataProcessor {
      * Procesa órdenes para encontrar horarios pico
      */
     @Override
-    public List<PeakHourData> processPeakHours(List<OrderProjection> orders, BigDecimal totalSales) {
+    public List<PeakHourData> processPeakHours(List<SalesOrderProjection> orders, BigDecimal totalSales) {
         log.debug("Processing peak hours for {} orders", orders.size());
 
         Map<Integer, HourModel> hourDataMap = orders.stream()
                 .filter(order -> order.getOrderHour() != null)
                 .collect(Collectors.groupingBy(
-                        OrderProjection::getOrderHour,
+                        SalesOrderProjection::getOrderHour,
                         Collectors.reducing(
                                 new HourModel(),
                                 order -> new HourModel(order.getSafeTotalAmount(), 1L),
