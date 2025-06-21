@@ -22,14 +22,14 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
     List<OrderEntity> findAllWithDetails();
 
     /**
-     * ⚡ OPTIMIZADA: Busca una orden por ID con todas sus relaciones
+     * Busca una orden por ID con todas sus relaciones
      */
     @EntityGraph(value = "Order.withCompleteDetails", type = EntityGraph.EntityGraphType.FETCH)
     @Query("SELECT o FROM OrderEntity o WHERE o.idOrder = :idOrder")
     Optional<OrderEntity> findByIdWithDetails(@Param("idOrder") Long idOrder);
 
     /**
-     * ⚡ OPTIMIZADA: Consulta por fecha con EntityGraph
+     * Consulta por fecha con EntityGraph
      */
     @EntityGraph(value = "Order.withCompleteDetails", type = EntityGraph.EntityGraphType.FETCH)
     @Query("SELECT DISTINCT o FROM OrderEntity o WHERE o.orderDate >= :startOfDay AND o.orderDate < :endOfDay ORDER BY o.orderDate DESC")
@@ -39,7 +39,7 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
     );
 
     /**
-     * ⚡ EXISTE ORDEN: Verificación sin cargar la entidad
+     * EXISTE ORDEN: Verificación sin cargar la entidad
      */
     @Query("SELECT CASE WHEN COUNT(o) > 0 THEN true ELSE false END FROM OrderEntity o WHERE o.idOrder = :idOrder")
     boolean existsByIdOrder(@Param("idOrder") Long idOrder);

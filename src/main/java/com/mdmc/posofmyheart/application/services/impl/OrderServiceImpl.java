@@ -39,7 +39,7 @@ public class OrderServiceImpl implements OrderService {
     private final CacheManager cacheManager;
 
     /**
-     * ⚡ SÚPER OPTIMIZADA: Una sola query para todas las órdenes con EntityGraph
+     * Una sola query para todas las órdenes con EntityGraph
      */
     @Override
     @Transactional(readOnly = true)
@@ -49,10 +49,10 @@ public class OrderServiceImpl implements OrderService {
 
         long startTime = System.currentTimeMillis();
 
-        // ⚡ UNA SOLA QUERY con EntityGraph completo
+        // UNA SOLA QUERY con EntityGraph completo
         List<OrderEntity> orders = orderRepository.findAllWithDetails();
 
-        // ⚡ Mapeo optimizado usando MapStruct
+        //Mapeo optimizado usando MapStruct
         List<OrderResponse> responses = orders.stream()
                 .map(OrderResponseMapper.INSTANCE::toResponse)
                 .toList();
@@ -64,7 +64,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * ⚡ OPTIMIZADA: Búsqueda por fecha con EntityGraph y caché específico
+     * Búsqueda por fecha con EntityGraph y caché específico
      */
     @Override
     @Transactional(readOnly = true)
@@ -77,7 +77,7 @@ public class OrderServiceImpl implements OrderService {
         LocalDateTime startOfDay = date.atStartOfDay();
         LocalDateTime endOfDay = date.atTime(LocalTime.MAX);
 
-        // ⚡ Query optimizada con EntityGraph
+        // Query optimizada con EntityGraph
         var orders = orderRepository.findByOrderDate(startOfDay, endOfDay);
 
         List<OrderResponse> responses = orders.stream()
@@ -91,7 +91,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * ⚡ OPTIMIZADA: Búsqueda por ID con EntityGraph y caché específico
+     * Búsqueda por ID con EntityGraph y caché específico
      */
     @Override
     @Transactional(readOnly = true)
@@ -101,7 +101,7 @@ public class OrderServiceImpl implements OrderService {
 
         long startTime = System.currentTimeMillis();
 
-        // ⚡ Query optimizada con EntityGraph completo
+        // Query optimizada con EntityGraph completo
         OrderEntity order = orderRepository.findByIdWithDetails(idOrder)
                 .orElseThrow(() -> new OrderNotFoundException(idOrder));
 
@@ -114,7 +114,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * ⚡ BACKUP: Procesamiento paralelo optimizado con EntityGraph
+     * BACKUP: Procesamiento paralelo optimizado con EntityGraph
      */
     @Override
     @Transactional(readOnly = true)
@@ -124,7 +124,7 @@ public class OrderServiceImpl implements OrderService {
 
         long startTime = System.currentTimeMillis();
 
-        // ⚡ Procesamiento asíncrono para backup
+        // Procesamiento asíncrono para backup
         CompletableFuture<List<OrderEntity>> ordersFuture = CompletableFuture
                 .supplyAsync(orderRepository::findAllWithDetails);
 
@@ -134,7 +134,7 @@ public class OrderServiceImpl implements OrderService {
                     .map(OrderResponseMapper.INSTANCE::toResponse)
                     .toList();
 
-            // ⚡ Usar el mapper existente correctamente
+            // Usar el mapper existente correctamente
             OrderRestore backup = OrderRestoreMapper.INSTANCE.toBackup(orderResponses);
 
             long endTime = System.currentTimeMillis();
@@ -148,7 +148,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * ⚡ CREAR ORDEN: Con invalidación de caché inteligente usando estrategia
+     * CREAR ORDEN: Con invalidación de caché inteligente usando estrategia
      */
     @Override
     @Transactional
@@ -162,7 +162,7 @@ public class OrderServiceImpl implements OrderService {
 
         long startTime = System.currentTimeMillis();
 
-        // ⚡ Usar estrategia para crear orden
+        // Usar estrategia para crear orden
         CreateOrderResponseDto response = createOrderStrategy.execute(request);
 
         // 🧹 Invalidar caché de patrones relacionados
@@ -175,7 +175,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * ⚡ ACTUALIZAR ORDEN: Con invalidación de caché específica usando estrategia
+     * ACTUALIZAR ORDEN: Con invalidación de caché específica usando estrategia
      */
     @Override
     @Transactional
@@ -191,7 +191,7 @@ public class OrderServiceImpl implements OrderService {
 
         long startTime = System.currentTimeMillis();
 
-        // ⚡ Crear UpdateOrderData y usar estrategia
+        // Crear UpdateOrderData y usar estrategia
         UpdateOrderData updateData = new UpdateOrderData(idOrder, updateRequest);
         OrderResponse response = updateOrderStrategy.execute(updateData);
 
@@ -205,7 +205,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * ⚡ ELIMINAR ORDEN: Con invalidación específica de caché
+     * ELIMINAR ORDEN: Con invalidación específica de caché
      */
     @Override
     @Transactional
@@ -221,7 +221,7 @@ public class OrderServiceImpl implements OrderService {
 
         long startTime = System.currentTimeMillis();
 
-        // ⚡ Verificar que existe antes de eliminar usando método optimizado
+        // Verificar que existe antes de eliminar usando método optimizado
         if (!orderRepository.existsByIdOrder(idOrder)) {
             throw new OrderNotFoundException(idOrder);
         }
@@ -236,7 +236,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * ⚡ RESTAURAR BACKUP: Con invalidación específica usando estrategia
+     * RESTAURAR BACKUP: Con invalidación específica usando estrategia
      */
     @Override
     @Transactional
@@ -250,7 +250,7 @@ public class OrderServiceImpl implements OrderService {
 
         long startTime = System.currentTimeMillis();
 
-        // ⚡ Procesamiento en lotes usando estrategia para mejor performance
+        // Procesamiento en lotes usando estrategia para mejor performance
         List<OrderRequest> processed = restore.orderRequests().parallelStream()
                 .map(request -> buildOrderRequest(request, restore.restoreDate()))
                 .map(createOrdersStrategy::execute)
@@ -266,7 +266,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * ⚡ Helper method: Construye OrderRequest para restore con fecha actualizada
+     * Helper method: Construye OrderRequest para restore con fecha actualizada
      */
     private OrderRequest buildOrderRequest(OrderRequest request, LocalDate restoreDate) {
         return new OrderRequest(
@@ -279,7 +279,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * 🧹 Helper method: Invalidar caché por patrones específicos
+     * Helper method: Invalidar caché por patrones específicos
      * Spring Cache no soporta patrones directamente, así que lo hacemos programáticamente
      */
     private void evictCachePatterns(String... patterns) {
