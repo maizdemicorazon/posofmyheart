@@ -115,12 +115,10 @@ public class SalesReportServiceImpl implements SalesReportService {
 
     private Double calculateGrowthRate(BigDecimal currentSales, BigDecimal previousSales) {
         return Optional.ofNullable(previousSales).map(
-                ps -> {
-                    return currentSales.subtract(previousSales)
-                            .divide(previousSales, 4, RoundingMode.HALF_UP)
+                ps -> currentSales.subtract(ps)
+                            .divide(ps, 4, RoundingMode.HALF_UP)
                             .multiply(BigDecimal.valueOf(100))
-                            .doubleValue();
-                }
+                            .doubleValue()
         ).orElse(0.0);
     }
 }

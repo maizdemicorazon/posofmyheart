@@ -5,14 +5,10 @@ import com.mdmc.posofmyheart.infrastructure.persistence.entities.PaymentMethodEn
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-import java.util.List;
-
 @Mapper
 public interface PaymentMethodMapper {
     PaymentMethodMapper INSTANCE = Mappers.getMapper(PaymentMethodMapper.class);
 
     PaymentMethod toPaymentMethod(PaymentMethodEntity entity);
-
-    List<PaymentMethod> toPaymentMethods(List<PaymentMethodEntity> entities);
 
 }

@@ -20,7 +20,6 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -267,14 +266,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * ⚡ VERIFICAR EXISTENCIA: Método ligero - Package private
-     */
-    @Transactional(readOnly = true)
-    boolean orderExists(Long idOrder) {
-        return orderRepository.existsByIdOrder(idOrder);
-    }
-
-    /**
      * ⚡ Helper method: Construye OrderRequest para restore con fecha actualizada
      */
     private OrderRequest buildOrderRequest(OrderRequest request, LocalDate restoreDate) {
@@ -333,11 +324,4 @@ public class OrderServiceImpl implements OrderService {
                 "ordersByRange-", "ordersByPayment-");
     }
 
-    // Record público para estadísticas rápidas
-    public record OrderStatsResponse(
-            LocalDate date,
-            Long orderCount,
-            BigDecimal totalAmount
-    ) {
-    }
 }
