@@ -61,6 +61,29 @@ public class SalesOrderProjection {
     private String paymentMethodName;
 
     /**
+     * Constructor para consultas básicas de órdenes
+     * Usado en findAllOrdersInPeriod
+     */
+    public SalesOrderProjection(LocalDateTime orderDate, BigDecimal totalAmount, Long orderId) {
+        this.orderDate = orderDate;
+        this.totalAmount = totalAmount;
+        this.orderId = orderId;
+    }
+
+    /**
+     * Constructor para consultas con categoría
+     * Usado en análisis por categorías
+     */
+    public SalesOrderProjection(LocalDateTime orderDate, BigDecimal totalAmount, Long orderId,
+                                String categoryName, BigDecimal orderDetailSellPrice) {
+        this.orderDate = orderDate;
+        this.totalAmount = totalAmount;
+        this.orderId = orderId;
+        this.categoryName = categoryName;
+        this.orderDetailSellPrice = orderDetailSellPrice;
+    }
+
+    /**
      * Obtiene la fecha de la orden como LocalDate para agrupaciones diarias
      */
     public LocalDate getOrderLocalDate() {

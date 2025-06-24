@@ -580,7 +580,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{host}}:{{port}}/api/orders/1",
+									"raw": "{{host}}:{{port}}/api/orders/10",
 									"host": [
 										"{{host}}"
 									],
@@ -588,7 +588,7 @@
 									"path": [
 										"api",
 										"orders",
-										"1"
+										"10"
 									]
 								}
 							},
@@ -1114,10 +1114,15 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"comment\": \"Por favor agregar más salsa\",\r\n    \"id_payment_method\": 2,\r\n    \"updated_items\": [\r\n        {\r\n            \"id_order_detail\": 1,\r\n            \"id_variant\": 3,\r\n            \"updated_sauces\": []\r\n        }\r\n    ]\r\n}"
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
 								},
 								"url": {
-									"raw": "{{host}}:{{port}}/api/products/2/flavors",
+									"raw": "{{host}}:{{port}}/api/products/1/flavors",
 									"host": [
 										"{{host}}"
 									],
@@ -1125,7 +1130,7 @@
 									"path": [
 										"api",
 										"products",
-										"2",
+										"1",
 										"flavors"
 									]
 								}
@@ -1657,7 +1662,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"comment\": \"Por favor agregar más salsa\",\r\n    \"id_payment_method\": 2,\r\n    \"updated_items\": [\r\n        {\r\n            \"id_product\": 6,\r\n            \"id_order_detail\": 1,\r\n            \"id_variant\": 19,\r\n            \"updated_extras\": [\r\n                {\r\n                    \"id_extra\": 3,\r\n                    \"quantity\": 2\r\n                },\r\n                {\r\n                    \"id_extra\": 1,\r\n                    \"quantity\": 2\r\n                }\r\n            ],\r\n            \"updated_flavors\": [\r\n                {\r\n                    \"id_flavor\": 1\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"id_order\": 1,\r\n            \"id_variant\": 12,\r\n            \"id_product\": 3, //No existe, se crea al actualizar\r\n            \"updated_extras\": [\r\n                {\r\n                    \"id_extra\": 3,\r\n                    \"quantity\": 1\r\n                },\r\n                {\r\n                    \"id_extra\": 1,\r\n                    \"quantity\": 1\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+							"raw": "{\r\n    \"comment\": \"Por favor agregar más salsa\",\r\n    \"id_payment_method\": 2,\r\n    \"updated_items\": [\r\n        {\r\n            \"id_product\": 6,\r\n            \"id_order_detail\": 1,\r\n            \"id_variant\": 19,\r\n            \"updated_extras\": [\r\n                {\r\n                    \"id_extra\": 3,\r\n                    \"quantity\": 2\r\n                },\r\n                {\r\n                    \"id_extra\": 1,\r\n                    \"quantity\": 2\r\n                }\r\n            ],\r\n            \"flavor\": 1\r\n        },\r\n        {\r\n            \"id_order\": 1,\r\n            \"id_variant\": 12,\r\n            \"id_product\": 3, //No existe, se crea al actualizar\r\n            \"updated_extras\": [\r\n                {\r\n                    \"id_extra\": 3,\r\n                    \"quantity\": 1\r\n                },\r\n                {\r\n                    \"id_extra\": 1,\r\n                    \"quantity\": 1\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1665,7 +1670,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}:{{port}}/api/orders/1",
+							"raw": "{{host}}:{{port}}/api/orders/10",
 							"host": [
 								"{{host}}"
 							],
@@ -1673,7 +1678,7 @@
 							"path": [
 								"api",
 								"orders",
-								"1"
+								"10"
 							]
 						}
 					},
@@ -1742,81 +1747,41 @@
 							"body": "{\n    \"id_order\": 1,\n    \"order_date\": \"2025-06-14T15:00:52\",\n    \"bill\": 200,\n    \"payment_method\": 2,\n    \"payment_name\": \"Tarjeta\",\n    \"client_name\": \"Lupita\",\n    \"comment\": \"Por favor agregar más salsa\",\n    \"items\": [\n        {\n            \"id_product\": 6,\n            \"product_name\": \"Maíz Puerco\",\n            \"product_image\": \"https://drive.google.com/thumbnail?id=1_DwAv9akn8dmrq-sO_PAAaAEEGPwPIF_\",\n            \"product_price\": 35,\n            \"id_variant\": 19,\n            \"variant_name\": \"Chico (8oz)\",\n            \"extras\": [\n                {\n                    \"name\": \"Proteina extra\",\n                    \"id_extra\": 3,\n                    \"quantity\": 2,\n                    \"actual_price\": 25\n                },\n                {\n                    \"name\": \"Queso Manchego Extra\",\n                    \"id_extra\": 1,\n                    \"quantity\": 2,\n                    \"actual_price\": 10\n                }\n            ],\n            \"flavor\": {\n                \"id_flavor\": 1,\n                \"id_flavor_detail\": 5,\n                \"name\": \"Nachos\",\n                \"id_order_detail\": 37\n            }\n        },\n        {\n            \"id_product\": 3,\n            \"product_name\": \"Esquites Tradicionales\",\n            \"product_image\": \"https://drive.google.com/thumbnail?id=1ph3Iog_GrUF6VY2DmiapwquOCUcTDTNx\",\n            \"product_price\": 60,\n            \"id_variant\": 12,\n            \"variant_name\": \"Extra Grande (16oz)\",\n            \"extras\": [\n                {\n                    \"name\": \"Proteina extra\",\n                    \"id_extra\": 3,\n                    \"quantity\": 1,\n                    \"actual_price\": 25\n                },\n                {\n                    \"name\": \"Queso Manchego Extra\",\n                    \"id_extra\": 1,\n                    \"quantity\": 1,\n                    \"actual_price\": 10\n                }\n            ]\n        }\n    ]\n}"
 						}
 					]
-				}
-			]
-		},
-		{
-			"name": "DeleteExamples",
-			"item": [
+				},
 				{
-					"name": "DeleteCache",
+					"name": "New Request",
 					"request": {
-						"method": "DELETE",
+						"method": "PUT",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"comment\": \"hola\",\r\n    \"id_payment_method\": 1,\r\n    \"client_name\": \"Juan\",\r\n    \"updated_items\": [\r\n        {\r\n            \"id_order_detail\": 1,\r\n            \"id_variant\": 13,\r\n            \"updated_sauces\": [\r\n                {\r\n                    \"id_sauce\": 7\r\n                },\r\n                {\r\n                    \"id_sauce\": 2\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{host}}:{{port}}/api/cache",
+							"raw": "{{host}}:{{port}}/api/orders/13",
 							"host": [
 								"{{host}}"
 							],
 							"port": "{{port}}",
 							"path": [
 								"api",
-								"cache"
+								"orders",
+								"13"
 							]
 						}
 					},
-					"response": [
-						{
-							"name": "DeleteCache",
-							"originalRequest": {
-								"method": "DELETE",
-								"header": [],
-								"url": {
-									"raw": "{{host}}:{{port}}/api/cache",
-									"host": [
-										"{{host}}"
-									],
-									"port": "{{port}}",
-									"path": [
-										"api",
-										"cache"
-									]
-								}
-							},
-							"status": "No Content",
-							"code": 204,
-							"_postman_previewlanguage": "plain",
-							"header": [
-								{
-									"key": "Vary",
-									"value": "Origin"
-								},
-								{
-									"key": "Vary",
-									"value": "Access-Control-Request-Method"
-								},
-								{
-									"key": "Vary",
-									"value": "Access-Control-Request-Headers"
-								},
-								{
-									"key": "Date",
-									"value": "Sun, 15 Jun 2025 18:49:19 GMT"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=60"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								}
-							],
-							"cookie": [],
-							"body": null
-						}
-					]
-				},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "DeleteExamples",
+			"item": [
 				{
 					"name": "DeleteOrder",
 					"request": {
@@ -2140,6 +2105,195 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Cache",
+			"item": [
+				{
+					"name": "CacheStats",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/api/cache/stats",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"cache",
+								"stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CacheStatsByName",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/api/cache/stats/orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"cache",
+								"stats",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CachePerformance",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/api/cache/performance",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"cache",
+								"performance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CacheInfo",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/api/cache/info",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"cache",
+								"info"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteCache",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}:{{port}}/api/cache",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"cache"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "DeleteCache",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}:{{port}}/api/cache",
+									"host": [
+										"{{host}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"api",
+										"cache"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 15 Jun 2025 18:49:19 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Ping",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}:{{port}}/ping",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"ping"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [

@@ -44,7 +44,6 @@ public class ProductServiceImpl implements ProductService {
 
         long startTime = System.currentTimeMillis();
 
-        // UNA SOLA QUERY con EntityGraph para productos + categorías + variantes
         List<ProductEntity> products = productRepository.findByIdWithAllRelations();
 
         List<ProductExtra> extras = productExtraRepository.findAllExtras();
@@ -71,7 +70,7 @@ public class ProductServiceImpl implements ProductService {
         long startTime = System.currentTimeMillis();
 
         // Query optimizada con EntityGraph completo
-        ProductEntity productEntity = productRepository.findByIdWithAllRelationsByIdProduct(idProduct)
+        ProductEntity productEntity = productRepository.findById(idProduct)
                 .orElseThrow(() -> new ProductNotFoundException(idProduct));
 
         Product product = ProductMapper.INSTANCE.toProduct(productEntity);
