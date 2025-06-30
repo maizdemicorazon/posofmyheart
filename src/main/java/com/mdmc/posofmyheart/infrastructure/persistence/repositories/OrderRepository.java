@@ -18,7 +18,7 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
      * Usa EntityGraph para evitar el problema N+1 de forma declarativa
      */
     @EntityGraph(value = "Order.withCompleteDetails", type = EntityGraph.EntityGraphType.FETCH)
-    @Query("SELECT DISTINCT o FROM OrderEntity o ORDER BY o.orderDate DESC")
+    @Query("SELECT DISTINCT o FROM OrderEntity o ORDER BY o.idOrder DESC")
     List<OrderEntity> findAllWithDetails();
 
     /**

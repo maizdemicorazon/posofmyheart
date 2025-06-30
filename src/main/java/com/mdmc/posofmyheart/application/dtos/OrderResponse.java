@@ -8,10 +8,9 @@ public record OrderResponse(
         Long idOrder,
         LocalDateTime orderDate,
         BigDecimal bill,
-        Long paymentMethod,
+        Long idPaymentMethod,
         String paymentName,
         String clientName,
-        String comment,
         Set<OrderItemResponse> items
 ) {
 
@@ -22,6 +21,7 @@ public record OrderResponse(
             BigDecimal productPrice,
             Long idVariant,
             String variantName,
+            String comment,
             Set<OrderExtrasResponse> extras,
             Set<OrderDetailSauceResponse> sauces,
             OrderFlavorDetailResponse flavor

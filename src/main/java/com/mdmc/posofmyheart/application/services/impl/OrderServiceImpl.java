@@ -4,6 +4,7 @@ import com.mdmc.posofmyheart.api.exceptions.OrderNotFoundException;
 import com.mdmc.posofmyheart.application.dtos.*;
 import com.mdmc.posofmyheart.application.mappers.OrderResponseMapper;
 import com.mdmc.posofmyheart.application.mappers.OrderRestoreMapper;
+import com.mdmc.posofmyheart.application.services.CacheService;
 import com.mdmc.posofmyheart.application.services.OrderService;
 import com.mdmc.posofmyheart.domain.dtos.CreateOrderResponseDto;
 import com.mdmc.posofmyheart.domain.patterns.strategies.CreateOrderStrategy;
@@ -23,8 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 @Service
@@ -36,7 +37,7 @@ public class OrderServiceImpl implements OrderService {
     private final CreateOrderStrategy createOrderStrategy;
     private final CreateOrdersStrategy createOrdersStrategy;
     private final UpdateOrderStrategy updateOrderStrategy;
-    private final CacheManager cacheManager;
+    private final CacheService cacheService;
 
     /**
      * Una sola query para todas las órdenes con EntityGraph
@@ -45,7 +46,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional(readOnly = true)
     @Cacheable(value = "orders", key = "'allOrders'")
     public List<OrderResponse> findAllOrders() {
-        log.debug("🔍 Obteniendo todas las órdenes con EntityGraph");
+        log.debug("🔍 Obteniendo todas las órdenes");
 
         long startTime = System.currentTimeMillis();
 
@@ -70,10 +71,10 @@ public class OrderServiceImpl implements OrderService {
     @Transactional(readOnly = true)
     @Cacheable(value = "orders", key = "'ordersByDate-' + #date.toString()")
     public List<OrderResponse> findOrdersByDate(LocalDate date) {
-        log.debug("🔍 Obteniendo órdenes para fecha: {} con EntityGraph", date);
+        log.debug("🔍 Obteniendo órdenes de la fecha: {}", date);
 
         long startTime = System.currentTimeMillis();
-
+        //TODO modificar para traer por periodo
         LocalDateTime startOfDay = date.atStartOfDay();
         LocalDateTime endOfDay = date.atTime(LocalTime.MAX);
 
@@ -85,7 +86,33 @@ public class OrderServiceImpl implements OrderService {
                 .toList();
 
         long endTime = System.currentTimeMillis();
-        log.info("✅ {} órdenes obtenidas para {} con EntityGraph en {}ms", responses.size(), date, (endTime - startTime));
+        log.info("✅ {} órdenes obtenidas de la fecha {} en {}ms", responses.size(), date, (endTime - startTime));
+
+        return responses;
+    }
+
+    /**
+     * Búsqueda por fecha con EntityGraph y caché específico
+     */
+    @Transactional(readOnly = true)
+    @Cacheable(value = "orders", key = "'ordersByPeriod-' + #start.toString()")
+    @Override
+    public List<OrderResponse> findOrdersByPeriod(LocalDate start, LocalDate end) {
+        log.debug("🔍 Obteniendo órdenes para el periodo entre: {} y {} días con EntityGraph", start, end);
+        long startTime = System.currentTimeMillis();
+
+        LocalDateTime startDate = start.atTime(LocalTime.MIN);
+        LocalDateTime endDate = end.atTime(LocalTime.MAX);
+        // Query optimizada con EntityGraph
+        var orders = orderRepository.findByOrderDate(startDate, endDate);
+
+        List<OrderResponse> responses = orders.stream()
+                .map(OrderResponseMapper.INSTANCE::toResponse)
+                .toList();
+
+        long endTime = System.currentTimeMillis();
+        log.info("✅ {} órdenes obtenidas de las fechas entre {} a {} en {}ms",
+                responses.size(), startDate, endDate, (endTime - startTime));
 
         return responses;
     }
@@ -97,7 +124,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional(readOnly = true)
     @Cacheable(value = "orders", key = "'order-' + #idOrder")
     public OrderResponse findOrderById(Long idOrder) {
-        log.debug("🔍 Obteniendo orden por ID: {} con EntityGraph", idOrder);
+        log.debug("🔍 Obteniendo orden por ID: {}", idOrder);
 
         long startTime = System.currentTimeMillis();
 
@@ -108,7 +135,7 @@ public class OrderServiceImpl implements OrderService {
         OrderResponse response = OrderResponseMapper.INSTANCE.toResponse(order);
 
         long endTime = System.currentTimeMillis();
-        log.info("✅ Orden {} obtenida con EntityGraph en {}ms", idOrder, (endTime - startTime));
+        log.info("✅ Orden {} obtenida en {}ms", idOrder, (endTime - startTime));
 
         return response;
     }
@@ -120,7 +147,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional(readOnly = true)
     @Cacheable(value = "orders", key = "'backup'")
     public OrderRestore findOrdersToBackup() {
-        log.debug("🔍 Preparando backup de órdenes con EntityGraph");
+        log.debug("🔍 Preparando backup de órdenes");
 
         long startTime = System.currentTimeMillis();
 
@@ -155,7 +182,8 @@ public class OrderServiceImpl implements OrderService {
     @Caching(evict = {
             @CacheEvict(value = "orders", key = "'allOrders'"),
             @CacheEvict(value = "orders", key = "'ordersWithDetails'"),
-            @CacheEvict(value = "orders", key = "'backup'")
+            @CacheEvict(value = "orders", key = "'backup'"),
+            @CacheEvict(value = "orders", key = "'ordersByPeriod'")
     })
     public CreateOrderResponseDto createOrder(OrderRequest request) {
         log.debug("🚀 Creando nueva orden usando estrategia");
@@ -165,8 +193,7 @@ public class OrderServiceImpl implements OrderService {
         // Usar estrategia para crear orden
         CreateOrderResponseDto response = createOrderStrategy.execute(request);
 
-        // 🧹 Invalidar caché de patrones relacionados
-        evictCachePatterns("recentOrders-", "stats-");
+        cacheService.clearCache();
 
         long endTime = System.currentTimeMillis();
         log.info("✅ Orden {} creada en {}ms", response.idOrder(), (endTime - startTime));
@@ -184,7 +211,8 @@ public class OrderServiceImpl implements OrderService {
             @CacheEvict(value = "orders", key = "'ordersWithDetails'"),
             @CacheEvict(value = "orders", key = "'backup'"),
             @CacheEvict(value = "orders", key = "'order-' + #idOrder"),
-            @CacheEvict(value = "orders", key = "'orderBasic-' + #idOrder")
+            @CacheEvict(value = "orders", key = "'orderBasic-' + #idOrder"),
+            @CacheEvict(value = "orders", key = "'ordersByPeriod'")
     })
     public OrderResponse updateOrder(Long idOrder, OrderUpdateRequest updateRequest) {
         log.debug("🔄 Actualizando orden: {} usando estrategia", idOrder);
@@ -195,8 +223,7 @@ public class OrderServiceImpl implements OrderService {
         UpdateOrderData updateData = new UpdateOrderData(idOrder, updateRequest);
         OrderResponse response = updateOrderStrategy.execute(updateData);
 
-        // 🧹 Invalidar caché de patrones relacionados
-        evictCachePatterns("recentOrders-", "stats-");
+        cacheService.clearCache();
 
         long endTime = System.currentTimeMillis();
         log.info("✅ Orden {} actualizada en {}ms", idOrder, (endTime - startTime));
@@ -214,7 +241,8 @@ public class OrderServiceImpl implements OrderService {
             @CacheEvict(value = "orders", key = "'ordersWithDetails'"),
             @CacheEvict(value = "orders", key = "'backup'"),
             @CacheEvict(value = "orders", key = "'order-' + #idOrder"),
-            @CacheEvict(value = "orders", key = "'orderBasic-' + #idOrder")
+            @CacheEvict(value = "orders", key = "'orderBasic-' + #idOrder"),
+            @CacheEvict(value = "orders", key = "'ordersByPeriod'")
     })
     public void deleteOrder(Long idOrder) {
         log.debug("🗑️ Eliminando orden: {}", idOrder);
@@ -228,8 +256,7 @@ public class OrderServiceImpl implements OrderService {
 
         orderRepository.deleteById(idOrder);
 
-        // 🧹 Invalidar caché dinámico que podría incluir esta orden
-        evictDynamicCacheEntries();
+        cacheService.clearCache();
 
         long endTime = System.currentTimeMillis();
         log.info("✅ Orden {} eliminada en {}ms", idOrder, (endTime - startTime));
@@ -243,7 +270,8 @@ public class OrderServiceImpl implements OrderService {
     @Caching(evict = {
             @CacheEvict(value = "orders", key = "'allOrders'"),
             @CacheEvict(value = "orders", key = "'ordersWithDetails'"),
-            @CacheEvict(value = "orders", key = "'backup'")
+            @CacheEvict(value = "orders", key = "'backup'"),
+            @CacheEvict(value = "orders", key = "'ordersByPeriod'")
     })
     public List<OrderRequest> restoreBackup(OrderRestore restore) {
         log.debug("🔄 Restaurando backup de {} órdenes usando estrategia", restore.orderRequests().size());
@@ -256,8 +284,7 @@ public class OrderServiceImpl implements OrderService {
                 .map(createOrdersStrategy::execute)
                 .toList();
 
-        // 🧹 Invalidar todo el caché dinámico después de restaurar
-        evictDynamicCacheEntries();
+        cacheService.clearCache();
 
         long endTime = System.currentTimeMillis();
         log.info("✅ {} órdenes restauradas en {}ms", processed.size(), (endTime - startTime));
@@ -272,56 +299,9 @@ public class OrderServiceImpl implements OrderService {
         return new OrderRequest(
                 request.idPaymentMethod(),
                 request.clientName(),
-                request.comment(),
                 OrderRestore.addOrderTime(restoreDate),
                 request.items()
         );
-    }
-
-    /**
-     * Helper method: Invalidar caché por patrones específicos
-     * Spring Cache no soporta patrones directamente, así que lo hacemos programáticamente
-     */
-    private void evictCachePatterns(String... patterns) {
-        try {
-            var cache = cacheManager.getCache("orders");
-            if (cache != null) {
-                var nativeCache = cache.getNativeCache();
-
-                // Si es Caffeine Cache (configurado en application.properties)
-                if (nativeCache instanceof com.github.benmanes.caffeine.cache.Cache) {
-                    @SuppressWarnings("unchecked")
-                    var caffeineCache = (com.github.benmanes.caffeine.cache.Cache<Object, Object>) nativeCache;
-
-                    // Buscar todas las claves que coincidan con los patrones
-                    caffeineCache.asMap().keySet().removeIf(key -> {
-                        String keyStr = String.valueOf(key);
-                        return Arrays.stream(patterns)
-                                .anyMatch(keyStr::startsWith);
-                    });
-
-                    log.debug("🧹 Caffeine cache patterns invalidated: {}", Arrays.toString(patterns));
-                } else {
-                    // Fallback: limpiar todo el cache si no es Caffeine
-                    cache.clear();
-                    log.debug("🧹 Entire cache cleared (fallback for non-Caffeine cache)");
-                }
-            }
-        } catch (Exception e) {
-            log.warn("⚠️ Error invalidating cache patterns, clearing entire cache: {}", e.getMessage());
-            var cache = cacheManager.getCache("orders");
-            if (cache != null) {
-                cache.clear();
-            }
-        }
-    }
-
-    /**
-     * 🧹 Helper method: Invalidar todas las entradas de caché relacionadas con estadísticas y órdenes recientes
-     */
-    private void evictDynamicCacheEntries() {
-        evictCachePatterns("recentOrders-", "stats-", "ordersByDate-", "ordersByClient-",
-                "ordersByRange-", "ordersByPayment-");
     }
 
 }

@@ -51,13 +51,13 @@
 //                List.of(variant), List.of(flavor));
 //        ProductExtra extra = new ProductExtra(1L, "Queso extra", new BigDecimal("2.99"));
 //        ProductSauce productSauce = new ProductSauce(1L, "Barbacoa");
-//        PaymentMethod paymentMethod = new PaymentMethod(1L, "Efectivo");
+//        PaymentMethod idPaymentMethod = new PaymentMethod(1L, "Efectivo");
 //
 //        ProductsMenuDto expectedDto = new ProductsMenuDto(
 //                List.of(product),
 //                List.of(extra),
 //                List.of(productSauce),
-//                List.of(paymentMethod)
+//                List.of(idPaymentMethod)
 //        );
 //
 //        when(productService.getMenuProducts()).thenReturn(expectedDto);

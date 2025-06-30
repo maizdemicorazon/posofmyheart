@@ -11,11 +11,11 @@ public interface PaymentMethodRepository extends JpaRepository<PaymentMethodEnti
 
     @Query("""
             SELECT new com.mdmc.posofmyheart.domain.models.PaymentMethod(
-                pm.idPayment,
+                pm.idPaymentMethod,
                 pm.name
             )
             FROM PaymentMethodEntity pm
-             ORDER BY pm.idPayment ASC
+             ORDER BY pm.idPaymentMethod ASC
             """)
     List<PaymentMethod> findAllPaymentMethods();
 }

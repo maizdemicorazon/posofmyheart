@@ -10,6 +10,7 @@ import com.mdmc.posofmyheart.domain.models.Product;
 import com.mdmc.posofmyheart.domain.models.ProductExtra;
 import com.mdmc.posofmyheart.domain.models.ProductSauce;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.ProductEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.mappers.ProductEntityMapper;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.PaymentMethodRepository;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.ProductExtraRepository;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.ProductRepository;
@@ -44,7 +45,9 @@ public class ProductServiceImpl implements ProductService {
 
         long startTime = System.currentTimeMillis();
 
-        List<ProductEntity> products = productRepository.findByIdWithAllRelations();
+        List<ProductEntity> products = ProductEntityMapper.INSTANCE.toProductsByIdAsc(
+                productRepository.findByIdWithAllRelations()
+        );
 
         List<ProductExtra> extras = productExtraRepository.findAllExtras();
 

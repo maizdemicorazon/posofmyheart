@@ -11,13 +11,17 @@ import java.util.List;
 
 public interface OrderService {
     List<OrderResponse> findAllOrders();
+
     OrderRestore findOrdersToBackup();
 
     List<OrderResponse> findOrdersByDate(LocalDate date);
 
+    List<OrderResponse> findOrdersByPeriod(LocalDate start, LocalDate end);
+
     OrderResponse findOrderById(Long orderId);
 
     CreateOrderResponseDto createOrder(OrderRequest request);
+
     List<OrderRequest> restoreBackup(OrderRestore restore);
 
     /**
@@ -29,7 +33,7 @@ public interface OrderService {
      * idOrderDetail o (idProduct + idVariant) para items
      * idExtra para extras
      *
-     * @param idOrder - id order which belongs detail or extra
+     * @param idOrder       - id order which belongs detail or extra
      * @param updateRequest - body to update
      * @return {@link OrderResponse}
      */

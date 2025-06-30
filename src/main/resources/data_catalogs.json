@@ -1,31 +1,31 @@
 {
   "payment_methods": [
     {
-      "id_payment": 1,
+      "id_payment_method": 1,
       "name": "Efectivo",
       "description": "Pago en efectivo",
       "active": true
     },
     {
-      "id_payment": 2,
+      "id_payment_method": 2,
       "name": "Tarjeta",
       "description": "Pago con tarjeta mediante terminal",
       "active": true
     },
     {
-      "id_payment": 3,
+      "id_payment_method": 3,
       "name": "Transferencia",
       "description": "Pago por transferencia bancaria",
       "active": true
     },
     {
-      "id_payment": 4,
+      "id_payment_method": 4,
       "name": "QR",
       "description": "QR de pago a través de Mercado Pago",
       "active": true
     },
     {
-      "id_payment": 5,
+      "id_payment_method": 5,
       "name": "Link",
       "description": "Link de pago a través de Mercado Pago",
       "active": true

@@ -192,7 +192,7 @@ public class OrderCalculationServiceImpl implements OrderCalculationService {
         return orders.stream()
                 .filter(Objects::nonNull)
                 .filter(order -> order.getPaymentMethod() != null)
-                .filter(order -> cardPaymentId.equals(order.getPaymentMethod().getIdPayment()))
+                .filter(order -> cardPaymentId.equals(order.getPaymentMethod().getIdPaymentMethod()))
                 .collect(Collectors.toSet());
     }
 

@@ -10,8 +10,6 @@ public record OrderUpdateRequest(
         Long idPaymentMethod,
         @Size(max = 40)
         String clientName,
-        @Size(max = 100)
-        String comment,
         List<OrderItemUpdate> updatedItems
 ) {
     public record OrderItemUpdate(
@@ -20,6 +18,8 @@ public record OrderUpdateRequest(
             Long idProduct,
             @Positive
             Long idVariant,
+            @Size(max = 100)
+            String comment,
             List<ProductExtraUpdate> updatedExtras,
             List<SauceUpdate> updatedSauces,
             FlavorUpdate updatedFlavor

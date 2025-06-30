@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/products/{productId}/variants")
+@RequestMapping("/products/{productId}/variants")
 @RequiredArgsConstructor
 @Log4j2
 @Validated

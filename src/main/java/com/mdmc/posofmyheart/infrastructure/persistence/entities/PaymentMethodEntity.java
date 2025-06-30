@@ -22,7 +22,7 @@ public class PaymentMethodEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_payment_method")
-    private Long idPayment;
+    private Long idPaymentMethod;
 
     @Column(name = "name", length = 50, nullable = false)
     private String name;

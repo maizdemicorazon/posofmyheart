@@ -136,21 +136,14 @@ public class OrderEntity {
     @JoinColumn(name = "id_payment_method", nullable = false)
     private PaymentMethodEntity paymentMethod;
 
-    @Column(name = "comment")
-    private String comment;
-
+    @Builder.Default
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private Set<OrderDetailEntity> orderDetails;
+    private Set<OrderDetailEntity> orderDetails = new HashSet<>();
 
     // Helper method para agregar order detail
     public void addOrderDetail(OrderDetailEntity detail) {
         orderDetails.add(detail);
         detail.setOrder(this);
-    }
-
-    // Helper method para verificar si tiene comentarios
-    public boolean hasComment() {
-        return comment != null && !comment.trim().isEmpty();
     }
 
     @PrePersist
@@ -163,7 +156,6 @@ public class OrderEntity {
 
     @PreUpdate
     protected void onUpdate() {
-        orderDetails = new HashSet<>();
         updatedAt = LocalDateTime.now();
     }
 }

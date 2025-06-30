@@ -21,7 +21,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/orders")
+@RequestMapping("orders")
 @RequiredArgsConstructor
 @Log4j2
 public class OrderController {
@@ -88,6 +88,24 @@ public class OrderController {
             @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
     ) {
         return ResponseEntity.ok(orderService.findOrdersByDate(date));
+    }
+
+    @Operation(
+            summary = "Listado de ordes por fecha",
+            description = "Recupera una lista de ordenes usando como parametro una fecha dada con formato yyyy-MM-dd"
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Lista encontrada"),
+                    @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+            }
+    )
+    @GetMapping("/since/{start}/until/{end}")
+    public ResponseEntity<List<OrderResponse>> getOrdersByPeriod(
+            @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start,
+            @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end
+    ) {
+        return ResponseEntity.ok(orderService.findOrdersByPeriod(start, end));
     }
 
     @Operation(

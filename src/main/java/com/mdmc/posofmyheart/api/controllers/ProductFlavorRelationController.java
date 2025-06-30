@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/products/{productId}/flavors")
+@RequestMapping("/products/{productId}/flavors")
 @RequiredArgsConstructor
 @Log4j2
 public class ProductFlavorRelationController {

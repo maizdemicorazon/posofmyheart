@@ -53,15 +53,9 @@ public class OrderUpdateServiceImpl implements OrderUpdateService {
     }
 
     private void updateOrderFields(OrderEntity order, OrderUpdateRequest updateRequest) {
-        // Actualizar comentario si está presente
-        if (updateRequest.comment() != null) {
-            order.setComment(updateRequest.comment());
-        }
-
         if (updateRequest.clientName() != null) {
             order.setClientName(updateRequest.clientName());
         }
-
         // Actualizar tipo de pago si está presente
         if (updateRequest.idPaymentMethod() != null) {
             PaymentMethodEntity newPaymentMethod = entityFinder
@@ -93,6 +87,7 @@ public class OrderUpdateServiceImpl implements OrderUpdateService {
         OrderDetailEntity detail = OrderDetailEntity.builder()
                 .product(product)
                 .variant(variant)
+                .comment(item.comment())
                 .sellPrice(variant.getActualSellPrice())
                 .productionCost(variant.getActualCostPrice())
                 .build();

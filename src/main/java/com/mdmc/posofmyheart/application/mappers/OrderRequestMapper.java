@@ -14,7 +14,7 @@ public interface OrderRequestMapper {
 
     OrderRequestMapper INSTANCE = Mappers.getMapper(OrderRequestMapper.class);
 
-    @Mapping(target = "idPaymentMethod", source = "paymentMethod")
+    @Mapping(target = "idPaymentMethod", source = "idPaymentMethod")
     @Mapping(target = "items", source = "items")
     OrderRequest toOrderRequest(OrderResponse orderResponse);
 

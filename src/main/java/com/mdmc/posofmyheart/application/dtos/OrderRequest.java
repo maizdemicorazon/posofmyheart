@@ -14,8 +14,6 @@ public record OrderRequest(
         Long idPaymentMethod,
         @Size(max = 40)
         String clientName,
-        @Size(max = 100)
-        String comment,
         LocalDateTime orderDate,
         @NotEmpty
         List<OrderItemRequest> items

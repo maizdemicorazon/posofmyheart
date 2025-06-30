@@ -53,6 +53,9 @@ public class OrderDetailEntity {
     @Column(name = "production_cost", precision = 10, scale = 2, nullable = false)
     private BigDecimal productionCost;
 
+    @Column(name = "comment")
+    private String comment;
+
     @Builder.Default
     @OneToMany(mappedBy = "orderDetail", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<OrderFlavorDetailEntity> flavorDetails = new HashSet<>();
@@ -65,6 +68,10 @@ public class OrderDetailEntity {
     public void addSauce(ProductSauceEntity sauce) {
         OrderDetailSauceEntity detailSauce = new OrderDetailSauceEntity(this, sauce);
         sauceDetails.add(detailSauce);
+    }
+
+    public boolean hasComment() {
+        return comment != null && !comment.trim().isEmpty();
     }
 
 }

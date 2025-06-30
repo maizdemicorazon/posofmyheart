@@ -1,6 +1,7 @@
 package com.mdmc.posofmyheart.api.controllers;
 
 import com.github.benmanes.caffeine.cache.stats.CacheStats;
+import com.mdmc.posofmyheart.application.services.CacheService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -16,29 +17,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/cache")
+@RequestMapping("/cache")
 @RequiredArgsConstructor
 @Log4j2
 public class CacheController {
 
     private final CacheManager cacheManager;
+    private final CacheService cacheService;
     private final DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
     @Operation(summary = "Invalidar todos los caches")
     @DeleteMapping
     public ResponseEntity<Void> evictAllCaches() {
-        cacheManager.getCacheNames().forEach(cacheName -> {
-            Cache cache = cacheManager.getCache(cacheName);
-            if (cache != null) {
-                cache.clear();
-                log.info("Cache {} invalidado", cacheName);
-            }
-        });
+        cacheService.clearCache();
         return ResponseEntity.noContent().build();
     }
 
     /**
-     * 📊 ESTADÍSTICAS COMPLETAS DE TODOS LOS CACHES - CORREGIDO
+     * 📊 ESTADÍSTICAS COMPLETAS DE TODOS LOS CACHES
      */
     @GetMapping("/stats")
     public Map<String, Object> getAllCacheStats() {

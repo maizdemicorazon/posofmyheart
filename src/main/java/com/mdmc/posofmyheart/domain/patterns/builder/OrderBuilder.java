@@ -22,7 +22,6 @@ public class OrderBuilder {
         return OrderEntity.builder()
                 .paymentMethod(paymentMethod)
                 .clientName(request.clientName())
-                .comment(request.comment())
                 .orderDate(Optional.ofNullable(request.orderDate()).orElse(LocalDateTime.now()))
                 .updatedAt(LocalDateTime.now())
                 .build();
@@ -37,6 +36,7 @@ public class OrderBuilder {
                 .variant(variant)
                 .sellPrice(variant.getActualSellPrice())
                 .productionCost(variant.getActualCostPrice())
+                .comment(item.comment())
                 .sauceDetails(new HashSet<>())
                 .extraDetails(new HashSet<>())
                 .flavorDetails(new HashSet<>())
