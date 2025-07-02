@@ -1,5 +1,7 @@
 package com.mdmc.posofmyheart.application.dtos;
 
+import com.mdmc.posofmyheart.domain.OrderStatus;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -11,6 +13,7 @@ public record OrderResponse(
         Long idPaymentMethod,
         String paymentName,
         String clientName,
+        OrderStatus status,
         Set<OrderItemResponse> items
 ) {
 
@@ -22,6 +25,7 @@ public record OrderResponse(
             Long idVariant,
             String variantName,
             String comment,
+            Long idOrderDetail,
             Set<OrderExtrasResponse> extras,
             Set<OrderDetailSauceResponse> sauces,
             OrderFlavorDetailResponse flavor

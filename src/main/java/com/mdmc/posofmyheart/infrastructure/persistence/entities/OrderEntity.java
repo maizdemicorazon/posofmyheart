@@ -1,5 +1,6 @@
 package com.mdmc.posofmyheart.infrastructure.persistence.entities;
 
+import com.mdmc.posofmyheart.domain.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -131,6 +132,11 @@ public class OrderEntity {
 
     @Column(name = "total_amount", precision = 10, scale = 2, nullable = false)
     private BigDecimal totalAmount;
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private OrderStatus status = OrderStatus.RECEIVED;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_payment_method", nullable = false)
