@@ -14,7 +14,6 @@ import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.OrderRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
@@ -25,7 +24,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 @Service
@@ -74,7 +72,6 @@ public class OrderServiceImpl implements OrderService {
         log.debug("🔍 Obteniendo órdenes de la fecha: {}", date);
 
         long startTime = System.currentTimeMillis();
-        //TODO modificar para traer por periodo
         LocalDateTime startOfDay = date.atStartOfDay();
         LocalDateTime endOfDay = date.atTime(LocalTime.MAX);
 
