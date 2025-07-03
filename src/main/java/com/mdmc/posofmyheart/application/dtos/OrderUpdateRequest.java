@@ -1,5 +1,6 @@
 package com.mdmc.posofmyheart.application.dtos;
 
+import com.mdmc.posofmyheart.domain.OrderStatusEnum;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
@@ -10,6 +11,7 @@ public record OrderUpdateRequest(
         Long idPaymentMethod,
         @Size(max = 40)
         String clientName,
+        OrderStatusEnum status,
         List<OrderItemUpdate> updatedItems
 ) {
     public record OrderItemUpdate(

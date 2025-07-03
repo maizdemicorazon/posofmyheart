@@ -1,6 +1,6 @@
 package com.mdmc.posofmyheart.infrastructure.persistence.entities;
 
-import com.mdmc.posofmyheart.domain.OrderStatus;
+import com.mdmc.posofmyheart.domain.OrderStatusEnum;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -14,7 +14,8 @@ import java.util.Set;
 @Table(name = "orders", indexes = {
         @Index(name = "idx_order_date", columnList = "order_date"),
         @Index(name = "idx_order_payment_method", columnList = "id_payment_method"),
-        @Index(name = "idx_order_total_amount", columnList = "total_amount")
+        @Index(name = "idx_order_total_amount", columnList = "total_amount"),
+        @Index(name = "idx_order_status", columnList = "status") // <-- Índice agregado aquí
 })
 @NamedEntityGraphs({
         // EntityGraph básico: Solo carga payment method
@@ -136,7 +137,7 @@ public class OrderEntity {
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private OrderStatus status = OrderStatus.RECEIVED;
+    private OrderStatusEnum status = OrderStatusEnum.RECEIVED;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_payment_method", nullable = false)

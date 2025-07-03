@@ -6,6 +6,7 @@ import com.mdmc.posofmyheart.application.mappers.OrderResponseMapper;
 import com.mdmc.posofmyheart.application.mappers.OrderRestoreMapper;
 import com.mdmc.posofmyheart.application.services.CacheService;
 import com.mdmc.posofmyheart.application.services.OrderService;
+import com.mdmc.posofmyheart.domain.OrderStatusEnum;
 import com.mdmc.posofmyheart.domain.dtos.CreateOrderResponseDto;
 import com.mdmc.posofmyheart.domain.patterns.strategies.CreateOrderStrategy;
 import com.mdmc.posofmyheart.domain.patterns.strategies.CreateOrdersStrategy;
@@ -24,6 +25,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 @Service
@@ -229,6 +231,35 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
+     * Actualiza el status de la ORDEN: Con invalidación específica de caché
+     */
+    @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "orders", key = "'allOrders'"),
+            @CacheEvict(value = "orders", key = "'ordersWithDetails'"),
+            @CacheEvict(value = "orders", key = "'backup'"),
+            @CacheEvict(value = "orders", key = "'order-' + #idOrder"),
+            @CacheEvict(value = "orders", key = "'orderBasic-' + #idOrder"),
+            @CacheEvict(value = "orders", key = "'ordersByPeriod'")
+    })
+    @Override
+    public void updateStatus(Long idOrder, OrderStatusEnum status) {
+        log.debug("🔄️ Intentando actualizar el status de la orden: {} a {}", idOrder, status);
+
+        if (!orderRepository.existsByIdOrder(idOrder)) {
+            throw new OrderNotFoundException(idOrder);
+        }
+
+        long startTime = System.currentTimeMillis();
+
+        orderRepository.updateOrderStatus(idOrder, status);
+        cacheService.clearCache();
+
+        long endTime = System.currentTimeMillis();
+        log.info("✅ Orden {} actualizada con el status {} en {}ms", idOrder, status, (endTime - startTime));
+    }
+
+    /**
      * ELIMINAR ORDEN: Con invalidación específica de caché
      */
     @Override
@@ -246,7 +277,6 @@ public class OrderServiceImpl implements OrderService {
 
         long startTime = System.currentTimeMillis();
 
-        // Verificar que existe antes de eliminar usando método optimizado
         if (!orderRepository.existsByIdOrder(idOrder)) {
             throw new OrderNotFoundException(idOrder);
         }

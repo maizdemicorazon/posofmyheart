@@ -3,15 +3,16 @@ package com.mdmc.posofmyheart.domain;
 /**
  * Enumeración para representar los estados de una orden.
  */
-public enum OrderStatus {
+public enum OrderStatusEnum {
     RECEIVED(1, "RECEIVED"),
+    ATTENDING(1, "ATTENDING"),
     COMPLETED(2, "COMPLETED");
 
     // Getters para los campos
     final int status;
     final String name;
 
-    OrderStatus(int status, String name) {
+    OrderStatusEnum(int status, String name) {
         this.status = status;
         this.name = name;
     }
@@ -20,12 +21,12 @@ public enum OrderStatus {
      * Busca y retorna un OrderStatus que coincida con el ID proporcionado.
      *
      * @param id El ID numérico del estado (campo 'status').
-     * @return El {@link OrderStatus} correspondiente o {@code null} si no se encuentra.
+     * @return El {@link OrderStatusEnum} correspondiente o {@code null} si no se encuentra.
      */
-    public static OrderStatus getById(int id) {
-        for (OrderStatus orderStatus : values()) {
-            if (orderStatus.status == id) {
-                return orderStatus;
+    public static OrderStatusEnum getById(int id) {
+        for (OrderStatusEnum orderStatusEnum : values()) {
+            if (orderStatusEnum.status == id) {
+                return orderStatusEnum;
             }
         }
         return null;
@@ -36,17 +37,22 @@ public enum OrderStatus {
      * La comparación no distingue entre mayúsculas y minúsculas.
      *
      * @param name El nombre del estado a buscar (campo 'name').
-     * @return El {@link OrderStatus} correspondiente o {@code null} si no se encuentra.
+     * @return El {@link OrderStatusEnum} correspondiente o {@code null} si no se encuentra.
      */
-    public static OrderStatus getByName(String name) {
+    public static OrderStatusEnum getByName(String name) {
         if (name == null) {
             return null;
         }
-        for (OrderStatus orderStatus : values()) {
-            if (orderStatus.name.equalsIgnoreCase(name)) {
-                return orderStatus;
+        for (OrderStatusEnum orderStatusEnum : values()) {
+            if (orderStatusEnum.name.equalsIgnoreCase(name)) {
+                return orderStatusEnum;
             }
         }
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

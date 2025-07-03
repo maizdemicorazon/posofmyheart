@@ -4,7 +4,11 @@ import com.mdmc.posofmyheart.application.dtos.OrderRequest;
 import com.mdmc.posofmyheart.application.dtos.OrderResponse;
 import com.mdmc.posofmyheart.application.dtos.OrderRestore;
 import com.mdmc.posofmyheart.application.dtos.OrderUpdateRequest;
+import com.mdmc.posofmyheart.domain.OrderStatusEnum;
 import com.mdmc.posofmyheart.domain.dtos.CreateOrderResponseDto;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -38,6 +42,17 @@ public interface OrderService {
      * @return {@link OrderResponse}
      */
     OrderResponse updateOrder(Long idOrder, OrderUpdateRequest updateRequest);
+
+    @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "orders", key = "'allOrders'"),
+            @CacheEvict(value = "orders", key = "'ordersWithDetails'"),
+            @CacheEvict(value = "orders", key = "'backup'"),
+            @CacheEvict(value = "orders", key = "'order-' + #idOrder"),
+            @CacheEvict(value = "orders", key = "'orderBasic-' + #idOrder"),
+            @CacheEvict(value = "orders", key = "'ordersByPeriod'")
+    })
+    void updateStatus(Long idOrder, OrderStatusEnum status);
 
     void deleteOrder(Long idOrder);
 

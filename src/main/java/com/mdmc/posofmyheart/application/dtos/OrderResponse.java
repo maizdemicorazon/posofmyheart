@@ -1,6 +1,6 @@
 package com.mdmc.posofmyheart.application.dtos;
 
-import com.mdmc.posofmyheart.domain.OrderStatus;
+import com.mdmc.posofmyheart.domain.OrderStatusEnum;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -13,7 +13,7 @@ public record OrderResponse(
         Long idPaymentMethod,
         String paymentName,
         String clientName,
-        OrderStatus status,
+        OrderStatusEnum status,
         Set<OrderItemResponse> items
 ) {
 
