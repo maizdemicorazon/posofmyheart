@@ -2,7 +2,7 @@ package com.mdmc.posofmyheart.application.services;
 
 import com.mdmc.posofmyheart.application.dtos.DailyEarnings;
 import com.mdmc.posofmyheart.domain.dtos.ResultCommissionDto;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderEntity;
 
 import java.math.BigDecimal;
 import java.util.Set;

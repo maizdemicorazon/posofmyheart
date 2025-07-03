@@ -11,7 +11,7 @@ import com.mdmc.posofmyheart.domain.dtos.CreateOrderResponseDto;
 import com.mdmc.posofmyheart.domain.patterns.strategies.CreateOrderStrategy;
 import com.mdmc.posofmyheart.domain.patterns.strategies.CreateOrdersStrategy;
 import com.mdmc.posofmyheart.domain.patterns.strategies.UpdateOrderStrategy;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.OrderRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -25,7 +25,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 @Service

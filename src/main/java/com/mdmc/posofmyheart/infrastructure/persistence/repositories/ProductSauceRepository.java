@@ -1,7 +1,7 @@
 package com.mdmc.posofmyheart.infrastructure.persistence.repositories;
 
 import com.mdmc.posofmyheart.domain.models.ProductSauce;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.ProductSauceEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.ProductSauceEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

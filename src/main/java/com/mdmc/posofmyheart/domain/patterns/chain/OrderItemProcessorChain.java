@@ -1,7 +1,7 @@
 package com.mdmc.posofmyheart.domain.patterns.chain;
 
 import com.mdmc.posofmyheart.application.dtos.OrderItemRequest;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderDetailEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderDetailEntity;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,7 +1,7 @@
 package com.mdmc.posofmyheart.application.mappers;
 
 import com.mdmc.posofmyheart.application.dtos.OrderResponse;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.*;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;

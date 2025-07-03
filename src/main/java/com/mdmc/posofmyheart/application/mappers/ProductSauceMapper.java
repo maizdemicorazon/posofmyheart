@@ -1,7 +1,7 @@
 package com.mdmc.posofmyheart.application.mappers;
 
 import com.mdmc.posofmyheart.domain.models.ProductSauce;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.ProductSauceEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.ProductSauceEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

@@ -2,7 +2,7 @@ package com.mdmc.posofmyheart.infrastructure.persistence.repositories;
 
 import com.mdmc.posofmyheart.application.dtos.projections.SalesOrderProjection;
 import com.mdmc.posofmyheart.application.dtos.projections.SalesReportProjections;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

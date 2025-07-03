@@ -1,4 +1,4 @@
-package com.mdmc.posofmyheart.infrastructure.persistence.entities;
+package com.mdmc.posofmyheart.infrastructure.persistence.entities.products;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

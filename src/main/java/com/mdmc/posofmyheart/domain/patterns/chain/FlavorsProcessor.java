@@ -3,9 +3,9 @@ package com.mdmc.posofmyheart.domain.patterns.chain;
 import com.mdmc.posofmyheart.application.dtos.OrderItemRequest;
 import com.mdmc.posofmyheart.domain.patterns.facade.EntityFinder;
 import com.mdmc.posofmyheart.domain.patterns.validator.FlavorValidator;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderDetailEntity;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderFlavorDetailEntity;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.ProductFlavorEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderDetailEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderFlavorDetailEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.ProductFlavorEntity;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;

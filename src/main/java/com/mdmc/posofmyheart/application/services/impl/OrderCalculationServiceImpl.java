@@ -3,9 +3,9 @@ package com.mdmc.posofmyheart.application.services.impl;
 import com.mdmc.posofmyheart.application.dtos.DailyEarnings;
 import com.mdmc.posofmyheart.application.services.OrderCalculationService;
 import com.mdmc.posofmyheart.domain.dtos.ResultCommissionDto;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderDetailEntity;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderEntity;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderExtraDetailEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderDetailEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderExtraDetailEntity;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 

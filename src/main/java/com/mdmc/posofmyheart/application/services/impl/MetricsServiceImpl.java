@@ -6,7 +6,7 @@ import com.mdmc.posofmyheart.application.dtos.builders.DailyEarningsBuilder;
 import com.mdmc.posofmyheart.application.mappers.DailyEarningsResponseMapper;
 import com.mdmc.posofmyheart.application.services.MetricsService;
 import com.mdmc.posofmyheart.application.services.OrderCalculationService;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.OrderRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

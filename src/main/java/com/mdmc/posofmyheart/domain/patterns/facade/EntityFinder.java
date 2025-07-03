@@ -1,7 +1,7 @@
 package com.mdmc.posofmyheart.domain.patterns.facade;
 
 import com.mdmc.posofmyheart.api.exceptions.*;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.*;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.*;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;

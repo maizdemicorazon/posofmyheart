@@ -1,6 +1,7 @@
-package com.mdmc.posofmyheart.infrastructure.persistence.entities;
+package com.mdmc.posofmyheart.infrastructure.persistence.entities.orders;
 
 import com.mdmc.posofmyheart.domain.OrderStatusEnum;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.PaymentMethodEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;

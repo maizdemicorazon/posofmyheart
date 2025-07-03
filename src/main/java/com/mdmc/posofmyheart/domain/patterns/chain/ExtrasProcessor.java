@@ -3,9 +3,9 @@ package com.mdmc.posofmyheart.domain.patterns.chain;
 import com.mdmc.posofmyheart.application.dtos.OrderItemRequest;
 import com.mdmc.posofmyheart.domain.models.OrderExtrasDetail;
 import com.mdmc.posofmyheart.domain.patterns.facade.EntityFinder;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderDetailEntity;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderExtraDetailEntity;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.ProductExtraEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderDetailEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderExtraDetailEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.ProductExtraEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

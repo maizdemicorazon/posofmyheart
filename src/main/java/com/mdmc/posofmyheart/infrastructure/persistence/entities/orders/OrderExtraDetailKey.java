@@ -1,4 +1,4 @@
-package com.mdmc.posofmyheart.infrastructure.persistence.entities;
+package com.mdmc.posofmyheart.infrastructure.persistence.entities.orders;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -12,11 +12,10 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class OrderDetailSauceKey implements Serializable {
-
+public class OrderExtraDetailKey implements Serializable {
     @Column(name = "id_order_detail")
     private Long idOrderDetail;
 
-    @Column(name = "id_sauce")
-    private Long idSauce;
+    @Column(name = "id_extra")
+    private Long idExtra;
 }

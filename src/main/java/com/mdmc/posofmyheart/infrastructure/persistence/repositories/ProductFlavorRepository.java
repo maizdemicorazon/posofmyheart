@@ -1,6 +1,6 @@
 package com.mdmc.posofmyheart.infrastructure.persistence.repositories;
 
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.ProductFlavorEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.ProductFlavorEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

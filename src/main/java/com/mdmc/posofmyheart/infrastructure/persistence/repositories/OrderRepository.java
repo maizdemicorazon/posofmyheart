@@ -1,7 +1,7 @@
 package com.mdmc.posofmyheart.infrastructure.persistence.repositories;
 
 import com.mdmc.posofmyheart.domain.OrderStatusEnum;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderEntity;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

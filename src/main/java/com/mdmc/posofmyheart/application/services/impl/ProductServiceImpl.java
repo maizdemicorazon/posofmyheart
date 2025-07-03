@@ -9,7 +9,7 @@ import com.mdmc.posofmyheart.domain.models.PaymentMethod;
 import com.mdmc.posofmyheart.domain.models.Product;
 import com.mdmc.posofmyheart.domain.models.ProductExtra;
 import com.mdmc.posofmyheart.domain.models.ProductSauce;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.ProductEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.ProductEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.mappers.ProductEntityMapper;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.PaymentMethodRepository;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.ProductExtraRepository;

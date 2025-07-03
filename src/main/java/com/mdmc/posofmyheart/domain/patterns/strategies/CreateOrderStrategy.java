@@ -6,7 +6,7 @@ import com.mdmc.posofmyheart.application.services.OrderPersistenceService;
 import com.mdmc.posofmyheart.domain.dtos.CreateOrderResponseDto;
 import com.mdmc.posofmyheart.domain.patterns.factory.OrderFactory;
 import com.mdmc.posofmyheart.domain.patterns.validator.OrderValidator;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 

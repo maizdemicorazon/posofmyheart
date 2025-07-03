@@ -5,7 +5,7 @@ import com.mdmc.posofmyheart.application.mappers.OrderRequestMapper;
 import com.mdmc.posofmyheart.application.mappers.OrderResponseMapper;
 import com.mdmc.posofmyheart.application.services.OrderPersistenceService;
 import com.mdmc.posofmyheart.domain.dtos.CreateOrderResponseDto;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.OrderEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

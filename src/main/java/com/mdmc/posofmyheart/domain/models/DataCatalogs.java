@@ -1,6 +1,6 @@
 package com.mdmc.posofmyheart.domain.models;
 
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.*;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.*;
 
 import java.util.List;
 
