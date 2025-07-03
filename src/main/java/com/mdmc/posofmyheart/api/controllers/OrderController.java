@@ -5,7 +5,7 @@ import com.mdmc.posofmyheart.application.dtos.OrderResponse;
 import com.mdmc.posofmyheart.application.dtos.OrderRestore;
 import com.mdmc.posofmyheart.application.dtos.OrderUpdateRequest;
 import com.mdmc.posofmyheart.application.services.OrderService;
-import com.mdmc.posofmyheart.domain.OrderStatus;
+import com.mdmc.posofmyheart.domain.OrderStatusEnum;
 import com.mdmc.posofmyheart.domain.dtos.CreateOrderResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -169,11 +169,11 @@ public class OrderController {
         return ResponseEntity.ok(updatedOrder);
     }
 
-    @ResponseStatus(code = HttpStatus.OK)
-    @PutMapping("/{id}")
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    @PutMapping("/status/{id}")
     public void updateOrderStatus(@PathVariable Long id,
-     @Valid @RequestBody OrderStatus orderStatus) {
-//        orderService.deleteOrder(id);
+                                  @RequestBody OrderUpdateRequest request) {
+        orderService.updateStatus(id, request.status());
     }
 
     @ResponseStatus(code = HttpStatus.OK)
