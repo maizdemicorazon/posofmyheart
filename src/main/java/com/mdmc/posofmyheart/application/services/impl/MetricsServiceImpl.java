@@ -66,7 +66,6 @@ public class MetricsServiceImpl implements MetricsService {
                         .fromEntry(
                                 entry, orderCalculationService, profit)
                 )
-                .sorted(Comparator.comparing(DailyEarnings::date).reversed())
                 .collect(Collectors.toSet());
 
         return DailyEarningsResponseMapper.INSTANCE.toResponse(dailyEarnings);

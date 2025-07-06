@@ -55,7 +55,7 @@ public class SalesOrderProjection {
     private String clientName;
 
     /**
-     * Método de pago (opcional)
+     * Campo de forma de pago (opcional)
      * Útil para análisis de métodos de pago
      */
     private String paymentMethodName;

@@ -1,9 +1,6 @@
 package com.mdmc.posofmyheart.api.controllers;
 
-import com.mdmc.posofmyheart.application.dtos.OrderRequest;
-import com.mdmc.posofmyheart.application.dtos.OrderResponse;
-import com.mdmc.posofmyheart.application.dtos.OrderRestore;
-import com.mdmc.posofmyheart.application.dtos.OrderUpdateRequest;
+import com.mdmc.posofmyheart.application.dtos.*;
 import com.mdmc.posofmyheart.application.services.OrderService;
 import com.mdmc.posofmyheart.domain.dtos.CreateOrderResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -41,6 +38,23 @@ public class OrderController {
     @GetMapping
     public ResponseEntity<List<OrderResponse>> getAllOrders() {
         return ResponseEntity.ok(orderService.findAllOrders());
+    }
+
+    @Operation(
+            summary = "Listado de ordenes agrupadas por estatus.",
+            description = "Recupera todas las ordenes creadas y las agrupa por OrderStatusEnum."
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Listas agrupadas"),
+                    @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+            }
+    )
+    @GetMapping("/status/group")
+    public ResponseEntity<OrderResponseGrouped> getAllOrdersGroupedByStatus() {
+        return ResponseEntity.ok(
+                orderService.getAllOrdersGroupedByStatus()
+        );
     }
 
     @Operation(

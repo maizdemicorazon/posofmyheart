@@ -24,8 +24,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -61,6 +64,25 @@ public class OrderServiceImpl implements OrderService {
         log.info("✅ {} órdenes obtenidas con EntityGraph en {}ms", responses.size(), (endTime - startTime));
 
         return responses;
+    }
+
+    @Override
+    public OrderResponseGrouped getAllOrdersGroupedByStatus() {
+        List<OrderResponse> allOrders = findAllOrders();
+        return OrderResponseGrouped
+                .builder()
+                .receivedOrders(getOrderByStatus(allOrders, OrderStatusEnum.RECEIVED))
+                .attendingOrders(getOrderByStatus(allOrders, OrderStatusEnum.ATTENDING))
+                .completedOrders(getOrderByStatus(allOrders, OrderStatusEnum.COMPLETED))
+                .build();
+    }
+
+    private List<OrderResponse> getOrderByStatus(List<OrderResponse> orderResponses, OrderStatusEnum status) {
+        return orderResponses
+                .stream()
+                .filter(s -> s.status().equals(status))
+                .collect(Collectors.groupingBy(OrderResponse::status))
+                .get(status);
     }
 
     /**
