@@ -4,6 +4,7 @@ import com.mdmc.posofmyheart.domain.OrderStatusEnum;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderEntity;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -11,8 +12,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-
-import org.springframework.data.jpa.repository.Modifying;
 
 public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
 

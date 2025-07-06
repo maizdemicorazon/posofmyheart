@@ -3,11 +3,7 @@ package com.mdmc.posofmyheart.application.dtos;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
-
-import static java.util.Collections.emptyList;
 
 @Builder
 @JsonInclude(JsonInclude.Include.ALWAYS)
