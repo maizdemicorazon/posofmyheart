@@ -1,9 +1,7 @@
 package com.mdmc.posofmyheart.application.services.impl;
 
-
 import com.mdmc.posofmyheart.api.exceptions.ResourceNotFoundException;
 import com.mdmc.posofmyheart.application.dtos.ProductImageInfo;
-import com.mdmc.posofmyheart.application.dtos.ProductImageResponse;
 import com.mdmc.posofmyheart.application.services.ProductImageService;
 import com.mdmc.posofmyheart.domain.dtos.ProductImageUploadResponse;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.ProductEntity;
@@ -15,11 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
-import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import static com.mdmc.posofmyheart.util.ImageUtils.*;

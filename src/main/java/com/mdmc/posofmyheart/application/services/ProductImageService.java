@@ -1,7 +1,6 @@
 package com.mdmc.posofmyheart.application.services;
 
 import com.mdmc.posofmyheart.application.dtos.ProductImageInfo;
-import com.mdmc.posofmyheart.application.dtos.ProductImageResponse;
 import com.mdmc.posofmyheart.domain.dtos.ProductImageUploadResponse;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;

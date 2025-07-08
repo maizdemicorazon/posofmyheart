@@ -1,7 +1,5 @@
 package com.mdmc.posofmyheart.infrastructure.persistence.repositories;
 
-import com.mdmc.posofmyheart.application.dtos.ProductImageResponse;
-import com.mdmc.posofmyheart.domain.models.Product;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.ProductEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.custom.ProductRepositoryCustom;
 import org.springframework.data.jpa.repository.EntityGraph;
