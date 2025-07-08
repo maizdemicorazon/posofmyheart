@@ -23,7 +23,8 @@ public class ProductFlavorEntity {
     @ColumnDefault("true")
     @Column(nullable = false)
     private boolean active = true;
-
+    @Column(name = "image", nullable = false)
+    private byte[] image;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_product", nullable = false)
     private ProductEntity product;

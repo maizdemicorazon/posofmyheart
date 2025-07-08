@@ -165,7 +165,7 @@
         "id_category": 1
       },
       "name": "Doriesquites",
-      "image": "https://drive.google.com/thumbnail?id=1GmaqB_ifP0h-Ck6S_ENZi45PfH7tbwEq",
+      "image": "",
       "description": "Doritos con esquites"
     },
     {
@@ -174,7 +174,7 @@
         "id_category": 1
       },
       "name": "Tostiesquites",
-      "image": "https://drive.google.com/thumbnail?id=1v2OT5_GYNYSsr7XaHqnsxEEax1jLtWit",
+      "image": "",
       "description": "Tostitos con esquites"
     },
     {
@@ -183,7 +183,7 @@
         "id_category": 1
       },
       "name": "Esquites Tradicionales",
-      "image": "https://drive.google.com/thumbnail?id=1ph3Iog_GrUF6VY2DmiapwquOCUcTDTNx",
+      "image": "",
       "description": "Esquites con mayonesa, queso y picante"
     },
     {
@@ -192,7 +192,7 @@
         "id_category": 1
       },
       "name": "Esquites con Queso",
-      "image": "https://drive.google.com/thumbnail?id=1ZG_sIFvIvUyBNK0x1as1WvDNAC2RIP10",
+      "image": "",
       "description": "Esquites tradicionales con queso incluido"
     },
     {
@@ -201,7 +201,7 @@
         "id_category": 1
       },
       "name": "Esquite Maruchan",
-      "image": "https://drive.google.com/thumbnail?id=1Hz-cFGIRsnYp4ynm8pJsoHB9oTRc8HYg",
+      "image": "",
       "description": "Sopa maruchan con esquites"
     },
     {
@@ -210,7 +210,7 @@
         "id_category": 4
       },
       "name": "Maíz Puerco",
-      "image": "https://drive.google.com/thumbnail?id=1_DwAv9akn8dmrq-sO_PAAaAEEGPwPIF_",
+      "image": "",
       "description": "Maruchan con esquites y carne de puerco"
     },
     {
@@ -219,7 +219,7 @@
         "id_category": 4
       },
       "name": "Maíz Puerco sin sopa",
-      "image": "https://drive.google.com/thumbnail?id=1_DwAv9akn8dmrq-sO_PAAaAEEGPwPIF_",
+      "image": "",
       "description": "Esquites con carne de puerco sin maruchan"
     },
     {
@@ -228,7 +228,7 @@
         "id_category": 2
       },
       "name": "Elote Tradicional",
-      "image": "https://drive.google.com/thumbnail?id=1R0z_q1JH1H7mlpSvbUt36pGbfGuUPmJk",
+      "image": "",
       "description": "Elote con mayonesa, queso y picante"
     },
     {
@@ -237,7 +237,7 @@
         "id_category": 2
       },
       "name": "Elote Revolcado",
-      "image": "https://drive.google.com/thumbnail?id=1i1r2iQQIfm0TsfbCJxxlEGahcmT5TwWc",
+      "image": "",
       "description": "Elote con topping a elegir"
     },
     {
@@ -246,7 +246,7 @@
         "id_category": 3
       },
       "name": "Red Cola 600ml",
-      "image": "https://drive.google.com/thumbnail?id=1bDM3IJmOQDtl1xz1OquqH4UFiKU90J5d",
+      "image": "",
       "description": "Refresco en botella PET"
     },
     {
@@ -255,7 +255,7 @@
         "id_category": 3
       },
       "name": "Coca Cola",
-      "image": "https://drive.google.com/thumbnail?id=1C41w2JUpvJleSgnrUiLR5s4jXek0bMUM",
+      "image": "",
       "description": "Refresco en botella PET o lata"
     },
     {
@@ -264,7 +264,7 @@
         "id_category": 3
       },
       "name": "Boing 500ml",
-      "image": "https://drive.google.com/thumbnail?id=1PUk_tLBQoctGdNcG1MsbrGHEE6SONwTd",
+      "image": "",
       "description": "Jugo en caja 500ml"
     },
     {
@@ -273,7 +273,7 @@
         "id_category": 3
       },
       "name": "Jumex Lata",
-      "image": "https://drive.google.com/thumbnail?id=1UlTILnkyeo25amhkSwTfDGAa4tteEGeg",
+      "image": "",
       "description": "Jugo en lata 355ml"
     },
     {
@@ -282,7 +282,7 @@
         "id_category": 3
       },
       "name": "Agua de frutos",
-      "image": "https://drive.google.com/thumbnail?id=1c8g7ud-wX-As_8f5Mxz2m7xv1XjFUXuv",
+      "image": "",
       "description": "Vaso de agua natural"
     },
     {
@@ -291,7 +291,7 @@
         "id_category": 5
       },
       "name": "Tostitos con queso",
-      "image": "https://drive.google.com/thumbnail?id=1DIsR7cDco6oOlL3YVngzRWkD9HnTH6yt",
+      "image": "",
       "description": "Tostitos con queso amarillo y salsa a elegir"
     },
     {
@@ -300,7 +300,7 @@
         "id_category": 5
       },
       "name": "Doritos con queso",
-      "image": "https://drive.google.com/thumbnail?id=1rmm4ahwUIf8Nixb3hRzkeuCI3mpfVTOk",
+      "image": "",
       "description": "Doritos con queso amarillo y salsa a elegir"
     }
   ],

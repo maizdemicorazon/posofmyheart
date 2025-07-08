@@ -51,7 +51,7 @@ public class OrderController {
             }
     )
     @GetMapping("/status/group")
-    public ResponseEntity<OrderResponseGrouped> getAllOrdersGroupedByStatus() {
+    public ResponseEntity<OrderGroupedResponse> getAllOrdersGroupedByStatus() {
         return ResponseEntity.ok(
                 orderService.getAllOrdersGroupedByStatus()
         );

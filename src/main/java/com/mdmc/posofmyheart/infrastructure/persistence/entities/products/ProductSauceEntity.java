@@ -19,7 +19,10 @@ public class ProductSauceEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_sauce")
     private Long idSauce;
+    @Column(nullable = false)
     private String name;
     private String description;
-    private String image;
+    private byte[] image;
+    @Column(nullable = false)
+    private boolean active = true;
 }

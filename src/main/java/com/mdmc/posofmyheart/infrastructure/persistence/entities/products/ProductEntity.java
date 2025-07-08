@@ -44,11 +44,14 @@ public class ProductEntity {
     @Column(name = "name", length = 100, nullable = false)
     private String name;
 
-    @Column(name = "image", length = 200, nullable = false)
-    private String image;
+    @Column(name = "image", nullable = false)
+    private byte[] image;
 
     @Column(name = "description", nullable = false)
     private String description;
+
+    @Column(nullable = false)
+    private boolean active = true;
 
     @ColumnDefault(value = "CURRENT_TIMESTAMP")
     @Column(name = "created_at")

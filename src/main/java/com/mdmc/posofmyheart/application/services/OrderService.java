@@ -13,7 +13,7 @@ import java.util.List;
 public interface OrderService {
     List<OrderResponse> findAllOrders();
 
-    OrderResponseGrouped getAllOrdersGroupedByStatus();
+    OrderGroupedResponse getAllOrdersGroupedByStatus();
 
     OrderRestore findOrdersToBackup();
 

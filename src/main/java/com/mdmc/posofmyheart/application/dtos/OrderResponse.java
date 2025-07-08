@@ -20,7 +20,7 @@ public record OrderResponse(
     public record OrderItemResponse(
             Long idProduct,
             String productName,
-            String productImage,
+            byte[] productImage,
             BigDecimal productPrice,
             Long idVariant,
             String variantName,

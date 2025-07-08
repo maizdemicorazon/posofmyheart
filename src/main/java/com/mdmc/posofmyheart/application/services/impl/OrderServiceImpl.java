@@ -65,9 +65,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderResponseGrouped getAllOrdersGroupedByStatus() {
+    public OrderGroupedResponse getAllOrdersGroupedByStatus() {
         List<OrderResponse> allOrders = findAllOrders();
-        return OrderResponseGrouped
+        return OrderGroupedResponse
                 .builder()
                 .receivedOrders(getOrderByStatus(allOrders, OrderStatusEnum.RECEIVED))
                 .attendingOrders(getOrderByStatus(allOrders, OrderStatusEnum.ATTENDING))

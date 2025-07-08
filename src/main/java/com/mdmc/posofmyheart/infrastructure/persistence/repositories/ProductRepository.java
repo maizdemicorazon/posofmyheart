@@ -1,5 +1,7 @@
 package com.mdmc.posofmyheart.infrastructure.persistence.repositories;
 
+import com.mdmc.posofmyheart.application.dtos.ProductImageResponse;
+import com.mdmc.posofmyheart.domain.models.Product;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.ProductEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.custom.ProductRepositoryCustom;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -20,10 +22,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long>, P
     @Query("SELECT p FROM ProductEntity p ORDER BY p.idProduct ASC")
     List<ProductEntity> findByIdWithAllRelations();
 
-    /**
-     * Busca producto por ID con todas sus relaciones
-     */
-    @EntityGraph(value = "Product.withAllRelations", type = EntityGraph.EntityGraphType.LOAD)
-    @Query("SELECT p FROM ProductEntity p ORDER BY p.idProduct ASC")
-    Optional<ProductEntity> findByIdWithAllRelationsByIdProduct(@Param("idProduct") Long idProduct);
+    @Query("SELECT p.image FROM ProductEntity p WHERE p.idProduct = :idProduct")
+    Optional<byte[]> getImageById(@Param("idProduct") Long idProduct);
+
 }

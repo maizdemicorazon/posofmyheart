@@ -68,6 +68,14 @@ public class GlobalExceptionHandler {
         return buildHttpResponse(ex, request, HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorResponse> handleIllegalArgumentException(
+            IllegalArgumentException ex,
+            WebRequest request
+    ) {
+        return buildHttpResponse(ex, request, HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
     // Manejadores específicos para cada excepción personalizada
     @ExceptionHandler(MenuNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleMenuNotFound(MenuNotFoundException ex, WebRequest request) {
@@ -109,7 +117,11 @@ public class GlobalExceptionHandler {
         return buildNotFoundResponse(ex, request);
     }
 
-    // Función helper para respuestas 404 estandarizadas
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleResourceNotFound(ResourceNotFoundException ex, WebRequest request) {
+        return buildNotFoundResponse(ex, request);
+    }
+
     private ResponseEntity<ErrorResponse> buildNotFoundResponse(
             Exception ex,
             WebRequest request
@@ -117,7 +129,6 @@ public class GlobalExceptionHandler {
         return buildHttpResponse(ex, request, HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
-    // Función helper para respuestas status custom
     private ResponseEntity<ErrorResponse> buildHttpResponse(
             Exception ex,
             WebRequest request,
