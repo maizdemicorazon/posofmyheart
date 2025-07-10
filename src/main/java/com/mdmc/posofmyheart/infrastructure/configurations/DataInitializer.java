@@ -51,7 +51,6 @@ public class DataInitializer implements ApplicationRunner {
     private final ProductFlavorRepository productFlavorRepository;
     private final ProductVariantRepository productVariantRepository;
     private final CatalogImageRepository catalogImageRepository;
-    private final Object saveLock = new Object();
 
     // Servicios
     private final CatalogImageService catalogImageService;
