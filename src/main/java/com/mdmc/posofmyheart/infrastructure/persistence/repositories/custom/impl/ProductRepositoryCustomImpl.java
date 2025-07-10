@@ -1,8 +1,8 @@
 package com.mdmc.posofmyheart.infrastructure.persistence.repositories.custom.impl;
 
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.ProductCategoryEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.ProductCategoryEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.ProductEntity;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.ProductVariantEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.ProductVariantEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.custom.ProductRepositoryCustom;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;

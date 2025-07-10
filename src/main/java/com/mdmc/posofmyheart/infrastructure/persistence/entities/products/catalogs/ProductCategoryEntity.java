@@ -1,7 +1,8 @@
-package com.mdmc.posofmyheart.infrastructure.persistence.entities.products;
+package com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import lombok.Setter;
 @Table(name = "product_categories", indexes = {
         @Index(name = "idx_category_name", columnList = "name")
 })
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor

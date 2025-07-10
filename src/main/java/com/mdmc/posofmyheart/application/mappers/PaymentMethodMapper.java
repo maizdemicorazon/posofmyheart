@@ -1,7 +1,7 @@
 package com.mdmc.posofmyheart.application.mappers;
 
 import com.mdmc.posofmyheart.domain.models.PaymentMethod;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.PaymentMethodEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.PaymentMethodEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

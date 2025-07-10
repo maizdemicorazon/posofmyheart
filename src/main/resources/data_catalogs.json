@@ -58,109 +58,713 @@
       "description": "Papas sin maíz"
     }
   ],
+  "catalog_images": [
+    {
+      "id_image": 1,
+      "file_name": "limon.png",
+      "image_type": "PRODUCT_BASIC",
+      "content_type": "image/png",
+      "alt_text": "limon",
+      "active": false,
+      "resource": "static/catalogs/basics/limon.png"
+    },
+    {
+      "id_image": 2,
+      "file_name": "Mayonesa.jpg",
+      "image_type": "PRODUCT_BASIC",
+      "content_type": "image/jpg",
+      "alt_text": "mayonesa",
+      "active": false,
+      "resource": "static/catalogs/basics/Mayonesa.jpg"
+    },
+    {
+      "id_image": 3,
+      "file_name": "queso_rayado.jpg",
+      "image_type": "PRODUCT_BASIC",
+      "content_type": "image/jpeg",
+      "alt_text": "queso rayado",
+      "active": false,
+      "resource": "static/catalogs/basics/queso_rayado.jpg"
+    },
+    {
+      "id_image": 4,
+      "file_name": "sal.jpg",
+      "image_type": "PRODUCT_BASIC",
+      "content_type": "image/jpeg",
+      "alt_text": "sal",
+      "active": false,
+      "resource": "static/catalogs/basics/sal.jpg"
+    },
+    {
+      "id_image": 5,
+      "file_name": "cheddar.jpg",
+      "image_type": "PRODUCT_EXTRA",
+      "content_type": "image/jpeg",
+      "alt_text": "cheddar",
+      "active": false,
+      "resource": "static/catalogs/extras/cheddar.jpg"
+    },
+    {
+      "id_image": 6,
+      "file_name": "costilla.jpg",
+      "image_type": "PRODUCT_EXTRA",
+      "content_type": "image/jpeg",
+      "alt_text": "costilla",
+      "active": false,
+      "resource": "static/catalogs/extras/costilla.jpg"
+    },
+    {
+      "id_image": 7,
+      "file_name": "manchego_gratinado.jpg",
+      "image_type": "PRODUCT_EXTRA",
+      "content_type": "image/jpeg",
+      "alt_text": "manchego gratinado",
+      "active": false,
+      "resource": "static/catalogs/extras/manchego_gratinado.jpg"
+    },
+    {
+      "id_image": 8,
+      "file_name": "a_bonafont.png",
+      "image_type": "PRODUCT_FLAVOR",
+      "content_type": "image/png",
+      "alt_text": "a bonafont",
+      "active": false,
+      "resource": "static/catalogs/flavors/a_bonafont.png"
+    },
+    {
+      "id_image": 9,
+      "file_name": "a_frutos.png",
+      "image_type": "PRODUCT_FLAVOR",
+      "content_type": "image/png",
+      "alt_text": "a frutos",
+      "active": false,
+      "resource": "static/catalogs/flavors/a_frutos.png"
+    },
+    {
+      "id_image": 10,
+      "file_name": "a_jamaica.png",
+      "image_type": "PRODUCT_FLAVOR",
+      "content_type": "image/png",
+      "alt_text": "a jamaica",
+      "active": false,
+      "resource": "static/catalogs/flavors/a_jamaica.png"
+    },
+    {
+      "id_image": 11,
+      "file_name": "a_limon.png",
+      "image_type": "PRODUCT_FLAVOR",
+      "content_type": "image/png",
+      "alt_text": "a limon",
+      "active": false,
+      "resource": "static/catalogs/flavors/a_limon.png"
+    },
+    {
+      "id_image": 12,
+      "file_name": "a_limon_chia.png",
+      "image_type": "PRODUCT_FLAVOR",
+      "content_type": "image/png",
+      "alt_text": "a limon chia",
+      "active": false,
+      "resource": "static/catalogs/flavors/a_limon_chia.png"
+    },
+    {
+      "id_image": 13,
+      "file_name": "a_mango.png",
+      "image_type": "PRODUCT_FLAVOR",
+      "content_type": "image/png",
+      "alt_text": "a mango",
+      "active": false,
+      "resource": "static/catalogs/flavors/a_mango.png"
+    },
+    {
+      "id_image": 14,
+      "file_name": "b_fresa.jpg",
+      "image_type": "PRODUCT_FLAVOR",
+      "content_type": "image/jpeg",
+      "alt_text": "b fresa",
+      "active": false,
+      "resource": "static/catalogs/flavors/b_fresa.jpg"
+    },
+    {
+      "id_image": 15,
+      "file_name": "b_guayaba.jpg",
+      "image_type": "PRODUCT_FLAVOR",
+      "content_type": "image/jpeg",
+      "alt_text": "b guayaba",
+      "active": false,
+      "resource": "static/catalogs/flavors/b_guayaba.jpg"
+    },
+    {
+      "id_image": 16,
+      "file_name": "b_mango.png",
+      "image_type": "PRODUCT_FLAVOR",
+      "content_type": "image/png",
+      "alt_text": "b mango",
+      "active": false,
+      "resource": "static/catalogs/flavors/b_mango.png"
+    },
+    {
+      "id_image": 17,
+      "file_name": "b_manzana.jpg",
+      "image_type": "PRODUCT_FLAVOR",
+      "content_type": "image/jpeg",
+      "alt_text": "b manzana",
+      "active": false,
+      "resource": "static/catalogs/flavors/b_manzana.jpg"
+    },
+    {
+      "id_image": 18,
+      "file_name": "doritos_flaming.jpg",
+      "image_type": "PRODUCT_FLAVOR",
+      "content_type": "image/jpeg",
+      "alt_text": "doritos flaming",
+      "active": false,
+      "resource": "static/catalogs/flavors/doritos_flaming.jpg"
+    },
+    {
+      "id_image": 19,
+      "file_name": "doritos_incognita.png",
+      "image_type": "PRODUCT_FLAVOR",
+      "content_type": "image/png",
+      "alt_text": "doritos incognita",
+      "active": false,
+      "resource": "static/catalogs/flavors/doritos_incognita.png"
+    },
+    {
+      "id_image": 20,
+      "file_name": "doritos_nachos.jpg",
+      "image_type": "PRODUCT_FLAVOR",
+      "content_type": "image/jpeg",
+      "alt_text": "doritos nachos",
+      "active": false,
+      "resource": "static/catalogs/flavors/doritos_nachos.jpg"
+    },
+    {
+      "id_image": 21,
+      "file_name": "jar_mandarina.png",
+      "image_type": "PRODUCT_FLAVOR",
+      "content_type": "image/png",
+      "alt_text": "jar mandarina",
+      "active": false,
+      "resource": "static/catalogs/flavors/jar_mandarina.png"
+    },
+    {
+      "id_image": 22,
+      "file_name": "jar_pina.png",
+      "image_type": "PRODUCT_FLAVOR",
+      "content_type": "image/png",
+      "alt_text": "jar pina",
+      "active": false,
+      "resource": "static/catalogs/flavors/jar_pina.png"
+    },
+    {
+      "id_image": 23,
+      "file_name": "jar_tamarindo.png",
+      "image_type": "PRODUCT_FLAVOR",
+      "content_type": "image/png",
+      "alt_text": "jar tamarindo",
+      "active": false,
+      "resource": "static/catalogs/flavors/jar_tamarindo.png"
+    },
+    {
+      "id_image": 24,
+      "file_name": "j_durazno.png",
+      "image_type": "PRODUCT_FLAVOR",
+      "content_type": "image/png",
+      "alt_text": "j durazno",
+      "active": false,
+      "resource": "static/catalogs/flavors/j_durazno.png"
+    },
+    {
+      "id_image": 25,
+      "file_name": "j_mango.png",
+      "image_type": "PRODUCT_FLAVOR",
+      "content_type": "image/png",
+      "alt_text": "j mango",
+      "active": false,
+      "resource": "static/catalogs/flavors/j_mango.png"
+    },
+    {
+      "id_image": 26,
+      "file_name": "j_manzana.png",
+      "image_type": "PRODUCT_FLAVOR",
+      "content_type": "image/png",
+      "alt_text": "j manzana",
+      "active": false,
+      "resource": "static/catalogs/flavors/j_manzana.png"
+    },
+    {
+      "id_image": 27,
+      "file_name": "mar_camaron.jpg",
+      "image_type": "PRODUCT_FLAVOR",
+      "content_type": "image/jpeg",
+      "alt_text": "mar camaron",
+      "active": false,
+      "resource": "static/catalogs/flavors/mar_camaron.jpg"
+    },
+    {
+      "id_image": 28,
+      "file_name": "mar_habanero.jpg",
+      "image_type": "PRODUCT_FLAVOR",
+      "content_type": "image/jpeg",
+      "alt_text": "mar habanero",
+      "active": false,
+      "resource": "static/catalogs/flavors/mar_habanero.jpg"
+    },
+    {
+      "id_image": 29,
+      "file_name": "mar_piquin.jpg",
+      "image_type": "PRODUCT_FLAVOR",
+      "content_type": "image/jpeg",
+      "alt_text": "mar piquin",
+      "active": false,
+      "resource": "static/catalogs/flavors/mar_piquin.jpg"
+    },
+    {
+      "id_image": 30,
+      "file_name": "mar_pollo.jpg",
+      "image_type": "PRODUCT_FLAVOR",
+      "content_type": "image/jpeg",
+      "alt_text": "mar pollo",
+      "active": false,
+      "resource": "static/catalogs/flavors/mar_pollo.jpg"
+    },
+    {
+      "id_image": 31,
+      "file_name": "mar_res.png",
+      "image_type": "PRODUCT_FLAVOR",
+      "content_type": "image/png",
+      "alt_text": "mar res",
+      "active": false,
+      "resource": "static/catalogs/flavors/mar_res.png"
+    },
+    {
+      "id_image": 32,
+      "file_name": "rancheritos.png",
+      "image_type": "PRODUCT_FLAVOR",
+      "content_type": "image/png",
+      "alt_text": "rancheritos",
+      "active": false,
+      "resource": "static/catalogs/flavors/rancheritos.png"
+    },
+    {
+      "id_image": 33,
+      "file_name": "sabritas_cruji_fh.png",
+      "image_type": "PRODUCT_FLAVOR",
+      "content_type": "image/png",
+      "alt_text": "sabritas cruji fh",
+      "active": false,
+      "resource": "static/catalogs/flavors/sabritas_cruji_fh.png"
+    },
+    {
+      "id_image": 34,
+      "file_name": "tostitos_salsa_verde.jpg",
+      "image_type": "PRODUCT_FLAVOR",
+      "content_type": "image/jpeg",
+      "alt_text": "tostitos salsa verde",
+      "active": false,
+      "resource": "static/catalogs/flavors/tostitos_salsa_verde.jpg"
+    },
+    {
+      "id_image": 35,
+      "file_name": "tosti_fh.jpg",
+      "image_type": "PRODUCT_FLAVOR",
+      "content_type": "image/jpeg",
+      "alt_text": "tosti fh",
+      "active": false,
+      "resource": "static/catalogs/flavors/tosti_fh.jpg"
+    },
+    {
+      "id_image": 36,
+      "file_name": "agua.jpg",
+      "image_type": "PRODUCT_MAIN",
+      "content_type": "image/jpeg",
+      "alt_text": "agua",
+      "active": false,
+      "resource": "static/catalogs/products/agua.jpg"
+    },
+    {
+      "id_image": 37,
+      "file_name": "agua_fruta.jpg",
+      "image_type": "PRODUCT_MAIN",
+      "content_type": "image/jpeg",
+      "alt_text": "agua fruta",
+      "active": false,
+      "resource": "static/catalogs/products/agua_fruta.jpg"
+    },
+    {
+      "id_image": 38,
+      "file_name": "boing500.jpg",
+      "image_type": "PRODUCT_MAIN",
+      "content_type": "image/jpeg",
+      "alt_text": "boing500",
+      "active": false,
+      "resource": "static/catalogs/products/boing500.jpg"
+    },
+    {
+      "id_image": 39,
+      "file_name": "coca.jpg",
+      "image_type": "PRODUCT_MAIN",
+      "content_type": "image/jpeg",
+      "alt_text": "coca",
+      "active": false,
+      "resource": "static/catalogs/products/coca.jpg"
+    },
+    {
+      "id_image": 40,
+      "file_name": "doriesquites.jpg",
+      "image_type": "PRODUCT_MAIN",
+      "content_type": "image/jpeg",
+      "alt_text": "doriesquites",
+      "active": false,
+      "resource": "static/catalogs/products/doriesquites.jpg"
+    },
+    {
+      "id_image": 41,
+      "file_name": "doritosconqueso.jpeg",
+      "image_type": "PRODUCT_MAIN",
+      "content_type": "image/jpeg",
+      "alt_text": "doritosconqueso",
+      "active": false,
+      "resource": "static/catalogs/products/doritosconqueso.jpeg"
+    },
+    {
+      "id_image": 42,
+      "file_name": "elote_revolcado.jpg",
+      "image_type": "PRODUCT_MAIN",
+      "content_type": "image/jpeg",
+      "alt_text": "elote revolcado",
+      "active": false,
+      "resource": "static/catalogs/products/elote_revolcado.jpg"
+    },
+    {
+      "id_image": 43,
+      "file_name": "elote_tradicional.jpg",
+      "image_type": "PRODUCT_MAIN",
+      "content_type": "image/jpeg",
+      "alt_text": "elote tradicional",
+      "active": false,
+      "resource": "static/catalogs/products/elote_tradicional.jpg"
+    },
+    {
+      "id_image": 44,
+      "file_name": "esquites_manchego.jpg",
+      "image_type": "PRODUCT_MAIN",
+      "content_type": "image/jpeg",
+      "alt_text": "esquites manchego",
+      "active": false,
+      "resource": "static/catalogs/products/esquites_manchego.jpg"
+    },
+    {
+      "id_image": 45,
+      "file_name": "esquite_maruchan.jpg",
+      "image_type": "PRODUCT_MAIN",
+      "content_type": "image/jpeg",
+      "alt_text": "esquite maruchan",
+      "active": false,
+      "resource": "static/catalogs/products/esquite_maruchan.jpg"
+    },
+    {
+      "id_image": 46,
+      "file_name": "esquite_tradicional.jpg",
+      "image_type": "PRODUCT_MAIN",
+      "content_type": "image/jpeg",
+      "alt_text": "esquite tradicional",
+      "active": false,
+      "resource": "static/catalogs/products/esquite_tradicional.jpg"
+    },
+    {
+      "id_image": 47,
+      "file_name": "jarritos.jpg",
+      "image_type": "PRODUCT_MAIN",
+      "content_type": "image/jpeg",
+      "alt_text": "jarritos",
+      "active": false,
+      "resource": "static/catalogs/products/jarritos.jpg"
+    },
+    {
+      "id_image": 48,
+      "file_name": "jumex355.jpg",
+      "image_type": "PRODUCT_MAIN",
+      "content_type": "image/jpeg",
+      "alt_text": "jumex355",
+      "active": false,
+      "resource": "static/catalogs/products/jumex355.jpg"
+    },
+    {
+      "id_image": 49,
+      "file_name": "maizpuerco.jpg",
+      "image_type": "PRODUCT_MAIN",
+      "content_type": "image/jpeg",
+      "alt_text": "maizpuerco",
+      "active": false,
+      "resource": "static/catalogs/products/maizpuerco.jpg"
+    },
+    {
+      "id_image": 50,
+      "file_name": "maizpuerco_sm.jpg",
+      "image_type": "PRODUCT_MAIN",
+      "content_type": "image/jpeg",
+      "alt_text": "maizpuerco sm",
+      "active": false,
+      "resource": "static/catalogs/products/maizpuerco_sm.jpg"
+    },
+    {
+      "id_image": 51,
+      "file_name": "red600.jpg",
+      "image_type": "PRODUCT_MAIN",
+      "content_type": "image/jpeg",
+      "alt_text": "red600",
+      "active": false,
+      "resource": "static/catalogs/products/red600.jpg"
+    },
+    {
+      "id_image": 52,
+      "file_name": "tostiesquites.jpg",
+      "image_type": "PRODUCT_MAIN",
+      "content_type": "image/jpeg",
+      "alt_text": "tostiesquites",
+      "active": false,
+      "resource": "static/catalogs/products/tostiesquites.jpg"
+    },
+    {
+      "id_image": 53,
+      "file_name": "tostitosconqueso.png",
+      "image_type": "PRODUCT_MAIN",
+      "content_type": "image/png",
+      "alt_text": "tostitosconqueso",
+      "active": false,
+      "resource": "static/catalogs/products/tostitosconqueso.png"
+    },
+    {
+      "id_image": 54,
+      "file_name": "botanera.jpg",
+      "image_type": "PRODUCT_SAUCE",
+      "content_type": "image/jpeg",
+      "alt_text": "botanera",
+      "active": false,
+      "resource": "static/catalogs/sauces/botanera.jpg"
+    },
+    {
+      "id_image": 55,
+      "file_name": "buffalo.jpg",
+      "image_type": "PRODUCT_SAUCE",
+      "content_type": "image/jpeg",
+      "alt_text": "buffalo",
+      "active": false,
+      "resource": "static/catalogs/sauces/buffalo.jpg"
+    },
+    {
+      "id_image": 56,
+      "file_name": "habanero.jpg",
+      "image_type": "PRODUCT_SAUCE",
+      "content_type": "image/jpeg",
+      "alt_text": "habanero",
+      "active": false,
+      "resource": "static/catalogs/sauces/habanero.jpg"
+    },
+    {
+      "id_image": 57,
+      "file_name": "macha.jpg",
+      "image_type": "PRODUCT_SAUCE",
+      "content_type": "image/jpeg",
+      "alt_text": "macha",
+      "active": false,
+      "resource": "static/catalogs/sauces/macha.jpg"
+    },
+    {
+      "id_image": 58,
+      "file_name": "no_chile.jpg",
+      "image_type": "PRODUCT_SAUCE",
+      "content_type": "image/jpeg",
+      "alt_text": "no chile",
+      "active": false,
+      "resource": "static/catalogs/sauces/no_chile.jpg"
+    },
+    {
+      "id_image": 59,
+      "file_name": "no_pica.jpg",
+      "image_type": "PRODUCT_SAUCE",
+      "content_type": "image/jpeg",
+      "alt_text": "no pica",
+      "active": false,
+      "resource": "static/catalogs/sauces/no_pica.jpg"
+    },
+    {
+      "id_image": 60,
+      "file_name": "pica.jpg",
+      "image_type": "PRODUCT_SAUCE",
+      "content_type": "image/jpeg",
+      "alt_text": "pica",
+      "active": false,
+      "resource": "static/catalogs/sauces/pica.jpg"
+    },
+    {
+      "id_image": 61,
+      "file_name": "salsas_negras.jpg",
+      "image_type": "PRODUCT_SAUCE",
+      "content_type": "image/jpeg",
+      "alt_text": "salsas negras",
+      "active": false,
+      "resource": "static/catalogs/sauces/salsas_negras.jpg"
+    },
+    {
+      "id_image": 62,
+      "file_name": "tajinafrutado.jpg",
+      "image_type": "PRODUCT_SAUCE",
+      "content_type": "image/jpeg",
+      "alt_text": "tajinafrutado",
+      "active": false,
+      "resource": "static/catalogs/sauces/tajinafrutado.jpg"
+    },
+    {
+      "id_image": 63,
+      "file_name": "tajinalimonado.png",
+      "image_type": "PRODUCT_SAUCE",
+      "content_type": "image/png",
+      "alt_text": "tajinalimonado",
+      "active": false,
+      "resource": "static/catalogs/sauces/tajinalimonado.png"
+    },
+    {
+      "id_image": 64,
+      "file_name": "tajinpolvo.jpeg",
+      "image_type": "PRODUCT_SAUCE",
+      "content_type": "image/jpeg",
+      "alt_text": "tajinpolvo",
+      "active": false,
+      "resource": "static/catalogs/sauces/tajinpolvo.jpeg"
+    },
+    {
+      "id_image": 65,
+      "file_name": "valentina.jpg",
+      "image_type": "PRODUCT_SAUCE",
+      "content_type": "image/jpeg",
+      "alt_text": "valentina",
+      "active": false,
+      "resource": "static/catalogs/sauces/valentina.jpg"
+    }
+  ],
   "product_sauces": [
     {
       "id_sauce": 1,
       "name": "Sin picante",
       "description": "Sin salsa picante",
-      "local_resource": "static/catalogs/sauces/no_chile.jpg",
+      "image": {
+        "id_image": 58
+      },
       "active": true
     },
     {
       "id_sauce": 2,
       "name": "Buffalo",
       "description": "Salsa picante",
-      "local_resource": "static/catalogs/sauces/buffalo.jpg",
+      "image": {
+        "id_image": 55
+      },
       "active": true
     },
     {
       "id_sauce": 3,
       "name": "Valentina",
       "description": "Salsa Valentina clásica",
-      "local_resource": "static/catalogs/sauces/valentina.jpg",
+      "image": {
+        "id_image": 65
+      },
       "active": true
     },
     {
       "id_sauce": 4,
       "name": "Habanero",
       "description": "Salsa picante de habanero",
-      "local_resource": "static/catalogs/sauces/habanero.jpg",
+      "image": {
+        "id_image": 56
+      },
       "active": true
     },
     {
       "id_sauce": 5,
       "name": "Botanera",
       "description": "Salsa para botanas",
-      "local_resource": "static/catalogs/sauces/botanera.jpg",
+      "image": {
+        "id_image": 54
+      },
       "active": true
     },
     {
       "id_sauce": 6,
       "name": "Salsas Negras",
       "description": "Combinación de salsas negras",
-      "local_resource": "static/catalogs/sauces/salsas_negras.jpg",
+      "image": {
+        "id_image": 61
+      },
       "active": true
     },
     {
       "id_sauce": 7,
       "name": "Macha",
       "description": "Salsa de la casa",
-      "local_resource": "static/catalogs/sauces/macha.jpg",
+      "image": {
+        "id_image": 57
+      },
       "active": true
     },
     {
       "id_sauce": 8,
       "name": "Tajin en polvo",
       "description": "Tajin en polvo",
-      "local_resource": "static/catalogs/sauces/tajinpolvo.jpeg",
+      "image": {
+        "id_image": 64
+      },
       "active": true
     },
     {
       "id_sauce": 9,
       "name": "Tajin alimonado",
       "description": "Salsa alimonada picante",
-      "local_resource": "static/catalogs/sauces/tajinalimonado.png",
+      "image": {
+        "id_image": 63
+      },
       "active": true
     },
     {
       "id_sauce": 10,
       "name": "Tajin afrutado",
       "description": "Salsa con sabor afrutado",
-      "local_resource": "static/catalogs/sauces/tajinafrutado.jpg",
+      "image": {
+        "id_image": 62
+      },
       "active": true
     },
     {
       "id_sauce": 11,
       "name": "Chile que pica",
       "description": "Chile en polvo picante",
-      "local_resource": "static/catalogs/sauces/pica.jpg",
+      "image": {
+        "id_image": 60
+      },
       "active": true
     },
     {
       "id_sauce": 12,
       "name": "Chile que no pica",
       "description": "Chile en polvo no picante",
-      "local_resource": "static/catalogs/sauces/no_pica.jpg",
+      "image": {
+        "id_image": 59
+      },
       "active": true
     }
   ],
   "product_extras": [
-    {
-      "id_extra": 1,
-      "name": "Queso Manchego Extra",
-      "description": "Rebanada de queso extra",
-      "actual_price": 10.00,
-      "actual_cost": 3.50,
-      "local_resource": "static/catalogs/extras/manchego_gratinado.jpg",
-      "active": true
-    },
     {
       "id_extra": 2,
       "name": "Queso Amarillo Extra",
       "description": "50 ml Queso amarillo líquido extra",
       "actual_price": 10.00,
       "actual_cost": 2.00,
-      "local_resource": "static/catalogs/extras/cheddar.jpg",
+      "image": {
+        "id_image": 5
+      },
       "active": true
     },
     {
@@ -169,7 +773,20 @@
       "description": "200g aprox. de proteina de puerco",
       "actual_price": 25.00,
       "actual_cost": 12.00,
-      "local_resource": "static/catalogs/extras/costilla.jpg",
+      "image": {
+        "id_image": 6
+      },
+      "active": true
+    },
+    {
+      "id_extra": 1,
+      "name": "Queso Manchego Extra",
+      "description": "Rebanada de queso extra",
+      "actual_price": 10.00,
+      "actual_cost": 3.50,
+      "image": {
+        "id_image": 7
+      },
       "active": true
     }
   ],
@@ -180,7 +797,9 @@
         "id_category": 1
       },
       "name": "Doriesquites",
-      "local_resource": "static/catalogs/products/doriesquites.jpg",
+      "image": {
+        "id_image": 40
+      },
       "description": "Doritos con esquites",
       "active": true
     },
@@ -190,7 +809,9 @@
         "id_category": 1
       },
       "name": "Tostiesquites",
-      "local_resource": "static/catalogs/products/tostiesquites.jpg",
+      "image": {
+        "id_image": 52
+      },
       "description": "Tostitos con esquites",
       "active": true
     },
@@ -200,7 +821,9 @@
         "id_category": 1
       },
       "name": "Esquites Tradicionales",
-      "local_resource": "static/catalogs/products/esquite_tradicional.jpg",
+      "image": {
+        "id_image": 46
+      },
       "description": "Esquites con mayonesa, queso y picante",
       "active": true
     },
@@ -210,7 +833,9 @@
         "id_category": 1
       },
       "name": "Esquites con Queso",
-      "local_resource": "static/catalogs/products/esquites_manchego.jpg",
+      "image": {
+        "id_image": 44
+      },
       "description": "Esquites tradicionales con queso incluido",
       "active": true
     },
@@ -220,7 +845,9 @@
         "id_category": 1
       },
       "name": "Esquite Maruchan",
-      "local_resource": "static/catalogs/products/esquite_maruchan.jpg",
+      "image": {
+        "id_image": 45
+      },
       "description": "Sopa maruchan con esquites",
       "active": true
     },
@@ -230,7 +857,9 @@
         "id_category": 4
       },
       "name": "Maíz Puerco",
-      "local_resource": "static/catalogs/products/maizpuerco.jpg",
+      "image": {
+        "id_image": 49
+      },
       "description": "Maruchan con esquites y carne de puerco",
       "active": true
     },
@@ -240,7 +869,9 @@
         "id_category": 4
       },
       "name": "Maíz Puerco sin sopa",
-      "local_resource": "static/catalogs/products/maizpuerco_sm.jpg",
+      "image": {
+        "id_image": 50
+      },
       "description": "Esquites con carne de puerco sin maruchan",
       "active": true
     },
@@ -250,7 +881,9 @@
         "id_category": 2
       },
       "name": "Elote Tradicional",
-      "local_resource": "static/catalogs/products/elote_tradicional.jpg",
+      "image": {
+        "id_image": 43
+      },
       "description": "Elote con mayonesa, queso y picante",
       "active": true
     },
@@ -260,7 +893,9 @@
         "id_category": 2
       },
       "name": "Elote Revolcado",
-      "local_resource": "static/catalogs/products/elote_revolcado.jpg",
+      "image": {
+        "id_image": 42
+      },
       "description": "Elote con topping a elegir",
       "active": true
     },
@@ -270,7 +905,9 @@
         "id_category": 3
       },
       "name": "Red Cola 600ml",
-      "local_resource": "static/catalogs/products/red600.jpg",
+      "image": {
+        "id_image": 51
+      },
       "description": "Refresco en botella PET",
       "active": true
     },
@@ -280,7 +917,9 @@
         "id_category": 3
       },
       "name": "Coca Cola",
-      "local_resource": "static/catalogs/products/coca.jpg",
+      "image": {
+        "id_image": 39
+      },
       "description": "Refresco en botella PET o lata",
       "active": true
     },
@@ -290,7 +929,9 @@
         "id_category": 3
       },
       "name": "Boing 500ml",
-      "local_resource": "static/catalogs/products/boing500.jpg",
+      "image": {
+        "id_image": 38
+      },
       "description": "Jugo en caja 500ml",
       "active": true
     },
@@ -300,7 +941,9 @@
         "id_category": 3
       },
       "name": "Jumex Lata",
-      "local_resource": "static/catalogs/products/jumex355.jpg",
+      "image": {
+        "id_image": 48
+      },
       "description": "Jugo en lata 355ml",
       "active": true
     },
@@ -310,7 +953,9 @@
         "id_category": 3
       },
       "name": "Agua de frutos",
-      "local_resource": "static/catalogs/products/agua_fruta.jpg",
+      "image": {
+        "id_image": 37
+      },
       "description": "Vaso de agua natural",
       "active": true
     },
@@ -320,7 +965,9 @@
         "id_category": 5
       },
       "name": "Tostitos con queso",
-      "local_resource": "static/catalogs/products/tostitosconqueso.png",
+      "image": {
+        "id_image": 53
+      },
       "description": "Tostitos con queso amarillo y salsa a elegir",
       "active": true
     },
@@ -330,7 +977,9 @@
         "id_category": 5
       },
       "name": "Doritos con queso",
-      "local_resource": "static/catalogs/products/doritosconqueso.jpeg",
+      "image": {
+        "id_image": 41
+      },
       "description": "Doritos con queso amarillo y salsa a elegir",
       "active": true
     },
@@ -340,7 +989,9 @@
         "id_category": 3
       },
       "name": "Jarrito",
-      "local_resource": "static/catalogs/products/jarritos.jpg",
+      "image": {
+        "id_image": 47
+      },
       "description": "Refresco mexicano de sabores",
       "active": true
     },
@@ -350,8 +1001,10 @@
         "id_category": 3
       },
       "name": "Agua",
-      "local_resource": "static/catalogs/products/agua.jpg",
-      "description": "Refresco mexicano de sabores",
+      "image": {
+        "id_image": 36
+      },
+      "description": "Agua simple embotellada",
       "active": true
     }
   ],
@@ -359,7 +1012,9 @@
     {
       "id_flavor": 1,
       "name": "Nachos",
-      "local_resource": "static/catalogs/flavors/doritos_nachos.jpg",
+      "image": {
+        "id_image": 20
+      },
       "active": true,
       "product": {
         "id_product": 1
@@ -368,7 +1023,9 @@
     {
       "id_flavor": 2,
       "name": "Incognita",
-      "local_resource": "static/catalogs/flavors/doritos_incognita.png",
+      "image": {
+        "id_image": 19
+      },
       "active": true,
       "product": {
         "id_product": 1
@@ -377,7 +1034,9 @@
     {
       "id_flavor": 3,
       "name": "Flaming Hot",
-      "local_resource": "static/catalogs/flavors/doritos_flaming.jpg",
+      "image": {
+        "id_image": 18
+      },
       "active": true,
       "product": {
         "id_product": 1
@@ -386,7 +1045,9 @@
     {
       "id_flavor": 4,
       "name": "Salsa Verde",
-      "local_resource": "static/catalogs/flavors/tostitos_salsa_verde.jpg",
+      "image": {
+        "id_image": 34
+      },
       "active": true,
       "product": {
         "id_product": 2
@@ -395,7 +1056,9 @@
     {
       "id_flavor": 5,
       "name": "Flaming Hot",
-      "local_resource": "static/catalogs/flavors/tosti_fh.jpg",
+      "image": {
+        "id_image": 35
+      },
       "active": true,
       "product": {
         "id_product": 2
@@ -404,7 +1067,9 @@
     {
       "id_flavor": 6,
       "name": "Camaron",
-      "local_resource": "static/catalogs/flavors/mar_camaron.jpg",
+      "image": {
+        "id_image": 27
+      },
       "active": true,
       "product": {
         "id_product": 5
@@ -413,7 +1078,9 @@
     {
       "id_flavor": 7,
       "name": "Camaron Habanero",
-      "local_resource": "static/catalogs/flavors/mar_habanero.jpg",
+      "image": {
+        "id_image": 28
+      },
       "active": true,
       "product": {
         "id_product": 5
@@ -422,7 +1089,9 @@
     {
       "id_flavor": 8,
       "name": "Camaron Piquin",
-      "local_resource": "static/catalogs/flavors/mar_piquin.jpg",
+      "image": {
+        "id_image": 29
+      },
       "active": true,
       "product": {
         "id_product": 5
@@ -431,7 +1100,9 @@
     {
       "id_flavor": 9,
       "name": "Pollo",
-      "local_resource": "static/catalogs/flavors/mar_pollo.jpg",
+      "image": {
+        "id_image": 30
+      },
       "active": true,
       "product": {
         "id_product": 5
@@ -440,7 +1111,9 @@
     {
       "id_flavor": 10,
       "name": "Res",
-      "local_resource": "static/catalogs/flavors/mar_res.png",
+      "image": {
+        "id_image": 31
+      },
       "active": true,
       "product": {
         "id_product": 5
@@ -449,7 +1122,9 @@
     {
       "id_flavor": 11,
       "name": "Sabritas Cruji FH",
-      "local_resource": "static/catalogs/flavors/sabritas_cruji_fh.png",
+      "image": {
+        "id_image": 33
+      },
       "active": true,
       "product": {
         "id_product": 9
@@ -458,8 +1133,9 @@
     {
       "id_flavor": 12,
       "name": "Rancheritos",
-      "local_resource": "static/catalogs/flavors/rancheritos.png",
-      "active": true,
+      "image": {
+        "id_image": 32
+      },
       "product": {
         "id_product": 9
       }
@@ -467,7 +1143,9 @@
     {
       "id_flavor": 13,
       "name": "Doritos Nachos",
-      "local_resource": "static/catalogs/flavors/doritos_nachos.jpg",
+      "image": {
+        "id_image": 20
+      },
       "active": true,
       "product": {
         "id_product": 9
@@ -476,7 +1154,9 @@
     {
       "id_flavor": 14,
       "name": "Mango",
-      "local_resource": "static/catalogs/flavors/b_mango.png",
+      "image": {
+        "id_image": 21
+      },
       "active": true,
       "product": {
         "id_product": 12
@@ -485,7 +1165,9 @@
     {
       "id_flavor": 15,
       "name": "Manzana",
-      "local_resource": "static/catalogs/flavors/b_manzana.jpg",
+      "image": {
+        "id_image": 22
+      },
       "active": true,
       "product": {
         "id_product": 12
@@ -494,7 +1176,9 @@
     {
       "id_flavor": 16,
       "name": "Guayaba",
-      "local_resource": "static/catalogs/flavors/b_guayaba.jpg",
+      "image": {
+        "id_image": 23
+      },
       "active": true,
       "product": {
         "id_product": 12
@@ -503,7 +1187,9 @@
     {
       "id_flavor": 17,
       "name": "Mango",
-      "local_resource": "static/catalogs/flavors/j_mango.png",
+      "image": {
+        "id_image": 24
+      },
       "active": true,
       "product": {
         "id_product": 13
@@ -512,7 +1198,9 @@
     {
       "id_flavor": 18,
       "name": "Durazno",
-      "local_resource": "static/catalogs/flavors/j_durazno.png",
+      "image": {
+        "id_image": 25
+      },
       "active": true,
       "product": {
         "id_product": 13
@@ -521,7 +1209,9 @@
     {
       "id_flavor": 19,
       "name": "Manzana",
-      "local_resource": "static/catalogs/flavors/j_manzana.png",
+      "image": {
+        "id_image": 26
+      },
       "active": true,
       "product": {
         "id_product": 13
@@ -530,7 +1220,9 @@
     {
       "id_flavor": 20,
       "name": "Jamaica",
-      "local_resource": "static/catalogs/flavors/a_jamaica.png",
+      "image": {
+        "id_image": 27
+      },
       "active": true,
       "product": {
         "id_product": 14
@@ -539,7 +1231,9 @@
     {
       "id_flavor": 21,
       "name": "Limón",
-      "local_resource": "static/catalogs/flavors/a_limon.png",
+      "image": {
+        "id_image": 28
+      },
       "active": true,
       "product": {
         "id_product": 14
@@ -548,7 +1242,9 @@
     {
       "id_flavor": 22,
       "name": "Limón con chia",
-      "local_resource": "static/catalogs/flavors/a_limon_chia.png",
+      "image": {
+        "id_image": 29
+      },
       "active": true,
       "product": {
         "id_product": 14
@@ -557,7 +1253,9 @@
     {
       "id_flavor": 23,
       "name": "Frutos Rojos",
-      "local_resource": "static/catalogs/flavors/a_frutos.png",
+      "image": {
+        "id_image": 30
+      },
       "active": true,
       "product": {
         "id_product": 14
@@ -566,7 +1264,9 @@
     {
       "id_flavor": 24,
       "name": "Mango",
-      "local_resource": "static/catalogs/flavors/a_mango.png",
+      "image": {
+        "id_image": 31
+      },
       "active": true,
       "product": {
         "id_product": 14
@@ -575,7 +1275,9 @@
     {
       "id_flavor": 25,
       "name": "Camaron",
-      "local_resource": "static/catalogs/flavors/mar_camaron.jpg",
+      "image": {
+        "id_image": 32
+      },
       "active": true,
       "product": {
         "id_product": 6
@@ -584,7 +1286,9 @@
     {
       "id_flavor": 26,
       "name": "Camaron Habanero",
-      "local_resource": "static/catalogs/flavors/mar_habanero.jpg",
+      "image": {
+        "id_image": 28
+      },
       "active": true,
       "product": {
         "id_product": 6
@@ -593,7 +1297,9 @@
     {
       "id_flavor": 27,
       "name": "Camaron Piquin",
-      "local_resource": "static/catalogs/flavors/mar_piquin.jpg",
+      "image": {
+        "id_image": 29
+      },
       "active": true,
       "product": {
         "id_product": 6
@@ -602,7 +1308,9 @@
     {
       "id_flavor": 28,
       "name": "Pollo",
-      "local_resource": "static/catalogs/flavors/mar_pollo.jpg",
+      "image": {
+        "id_image": 30
+      },
       "active": true,
       "product": {
         "id_product": 6
@@ -611,7 +1319,9 @@
     {
       "id_flavor": 29,
       "name": "Res",
-      "local_resource": "static/catalogs/flavors/mar_res.png",
+      "image": {
+        "id_image": 31
+      },
       "active": true,
       "product": {
         "id_product": 6
@@ -620,7 +1330,9 @@
     {
       "id_flavor": 30,
       "name": "Tamarindo",
-      "local_resource": "static/catalogs/flavors/jar_tamarindo.png",
+      "image": {
+        "id_image": 23
+      },
       "active": true,
       "product": {
         "id_product": 17
@@ -629,7 +1341,9 @@
     {
       "id_flavor": 31,
       "name": "Mandarina",
-      "local_resource": "static/catalogs/flavors/jar_mandarina.png",
+      "image": {
+        "id_image": 21
+      },
       "active": true,
       "product": {
         "id_product": 17
@@ -638,7 +1352,9 @@
     {
       "id_flavor": 32,
       "name": "Piña",
-      "local_resource": "static/catalogs/flavors/jar_pina.png",
+      "image": {
+        "id_image": 22
+      },
       "active": true,
       "product": {
         "id_product": 17
@@ -647,7 +1363,9 @@
     {
       "id_flavor": 33,
       "name": "Agua Bonafont",
-      "local_resource": "static/catalogs/flavors/a_bonafont.png",
+      "image": {
+        "id_image": 8
+      },
       "active": true,
       "product": {
         "id_product": 18

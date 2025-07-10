@@ -2,6 +2,11 @@ package com.mdmc.posofmyheart.domain.patterns.facade;
 
 import com.mdmc.posofmyheart.api.exceptions.*;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.*;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.PaymentMethodEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.ProductExtraEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.ProductFlavorEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.ProductSauceEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.ProductVariantEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;

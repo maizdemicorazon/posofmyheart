@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(uses = {ProductVariantMapper.class, ProductFlavorMapper.class})
+@Mapper(uses = {ProductVariantMapper.class, ProductFlavorMapper.class, CatalogImageMapper.class})
 public interface ProductMapper {
 
     ProductMapper INSTANCE = Mappers.getMapper(ProductMapper.class);
@@ -14,7 +14,6 @@ public interface ProductMapper {
     @Mapping(target = "idCategory", source = "category.idCategory")
     @Mapping(target = "options", source = "variants")
     @Mapping(target = "flavors", source = "flavors")
+    @Mapping(target = "image", source = "image", qualifiedByName = "catalogImageToByteArray")
     Product toProduct(ProductEntity entity);
-
-
 }

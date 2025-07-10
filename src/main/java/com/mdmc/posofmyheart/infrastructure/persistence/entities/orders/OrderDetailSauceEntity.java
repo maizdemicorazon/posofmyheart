@@ -1,6 +1,6 @@
 package com.mdmc.posofmyheart.infrastructure.persistence.entities.orders;
 
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.ProductSauceEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.ProductSauceEntity;
 import jakarta.persistence.*;
 import lombok.*;
 

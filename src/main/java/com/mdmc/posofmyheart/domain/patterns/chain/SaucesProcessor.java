@@ -3,7 +3,7 @@ package com.mdmc.posofmyheart.domain.patterns.chain;
 import com.mdmc.posofmyheart.application.dtos.OrderItemRequest;
 import com.mdmc.posofmyheart.domain.patterns.facade.EntityFinder;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderDetailEntity;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.ProductSauceEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.ProductSauceEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

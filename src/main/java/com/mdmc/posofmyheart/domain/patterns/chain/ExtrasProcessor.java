@@ -5,7 +5,7 @@ import com.mdmc.posofmyheart.domain.models.OrderExtrasDetail;
 import com.mdmc.posofmyheart.domain.patterns.facade.EntityFinder;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderDetailEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderExtraDetailEntity;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.ProductExtraEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.ProductExtraEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

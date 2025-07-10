@@ -1,0 +1,101 @@
+package com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
+
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderExtraDetailEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.images.CatalogImageEntity;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
+
+@Entity
+@Table(name = "product_extras", indexes = {
+        @Index(name = "idx_extra_name", columnList = "name"),
+        @Index(name = "idx_extra_active", columnList = "active"),
+        @Index(name = "idx_extra_price", columnList = "actual_price"),
+        @Index(name = "idx_extra_cost", columnList = "actual_cost"),
+        @Index(name = "idx_extra_image", columnList = "id_image")
+})
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class ProductExtraEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_extra")
+    private Long idExtra;
+
+    @Column(name = "name", length = 100, nullable = false)
+    private String name;
+
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "actual_price", precision = 10, scale = 2, nullable = false)
+    private BigDecimal actualPrice;
+
+    @Column(name = "actual_cost", precision = 10, scale = 2, nullable = false)
+    private BigDecimal actualCost;
+
+    @Column(name = "active")
+    private Boolean active;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_image")
+    private CatalogImageEntity image;
+
+    @ColumnDefault(value = "CURRENT_TIMESTAMP")
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "productExtra", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Set<OrderExtraDetailEntity> extraDetails = new HashSet<>();
+
+    @PrePersist
+    protected void onCreate() {
+        if (createdAt == null) {
+            createdAt = LocalDateTime.now();
+        }
+        active = true;
+    }
+
+    // Método de conveniencia para obtener los datos de imagen
+    public byte[] getImageData() {
+        return image != null && image.isActive() ? image.getImageDataSafe() : new byte[0];
+    }
+
+    // Método para verificar si tiene imagen
+    public boolean hasImage() {
+        return image != null && image.isActive();
+    }
+
+    // Constructor de conveniencia
+    public ProductExtraEntity(Long idExtra, String name, String description, BigDecimal actualPrice, BigDecimal actualCost, CatalogImageEntity image) {
+        this.idExtra = idExtra;
+        this.name = name;
+        this.description = description;
+        this.actualPrice = actualPrice;
+        this.actualCost = actualCost;
+        this.image = image;
+    }
+}

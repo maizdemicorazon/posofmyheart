@@ -1,7 +1,7 @@
 package com.mdmc.posofmyheart.infrastructure.persistence.repositories;
 
 import com.mdmc.posofmyheart.domain.models.PaymentMethod;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.PaymentMethodEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.PaymentMethodEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

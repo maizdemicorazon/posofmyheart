@@ -1,8 +1,8 @@
 package com.mdmc.posofmyheart.domain.models;
 
-import lombok.Builder;
-
 import java.util.List;
+
+import lombok.Builder;
 
 @Builder
 public record Product(
@@ -24,6 +24,10 @@ public record Product(
             throw new IllegalArgumentException("Nombre de producto inválido");
         }
 
+    }
+
+    public boolean hasImage() {
+        return image != null && image.length > 0;
     }
 
 }

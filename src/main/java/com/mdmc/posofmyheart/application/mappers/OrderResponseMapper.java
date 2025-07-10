@@ -1,15 +1,19 @@
 package com.mdmc.posofmyheart.application.mappers;
 
+import java.util.Set;
+
 import com.mdmc.posofmyheart.application.dtos.OrderResponse;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.*;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderDetailEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderDetailSauceEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderExtraDetailEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderFlavorDetailEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
-import java.util.Set;
-
-@Mapper
+@Mapper(uses = {CatalogImageMapper.class})
 public interface OrderResponseMapper {
 
     OrderResponseMapper INSTANCE = Mappers.getMapper(OrderResponseMapper.class);
@@ -23,7 +27,7 @@ public interface OrderResponseMapper {
 
     @Mapping(target = "idProduct", source = "product.idProduct")
     @Mapping(target = "productName", source = "product.name")
-    @Mapping(target = "productImage", source = "product.image")
+    @Mapping(target = "productImage", source = "product.image", qualifiedByName = "catalogImageToByteArray")
     @Mapping(target = "productPrice", source = "sellPrice")
     @Mapping(target = "idVariant", source = "variant.idVariant")
     @Mapping(target = "variantName", source = "variant.size")
@@ -40,8 +44,8 @@ public interface OrderResponseMapper {
 
     @Mapping(target = "idSauce", source = "productSauce.idSauce")
     @Mapping(target = "name", source = "productSauce.name")
-    @Mapping(target = "image", source = "productSauce.image")
-    OrderResponse.OrderDetailSauceResponse  toDetailSauceResponse(OrderDetailSauceEntity entity);
+    @Mapping(target = "image", source = "productSauce.image", qualifiedByName = "catalogImageToByteArray")
+    OrderResponse.OrderDetailSauceResponse toDetailSauceResponse(OrderDetailSauceEntity entity);
 
     @Mapping(target = "idFlavor", source = "flavor.idFlavor")
     @Mapping(target = "name", source = "flavor.name")
@@ -50,7 +54,9 @@ public interface OrderResponseMapper {
 
     @Named("toOneFlavor")
     default OrderResponse.OrderFlavorDetailResponse toOneFlavor(Set<OrderFlavorDetailEntity> flavorDetails) {
-        return flavorDetails.stream().findFirst().map(this::toFlavorDetailResponse).orElse(null);
+        return flavorDetails.stream()
+                .findFirst()
+                .map(this::toFlavorDetailResponse)
+                .orElse(null);
     }
-
 }

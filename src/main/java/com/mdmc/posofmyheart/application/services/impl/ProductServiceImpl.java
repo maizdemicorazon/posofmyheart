@@ -1,5 +1,7 @@
 package com.mdmc.posofmyheart.application.services.impl;
 
+import java.util.List;
+
 import com.mdmc.posofmyheart.api.exceptions.ProductNotFoundException;
 import com.mdmc.posofmyheart.application.mappers.ProductMapper;
 import com.mdmc.posofmyheart.application.mappers.ProductMenuDtoMapper;
@@ -21,8 +23,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 @Log4j2
@@ -34,32 +34,52 @@ public class ProductServiceImpl implements ProductService {
     private final PaymentMethodRepository paymentMethodRepository;
 
     /**
-     * getMenuProducts() con UNA SOLA QUERY por tipo
-     * Elimina múltiples findAll() - MEJORA CRÍTICA DE PERFORMANCE
+     * getMenuProducts() con consultas optimizadas que incluyen imágenes
+     * UNA SOLA QUERY por tipo con LEFT JOIN FETCH para imágenes
      */
     @Override
     @Transactional(readOnly = true)
     @Cacheable(value = "products", key = "'menu'")
     public ProductsMenuDto getMenuProducts() {
-        log.debug("🔍 Obteniendo menú completo con optimización EntityGraph");
+        log.debug("🔍 Obteniendo menú completo con imágenes optimizado");
 
         long startTime = System.currentTimeMillis();
 
+        // 1. Productos con todas las relaciones e imágenes (incluyendo sabores)
         List<ProductEntity> products = ProductEntityMapper.INSTANCE.toProductsByIdAsc(
                 productRepository.findByIdWithAllRelations()
         );
 
-        List<ProductExtra> extras = productExtraRepository.findAllExtras();
+        // 2. Extras con imágenes
+        List<ProductExtra> extras = productExtraRepository.findAllActiveWithImages()
+                .stream()
+                .map(entity -> new ProductExtra(
+                        entity.getIdExtra(),
+                        entity.getName(),
+                        entity.getActualPrice(),
+                        entity.getImageData()
+                ))
+                .toList();
 
-        List<ProductSauce> sauces = productSauceRepository.findAllSauces();
+        // 3. Salsas con imágenes
+        List<ProductSauce> sauces = productSauceRepository.findActiveWithImages()
+                .stream()
+                .map(entity -> new ProductSauce(
+                        entity.getIdSauce(),
+                        entity.getName(),
+                        entity.getImageData()
+                ))
+                .toList();
 
+        // 4. Métodos de pago (sin imágenes)
         List<PaymentMethod> paymentMethods = paymentMethodRepository.findAllPaymentMethods();
 
         ProductsMenuDto menu = ProductMenuDtoMapper.INSTANCE
                 .toProductsMenu(products, extras, sauces, paymentMethods);
 
         long endTime = System.currentTimeMillis();
-        log.info("✅ Menú completo obtenido en {}ms", (endTime - startTime));
+        log.info("✅ Menú completo con imágenes obtenido en {}ms - {} productos, {} extras, {} salsas",
+                (endTime - startTime), products.size(), extras.size(), sauces.size());
 
         return menu;
     }
@@ -68,20 +88,19 @@ public class ProductServiceImpl implements ProductService {
     @Transactional(readOnly = true)
     @Cacheable(value = "products", key = "'product-' + #idProduct")
     public Product getProductById(Long idProduct) {
-        log.debug("🔍 Obteniendo producto por ID: {} con EntityGraph", idProduct);
+        log.debug("🔍 Obteniendo producto por ID: {} con todas las relaciones e imágenes", idProduct);
 
         long startTime = System.currentTimeMillis();
 
-        // Query optimizada con EntityGraph completo
-        ProductEntity productEntity = productRepository.findById(idProduct)
+        // Query optimizada que carga producto con todas sus relaciones e imágenes
+        ProductEntity productEntity = productRepository.findByIdWithAllRelationsAndImages(idProduct)
                 .orElseThrow(() -> new ProductNotFoundException(idProduct));
 
         Product product = ProductMapper.INSTANCE.toProduct(productEntity);
 
         long endTime = System.currentTimeMillis();
-        log.info("✅ Producto {} obtenido en {}ms", idProduct, (endTime - startTime));
+        log.info("✅ Producto {} obtenido con imágenes en {}ms", idProduct, (endTime - startTime));
 
         return product;
     }
-
 }

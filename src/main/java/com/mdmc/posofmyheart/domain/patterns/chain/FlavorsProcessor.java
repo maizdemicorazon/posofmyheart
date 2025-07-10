@@ -5,7 +5,7 @@ import com.mdmc.posofmyheart.domain.patterns.facade.EntityFinder;
 import com.mdmc.posofmyheart.domain.patterns.validator.FlavorValidator;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderDetailEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderFlavorDetailEntity;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.ProductFlavorEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.ProductFlavorEntity;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
