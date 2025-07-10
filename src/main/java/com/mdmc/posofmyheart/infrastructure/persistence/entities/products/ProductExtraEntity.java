@@ -45,8 +45,11 @@ public class ProductExtraEntity {
     @Column(name = "active")
     private Boolean active;
 
-    @Column(name = "image", nullable = false)
+    @Lob
     private byte[] image;
+
+    @Transient
+    private String localResource;
 
     @ColumnDefault(value = "CURRENT_TIMESTAMP")
     @Column(name = "created_at")

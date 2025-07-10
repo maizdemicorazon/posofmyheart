@@ -22,7 +22,10 @@ public class ProductSauceEntity {
     @Column(nullable = false)
     private String name;
     private String description;
+    @Lob
     private byte[] image;
+    @Transient
+    private String localResource;
     @Column(nullable = false)
     private boolean active = true;
 }

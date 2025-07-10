@@ -3,7 +3,7 @@ package com.mdmc.posofmyheart.domain.models;
 public record ProductSauce(
         Long idSauce,
         String name,
-        String image
+        byte[] image
 ) {
 
     public ProductSauce {

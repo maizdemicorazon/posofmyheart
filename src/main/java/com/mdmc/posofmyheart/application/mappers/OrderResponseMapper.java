@@ -41,7 +41,7 @@ public interface OrderResponseMapper {
     @Mapping(target = "idSauce", source = "productSauce.idSauce")
     @Mapping(target = "name", source = "productSauce.name")
     @Mapping(target = "image", source = "productSauce.image")
-    OrderResponse.OrderDetailSauceResponse toDetailSauceResponse(OrderDetailSauceEntity entity);
+    OrderResponse.OrderDetailSauceResponse  toDetailSauceResponse(OrderDetailSauceEntity entity);
 
     @Mapping(target = "idFlavor", source = "flavor.idFlavor")
     @Mapping(target = "name", source = "flavor.name")

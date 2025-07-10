@@ -44,8 +44,11 @@ public class ProductEntity {
     @Column(name = "name", length = 100, nullable = false)
     private String name;
 
-    @Column(name = "image", nullable = false)
+    @Lob
     private byte[] image;
+
+    @Transient
+    private String localResource;
 
     @Column(name = "description", nullable = false)
     private String description;

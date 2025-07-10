@@ -4,7 +4,7 @@ import com.mdmc.posofmyheart.application.dtos.ProductImageInfo;
 import com.mdmc.posofmyheart.application.services.ProductImageService;
 import com.mdmc.posofmyheart.application.services.ProductService;
 import com.mdmc.posofmyheart.application.dtos.ProductImageResponse;
-import com.mdmc.posofmyheart.domain.dtos.ProductImageUploadResponse;
+import com.mdmc.posofmyheart.domain.dtos.ImageUploadResponse;
 import com.mdmc.posofmyheart.domain.models.Product;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -126,7 +126,7 @@ public class ProductImageController {
             @ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
     @PutMapping(value = "/{idProduct}/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ProductImageUploadResponse> uploadImage(
+    public ResponseEntity<ImageUploadResponse> uploadImage(
             @Parameter(description = "ID del producto", required = true)
             @PathVariable Long idProduct,
             @Parameter(description = "Archivo de imagen", required = true)
@@ -134,7 +134,7 @@ public class ProductImageController {
 
         log.info("📤 Iniciando carga de imagen para producto ID: {}", idProduct);
 
-        ProductImageUploadResponse response = productImageService.uploadImageToProduct(idProduct, image);
+        ImageUploadResponse response = productImageService.uploadImageToProduct(idProduct, image);
         log.info("✅ Imagen subida exitosamente para producto: {}", idProduct);
 
         return ResponseEntity.ok(response);
@@ -145,13 +145,13 @@ public class ProductImageController {
             description = "Reemplaza la imagen existente de un producto"
     )
     @PutMapping(value = "/update/{idProduct}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ProductImageUploadResponse> updateImage(
+    public ResponseEntity<ImageUploadResponse> updateImage(
             @PathVariable Long idProduct,
             @RequestParam("image") MultipartFile image) {
 
         log.info("🔄 Actualizando imagen para producto ID: {}", idProduct);
 
-        ProductImageUploadResponse response = productImageService.updateProductImage(idProduct, image);
+        ImageUploadResponse response = productImageService.updateProductImage(idProduct, image);
         log.info("✅ Imagen actualizada exitosamente para producto: {}", idProduct);
 
         return ResponseEntity.ok(response);

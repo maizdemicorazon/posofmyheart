@@ -1,15 +1,16 @@
 package com.mdmc.posofmyheart.util;
 
-import lombok.extern.log4j.Log4j2;
-import org.springframework.web.multipart.MultipartFile;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
+
+import lombok.extern.log4j.Log4j2;
+import org.springframework.web.multipart.MultipartFile;
 
 @Log4j2
 public class ImageUtils {
@@ -21,13 +22,13 @@ public class ImageUtils {
 
     // Configuración
     private static final List<String> ALLOWED_CONTENT_TYPES = Arrays.asList(
-            "image/jpeg", "image/jpg", "image/png", "image/gif", "image/webp"
+            "image/jpeg", "image/jpg", "image/png", "image/webp"
     );
     private static final long MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
     public static String detectContentType(byte[] imageData) {
         if (imageData == null || imageData.length < 4) {
-            return "image/jpeg"; // Default
+            return "image/jpg"; // Default
         }
 
         // Verificar signature de diferentes formatos
@@ -43,13 +44,6 @@ public class ImageUtils {
             return "image/png";
         }
 
-        if (imageData.length >= 6 &&
-                imageData[0] == 0x47 &&
-                imageData[1] == 0x49 &&
-                imageData[2] == 0x46) {
-            return "image/gif";
-        }
-
         if (imageData.length >= 12 &&
                 imageData[0] == 0x52 &&
                 imageData[1] == 0x49 &&
@@ -62,28 +56,25 @@ public class ImageUtils {
             return "image/webp";
         }
 
-        return "image/jpeg"; // Default fallback
+        return "image/jpeg";
     }
 
     /**
-     * Valida el archivo subido
+     * Valida el archivo subido desde cliente
      */
     public static void validateFile(MultipartFile file) {
         if (file == null || file.isEmpty()) {
-            throw new IllegalArgumentException("El archivo no puede estar vacío");
+            log.error("El archivo no puede estar vacío");
         }
 
-        if (file.getSize() > MAX_FILE_SIZE) {
-            throw new IllegalArgumentException(
-                    String.format("El archivo es demasiado grande. Máximo permitido: %.1f MB",
-                            MAX_FILE_SIZE / (1024.0 * 1024.0))
-            );
+        if (file != null && file.getSize() > MAX_FILE_SIZE) {
+            log.error("El archivo es demasiado grande. Máximo permitido: {} MB", MAX_FILE_SIZE / (1024.0 * 1024.0));
         }
 
-        String contentType = file.getContentType();
+        String contentType = file!= null ? file.getContentType(): "";
         if (contentType == null || !ALLOWED_CONTENT_TYPES.contains(contentType.toLowerCase())) {
-            throw new IllegalArgumentException(
-                    "Tipo de archivo no permitido. Formatos soportados: " + String.join(", ", ALLOWED_CONTENT_TYPES)
+            log.error(
+                    "Tipo de archivo no permitido. Formatos soportados: {}", String.join(", ", ALLOWED_CONTENT_TYPES)
             );
         }
 
@@ -91,26 +82,80 @@ public class ImageUtils {
         try {
             BufferedImage image = ImageIO.read(file.getInputStream());
             if (image == null) {
-                throw new IllegalArgumentException("El archivo no es una imagen válida");
+                log.error("El archivo no es una imagen válida");
             }
         } catch (IOException e) {
-            throw new IllegalArgumentException("Error leyendo el archivo de imagen");
+            log.error("Error leyendo el archivo de imagen");
         }
     }
 
     /**
-     * Procesa y optimiza la imagen
+     * Valida archivo desde resources
+     */
+    public static void validateResourceFile(InputStream inputStream, String contentType, long fileSize) {
+        if (inputStream == null) {
+            throw new IllegalArgumentException("El stream de imagen no puede ser nulo");
+        }
+
+        if (fileSize > MAX_FILE_SIZE) {
+            log.error("El archivo es demasiado grande. Máximo permitido: {} MB", MAX_FILE_SIZE / (1024.0 * 1024.0));
+        }
+
+        if (contentType == null || !ALLOWED_CONTENT_TYPES.contains(contentType.toLowerCase())) {
+            log.error(
+                    "Tipo de archivo no permitido. Formatos soportados: {}", String.join(", ", ALLOWED_CONTENT_TYPES)
+            );
+        }
+
+        // Validar que realmente sea una imagen
+        try {
+            // Marcar el stream si es posible para poder reutilizarlo
+            if (inputStream.markSupported()) {
+                inputStream.mark(Integer.MAX_VALUE);
+            }
+
+            BufferedImage image = ImageIO.read(inputStream);
+            if (image == null) {
+               log.error("El archivo no es una imagen válida");
+            }
+
+            // Resetear el stream si está marcado
+            if (inputStream.markSupported()) {
+                inputStream.reset();
+            }
+        } catch (IOException e) {
+            log.error("Error leyendo el archivo de imagen: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Procesa y optimiza la imagen desde MultipartFile
      */
     public static byte[] processAndOptimizeImage(MultipartFile file) throws IOException {
         BufferedImage originalImage = ImageIO.read(file.getInputStream());
 
         if (originalImage == null) {
-            throw new IOException("No se pudo leer la imagen");
+            log.error("No se pudo leer la imagen");
         }
 
         BufferedImage optimizedImage = resizeImage(originalImage);
 
         return convertImageToBytes(optimizedImage, getOutputFormat(file.getContentType()));
+    }
+
+    /**
+     * Procesa y optimiza la imagen desde InputStream (para archivos locales)
+     */
+    public static byte[] processAndOptimizeImageFromStream(InputStream inputStream, String contentType) throws IOException {
+        BufferedImage originalImage = ImageIO.read(inputStream);
+        BufferedImage optimizedImage = null;
+        if (originalImage == null) {
+           log.error("No se pudo leer la imagen desde el stream");
+        }else {
+            optimizedImage = resizeImage(originalImage);
+        }
+
+        return convertImageToBytes(optimizedImage, getOutputFormat(contentType));
     }
 
     /**
@@ -167,6 +212,7 @@ public class ImageUtils {
         return switch (contentType.toLowerCase()) {
             case "image/png" -> "png";
             case "image/gif" -> "gif";
+            case "image/jpeg" -> "jpeg";
             case "image/webp" -> "webp";
             default -> "jpg";
         };

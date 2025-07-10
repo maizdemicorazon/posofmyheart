@@ -63,73 +63,85 @@
       "id_sauce": 1,
       "name": "Sin picante",
       "description": "Sin salsa picante",
-      "image": "https://drive.google.com/thumbnail?id=11WPxG1tmzSVpZEN4PgtKNKwHhjxIBFu2"
+      "local_resource": "static/catalogs/sauces/no_chile.jpg",
+      "active": true
     },
     {
       "id_sauce": 2,
       "name": "Buffalo",
       "description": "Salsa picante",
-      "image": "https://drive.google.com/thumbnail?id=1gwgeHvhMCIH4XaOk-5OITul1pwbamATX"
+      "local_resource": "static/catalogs/sauces/buffalo.jpg",
+      "active": true
     },
     {
       "id_sauce": 3,
       "name": "Valentina",
       "description": "Salsa Valentina clásica",
-      "image": "https://drive.google.com/thumbnail?id=1CK-YPGAvKTzpkaZMXVYORJvCKhQFfr52"
+      "local_resource": "static/catalogs/sauces/valentina.jpg",
+      "active": true
     },
     {
       "id_sauce": 4,
       "name": "Habanero",
       "description": "Salsa picante de habanero",
-      "image": "https://drive.google.com/thumbnail?id=1p2dpvcMzfmLAzP7WzcOqsBIKQ9ogAXN1"
+      "local_resource": "static/catalogs/sauces/habanero.jpg",
+      "active": true
     },
     {
       "id_sauce": 5,
       "name": "Botanera",
       "description": "Salsa para botanas",
-      "image": "https://drive.google.com/thumbnail?id=1mMv8t1Wq4d7Yg9D08jZbRhby24mUUT6n"
+      "local_resource": "static/catalogs/sauces/botanera.jpg",
+      "active": true
     },
     {
       "id_sauce": 6,
       "name": "Salsas Negras",
       "description": "Combinación de salsas negras",
-      "image": "https://drive.google.com/thumbnail?id=1SBh-unGzG9sIWMGjQEbpga14yH3B5gJt"
+      "local_resource": "static/catalogs/sauces/salsas_negras.jpg",
+      "active": true
     },
     {
       "id_sauce": 7,
       "name": "Macha",
       "description": "Salsa de la casa",
-      "image": "https://drive.google.com/thumbnail?id=18nJNjMam6IBnjGlswo2xbuLlqT9jdwHn"
+      "local_resource": "static/catalogs/sauces/macha.jpg",
+      "active": true
     },
     {
       "id_sauce": 8,
       "name": "Tajin en polvo",
       "description": "Tajin en polvo",
-      "image": "https://drive.google.com/thumbnail?id=1xEFTsxtIS1dLJJriFYAPBz0elvZb9Kvs"
+      "local_resource": "static/catalogs/sauces/tajinpolvo.jpeg",
+      "active": true
     },
     {
       "id_sauce": 9,
       "name": "Tajin alimonado",
       "description": "Salsa alimonada picante",
-      "image": "https://drive.google.com/thumbnail?id=10CwrVbBtCpMs4R8V1cPR499L8pJb2bbe"
+      "local_resource": "static/catalogs/sauces/tajinalimonado.png",
+      "active": true
     },
     {
       "id_sauce": 10,
       "name": "Tajin afrutado",
       "description": "Salsa con sabor afrutado",
-      "image": "https://drive.google.com/thumbnail?id=1vxLCJpliHgrAkdXjv07N6wXIxd1i8HSw"
+      "local_resource": "static/catalogs/sauces/tajinafrutado.jpg",
+      "active": true
     },
     {
       "id_sauce": 11,
       "name": "Chile que pica",
       "description": "Chile en polvo picante",
-      "image": "https://drive.google.com/thumbnail?id=1xp32EvAqIW0Zw3P5n_RcVVLWK59H_OWH"
+      "local_resource": "static/catalogs/sauces/pica.jpg",
+      "active": true
     },
     {
       "id_sauce": 12,
       "name": "Chile que no pica",
       "description": "Chile en polvo no picante",
-      "image": "https://drive.google.com/thumbnail?id=1v68_I4ng5VaHtdUPc_lAaHff7QyimjjQ"
+      "local_resource": "static/catalogs/sauces/no_pica.jpg",
+      "active": true
     }
   ],
   "product_extras": [
@@ -139,6 +151,7 @@
       "description": "Rebanada de queso extra",
       "actual_price": 10.00,
       "actual_cost": 3.50,
+      "local_resource": "static/catalogs/extras/manchego_gratinado.jpg",
       "active": true
     },
     {
@@ -147,6 +160,7 @@
       "description": "50 ml Queso amarillo líquido extra",
       "actual_price": 10.00,
       "actual_cost": 2.00,
+      "local_resource": "static/catalogs/extras/cheddar.jpg",
       "active": true
     },
     {
@@ -155,6 +169,7 @@
       "description": "200g aprox. de proteina de puerco",
       "actual_price": 25.00,
       "actual_cost": 12.00,
+      "local_resource": "static/catalogs/extras/costilla.jpg",
       "active": true
     }
   ],
@@ -165,8 +180,9 @@
         "id_category": 1
       },
       "name": "Doriesquites",
-      "image": "",
-      "description": "Doritos con esquites"
+      "local_resource": "static/catalogs/products/doriesquites.jpg",
+      "description": "Doritos con esquites",
+      "active": true
     },
     {
       "id_product": 2,
@@ -174,8 +190,9 @@
         "id_category": 1
       },
       "name": "Tostiesquites",
-      "image": "",
-      "description": "Tostitos con esquites"
+      "local_resource": "static/catalogs/products/tostiesquites.jpg",
+      "description": "Tostitos con esquites",
+      "active": true
     },
     {
       "id_product": 3,
@@ -183,8 +200,9 @@
         "id_category": 1
       },
       "name": "Esquites Tradicionales",
-      "image": "",
-      "description": "Esquites con mayonesa, queso y picante"
+      "local_resource": "static/catalogs/products/esquite_tradicional.jpg",
+      "description": "Esquites con mayonesa, queso y picante",
+      "active": true
     },
     {
       "id_product": 4,
@@ -192,8 +210,9 @@
         "id_category": 1
       },
       "name": "Esquites con Queso",
-      "image": "",
-      "description": "Esquites tradicionales con queso incluido"
+      "local_resource": "static/catalogs/products/esquites_manchego.jpg",
+      "description": "Esquites tradicionales con queso incluido",
+      "active": true
     },
     {
       "id_product": 5,
@@ -201,8 +220,9 @@
         "id_category": 1
       },
       "name": "Esquite Maruchan",
-      "image": "",
-      "description": "Sopa maruchan con esquites"
+      "local_resource": "static/catalogs/products/esquite_maruchan.jpg",
+      "description": "Sopa maruchan con esquites",
+      "active": true
     },
     {
       "id_product": 6,
@@ -210,8 +230,9 @@
         "id_category": 4
       },
       "name": "Maíz Puerco",
-      "image": "",
-      "description": "Maruchan con esquites y carne de puerco"
+      "local_resource": "static/catalogs/products/maizpuerco.jpg",
+      "description": "Maruchan con esquites y carne de puerco",
+      "active": true
     },
     {
       "id_product": 7,
@@ -219,8 +240,9 @@
         "id_category": 4
       },
       "name": "Maíz Puerco sin sopa",
-      "image": "",
-      "description": "Esquites con carne de puerco sin maruchan"
+      "local_resource": "static/catalogs/products/maizpuerco_sm.jpg",
+      "description": "Esquites con carne de puerco sin maruchan",
+      "active": true
     },
     {
       "id_product": 8,
@@ -228,8 +250,9 @@
         "id_category": 2
       },
       "name": "Elote Tradicional",
-      "image": "",
-      "description": "Elote con mayonesa, queso y picante"
+      "local_resource": "static/catalogs/products/elote_tradicional.jpg",
+      "description": "Elote con mayonesa, queso y picante",
+      "active": true
     },
     {
       "id_product": 9,
@@ -237,8 +260,9 @@
         "id_category": 2
       },
       "name": "Elote Revolcado",
-      "image": "",
-      "description": "Elote con topping a elegir"
+      "local_resource": "static/catalogs/products/elote_revolcado.jpg",
+      "description": "Elote con topping a elegir",
+      "active": true
     },
     {
       "id_product": 10,
@@ -246,8 +270,9 @@
         "id_category": 3
       },
       "name": "Red Cola 600ml",
-      "image": "",
-      "description": "Refresco en botella PET"
+      "local_resource": "static/catalogs/products/red600.jpg",
+      "description": "Refresco en botella PET",
+      "active": true
     },
     {
       "id_product": 11,
@@ -255,8 +280,9 @@
         "id_category": 3
       },
       "name": "Coca Cola",
-      "image": "",
-      "description": "Refresco en botella PET o lata"
+      "local_resource": "static/catalogs/products/coca.jpg",
+      "description": "Refresco en botella PET o lata",
+      "active": true
     },
     {
       "id_product": 12,
@@ -264,8 +290,9 @@
         "id_category": 3
       },
       "name": "Boing 500ml",
-      "image": "",
-      "description": "Jugo en caja 500ml"
+      "local_resource": "static/catalogs/products/boing500.jpg",
+      "description": "Jugo en caja 500ml",
+      "active": true
     },
     {
       "id_product": 13,
@@ -273,8 +300,9 @@
         "id_category": 3
       },
       "name": "Jumex Lata",
-      "image": "",
-      "description": "Jugo en lata 355ml"
+      "local_resource": "static/catalogs/products/jumex355.jpg",
+      "description": "Jugo en lata 355ml",
+      "active": true
     },
     {
       "id_product": 14,
@@ -282,8 +310,9 @@
         "id_category": 3
       },
       "name": "Agua de frutos",
-      "image": "",
-      "description": "Vaso de agua natural"
+      "local_resource": "static/catalogs/products/agua_fruta.jpg",
+      "description": "Vaso de agua natural",
+      "active": true
     },
     {
       "id_product": 15,
@@ -291,8 +320,9 @@
         "id_category": 5
       },
       "name": "Tostitos con queso",
-      "image": "",
-      "description": "Tostitos con queso amarillo y salsa a elegir"
+      "local_resource": "static/catalogs/products/tostitosconqueso.png",
+      "description": "Tostitos con queso amarillo y salsa a elegir",
+      "active": true
     },
     {
       "id_product": 16,
@@ -300,14 +330,37 @@
         "id_category": 5
       },
       "name": "Doritos con queso",
-      "image": "",
-      "description": "Doritos con queso amarillo y salsa a elegir"
+      "local_resource": "static/catalogs/products/doritosconqueso.jpeg",
+      "description": "Doritos con queso amarillo y salsa a elegir",
+      "active": true
+    },
+    {
+      "id_product": 17,
+      "category": {
+        "id_category": 3
+      },
+      "name": "Jarrito",
+      "local_resource": "static/catalogs/products/jarritos.jpg",
+      "description": "Refresco mexicano de sabores",
+      "active": true
+    },
+    {
+      "id_product": 18,
+      "category": {
+        "id_category": 3
+      },
+      "name": "Agua",
+      "local_resource": "static/catalogs/products/agua.jpg",
+      "description": "Refresco mexicano de sabores",
+      "active": true
     }
   ],
   "product_flavors": [
     {
       "id_flavor": 1,
       "name": "Nachos",
+      "local_resource": "static/catalogs/flavors/doritos_nachos.jpg",
+      "active": true,
       "product": {
         "id_product": 1
       }
@@ -315,6 +368,8 @@
     {
       "id_flavor": 2,
       "name": "Incognita",
+      "local_resource": "static/catalogs/flavors/doritos_incognita.png",
+      "active": true,
       "product": {
         "id_product": 1
       }
@@ -322,6 +377,8 @@
     {
       "id_flavor": 3,
       "name": "Flaming Hot",
+      "local_resource": "static/catalogs/flavors/doritos_flaming.jpg",
+      "active": true,
       "product": {
         "id_product": 1
       }
@@ -329,6 +386,8 @@
     {
       "id_flavor": 4,
       "name": "Salsa Verde",
+      "local_resource": "static/catalogs/flavors/tostitos_salsa_verde.jpg",
+      "active": true,
       "product": {
         "id_product": 2
       }
@@ -336,6 +395,8 @@
     {
       "id_flavor": 5,
       "name": "Flaming Hot",
+      "local_resource": "static/catalogs/flavors/tosti_fh.jpg",
+      "active": true,
       "product": {
         "id_product": 2
       }
@@ -343,6 +404,8 @@
     {
       "id_flavor": 6,
       "name": "Camaron",
+      "local_resource": "static/catalogs/flavors/mar_camaron.jpg",
+      "active": true,
       "product": {
         "id_product": 5
       }
@@ -350,6 +413,8 @@
     {
       "id_flavor": 7,
       "name": "Camaron Habanero",
+      "local_resource": "static/catalogs/flavors/mar_habanero.jpg",
+      "active": true,
       "product": {
         "id_product": 5
       }
@@ -357,6 +422,8 @@
     {
       "id_flavor": 8,
       "name": "Camaron Piquin",
+      "local_resource": "static/catalogs/flavors/mar_piquin.jpg",
+      "active": true,
       "product": {
         "id_product": 5
       }
@@ -364,6 +431,8 @@
     {
       "id_flavor": 9,
       "name": "Pollo",
+      "local_resource": "static/catalogs/flavors/mar_pollo.jpg",
+      "active": true,
       "product": {
         "id_product": 5
       }
@@ -371,6 +440,8 @@
     {
       "id_flavor": 10,
       "name": "Res",
+      "local_resource": "static/catalogs/flavors/mar_res.png",
+      "active": true,
       "product": {
         "id_product": 5
       }
@@ -378,6 +449,8 @@
     {
       "id_flavor": 11,
       "name": "Sabritas Cruji FH",
+      "local_resource": "static/catalogs/flavors/sabritas_cruji_fh.png",
+      "active": true,
       "product": {
         "id_product": 9
       }
@@ -385,6 +458,8 @@
     {
       "id_flavor": 12,
       "name": "Rancheritos",
+      "local_resource": "static/catalogs/flavors/rancheritos.png",
+      "active": true,
       "product": {
         "id_product": 9
       }
@@ -392,6 +467,8 @@
     {
       "id_flavor": 13,
       "name": "Doritos Nachos",
+      "local_resource": "static/catalogs/flavors/doritos_nachos.jpg",
+      "active": true,
       "product": {
         "id_product": 9
       }
@@ -399,6 +476,8 @@
     {
       "id_flavor": 14,
       "name": "Mango",
+      "local_resource": "static/catalogs/flavors/b_mango.png",
+      "active": true,
       "product": {
         "id_product": 12
       }
@@ -406,6 +485,8 @@
     {
       "id_flavor": 15,
       "name": "Manzana",
+      "local_resource": "static/catalogs/flavors/b_manzana.jpg",
+      "active": true,
       "product": {
         "id_product": 12
       }
@@ -413,6 +494,8 @@
     {
       "id_flavor": 16,
       "name": "Guayaba",
+      "local_resource": "static/catalogs/flavors/b_guayaba.jpg",
+      "active": true,
       "product": {
         "id_product": 12
       }
@@ -420,6 +503,8 @@
     {
       "id_flavor": 17,
       "name": "Mango",
+      "local_resource": "static/catalogs/flavors/j_mango.png",
+      "active": true,
       "product": {
         "id_product": 13
       }
@@ -427,6 +512,8 @@
     {
       "id_flavor": 18,
       "name": "Durazno",
+      "local_resource": "static/catalogs/flavors/j_durazno.png",
+      "active": true,
       "product": {
         "id_product": 13
       }
@@ -434,6 +521,8 @@
     {
       "id_flavor": 19,
       "name": "Manzana",
+      "local_resource": "static/catalogs/flavors/j_manzana.png",
+      "active": true,
       "product": {
         "id_product": 13
       }
@@ -441,6 +530,8 @@
     {
       "id_flavor": 20,
       "name": "Jamaica",
+      "local_resource": "static/catalogs/flavors/a_jamaica.png",
+      "active": true,
       "product": {
         "id_product": 14
       }
@@ -448,6 +539,8 @@
     {
       "id_flavor": 21,
       "name": "Limón",
+      "local_resource": "static/catalogs/flavors/a_limon.png",
+      "active": true,
       "product": {
         "id_product": 14
       }
@@ -455,6 +548,8 @@
     {
       "id_flavor": 22,
       "name": "Limón con chia",
+      "local_resource": "static/catalogs/flavors/a_limon_chia.png",
+      "active": true,
       "product": {
         "id_product": 14
       }
@@ -462,6 +557,8 @@
     {
       "id_flavor": 23,
       "name": "Frutos Rojos",
+      "local_resource": "static/catalogs/flavors/a_frutos.png",
+      "active": true,
       "product": {
         "id_product": 14
       }
@@ -469,6 +566,8 @@
     {
       "id_flavor": 24,
       "name": "Mango",
+      "local_resource": "static/catalogs/flavors/a_mango.png",
+      "active": true,
       "product": {
         "id_product": 14
       }
@@ -476,6 +575,8 @@
     {
       "id_flavor": 25,
       "name": "Camaron",
+      "local_resource": "static/catalogs/flavors/mar_camaron.jpg",
+      "active": true,
       "product": {
         "id_product": 6
       }
@@ -483,6 +584,8 @@
     {
       "id_flavor": 26,
       "name": "Camaron Habanero",
+      "local_resource": "static/catalogs/flavors/mar_habanero.jpg",
+      "active": true,
       "product": {
         "id_product": 6
       }
@@ -490,6 +593,8 @@
     {
       "id_flavor": 27,
       "name": "Camaron Piquin",
+      "local_resource": "static/catalogs/flavors/mar_piquin.jpg",
+      "active": true,
       "product": {
         "id_product": 6
       }
@@ -497,6 +602,8 @@
     {
       "id_flavor": 28,
       "name": "Pollo",
+      "local_resource": "static/catalogs/flavors/mar_pollo.jpg",
+      "active": true,
       "product": {
         "id_product": 6
       }
@@ -504,8 +611,46 @@
     {
       "id_flavor": 29,
       "name": "Res",
+      "local_resource": "static/catalogs/flavors/mar_res.png",
+      "active": true,
       "product": {
         "id_product": 6
+      }
+    },
+    {
+      "id_flavor": 30,
+      "name": "Tamarindo",
+      "local_resource": "static/catalogs/flavors/jar_tamarindo.png",
+      "active": true,
+      "product": {
+        "id_product": 17
+      }
+    },
+    {
+      "id_flavor": 31,
+      "name": "Mandarina",
+      "local_resource": "static/catalogs/flavors/jar_mandarina.png",
+      "active": true,
+      "product": {
+        "id_product": 17
+      }
+    },
+    {
+      "id_flavor": 32,
+      "name": "Piña",
+      "local_resource": "static/catalogs/flavors/jar_pina.png",
+      "active": true,
+      "product": {
+        "id_product": 17
+      }
+    },
+    {
+      "id_flavor": 33,
+      "name": "Agua Bonafont",
+      "local_resource": "static/catalogs/flavors/a_bonafont.png",
+      "active": true,
+      "product": {
+        "id_product": 18
       }
     }
   ],
@@ -651,11 +796,20 @@
         "id_product": 11
       },
       "size": "355ml",
-      "actual_sell_price": 25,
-      "actual_cost_price": 17.9
+      "actual_sell_price": 18.00,
+      "actual_cost_price": 10.08
     },
     {
       "id_variant": 17,
+      "product": {
+        "id_product": 11
+      },
+      "size": "355ml",
+      "actual_sell_price": 25.00,
+      "actual_cost_price": 15.00
+    },
+    {
+      "id_variant": 18,
       "product": {
         "id_product": 14
       },
@@ -664,7 +818,7 @@
       "actual_cost_price": 15
     },
     {
-      "id_variant": 18,
+      "id_variant": 19,
       "product": {
         "id_product": 14
       },
@@ -673,7 +827,7 @@
       "actual_cost_price": 25
     },
     {
-      "id_variant": 19,
+      "id_variant": 20,
       "product": {
         "id_product": 4
       },
@@ -682,7 +836,7 @@
       "actual_cost_price": 15
     },
     {
-      "id_variant": 20,
+      "id_variant": 21,
       "product": {
         "id_product": 4
       },
@@ -691,7 +845,7 @@
       "actual_cost_price": 20
     },
     {
-      "id_variant": 21,
+      "id_variant": 22,
       "product": {
         "id_product": 4
       },
@@ -700,7 +854,7 @@
       "actual_cost_price": 25
     },
     {
-      "id_variant": 22,
+      "id_variant": 23,
       "product": {
         "id_product": 4
       },
@@ -709,22 +863,13 @@
       "actual_cost_price": 30
     },
     {
-      "id_variant": 23,
+      "id_variant": 24,
       "product": {
         "id_product": 2
       },
       "size": "Único",
       "actual_sell_price": 55.00,
       "actual_cost_price": 30.00
-    },
-    {
-      "id_variant": 24,
-      "product": {
-        "id_product": 15
-      },
-      "size": "Único",
-      "actual_sell_price": 25.00,
-      "actual_cost_price": 17.00
     },
     {
       "id_variant": 25,
@@ -734,6 +879,24 @@
       "size": "Único",
       "actual_sell_price": 25.00,
       "actual_cost_price": 17.00
+    },
+    {
+      "id_variant": 26,
+      "product": {
+        "id_product": 17
+      },
+      "size": "500ml",
+      "actual_sell_price": 18.00,
+      "actual_cost_price": 10.00
+    },
+    {
+      "id_variant": 27,
+      "product": {
+        "id_product": 18
+      },
+      "size": "1000ml",
+      "actual_sell_price": 15.00,
+      "actual_cost_price": 6.00
     }
   ]
 }

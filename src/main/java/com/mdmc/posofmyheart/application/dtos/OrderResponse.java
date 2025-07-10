@@ -43,7 +43,7 @@ public record OrderResponse(
     public record OrderDetailSauceResponse(
             Long idSauce,
             String name,
-            String image
+            byte[] image
     ) {
     }
 

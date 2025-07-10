@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductImageUploadResponse {
+public class ImageUploadResponse {
     private boolean success;
     private String message;
     private Long productId;
