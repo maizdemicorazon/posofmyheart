@@ -45,8 +45,4 @@ public class ProductSauceEntity extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_image")
     private CatalogImageEntity image;
-
-    public boolean hasImage() {
-        return image != null && image.isActive();
-    }
 }
