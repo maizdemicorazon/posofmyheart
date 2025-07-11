@@ -1,5 +1,10 @@
 package com.mdmc.posofmyheart.api.controllers;
 
+import java.text.DecimalFormat;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 import com.github.benmanes.caffeine.cache.stats.CacheStats;
 import com.mdmc.posofmyheart.application.services.CacheService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -9,12 +14,11 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.caffeine.CaffeineCache;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.text.DecimalFormat;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/cache")
@@ -330,7 +334,7 @@ public class CacheController {
             Cache cache = cacheManager.getCache(cacheName);
             if (cache instanceof CaffeineCache caffeineCache) {
                 CacheStats stats = caffeineCache.getNativeCache().stats();
-                // Si podemos obtener estadísticas, están habilitadas
+                log.info("Cache stats: {}", stats);
                 statsEnabled = true;
                 break;
             }
