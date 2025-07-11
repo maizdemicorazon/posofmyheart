@@ -1,13 +1,18 @@
 package com.mdmc.posofmyheart.application.mappers;
 
-import com.mdmc.posofmyheart.application.dtos.OrderResponse;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.*;
+import java.util.Set;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
-import java.util.Set;
+import com.mdmc.posofmyheart.application.dtos.OrderResponse;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderDetailEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderDetailSauceEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderExtraDetailEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderFlavorDetailEntity;
 
 @Mapper(uses = {CatalogImageMapper.class})
 public interface OrderResponseMapper {
@@ -42,11 +47,6 @@ public interface OrderResponseMapper {
     @Mapping(target = "name", source = "productSauce.name")
     OrderResponse.OrderDetailSauceResponse toDetailSauceResponse(OrderDetailSauceEntity entity);
 
-    @Mapping(target = "idFlavor", source = "flavor.idFlavor")
-    @Mapping(target = "name", source = "flavor.name")
-    @Mapping(target = "idOrderDetail", source = "orderDetail.idOrderDetail")
-    OrderResponse.OrderFlavorDetailResponse toFlavorDetailResponse(OrderFlavorDetailEntity entity);
-
     @Named("toOneFlavor")
     default OrderResponse.OrderFlavorDetailResponse toOneFlavor(Set<OrderFlavorDetailEntity> flavorDetails) {
         return flavorDetails.stream()
@@ -54,4 +54,9 @@ public interface OrderResponseMapper {
                 .map(this::toFlavorDetailResponse)
                 .orElse(null);
     }
+
+    @Mapping(target = "idFlavor", source = "flavor.idFlavor")
+    @Mapping(target = "name", source = "flavor.name")
+    @Mapping(target = "idOrderDetail", source = "orderDetail.idOrderDetail")
+    OrderResponse.OrderFlavorDetailResponse toFlavorDetailResponse(OrderFlavorDetailEntity entity);
 }

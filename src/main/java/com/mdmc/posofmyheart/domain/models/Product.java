@@ -1,8 +1,8 @@
 package com.mdmc.posofmyheart.domain.models;
 
-import lombok.Builder;
-
 import java.util.List;
+
+import lombok.Builder;
 
 @Builder
 public record Product(

@@ -1,11 +1,11 @@
 package com.mdmc.posofmyheart.application.services;
 
+import java.math.BigDecimal;
+import java.util.Set;
+
 import com.mdmc.posofmyheart.application.dtos.DailyEarnings;
 import com.mdmc.posofmyheart.domain.dtos.ResultCommissionDto;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderEntity;
-
-import java.math.BigDecimal;
-import java.util.Set;
 
 public interface OrderCalculationService {
 

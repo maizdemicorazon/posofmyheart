@@ -1,8 +1,8 @@
 package com.mdmc.posofmyheart.application.dtos;
 
-import lombok.Builder;
-
 import java.time.LocalDateTime;
+
+import lombok.Builder;
 
 @Builder
 public record ErrorResponse(

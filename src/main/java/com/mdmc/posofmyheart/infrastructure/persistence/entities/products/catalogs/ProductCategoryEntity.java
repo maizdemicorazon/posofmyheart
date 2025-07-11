@@ -1,8 +1,20 @@
 package com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.Table;
+
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.BaseEntity;
-import jakarta.persistence.*;
-import lombok.*;
 
 @Entity
 @Table(name = "product_categories", indexes = {

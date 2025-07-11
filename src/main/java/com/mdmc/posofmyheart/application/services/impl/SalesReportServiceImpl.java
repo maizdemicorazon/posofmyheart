@@ -1,5 +1,16 @@
 package com.mdmc.posofmyheart.application.services.impl;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
+import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+
 import com.mdmc.posofmyheart.application.dtos.projections.SalesOrderProjection;
 import com.mdmc.posofmyheart.application.dtos.projections.SalesReportProjections;
 import com.mdmc.posofmyheart.application.dtos.reports.SalesReportResponse;
@@ -10,15 +21,6 @@ import com.mdmc.posofmyheart.application.dtos.reports.SalesReportResponse.Weekda
 import com.mdmc.posofmyheart.application.services.SalesReportService;
 import com.mdmc.posofmyheart.application.services.processors.SalesDataProcessor;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.SalesReportRepository;
-import lombok.AllArgsConstructor;
-import lombok.extern.log4j.Log4j2;
-import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * Servicio de reportes de ventas usando solo JPQL y procesamiento en Java
@@ -41,14 +43,17 @@ public class SalesReportServiceImpl implements SalesReportService {
         LocalDateTime previousStartDate = startDate.minusDays(days);
 
         // Obtener datos del período actual usando JPQL
-        SalesReportProjections.PeriodSummaryProjection currentPeriod = salesReportRepository.findPeriodSummary(startDate, endDate);
-        SalesReportProjections.PeriodSummaryProjection previousPeriod = salesReportRepository.findPeriodSummary(previousStartDate, startDate);
+        SalesReportProjections.PeriodSummaryProjection currentPeriod =
+                salesReportRepository.findPeriodSummary(startDate, endDate);
+        SalesReportProjections.PeriodSummaryProjection previousPeriod =
+                salesReportRepository.findPeriodSummary(previousStartDate, startDate);
 
         // Obtener órdenes detalladas para procesamiento
         List<SalesOrderProjection> currentOrders = salesReportRepository.findAllOrdersInPeriod(startDate, endDate);
 
         // Obtener análisis por categorías usando JPQL
-        List<SalesReportProjections.CategorySalesProjection> categoryData = salesReportRepository.findCategorySalesInPeriod(startDate, endDate);
+        List<SalesReportProjections.CategorySalesProjection> categoryData =
+                salesReportRepository.findCategorySalesInPeriod(startDate, endDate);
 
         return buildSalesReport(days, currentPeriod, previousPeriod, currentOrders, categoryData);
     }
@@ -84,6 +89,22 @@ public class SalesReportServiceImpl implements SalesReportService {
                 .build();
     }
 
+    private BigDecimal calculateAverageTicket(BigDecimal totalSales, Long totalOrders) {
+        if (totalOrders == 0) {
+            return BigDecimal.ZERO;
+        }
+        return totalSales.divide(BigDecimal.valueOf(totalOrders), 2, RoundingMode.HALF_UP);
+    }
+
+    private Double calculateGrowthRate(BigDecimal currentSales, BigDecimal previousSales) {
+        return Optional.ofNullable(previousSales).map(
+                ps -> currentSales.subtract(ps)
+                        .divide(ps, 4, RoundingMode.HALF_UP)
+                        .multiply(BigDecimal.valueOf(100))
+                        .doubleValue()
+        ).orElse(0.0);
+    }
+
     private List<DailySalesData> buildDailyData(List<SalesOrderProjection> orders) {
         log.debug("Building daily data from {} orders", orders.size());
         return salesDataProcessor.processDailySalesData(orders);
@@ -96,6 +117,8 @@ public class SalesReportServiceImpl implements SalesReportService {
         return salesDataProcessor.processCategories(categoryData, totalSales);
     }
 
+    // Métodos de cálculo auxiliares
+
     private List<WeekdayAnalysisData> buildWeekdayAnalysis(List<SalesOrderProjection> orders) {
         log.debug("Building weekday analysis from {} orders", orders.size());
         return salesDataProcessor.processWeekdayAnalysis(orders);
@@ -104,21 +127,5 @@ public class SalesReportServiceImpl implements SalesReportService {
     private List<PeakHourData> buildPeakHoursData(List<SalesOrderProjection> orders, BigDecimal totalSales) {
         log.debug("Building peak hours data from {} orders", orders.size());
         return salesDataProcessor.processPeakHours(orders, totalSales);
-    }
-
-    // Métodos de cálculo auxiliares
-
-    private BigDecimal calculateAverageTicket(BigDecimal totalSales, Long totalOrders) {
-        if (totalOrders == 0) return BigDecimal.ZERO;
-        return totalSales.divide(BigDecimal.valueOf(totalOrders), 2, RoundingMode.HALF_UP);
-    }
-
-    private Double calculateGrowthRate(BigDecimal currentSales, BigDecimal previousSales) {
-        return Optional.ofNullable(previousSales).map(
-                ps -> currentSales.subtract(ps)
-                            .divide(ps, 4, RoundingMode.HALF_UP)
-                            .multiply(BigDecimal.valueOf(100))
-                            .doubleValue()
-        ).orElse(0.0);
     }
 }

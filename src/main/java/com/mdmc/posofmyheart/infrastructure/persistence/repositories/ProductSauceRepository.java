@@ -2,9 +2,10 @@ package com.mdmc.posofmyheart.infrastructure.persistence.repositories;
 
 import java.util.List;
 
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.ProductSauceEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.ProductSauceEntity;
 
 public interface ProductSauceRepository extends JpaRepository<ProductSauceEntity, Long> {
 

@@ -6,5 +6,6 @@ import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderEnt
 
 public interface OrderPersistenceService {
     CreateOrderResponseDto saveOrder(OrderEntity order);
+
     OrderRequest saveOrderBackup(OrderEntity order);
 }

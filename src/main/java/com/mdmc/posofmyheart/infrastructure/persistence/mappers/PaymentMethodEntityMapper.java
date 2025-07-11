@@ -1,11 +1,12 @@
 package com.mdmc.posofmyheart.infrastructure.persistence.mappers;
 
-import com.mdmc.posofmyheart.domain.models.PaymentMethod;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.PaymentMethodEntity;
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-import java.util.List;
+import com.mdmc.posofmyheart.domain.models.PaymentMethod;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.PaymentMethodEntity;
 
 @Mapper
 public interface PaymentMethodEntityMapper {

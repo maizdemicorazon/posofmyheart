@@ -15,7 +15,7 @@ public record ProductExtra(
         if (price == null) {
             throw new IllegalArgumentException("Precio de producto inválido");
         }
-        if (name == null || name.isBlank()){
+        if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("Nombre de extra inválido");
         }
     }

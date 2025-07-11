@@ -4,9 +4,11 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.BaseEntity;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderExtraDetailEntity;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.images.CatalogImageEntity;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,10 +21,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.BaseEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderExtraDetailEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.images.CatalogImageEntity;
 
 @Entity
 @Table(name = "product_extras", indexes = {
@@ -65,20 +67,21 @@ public class ProductExtraEntity extends BaseEntity {
     @OneToMany(mappedBy = "productExtra", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<OrderExtraDetailEntity> extraDetails = new HashSet<>();
 
-    public byte[] getImageData() {
-        return image != null && image.isActive() ? image.getImageDataSafe() : new byte[0];
-    }
-
-    public boolean hasImage() {
-        return image != null && image.isActive();
-    }
-
-    public ProductExtraEntity(Long idExtra, String name, String description, BigDecimal actualPrice, BigDecimal actualCost, CatalogImageEntity image) {
+    public ProductExtraEntity(Long idExtra, String name, String description, BigDecimal actualPrice,
+                              BigDecimal actualCost, CatalogImageEntity image) {
         this.idExtra = idExtra;
         this.name = name;
         this.description = description;
         this.actualPrice = actualPrice;
         this.actualCost = actualCost;
         this.image = image;
+    }
+
+    public byte[] getImageData() {
+        return image != null && image.isActive() ? image.getImageDataSafe() : new byte[0];
+    }
+
+    public boolean hasImage() {
+        return image != null && image.isActive();
     }
 }

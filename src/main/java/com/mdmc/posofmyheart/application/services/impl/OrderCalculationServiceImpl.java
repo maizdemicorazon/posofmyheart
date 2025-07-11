@@ -1,14 +1,5 @@
 package com.mdmc.posofmyheart.application.services.impl;
 
-import com.mdmc.posofmyheart.application.dtos.DailyEarnings;
-import com.mdmc.posofmyheart.application.services.OrderCalculationService;
-import com.mdmc.posofmyheart.domain.dtos.ResultCommissionDto;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderDetailEntity;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderEntity;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderExtraDetailEntity;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Collections;
@@ -16,6 +7,16 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import com.mdmc.posofmyheart.application.dtos.DailyEarnings;
+import com.mdmc.posofmyheart.application.services.OrderCalculationService;
+import com.mdmc.posofmyheart.domain.dtos.ResultCommissionDto;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderDetailEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderExtraDetailEntity;
 
 @Service
 public class OrderCalculationServiceImpl implements OrderCalculationService {
@@ -40,30 +41,6 @@ public class OrderCalculationServiceImpl implements OrderCalculationService {
                 .map(this::calculateDetailTotal)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
-
-    private BigDecimal calculateDetailTotal(OrderDetailEntity detail) {
-        BigDecimal extrasTotal = calculateExtrasTotal(detail);
-        BigDecimal sellPrice = Optional.ofNullable(detail.getSellPrice())
-                .orElse(BigDecimal.ZERO);
-        return extrasTotal.add(sellPrice);
-    }
-
-    private BigDecimal calculateExtrasTotal(OrderDetailEntity detail) {
-        return safeGetExtraDetails(detail)
-                .stream()
-                .filter(Objects::nonNull)
-                .filter(extra -> extra.getSellPrice() != null)
-                .map(this::calculateExtraPrice)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-    }
-
-    private BigDecimal calculateExtraPrice(OrderExtraDetailEntity extra) {
-        BigDecimal price = extra.getSellPrice();
-        int quantity = Optional.ofNullable(extra.getQuantity()).orElse(0);
-        return price.multiply(BigDecimal.valueOf(quantity));
-    }
-
-    // ===== MÉTODOS PARA MÚLTIPLES ÓRDENES (METRICS) =====
 
     public BigDecimal calculateTotalAmount(Set<OrderEntity> orders) {
         return orders.stream()
@@ -93,35 +70,7 @@ public class OrderCalculationServiceImpl implements OrderCalculationService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    // ===== MÉTODOS DE CÁLCULO DE GANANCIAS =====
-
-    private BigDecimal calculateProductProfit(OrderDetailEntity detail) {
-        BigDecimal sellPrice = Optional.ofNullable(detail.getSellPrice()).orElse(BigDecimal.ZERO);
-        BigDecimal productionCost = Optional.ofNullable(detail.getProductionCost()).orElse(BigDecimal.ZERO);
-        return sellPrice.subtract(productionCost);
-    }
-
-    private BigDecimal calculateExtraProfit(OrderExtraDetailEntity extra) {
-        BigDecimal sellPrice = Optional.ofNullable(extra.getSellPrice()).orElse(BigDecimal.ZERO);
-        BigDecimal productionCost = Optional.ofNullable(extra.getProductionCost()).orElse(BigDecimal.ZERO);
-        return sellPrice.subtract(productionCost);
-    }
-
-    // ===== MÉTODOS UTILITARIOS PARA MANEJO SEGURO DE NULLS =====
-
-    private Set<OrderDetailEntity> safeGetOrderDetails(OrderEntity order) {
-        return Optional.ofNullable(order)
-                .map(OrderEntity::getOrderDetails)
-                .orElse(Collections.emptySet());
-    }
-
-    private Set<OrderExtraDetailEntity> safeGetExtraDetails(OrderDetailEntity detail) {
-        return Optional.ofNullable(detail)
-                .map(OrderDetailEntity::getExtraDetails)
-                .orElse(Collections.emptySet());
-    }
-
-    // ===== MÉTODOS ADICIONALES PARA ANÁLISIS =====
+    // ===== MÉTODOS PARA MÚLTIPLES ÓRDENES (METRICS) =====
 
     public BigDecimal calculateTotalProductionCost(Set<OrderEntity> orders) {
         BigDecimal productCosts = calculateTotalProductionCostForProducts(orders);
@@ -149,6 +98,8 @@ public class OrderCalculationServiceImpl implements OrderCalculationService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
+    // ===== MÉTODOS DE CÁLCULO DE GANANCIAS =====
+
     public int countTotalItems(Set<OrderEntity> orders) {
         return orders.stream()
                 .filter(Objects::nonNull)
@@ -169,7 +120,7 @@ public class OrderCalculationServiceImpl implements OrderCalculationService {
                 .sum();
     }
 
-    // ===== MÉTODOS PARA CÁLCULOS DE COMISIONES =====
+    // ===== MÉTODOS UTILITARIOS PARA MANEJO SEGURO DE NULLS =====
 
     public ResultCommissionDto calculateCommissionResult(Set<OrderEntity> orders) {
         Set<OrderEntity> cardPayments = filterCardPayments(orders);
@@ -196,6 +147,8 @@ public class OrderCalculationServiceImpl implements OrderCalculationService {
                 .collect(Collectors.toSet());
     }
 
+    // ===== MÉTODOS ADICIONALES PARA ANÁLISIS =====
+
     private BigDecimal calculateCommission(OrderEntity order) {
         return Optional.ofNullable(order.getTotalAmount())
                 .orElse(BigDecimal.ZERO)
@@ -215,8 +168,6 @@ public class OrderCalculationServiceImpl implements OrderCalculationService {
         return gananciaDeProductosNeta.add(gananciaExtrasNeta);
     }
 
-// ===== MÉTODOS PARA CÁLCULO DE GANANCIAS FINALES =====
-
     public DailyEarnings.EarningsSummary calculateFinalProfit(Set<OrderEntity> orders, BigDecimal profit) {
         BigDecimal totalProfit = calculateTotalRealProfit(orders);
         BigDecimal fullPercentage = new BigDecimal(DIVIDEND);
@@ -232,6 +183,8 @@ public class OrderCalculationServiceImpl implements OrderCalculationService {
         return getMultiplicand(totalProfit, invest, reinvestmentPercentage);
     }
 
+    // ===== MÉTODOS PARA CÁLCULOS DE COMISIONES =====
+
     public BigDecimal calculateNetProfitAmount(BigDecimal totalProfit, BigDecimal profit) {
         return getMultiplicand(totalProfit, profit, profitPercentage);
     }
@@ -245,6 +198,54 @@ public class OrderCalculationServiceImpl implements OrderCalculationService {
 
         return totalProfit.multiply(multiplicand)
                 .setScale(2, RoundingMode.HALF_UP);
+    }
+
+    private BigDecimal calculateProductProfit(OrderDetailEntity detail) {
+        BigDecimal sellPrice = Optional.ofNullable(detail.getSellPrice()).orElse(BigDecimal.ZERO);
+        BigDecimal productionCost = Optional.ofNullable(detail.getProductionCost()).orElse(BigDecimal.ZERO);
+        return sellPrice.subtract(productionCost);
+    }
+
+    private BigDecimal calculateExtraProfit(OrderExtraDetailEntity extra) {
+        BigDecimal sellPrice = Optional.ofNullable(extra.getSellPrice()).orElse(BigDecimal.ZERO);
+        BigDecimal productionCost = Optional.ofNullable(extra.getProductionCost()).orElse(BigDecimal.ZERO);
+        return sellPrice.subtract(productionCost);
+    }
+
+    private Set<OrderDetailEntity> safeGetOrderDetails(OrderEntity order) {
+        return Optional.ofNullable(order)
+                .map(OrderEntity::getOrderDetails)
+                .orElse(Collections.emptySet());
+    }
+
+// ===== MÉTODOS PARA CÁLCULO DE GANANCIAS FINALES =====
+
+    private BigDecimal calculateDetailTotal(OrderDetailEntity detail) {
+        BigDecimal extrasTotal = calculateExtrasTotal(detail);
+        BigDecimal sellPrice = Optional.ofNullable(detail.getSellPrice())
+                .orElse(BigDecimal.ZERO);
+        return extrasTotal.add(sellPrice);
+    }
+
+    private BigDecimal calculateExtrasTotal(OrderDetailEntity detail) {
+        return safeGetExtraDetails(detail)
+                .stream()
+                .filter(Objects::nonNull)
+                .filter(extra -> extra.getSellPrice() != null)
+                .map(this::calculateExtraPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    private Set<OrderExtraDetailEntity> safeGetExtraDetails(OrderDetailEntity detail) {
+        return Optional.ofNullable(detail)
+                .map(OrderDetailEntity::getExtraDetails)
+                .orElse(Collections.emptySet());
+    }
+
+    private BigDecimal calculateExtraPrice(OrderExtraDetailEntity extra) {
+        BigDecimal price = extra.getSellPrice();
+        int quantity = Optional.ofNullable(extra.getQuantity()).orElse(0);
+        return price.multiply(BigDecimal.valueOf(quantity));
     }
 
 }

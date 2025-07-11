@@ -1,12 +1,13 @@
 package com.mdmc.posofmyheart.application.mappers;
 
-import com.mdmc.posofmyheart.domain.models.ProductVariant;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.ProductVariantEntity;
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-import java.util.List;
+import com.mdmc.posofmyheart.domain.models.ProductVariant;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.ProductVariantEntity;
 
 @Mapper
 public interface ProductVariantMapper {

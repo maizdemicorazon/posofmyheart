@@ -5,11 +5,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.github.benmanes.caffeine.cache.stats.CacheStats;
-import com.mdmc.posofmyheart.application.services.CacheService;
-import io.swagger.v3.oas.annotations.Operation;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.caffeine.CaffeineCache;
@@ -19,6 +14,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.github.benmanes.caffeine.cache.stats.CacheStats;
+
+import io.swagger.v3.oas.annotations.Operation;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+
+import com.mdmc.posofmyheart.application.services.CacheService;
 
 @RestController
 @RequestMapping("/cache")
@@ -76,7 +80,8 @@ public class CacheController {
                     cacheDetail.put("loadCount", stats.loadCount());
                     cacheDetail.put("loadFailureCount", stats.loadFailureCount());
                     cacheDetail.put("totalLoadTime", decimalFormat.format(stats.totalLoadTime() / 1_000_000) + "ms");
-                    cacheDetail.put("averageLoadPenalty", decimalFormat.format(stats.averageLoadPenalty() / 1_000_000) + "ms");
+                    cacheDetail.put("averageLoadPenalty",
+                            decimalFormat.format(stats.averageLoadPenalty() / 1_000_000) + "ms");
                 } else {
                     cacheDetail.put("loadCount", "N/A (usando @Cacheable)");
                     cacheDetail.put("loadFailureCount", "N/A");
@@ -248,7 +253,8 @@ public class CacheController {
                 if (stats.requestCount() > 0) {
                     activeCaches++;
                     if (stats.hitRate() > 0.8) {
-                        cacheStatus.put(cacheName, "🟢 Excelente (" + decimalFormat.format(stats.hitRate() * 100) + "%)");
+                        cacheStatus.put(cacheName,
+                                "🟢 Excelente (" + decimalFormat.format(stats.hitRate() * 100) + "%)");
                     } else if (stats.hitRate() > 0.6) {
                         cacheStatus.put(cacheName, "🟡 Bueno (" + decimalFormat.format(stats.hitRate() * 100) + "%)");
                     } else {
@@ -259,7 +265,6 @@ public class CacheController {
                 }
             }
         }
-
 
 
         summary.put("totalCaches", cacheNames.size());

@@ -1,8 +1,7 @@
 package com.mdmc.posofmyheart.api.controllers;
 
-import com.mdmc.posofmyheart.application.services.ProductVariantService;
-import com.mdmc.posofmyheart.domain.models.ProductVariant;
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +9,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import lombok.RequiredArgsConstructor;
+
+import com.mdmc.posofmyheart.application.services.ProductVariantService;
+import com.mdmc.posofmyheart.domain.models.ProductVariant;
 
 @RestController
 @RequestMapping("/variants")

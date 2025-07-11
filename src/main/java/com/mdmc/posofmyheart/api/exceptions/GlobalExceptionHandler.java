@@ -1,8 +1,9 @@
 package com.mdmc.posofmyheart.api.exceptions;
 
-import com.mdmc.posofmyheart.application.dtos.ErrorResponse;
-import jakarta.validation.ConstraintViolationException;
-import lombok.extern.log4j.Log4j2;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,9 +14,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
+import lombok.extern.log4j.Log4j2;
+
+import jakarta.validation.ConstraintViolationException;
+
+import com.mdmc.posofmyheart.application.dtos.ErrorResponse;
 
 @Log4j2
 @RestControllerAdvice
@@ -46,6 +49,21 @@ public class GlobalExceptionHandler {
         );
     }
 
+    // Función helper para respuestas status custom
+    private ResponseEntity<ErrorResponse> buildBadRequestResponse(
+            Exception ex,
+            String message
+    ) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(
+                        ErrorResponse.builder()
+                                .timestamp(LocalDateTime.now())
+                                .message(message)
+                                .status(HttpStatus.BAD_REQUEST.value())
+                                .type(ex.getClass().getSimpleName()).build()
+                );
+    }
+
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<ErrorResponse> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
         return buildBadRequestResponse(ex,
@@ -58,6 +76,23 @@ public class GlobalExceptionHandler {
         log.error("Unhandled exception: ", ex);
 
         return buildHttpResponse(ex, request, HttpStatus.INTERNAL_SERVER_ERROR, "Unhandled exception");
+    }
+
+    private ResponseEntity<ErrorResponse> buildHttpResponse(
+            Exception ex,
+            WebRequest request,
+            HttpStatus status,
+            String message
+    ) {
+        return ResponseEntity.status(status)
+                .body(
+                        ErrorResponse.builder()
+                                .timestamp(LocalDateTime.now())
+                                .message(message)
+                                .status(status.value())
+                                .debug(request.getDescription(false))
+                                .type(ex.getClass().getSimpleName()).build()
+                );
     }
 
     @ExceptionHandler(InvalidDataAccessApiUsageException.class)
@@ -82,8 +117,16 @@ public class GlobalExceptionHandler {
         return buildNotFoundResponse(ex, request);
     }
 
+    private ResponseEntity<ErrorResponse> buildNotFoundResponse(
+            Exception ex,
+            WebRequest request
+    ) {
+        return buildHttpResponse(ex, request, HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
     @ExceptionHandler(OrderDetailNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleOrderDetailNotFound(OrderDetailNotFoundException ex, WebRequest request) {
+    public ResponseEntity<ErrorResponse> handleOrderDetailNotFound(OrderDetailNotFoundException ex,
+                                                                   WebRequest request) {
         return buildNotFoundResponse(ex, request);
     }
 
@@ -98,7 +141,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ProductExtraNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleProductExtraNotFound(ProductExtraNotFoundException ex, WebRequest request) {
+    public ResponseEntity<ErrorResponse> handleProductExtraNotFound(ProductExtraNotFoundException ex,
+                                                                    WebRequest request) {
         return buildNotFoundResponse(ex, request);
     }
 
@@ -120,44 +164,5 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleResourceNotFound(ResourceNotFoundException ex, WebRequest request) {
         return buildNotFoundResponse(ex, request);
-    }
-
-    private ResponseEntity<ErrorResponse> buildNotFoundResponse(
-            Exception ex,
-            WebRequest request
-    ) {
-        return buildHttpResponse(ex, request, HttpStatus.NOT_FOUND, ex.getMessage());
-    }
-
-    private ResponseEntity<ErrorResponse> buildHttpResponse(
-            Exception ex,
-            WebRequest request,
-            HttpStatus status,
-            String message
-    ) {
-        return ResponseEntity.status(status)
-                .body(
-                        ErrorResponse.builder()
-                                .timestamp(LocalDateTime.now())
-                                .message(message)
-                                .status(status.value())
-                                .debug(request.getDescription(false))
-                                .type(ex.getClass().getSimpleName()).build()
-                );
-    }
-
-    // Función helper para respuestas status custom
-    private ResponseEntity<ErrorResponse> buildBadRequestResponse(
-            Exception ex,
-            String message
-    ) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(
-                        ErrorResponse.builder()
-                                .timestamp(LocalDateTime.now())
-                                .message(message)
-                                .status(HttpStatus.BAD_REQUEST.value())
-                                .type(ex.getClass().getSimpleName()).build()
-                );
     }
 }

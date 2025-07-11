@@ -1,8 +1,9 @@
 package com.mdmc.posofmyheart.domain.patterns.validator;
 
+import org.springframework.stereotype.Component;
+
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.ProductEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.ProductFlavorEntity;
-import org.springframework.stereotype.Component;
 
 @Component
 public class FlavorValidator {

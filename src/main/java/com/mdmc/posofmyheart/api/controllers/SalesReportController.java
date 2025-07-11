@@ -1,11 +1,7 @@
 package com.mdmc.posofmyheart.api.controllers;
 
-import com.mdmc.posofmyheart.application.dtos.reports.SalesReportResponse;
-import com.mdmc.posofmyheart.application.services.SalesReportService;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import java.time.LocalDateTime;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +9,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+
+import com.mdmc.posofmyheart.application.dtos.reports.SalesReportResponse;
+import com.mdmc.posofmyheart.application.services.SalesReportService;
 
 @RestController
 @RequestMapping("/reports")

@@ -18,7 +18,7 @@ public class PingController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("ping")
-    public String ping(){
+    public String ping() {
         return "pong!";
     }
 

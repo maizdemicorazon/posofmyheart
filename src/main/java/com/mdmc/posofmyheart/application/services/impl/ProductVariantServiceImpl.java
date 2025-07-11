@@ -1,5 +1,16 @@
 package com.mdmc.posofmyheart.application.services.impl;
 
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+
 import com.mdmc.posofmyheart.api.exceptions.ProductNotFoundException;
 import com.mdmc.posofmyheart.api.exceptions.VariantNotFoundException;
 import com.mdmc.posofmyheart.application.mappers.ProductVariantMapper;
@@ -7,15 +18,6 @@ import com.mdmc.posofmyheart.application.services.ProductVariantService;
 import com.mdmc.posofmyheart.domain.models.ProductVariant;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.ProductRepository;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.ProductVariantRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -92,7 +94,8 @@ public class ProductVariantServiceImpl implements ProductVariantService {
     @Override
     @Transactional(readOnly = true)
     @Cacheable(value = "variants", key = "'product_' + #productId + '_price_' + #minPrice + '_' + #maxPrice")
-    public List<ProductVariant> getVariantsByProductIdAndPriceRange(Long productId, BigDecimal minPrice, BigDecimal maxPrice) {
+    public List<ProductVariant> getVariantsByProductIdAndPriceRange(Long productId, BigDecimal minPrice,
+                                                                    BigDecimal maxPrice) {
         log.debug("Getting variants for product {} with price range: {} - {}", productId, minPrice, maxPrice);
 
         // Verificar que el producto existe

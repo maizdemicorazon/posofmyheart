@@ -12,6 +12,7 @@
 ## 🍽️ Consultas Básicas del Menú
 
 ### 1. Menú completo con precios y categorías
+
 ```sql
 SELECT
     p.name AS producto,
@@ -32,6 +33,7 @@ ORDER BY
 ```
 
 ### 2. Productos por categoría con variantes
+
 ```sql
 SELECT
     p.name AS producto,
@@ -53,6 +55,7 @@ ORDER BY
 ## 📈 Consultas de Ventas y Análisis Comercial
 
 ### 3. Ventas por categoría (con porcentaje)
+
 ```sql
 SELECT
     p.name AS producto,
@@ -80,6 +83,7 @@ ORDER BY
 ```
 
 ### 4. Productos más vendidos (top 10 con margen)
+
 ```sql
 SELECT
     p.name AS producto,
@@ -102,6 +106,7 @@ LIMIT 10;
 ```
 
 ### 5. Ticket promedio por método de pago
+
 ```sql
 SELECT
     pm.name AS metodo_pago,
@@ -123,6 +128,7 @@ ORDER BY
 ## 💰 Consultas de Rentabilidad y Margen
 
 ### 6. Margen de ganancia por producto
+
 ```sql
 SELECT
     p.name AS producto,
@@ -145,6 +151,7 @@ ORDER BY
 ```
 
 ### 7. Ganancias por período (diario, semanal, mensual)
+
 ```sql
 -- Ganancias diarias
 SELECT
@@ -189,6 +196,7 @@ ORDER BY
 ## 🕒 Consultas de Análisis Temporal
 
 ### 8. Ventas por hora (horas pico)
+
 ```sql
 SELECT
     EXTRACT(HOUR FROM o.created_at) AS hora,
@@ -206,6 +214,7 @@ ORDER BY
 ```
 
 ### 9. Comparativo ventas día actual vs día anterior
+
 ```sql
 SELECT
     'Hoy' AS periodo,
@@ -238,6 +247,7 @@ WHERE
 ## 🛒 Consultas de Órdenes y Detalles
 
 ### 10. Detalle completo de una orden
+
 ```sql
 SELECT
     o.id_order,
@@ -274,6 +284,7 @@ ORDER BY
 ```
 
 ### 11. Ganancias por pedido (incluyendo extras)
+
 ```sql
 SELECT 
     o.id_order,
@@ -306,6 +317,7 @@ LIMIT 50;
 ## 📊 Consultas de Análisis de Productos
 
 ### 12. Análisis completo por producto
+
 ```sql
 SELECT
     p.id_product,
@@ -346,6 +358,7 @@ ORDER BY
 ```
 
 ### 13. Productos con bajo rendimiento
+
 ```sql
 SELECT
     p.name AS producto,

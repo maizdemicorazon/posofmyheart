@@ -1,9 +1,10 @@
 package com.mdmc.posofmyheart.application.mappers;
 
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.images.CatalogImageEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
+
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.images.CatalogImageEntity;
 
 /**
  * Mapper utilitario común para conversión de imágenes de catálogo

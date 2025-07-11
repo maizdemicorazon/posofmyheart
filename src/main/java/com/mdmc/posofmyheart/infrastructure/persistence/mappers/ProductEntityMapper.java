@@ -1,16 +1,17 @@
 package com.mdmc.posofmyheart.infrastructure.persistence.mappers;
 
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.ProductEntity;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.ProductFlavorEntity;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.ProductVariantEntity;
-import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
-
 import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
+
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.ProductEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.ProductFlavorEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.ProductVariantEntity;
 
 @Mapper
 public interface ProductEntityMapper {

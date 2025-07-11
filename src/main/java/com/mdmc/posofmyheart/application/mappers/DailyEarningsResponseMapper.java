@@ -1,11 +1,12 @@
 package com.mdmc.posofmyheart.application.mappers;
 
-import com.mdmc.posofmyheart.application.dtos.DailyEarnings;
-import com.mdmc.posofmyheart.application.dtos.DailyEarningsResponse;
+import java.util.Set;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-import java.util.Set;
+import com.mdmc.posofmyheart.application.dtos.DailyEarnings;
+import com.mdmc.posofmyheart.application.dtos.DailyEarningsResponse;
 
 @Mapper
 public interface DailyEarningsResponseMapper {

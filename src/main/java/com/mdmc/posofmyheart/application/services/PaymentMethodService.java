@@ -1,8 +1,8 @@
 package com.mdmc.posofmyheart.application.services;
 
-import com.mdmc.posofmyheart.domain.models.PaymentMethod;
-
 import java.util.List;
+
+import com.mdmc.posofmyheart.domain.models.PaymentMethod;
 
 public interface PaymentMethodService {
 

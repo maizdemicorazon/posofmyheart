@@ -2,11 +2,12 @@ package com.mdmc.posofmyheart.infrastructure.persistence.repositories;
 
 import java.util.List;
 
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.images.CatalogImageEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.images.CatalogImageEntity;
 
 @Repository
 public interface CatalogImageRepository extends JpaRepository<CatalogImageEntity, Long> {

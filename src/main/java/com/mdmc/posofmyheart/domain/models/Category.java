@@ -12,7 +12,11 @@ public record Category(
         String description
 ) {
     public Category {
-        if (name != null) name = name.trim();
-        if (description != null) description = description.trim();
+        if (name != null) {
+            name = name.trim();
+        }
+        if (description != null) {
+            description = description.trim();
+        }
     }
 }

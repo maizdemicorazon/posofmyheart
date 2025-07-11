@@ -8,8 +8,19 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+
 import com.mdmc.posofmyheart.application.services.CatalogImageService;
 import com.mdmc.posofmyheart.domain.models.DataCatalogs;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.ProductEntity;
@@ -25,14 +36,6 @@ import com.mdmc.posofmyheart.infrastructure.persistence.repositories.ProductFlav
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.ProductRepository;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.ProductSauceRepository;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.ProductVariantRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.transaction.annotation.Transactional;
 
 @Configuration
 @RequiredArgsConstructor

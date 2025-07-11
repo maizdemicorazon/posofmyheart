@@ -1,9 +1,9 @@
 package com.mdmc.posofmyheart.application.dtos;
 
-import lombok.Builder;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
+
+import lombok.Builder;
 
 @Builder(setterPrefix = "with")
 public record DailyEarnings(
@@ -35,7 +35,7 @@ public record DailyEarnings(
     }
 
     @Builder(setterPrefix = "with")
-    public record EarningsSummary (
+    public record EarningsSummary(
             BigDecimal reinvestment,
             BigDecimal netProfit
     ) {

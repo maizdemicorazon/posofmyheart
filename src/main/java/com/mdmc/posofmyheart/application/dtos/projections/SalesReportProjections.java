@@ -1,8 +1,8 @@
 package com.mdmc.posofmyheart.application.dtos.projections;
 
-import lombok.Builder;
-
 import java.math.BigDecimal;
+
+import lombok.Builder;
 
 /**
  * Record concretas para proyecciones de reportes de ventas

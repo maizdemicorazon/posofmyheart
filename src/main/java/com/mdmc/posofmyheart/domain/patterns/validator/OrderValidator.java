@@ -1,9 +1,10 @@
 package com.mdmc.posofmyheart.domain.patterns.validator;
 
+import org.springframework.stereotype.Component;
+
 import com.mdmc.posofmyheart.application.dtos.OrderItemRequest;
 import com.mdmc.posofmyheart.application.dtos.OrderRequest;
 import com.mdmc.posofmyheart.application.dtos.OrderUpdateRequest;
-import org.springframework.stereotype.Component;
 
 @Component
 public class OrderValidator {

@@ -1,22 +1,30 @@
 package com.mdmc.posofmyheart.api.controllers;
 
-import com.mdmc.posofmyheart.application.services.ProductVariantService;
-import com.mdmc.posofmyheart.domain.models.ProductVariant;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotBlank;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
+
+import com.mdmc.posofmyheart.application.services.ProductVariantService;
+import com.mdmc.posofmyheart.domain.models.ProductVariant;
 
 @RestController
 @RequestMapping("/products/{productId}/variants")
@@ -115,7 +123,8 @@ public class ProductVariantRelationController {
             @RequestParam @DecimalMin(value = "0.0", message = "Max price must be positive") BigDecimal maxPrice) {
 
         log.info("Getting variants for product {} with price range: {} - {}", productId, minPrice, maxPrice);
-        List<ProductVariant> variants = productVariantService.getVariantsByProductIdAndPriceRange(productId, minPrice, maxPrice);
+        List<ProductVariant> variants =
+                productVariantService.getVariantsByProductIdAndPriceRange(productId, minPrice, maxPrice);
         log.info("Found {} variants in price range for product: {}", variants.size(), productId);
         return ResponseEntity.ok(variants);
     }
@@ -224,10 +233,12 @@ public class ProductVariantRelationController {
             Long productId,
             Long variantId,
             boolean available
-    ) {}
+    ) {
+    }
 
     public record AvailableSizesResponse(
             Long productId,
             List<String> sizes
-    ) {}
+    ) {
+    }
 }

@@ -1,10 +1,10 @@
 package com.mdmc.posofmyheart.application.dtos;
 
-import com.mdmc.posofmyheart.domain.OrderStatusEnum;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
+
+import com.mdmc.posofmyheart.domain.OrderStatusEnum;
 
 public record OrderResponse(
         Long idOrder,

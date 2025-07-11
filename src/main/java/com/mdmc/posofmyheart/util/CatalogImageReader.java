@@ -5,8 +5,9 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.images.CatalogImageEntity;
 import lombok.extern.log4j.Log4j2;
+
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.images.CatalogImageEntity;
 
 @Log4j2
 public class CatalogImageReader {
@@ -29,7 +30,9 @@ public class CatalogImageReader {
         };
 
         File[] files = directory.listFiles();
-        if (files == null) return catalogImages;
+        if (files == null) {
+            return catalogImages;
+        }
 
 
         for (File file : files) {

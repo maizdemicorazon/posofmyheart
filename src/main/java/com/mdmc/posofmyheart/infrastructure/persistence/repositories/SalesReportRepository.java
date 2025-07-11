@@ -1,15 +1,16 @@
 package com.mdmc.posofmyheart.infrastructure.persistence.repositories;
 
-import com.mdmc.posofmyheart.application.dtos.projections.SalesOrderProjection;
-import com.mdmc.posofmyheart.application.dtos.projections.SalesReportProjections;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderEntity;
+import java.time.LocalDateTime;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import com.mdmc.posofmyheart.application.dtos.projections.SalesOrderProjection;
+import com.mdmc.posofmyheart.application.dtos.projections.SalesReportProjections;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderEntity;
 
 /**
  * Repositorio de reportes de ventas usando solo JPQL estándar

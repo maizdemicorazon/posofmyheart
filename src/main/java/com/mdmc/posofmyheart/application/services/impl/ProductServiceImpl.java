@@ -1,5 +1,14 @@
 package com.mdmc.posofmyheart.application.services.impl;
 
+import java.util.List;
+
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+
 import com.mdmc.posofmyheart.api.exceptions.ProductNotFoundException;
 import com.mdmc.posofmyheart.application.mappers.ProductMapper;
 import com.mdmc.posofmyheart.application.mappers.ProductMenuDtoMapper;
@@ -15,13 +24,6 @@ import com.mdmc.posofmyheart.infrastructure.persistence.repositories.PaymentMeth
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.ProductExtraRepository;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.ProductRepository;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.ProductSauceRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +34,26 @@ public class ProductServiceImpl implements ProductService {
     private final ProductExtraRepository productExtraRepository;
     private final ProductSauceRepository productSauceRepository;
     private final PaymentMethodRepository paymentMethodRepository;
+
+    @Override
+    @Transactional(readOnly = true)
+    @Cacheable(value = "products", key = "'product-' + #idProduct")
+    public Product getProductById(Long idProduct) {
+        log.debug("🔍 Obteniendo producto por ID: {} con todas las relaciones e imágenes", idProduct);
+
+        long startTime = System.currentTimeMillis();
+
+        // Query optimizada que carga producto con todas sus relaciones e imágenes
+        ProductEntity productEntity = productRepository.findByIdWithAllRelationsAndImages(idProduct)
+                .orElseThrow(() -> new ProductNotFoundException(idProduct));
+
+        Product product = ProductMapper.INSTANCE.toProduct(productEntity);
+
+        long endTime = System.currentTimeMillis();
+        log.info("✅ Producto {} obtenido con imágenes en {}ms", idProduct, (endTime - startTime));
+
+        return product;
+    }
 
     /**
      * getMenuProducts() con consultas optimizadas que incluyen imágenes
@@ -82,25 +104,5 @@ public class ProductServiceImpl implements ProductService {
                 (endTime - startTime), products.size(), extras.size(), sauces.size());
 
         return menu;
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    @Cacheable(value = "products", key = "'product-' + #idProduct")
-    public Product getProductById(Long idProduct) {
-        log.debug("🔍 Obteniendo producto por ID: {} con todas las relaciones e imágenes", idProduct);
-
-        long startTime = System.currentTimeMillis();
-
-        // Query optimizada que carga producto con todas sus relaciones e imágenes
-        ProductEntity productEntity = productRepository.findByIdWithAllRelationsAndImages(idProduct)
-                .orElseThrow(() -> new ProductNotFoundException(idProduct));
-
-        Product product = ProductMapper.INSTANCE.toProduct(productEntity);
-
-        long endTime = System.currentTimeMillis();
-        log.info("✅ Producto {} obtenido con imágenes en {}ms", idProduct, (endTime - startTime));
-
-        return product;
     }
 }

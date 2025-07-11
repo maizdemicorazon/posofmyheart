@@ -15,6 +15,21 @@ public record CatalogImageResponse(
         java.time.LocalDateTime createdAt,
         boolean hasImageData
 ) {
+    public static CatalogImageResponse mapToResponse(CatalogImageEntity image) {
+        return CatalogImageResponse.builder()
+                .idImage(image.getIdImage())
+                .fileName(image.getFileName())
+                .contentType(image.getContentType())
+                .fileSize(image.getFileSize())
+                .width(image.getWidth())
+                .height(image.getHeight())
+                .altText(image.getAltText())
+                .active(image.isActive())
+                .createdAt(image.getCreatedAt())
+                .hasImageData(image.getImageData() != null && image.getImageData().length > 0)
+                .build();
+    }
+
     public static CatalogImageResponseBuilder builder() {
         return new CatalogImageResponseBuilder();
     }
@@ -92,20 +107,5 @@ public record CatalogImageResponse(
                     contentType, fileSize, width, height, altText, active,
                     createdAt, hasImageData);
         }
-    }
-
-    public static CatalogImageResponse mapToResponse(CatalogImageEntity image) {
-        return CatalogImageResponse.builder()
-                .idImage(image.getIdImage())
-                .fileName(image.getFileName())
-                .contentType(image.getContentType())
-                .fileSize(image.getFileSize())
-                .width(image.getWidth())
-                .height(image.getHeight())
-                .altText(image.getAltText())
-                .active(image.isActive())
-                .createdAt(image.getCreatedAt())
-                .hasImageData(image.getImageData() != null && image.getImageData().length > 0)
-                .build();
     }
 }

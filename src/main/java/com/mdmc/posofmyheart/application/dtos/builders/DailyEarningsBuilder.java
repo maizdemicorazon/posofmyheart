@@ -1,14 +1,14 @@
 package com.mdmc.posofmyheart.application.dtos.builders;
 
-import com.mdmc.posofmyheart.application.dtos.DailyEarnings;
-import com.mdmc.posofmyheart.application.services.OrderCalculationService;
-import com.mdmc.posofmyheart.domain.dtos.ResultCommissionDto;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderEntity;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.Set;
+
+import com.mdmc.posofmyheart.application.dtos.DailyEarnings;
+import com.mdmc.posofmyheart.application.services.OrderCalculationService;
+import com.mdmc.posofmyheart.domain.dtos.ResultCommissionDto;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderEntity;
 
 public class DailyEarningsBuilder {
 
@@ -17,7 +17,7 @@ public class DailyEarningsBuilder {
     public static DailyEarnings fromEntry(
             Map.Entry<LocalDate, Set<OrderEntity>> entry,
             OrderCalculationService service
-    ){
+    ) {
         return fromEntry(entry, service, DEFAULT_PROFIT);
     }
 

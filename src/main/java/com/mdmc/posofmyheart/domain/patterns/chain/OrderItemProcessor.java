@@ -10,11 +10,11 @@ public abstract class OrderItemProcessor {
         this.nextProcessor = next;
     }
 
-    public abstract void process(OrderDetailEntity detail, OrderItemRequest item);
-
     protected void processNext(OrderDetailEntity detail, OrderItemRequest item) {
         if (nextProcessor != null) {
             nextProcessor.process(detail, item);
         }
     }
+
+    public abstract void process(OrderDetailEntity detail, OrderItemRequest item);
 }

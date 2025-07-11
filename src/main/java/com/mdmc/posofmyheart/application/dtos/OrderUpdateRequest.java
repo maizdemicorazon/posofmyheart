@@ -1,10 +1,11 @@
 package com.mdmc.posofmyheart.application.dtos;
 
-import com.mdmc.posofmyheart.domain.OrderStatusEnum;
+import java.util.List;
+
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
-import java.util.List;
+import com.mdmc.posofmyheart.domain.OrderStatusEnum;
 
 public record OrderUpdateRequest(
         @Positive
@@ -25,22 +26,26 @@ public record OrderUpdateRequest(
             List<ProductExtraUpdate> updatedExtras,
             List<SauceUpdate> updatedSauces,
             FlavorUpdate updatedFlavor
-    ) {}
+    ) {
+    }
 
     public record ProductExtraUpdate(
             @Positive
             Long idExtra,
             @Positive
             Integer quantity
-    ) {}
+    ) {
+    }
 
     public record SauceUpdate(
             @Positive
             Long idSauce
-    ) {}
+    ) {
+    }
 
     public record FlavorUpdate(
             @Positive
             Long idFlavor
-    ) {}
+    ) {
+    }
 }

@@ -1,6 +1,11 @@
 package com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.images;
 
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.BaseEntity;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -12,11 +17,8 @@ import jakarta.persistence.Index;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.BaseEntity;
 
 @Entity
 @Table(name = "catalog_images", indexes = {
@@ -73,6 +75,10 @@ public class CatalogImageEntity extends BaseEntity {
     @Transient
     private String resource;
 
+    public byte[] getImageDataSafe() {
+        return imageData != null ? imageData.clone() : new byte[0];
+    }
+
     public enum ImageType {
         PRODUCT_MAIN,
         PRODUCT_FLAVOR,
@@ -80,9 +86,5 @@ public class CatalogImageEntity extends BaseEntity {
         PRODUCT_SAUCE,
         PRODUCT_BASIC,
         UNKNOWN
-    }
-
-    public byte[] getImageDataSafe() {
-        return imageData != null ? imageData.clone() : new byte[0];
     }
 }

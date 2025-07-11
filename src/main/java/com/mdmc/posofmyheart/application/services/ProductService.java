@@ -5,5 +5,6 @@ import com.mdmc.posofmyheart.domain.models.Product;
 
 public interface ProductService {
     Product getProductById(Long idProduct);
+
     ProductsMenuDto getMenuProducts();
 }

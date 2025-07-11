@@ -2,6 +2,13 @@ package com.mdmc.posofmyheart.application.services.impl;
 
 import java.util.List;
 
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+
 import com.mdmc.posofmyheart.api.exceptions.FlavorNotFoundException;
 import com.mdmc.posofmyheart.api.exceptions.ProductNotFoundException;
 import com.mdmc.posofmyheart.application.mappers.ProductFlavorMapper;
@@ -9,11 +16,6 @@ import com.mdmc.posofmyheart.application.services.ProductFlavorService;
 import com.mdmc.posofmyheart.domain.models.ProductFlavor;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.ProductFlavorRepository;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.ProductRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +24,17 @@ public class ProductFlavorServiceImpl implements ProductFlavorService {
 
     private final ProductFlavorRepository flavorRepository;
     private final ProductRepository productRepository;
+
+    @Override
+    @Transactional(readOnly = true)
+    @Cacheable(value = "flavors", key = "'flavor-' + #idFlavor")
+    public ProductFlavor getFlavorById(Long idFlavor) {
+        log.debug("🔍 Obteniendo sabor por ID: {}", idFlavor);
+
+        return flavorRepository.findById(idFlavor)
+                .map(ProductFlavorMapper.INSTANCE::toProductFlavor)
+                .orElseThrow(() -> new FlavorNotFoundException(idFlavor));
+    }
 
     @Override
     @Transactional(readOnly = true)
@@ -40,17 +53,6 @@ public class ProductFlavorServiceImpl implements ProductFlavorService {
         log.info("✅ {} sabores obtenidos con imágenes en {}ms", flavors.size(), (endTime - startTime));
 
         return flavors;
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    @Cacheable(value = "flavors", key = "'flavor-' + #idFlavor")
-    public ProductFlavor getFlavorById(Long idFlavor) {
-        log.debug("🔍 Obteniendo sabor por ID: {}", idFlavor);
-
-        return flavorRepository.findById(idFlavor)
-                .map(ProductFlavorMapper.INSTANCE::toProductFlavor)
-                .orElseThrow(() -> new FlavorNotFoundException(idFlavor));
     }
 
     @Override

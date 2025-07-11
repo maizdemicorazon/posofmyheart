@@ -15,10 +15,10 @@ public class DateTimeUtils {
      */
     public static LocalDateTime randomEveningDateTime(LocalDate date) {
         final int START_HOUR = 17;
-        final int END_HOUR   = 22;
+        final int END_HOUR = 22;
         ThreadLocalRandom rnd = ThreadLocalRandom.current();
 
-        int hour   = rnd.nextInt(START_HOUR, END_HOUR + 1);
+        int hour = rnd.nextInt(START_HOUR, END_HOUR + 1);
         int minute = rnd.nextInt(0, 60);
         int second = rnd.nextInt(0, 60);
 

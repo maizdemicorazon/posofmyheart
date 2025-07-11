@@ -1,11 +1,12 @@
 package com.mdmc.posofmyheart.infrastructure.persistence.repositories;
 
-import com.mdmc.posofmyheart.domain.models.PaymentMethod;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.PaymentMethodEntity;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.List;
+import com.mdmc.posofmyheart.domain.models.PaymentMethod;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.PaymentMethodEntity;
 
 public interface PaymentMethodRepository extends JpaRepository<PaymentMethodEntity, Long> {
 

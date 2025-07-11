@@ -13,16 +13,19 @@
 
 ## 🗃️ Estructura de la Base de Datos
 
-La base de datos está diseñada para un sistema POS (Point of Sale) especializado en venta de esquites, elotes y bebidas, con capacidad para manejar variantes de productos, extras, salsas y sabores.
+La base de datos está diseñada para un sistema POS (Point of Sale) especializado en venta de esquites, elotes y bebidas,
+con capacidad para manejar variantes de productos, extras, salsas y sabores.
 
 ![Diagrama de Base de Datos](mdmc_db.png)
 
 ## 📊 Tablas Principales
 
 ### 1. payment_methods
+
 Almacena los métodos de pago disponibles (Efectivo, Tarjetas, Transferencia)
 
 **Campos:**
+
 - id_payment_method (PK)
 - name
 - description
@@ -30,17 +33,21 @@ Almacena los métodos de pago disponibles (Efectivo, Tarjetas, Transferencia)
 - created_at
 
 ### 2. product_categories
+
 Categorías de productos (Esquites, Elotes, Bebidas)
 
 **Campos:**
+
 - id_category (PK)
 - name
 - description
 
 ### 3. products
+
 Productos principales del menú
 
 **Campos:**
+
 - id_product (PK)
 - id_category (FK)
 - name
@@ -50,9 +57,11 @@ Productos principales del menú
 - updated_at
 
 ### 4. product_variants
+
 Variantes de tamaño/precio para cada producto
 
 **Campos:**
+
 - id_variant (PK)
 - id_product (FK)
 - size
@@ -61,9 +70,11 @@ Variantes de tamaño/precio para cada producto
 - effective_date
 
 ### 5. product_extras
+
 Extras disponibles para los productos (Queso extra, Costilla extra, etc.)
 
 **Campos:**
+
 - id_extra (PK)
 - name
 - description
@@ -74,27 +85,33 @@ Extras disponibles para los productos (Queso extra, Costilla extra, etc.)
 - created_at
 
 ### 6. product_sauces
+
 Salsas disponibles (Tradicional, Valentina, Habanero, etc.)
 
 **Campos:**
+
 - id_sauce (PK)
 - name
 - description
 - image
 
 ### 7. product_flavors
+
 Sabores disponibles para productos
 
 **Campos:**
+
 - id_flavor (PK)
 - id_product (FK)
 - name
 - active
 
 ### 8. orders
+
 Registro de órdenes/pedidos
 
 **Campos:**
+
 - id_order (PK)
 - id_payment_method (FK)
 - created_at
@@ -104,9 +121,11 @@ Registro de órdenes/pedidos
 - updated_at
 
 ### 9. order_details
+
 Detalle de items en cada orden
 
 **Campos:**
+
 - id_order_detail (PK)
 - id_order (FK)
 - id_product (FK)
@@ -115,9 +134,11 @@ Detalle de items en cada orden
 - production_cost
 
 ### 10. order_extras_detail
+
 Extras asociados a cada item de orden
 
 **Campos:**
+
 - id_order_detail (FK, PK)
 - id_extra (FK, PK)
 - quantity
@@ -125,18 +146,22 @@ Extras asociados a cada item de orden
 - production_cost
 
 ### 11. order_flavor_detail
+
 Sabores asociados a cada item de orden
 
 **Campos:**
+
 - id_flavor_detail (PK)
 - id_order_detail (FK)
 - id_flavor (FK)
 - created_at
 
 ### 12. order_detail_sauce
+
 Salsas asociadas a cada item de orden
 
 **Campos:**
+
 - id_order_detail (FK, PK)
 - id_sauce (FK, PK)
 

@@ -1,6 +1,7 @@
 # 🌽 Maíz de mi Corazón
 
-Aplicación web desarrollada en **Java 17** con **Spring Boot** y **PostgreSQL** para gestionar y controlar ventas de elotes, esquites y sus variantes. Pensada para administrar productos, pedidos, métodos de pago, y extras personalizados.
+Aplicación web desarrollada en **Java 17** con **Spring Boot** y **PostgreSQL** para gestionar y controlar ventas de
+elotes, esquites y sus variantes. Pensada para administrar productos, pedidos, métodos de pago, y extras personalizados.
 
 ---
 
@@ -17,7 +18,8 @@ Aplicación web desarrollada en **Java 17** con **Spring Boot** y **PostgreSQL**
 
 ## 📊 Diagrama Entidad-Relación (ER)
 
-> El diagrama editable del modelo de datos se encuentra en `main/resources/db/migration/mdmc.erd` en formato **GraphQL**.
+> El diagrama editable del modelo de datos se encuentra en `main/resources/db/migration/mdmc.erd` en formato **GraphQL
+**.
 > ![mdmc\_diagram.png](src/main/resources/db/migration/mdmc_db.png)
 
 ---
@@ -47,7 +49,8 @@ La base de datos se compone de las siguientes tablas:
 
 El sistema también genera datos analíticos para análisis del negocio. Para ello se utilizan:
 
-* **`DailyEarnings`** (DTO, no tabla): Objeto que resume información de ingresos, órdenes y ganancias por periodo de tiempo. Se genera a partir de datos en `orders`, `order_details` y otras entidades relacionadas.
+* **`DailyEarnings`** (DTO, no tabla): Objeto que resume información de ingresos, órdenes y ganancias por periodo de
+  tiempo. Se genera a partir de datos en `orders`, `order_details` y otras entidades relacionadas.
 
 ---
 

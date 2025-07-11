@@ -1,13 +1,15 @@
 package com.mdmc.posofmyheart.domain.patterns.strategies;
 
+import org.springframework.stereotype.Component;
+
+import lombok.AllArgsConstructor;
+
 import com.mdmc.posofmyheart.application.dtos.OrderRequest;
 import com.mdmc.posofmyheart.application.services.OrderCalculationService;
 import com.mdmc.posofmyheart.application.services.OrderPersistenceService;
 import com.mdmc.posofmyheart.domain.patterns.factory.OrderFactory;
 import com.mdmc.posofmyheart.domain.patterns.validator.OrderValidator;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderEntity;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor

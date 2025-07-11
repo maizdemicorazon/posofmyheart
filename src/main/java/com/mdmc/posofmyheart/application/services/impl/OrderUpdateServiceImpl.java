@@ -1,5 +1,16 @@
 package com.mdmc.posofmyheart.application.services.impl;
 
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
+
+import jakarta.transaction.Transactional;
+
 import com.mdmc.posofmyheart.api.exceptions.OrderNotFoundException;
 import com.mdmc.posofmyheart.application.dtos.OrderResponse;
 import com.mdmc.posofmyheart.application.dtos.OrderUpdateRequest;
@@ -12,21 +23,13 @@ import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderDet
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderExtraDetailEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderFlavorDetailEntity;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.*;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.ProductEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.PaymentMethodEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.ProductExtraEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.ProductFlavorEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.ProductSauceEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.ProductVariantEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.OrderRepository;
-import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -76,6 +79,10 @@ public class OrderUpdateServiceImpl implements OrderUpdateService {
         if (updateRequest.updatedItems() != null && !updateRequest.updatedItems().isEmpty()) {
             updateOrderItems(order, updateRequest.updatedItems());
         }
+    }
+
+    private boolean hasItemChanges(OrderUpdateRequest updateRequest) {
+        return updateRequest.updatedItems() != null && !updateRequest.updatedItems().isEmpty();
     }
 
     private void updateOrderItems(OrderEntity order, List<OrderUpdateRequest.OrderItemUpdate> newItems) {
@@ -140,9 +147,5 @@ public class OrderUpdateServiceImpl implements OrderUpdateService {
                     flavorDetail.setCreatedAt(LocalDateTime.now());
                     detail.getFlavorDetails().add(flavorDetail);
                 });
-    }
-
-    private boolean hasItemChanges(OrderUpdateRequest updateRequest) {
-        return updateRequest.updatedItems() != null && !updateRequest.updatedItems().isEmpty();
     }
 }

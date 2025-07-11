@@ -1,12 +1,8 @@
 package com.mdmc.posofmyheart.util;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-import lombok.extern.log4j.Log4j2;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.imageio.ImageIO;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -16,6 +12,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Base64;
 import java.util.Optional;
+
+import javax.imageio.ImageIO;
+
+import org.springframework.web.multipart.MultipartFile;
+
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -30,6 +34,14 @@ public final class ImageUtils {
     // ============= MÉTODOS DE CONVERSIÓN BÁSICA (STATIC) =============
 
     /**
+     * Convierte archivo a Base64
+     */
+    public static String convertFileToBase64(String filePath) throws IOException {
+        byte[] imageBytes = convertFileToBytes(filePath);
+        return Base64.getEncoder().encodeToString(imageBytes);
+    }
+
+    /**
      * Convierte un archivo del sistema de archivos a bytes
      */
     public static byte[] convertFileToBytes(String filePath) throws IOException {
@@ -38,6 +50,14 @@ public final class ImageUtils {
             throw new IOException("El archivo no existe: " + filePath);
         }
         return Files.readAllBytes(path);
+    }
+
+    /**
+     * Convierte MultipartFile a Base64
+     */
+    public static String convertMultipartFileToBase64(MultipartFile multipartFile) throws IOException {
+        byte[] imageBytes = convertMultipartFileToBytes(multipartFile);
+        return Base64.getEncoder().encodeToString(imageBytes);
     }
 
     /**
@@ -50,49 +70,7 @@ public final class ImageUtils {
         return multipartFile.getBytes();
     }
 
-    /**
-     * Convierte archivo a Base64
-     */
-    public static String convertFileToBase64(String filePath) throws IOException {
-        byte[] imageBytes = convertFileToBytes(filePath);
-        return Base64.getEncoder().encodeToString(imageBytes);
-    }
-
-    /**
-     * Convierte MultipartFile a Base64
-     */
-    public static String convertMultipartFileToBase64(MultipartFile multipartFile) throws IOException {
-        byte[] imageBytes = convertMultipartFileToBytes(multipartFile);
-        return Base64.getEncoder().encodeToString(imageBytes);
-    }
-
     // ============= MÉTODOS DE REDIMENSIONAMIENTO =============
-
-    /**
-     * Redimensiona imagen desde archivo manteniendo proporción (máximo 500x500)
-     */
-    public static byte[] resizeImageFromFile(String filePath) throws IOException {
-        if (!isValidImageFile(filePath)) {
-            throw new IOException("El archivo no es una imagen válida: " + filePath);
-        }
-
-        log.info("Redimensionando imagen desde archivo: {}", filePath);
-        byte[] originalBytes = convertFileToBytes(filePath);
-        return resizeImageBytes(originalBytes, MAX_WIDTH, MAX_HEIGHT, true);
-    }
-
-    /**
-     * Redimensiona imagen desde MultipartFile manteniendo proporción (máximo 500x500)
-     */
-    public static byte[] resizeImageFromMultipartFile(MultipartFile multipartFile) throws IOException {
-        if (multipartFile == null || multipartFile.isEmpty()) {
-            throw new IOException("El archivo está vacío");
-        }
-
-        log.info("Redimensionando imagen desde MultipartFile: {}", multipartFile.getOriginalFilename());
-        byte[] originalBytes = convertMultipartFileToBytes(multipartFile);
-        return resizeImageBytes(originalBytes, MAX_WIDTH, MAX_HEIGHT, true);
-    }
 
     /**
      * Redimensiona imagen a tamaño exacto 500x500 (con crop cuadrado)
@@ -108,22 +86,10 @@ public final class ImageUtils {
     }
 
     /**
-     * Redimensiona imagen desde archivo a tamaño exacto 500x500 (con crop cuadrado)
-     */
-    public static byte[] resizeImageFromFileToSquare(String filePath) throws IOException {
-        if (!isValidImageFile(filePath)) {
-            throw new IOException("El archivo no es una imagen válida: " + filePath);
-        }
-
-        log.info("Redimensionando imagen desde archivo a cuadrado 500x500: {}", filePath);
-        byte[] originalBytes = convertFileToBytes(filePath);
-        return resizeImageBytes(originalBytes, MAX_WIDTH, MAX_HEIGHT, false);
-    }
-
-    /**
      * Método principal de redimensionamiento
      */
-    public static byte[] resizeImageBytes(byte[] imageData, int maxWidth, int maxHeight, boolean maintainAspectRatio) throws IOException {
+    public static byte[] resizeImageBytes(byte[] imageData, int maxWidth, int maxHeight, boolean maintainAspectRatio)
+            throws IOException {
         if (imageData == null || imageData.length == 0) {
             throw new IOException("Los datos de la imagen están vacíos");
         }
@@ -203,6 +169,48 @@ public final class ImageUtils {
     }
 
     /**
+     * Detecta formato de imagen por magic bytes
+     */
+    private static String detectImageFormat(byte[] imageData) {
+        if (imageData == null || imageData.length < 4) {
+            return DEFAULT_FORMAT;
+        }
+
+        // PNG
+        if (imageData.length >= 8 &&
+                imageData[0] == (byte) 0x89 && imageData[1] == 0x50 &&
+                imageData[2] == 0x4E && imageData[3] == 0x47) {
+            return "png";
+        }
+
+        // JPEG
+        if (imageData[0] == (byte) 0xFF && imageData[1] == (byte) 0xD8 && imageData[2] == (byte) 0xFF) {
+            return "jpg";
+        }
+
+        return DEFAULT_FORMAT;
+    }
+
+    /**
+     * Convierte BufferedImage a bytes
+     */
+    private static byte[] bufferedImageToBytes(BufferedImage image, String formatName) throws IOException {
+        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+            // Usar el formato original o JPG como default
+            String format = (formatName != null && !formatName.isEmpty()) ? formatName : DEFAULT_FORMAT;
+
+            boolean success = ImageIO.write(image, format, outputStream);
+            if (!success) {
+                // Fallback a JPG si el formato no es soportado
+                log.warn("Formato {} no soportado, usando JPG como fallback", format);
+                ImageIO.write(image, DEFAULT_FORMAT, outputStream);
+            }
+
+            return outputStream.toByteArray();
+        }
+    }
+
+    /**
      * Crea imagen redimensionada con alta calidad
      */
     private static BufferedImage createResizedImage(BufferedImage originalImage, int newWidth, int newHeight) {
@@ -226,48 +234,17 @@ public final class ImageUtils {
     }
 
     /**
-     * Convierte BufferedImage a bytes
+     * Redimensiona imagen desde archivo a tamaño exacto 500x500 (con crop cuadrado)
      */
-    private static byte[] bufferedImageToBytes(BufferedImage image, String formatName) throws IOException {
-        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
-            // Usar el formato original o JPG como default
-            String format = (formatName != null && !formatName.isEmpty()) ? formatName : DEFAULT_FORMAT;
-
-            boolean success = ImageIO.write(image, format, outputStream);
-            if (!success) {
-                // Fallback a JPG si el formato no es soportado
-                log.warn("Formato {} no soportado, usando JPG como fallback", format);
-                ImageIO.write(image, DEFAULT_FORMAT, outputStream);
-            }
-
-            return outputStream.toByteArray();
+    public static byte[] resizeImageFromFileToSquare(String filePath) throws IOException {
+        if (!isValidImageFile(filePath)) {
+            throw new IOException("El archivo no es una imagen válida: " + filePath);
         }
+
+        log.info("Redimensionando imagen desde archivo a cuadrado 500x500: {}", filePath);
+        byte[] originalBytes = convertFileToBytes(filePath);
+        return resizeImageBytes(originalBytes, MAX_WIDTH, MAX_HEIGHT, false);
     }
-
-    /**
-     * Detecta formato de imagen por magic bytes
-     */
-    private static String detectImageFormat(byte[] imageData) {
-        if (imageData == null || imageData.length < 4) {
-            return DEFAULT_FORMAT;
-        }
-
-        // PNG
-        if (imageData.length >= 8 &&
-                imageData[0] == (byte) 0x89 && imageData[1] == 0x50 &&
-                imageData[2] == 0x4E && imageData[3] == 0x47) {
-            return "png";
-        }
-
-        // JPEG
-        if (imageData[0] == (byte) 0xFF && imageData[1] == (byte) 0xD8 && imageData[2] == (byte) 0xFF) {
-            return "jpg";
-        }
-
-        return DEFAULT_FORMAT;
-    }
-
-    // ============= MÉTODOS DE VALIDACIÓN (STATIC) =============
 
     /**
      * Valida extensión de archivo
@@ -290,13 +267,17 @@ public final class ImageUtils {
         return imageData != null && imageData.length <= MAX_SIZE_BYTES;
     }
 
+    // ============= MÉTODOS DE VALIDACIÓN (STATIC) =============
+
     /**
      * Valida dimensiones de imagen
      */
     public static boolean hasValidDimensions(byte[] imageData) throws IOException {
         try (ByteArrayInputStream inputStream = new ByteArrayInputStream(imageData)) {
             BufferedImage image = ImageIO.read(inputStream);
-            if (image == null) return false;
+            if (image == null) {
+                return false;
+            }
 
             int width = image.getWidth();
             int height = image.getHeight();
@@ -305,8 +286,6 @@ public final class ImageUtils {
             return width >= 50 && height >= 50 && width <= 4000 && height <= 4000;
         }
     }
-
-    // ============= MÉTODOS DE UTILIDAD INTERNA (STATIC) =============
 
     /**
      * Detecta tipo de contenido por bytes de la imagen
@@ -357,6 +336,21 @@ public final class ImageUtils {
         return resizedBytes;
     }
 
+    // ============= MÉTODOS DE UTILIDAD INTERNA (STATIC) =============
+
+    /**
+     * Redimensiona imagen desde archivo manteniendo proporción (máximo 500x500)
+     */
+    public static byte[] resizeImageFromFile(String filePath) throws IOException {
+        if (!isValidImageFile(filePath)) {
+            throw new IOException("El archivo no es una imagen válida: " + filePath);
+        }
+
+        log.info("Redimensionando imagen desde archivo: {}", filePath);
+        byte[] originalBytes = convertFileToBytes(filePath);
+        return resizeImageBytes(originalBytes, MAX_WIDTH, MAX_HEIGHT, true);
+    }
+
     /**
      * Método mejorado para MultipartFile con redimensionamiento automático
      */
@@ -376,6 +370,19 @@ public final class ImageUtils {
 
         log.info("Archivo convertido y redimensionado exitosamente. Tamaño: {} bytes", resizedBytes.length);
         return resizedBytes;
+    }
+
+    /**
+     * Redimensiona imagen desde MultipartFile manteniendo proporción (máximo 500x500)
+     */
+    public static byte[] resizeImageFromMultipartFile(MultipartFile multipartFile) throws IOException {
+        if (multipartFile == null || multipartFile.isEmpty()) {
+            throw new IOException("El archivo está vacío");
+        }
+
+        log.info("Redimensionando imagen desde MultipartFile: {}", multipartFile.getOriginalFilename());
+        byte[] originalBytes = convertMultipartFileToBytes(multipartFile);
+        return resizeImageBytes(originalBytes, MAX_WIDTH, MAX_HEIGHT, true);
     }
 
 }

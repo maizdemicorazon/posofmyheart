@@ -1,5 +1,28 @@
 package com.mdmc.posofmyheart.application.services.processors.impl;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.EnumMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Component;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+
 import com.mdmc.posofmyheart.application.dtos.projections.SalesOrderProjection;
 import com.mdmc.posofmyheart.application.dtos.projections.SalesReportProjections;
 import com.mdmc.posofmyheart.application.dtos.reports.SalesReportResponse.CategoryAnalysisData;
@@ -7,19 +30,6 @@ import com.mdmc.posofmyheart.application.dtos.reports.SalesReportResponse.DailyS
 import com.mdmc.posofmyheart.application.dtos.reports.SalesReportResponse.PeakHourData;
 import com.mdmc.posofmyheart.application.dtos.reports.SalesReportResponse.WeekdayAnalysisData;
 import com.mdmc.posofmyheart.application.services.processors.SalesDataProcessor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.extern.log4j.Log4j2;
-import org.springframework.stereotype.Component;
-
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.TextStyle;
-import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Procesador de datos de ventas usando programación nativa
@@ -30,7 +40,8 @@ import java.util.stream.Collectors;
 public class SalesDataProcessorImpl implements SalesDataProcessor {
 
     private static final Locale SPANISH_LOCALE = new Locale("es", "ES");
-    private static final DateTimeFormatter DATE_FORMATTER_PHRASE = DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy", SPANISH_LOCALE);
+    private static final DateTimeFormatter DATE_FORMATTER_PHRASE =
+            DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy", SPANISH_LOCALE);
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy", SPANISH_LOCALE);
 
     /**
@@ -130,15 +141,21 @@ public class SalesDataProcessorImpl implements SalesDataProcessor {
 
     // Métodos auxiliares privados
 
-    private DailySalesData createDailySalesData(LocalDate date, DailySalesModel model) {
-        return DailySalesData.builder()
-                .date(date.format(DATE_FORMATTER_PHRASE))
-                .fullDate(date.format(DATE_FORMATTER))
+    private PeakHourData createPeakHourData(Integer hour, HourModel model, BigDecimal totalSales) {
+        return PeakHourData.builder()
+                .hour(String.format("%02d:00-%02d:00", hour, hour + 1))
                 .sales(model.getTotalSales())
-                .orders(model.getTotalOrders().intValue())
-                .averageTicket(calculateAverageTicket(model.getTotalSales(), model.getTotalOrders()))
-                .dayOfWeek(date.getDayOfWeek().getDisplayName(TextStyle.FULL, SPANISH_LOCALE))
+                .percentage(calculatePercentage(model.getTotalSales(), totalSales))
                 .build();
+    }
+
+    private Double calculatePercentage(BigDecimal amount, BigDecimal total) {
+        if (total.compareTo(BigDecimal.ZERO) == 0) {
+            return 0.0;
+        }
+        return amount.divide(total, 4, RoundingMode.HALF_UP)
+                .multiply(BigDecimal.valueOf(100))
+                .doubleValue();
     }
 
     private WeekdayAnalysisData createWeekdayAnalysisData(DayOfWeek dayOfWeek, WeekdayModel model) {
@@ -159,24 +176,22 @@ public class SalesDataProcessorImpl implements SalesDataProcessor {
                 .build();
     }
 
-    private PeakHourData createPeakHourData(Integer hour, HourModel model, BigDecimal totalSales) {
-        return PeakHourData.builder()
-                .hour(String.format("%02d:00-%02d:00", hour, hour + 1))
+    private DailySalesData createDailySalesData(LocalDate date, DailySalesModel model) {
+        return DailySalesData.builder()
+                .date(date.format(DATE_FORMATTER_PHRASE))
+                .fullDate(date.format(DATE_FORMATTER))
                 .sales(model.getTotalSales())
-                .percentage(calculatePercentage(model.getTotalSales(), totalSales))
+                .orders(model.getTotalOrders().intValue())
+                .averageTicket(calculateAverageTicket(model.getTotalSales(), model.getTotalOrders()))
+                .dayOfWeek(date.getDayOfWeek().getDisplayName(TextStyle.FULL, SPANISH_LOCALE))
                 .build();
     }
 
     private BigDecimal calculateAverageTicket(BigDecimal totalSales, Long totalOrders) {
-        if (totalOrders == 0) return BigDecimal.ZERO;
+        if (totalOrders == 0) {
+            return BigDecimal.ZERO;
+        }
         return totalSales.divide(BigDecimal.valueOf(totalOrders), 2, RoundingMode.HALF_UP);
-    }
-
-    private Double calculatePercentage(BigDecimal amount, BigDecimal total) {
-        if (total.compareTo(BigDecimal.ZERO) == 0) return 0.0;
-        return amount.divide(total, 4, RoundingMode.HALF_UP)
-                .multiply(BigDecimal.valueOf(100))
-                .doubleValue();
     }
 
     // Modelos internos para agrupación
