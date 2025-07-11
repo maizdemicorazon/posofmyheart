@@ -28,7 +28,7 @@ public interface OrderResponseMapper {
 
     @Mapping(target = "idProduct", source = "product.idProduct")
     @Mapping(target = "productName", source = "product.name")
-    @Mapping(target = "productImage", source = "product.image.idImage", ignore = true)
+    @Mapping(target = "idImage", source = "product.image.idImage")
     @Mapping(target = "productPrice", source = "sellPrice")
     @Mapping(target = "idVariant", source = "variant.idVariant")
     @Mapping(target = "variantName", source = "variant.size")
@@ -40,11 +40,13 @@ public interface OrderResponseMapper {
     @Mapping(target = "idExtra", source = "productExtra.idExtra")
     @Mapping(target = "name", source = "productExtra.name")
     @Mapping(target = "actualPrice", source = "productExtra.actualPrice")
+    @Mapping(target = "idImage", source = "productExtra.image.idImage")
     @Mapping(target = "quantity", source = "quantity")
     OrderResponse.OrderExtrasResponse toExtrasResponse(OrderExtraDetailEntity entity);
 
     @Mapping(target = "idSauce", source = "productSauce.idSauce")
     @Mapping(target = "name", source = "productSauce.name")
+    @Mapping(target = "idImage", source = "productSauce.image.idImage")
     OrderResponse.OrderDetailSauceResponse toDetailSauceResponse(OrderDetailSauceEntity entity);
 
     @Named("toOneFlavor")

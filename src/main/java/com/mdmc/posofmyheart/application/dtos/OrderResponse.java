@@ -20,7 +20,7 @@ public record OrderResponse(
     public record OrderItemResponse(
             Long idProduct,
             String productName,
-            Long productImage,
+            Long idImage,
             BigDecimal productPrice,
             Long idVariant,
             String variantName,
@@ -36,13 +36,15 @@ public record OrderResponse(
             String name,
             Long idExtra,
             Integer quantity,
-            BigDecimal actualPrice
+            BigDecimal actualPrice,
+            Long idImage
     ) {
     }
 
     public record OrderDetailSauceResponse(
             Long idSauce,
-            String name
+            String name,
+            Long idImage
     ) {
     }
 
