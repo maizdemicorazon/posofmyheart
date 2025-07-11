@@ -1,7 +1,5 @@
 package com.mdmc.posofmyheart.application.mappers;
 
-import java.util.List;
-
 import com.mdmc.posofmyheart.domain.models.ProductSauce;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.ProductSauceEntity;
 import org.mapstruct.Mapper;
@@ -12,8 +10,6 @@ import org.mapstruct.factory.Mappers;
 public interface ProductSauceMapper {
     ProductSauceMapper INSTANCE = Mappers.getMapper(ProductSauceMapper.class);
 
-    @Mapping(target = "image", source = "image", qualifiedByName = "catalogImageToByteArray")
+    @Mapping(target = "idImage", source = "image.idImage")
     ProductSauce toProductSauce(ProductSauceEntity sauceEntity);
-
-    List<ProductSauce> toProductSauces(List<ProductSauceEntity> sauceEntities);
 }

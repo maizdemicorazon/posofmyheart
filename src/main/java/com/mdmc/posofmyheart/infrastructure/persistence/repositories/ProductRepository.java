@@ -20,11 +20,9 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long>, P
     @EntityGraph(value = "Product.withAllRelations", type = EntityGraph.EntityGraphType.LOAD)
     @Query("""
             SELECT DISTINCT p FROM ProductEntity p 
-            LEFT JOIN FETCH p.image 
             LEFT JOIN FETCH p.category 
             LEFT JOIN FETCH p.variants 
             LEFT JOIN FETCH p.flavors f 
-            LEFT JOIN FETCH f.image 
             WHERE p.active = true 
             ORDER BY p.idProduct ASC
             """)

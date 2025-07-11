@@ -1,7 +1,5 @@
 package com.mdmc.posofmyheart.application.mappers;
 
-import java.util.List;
-
 import com.mdmc.posofmyheart.domain.models.ProductFlavor;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.ProductFlavorEntity;
 import org.mapstruct.Mapper;
@@ -13,8 +11,7 @@ public interface ProductFlavorMapper {
 
     ProductFlavorMapper INSTANCE = Mappers.getMapper(ProductFlavorMapper.class);
 
-    @Mapping(target = "image", source = "image", qualifiedByName = "catalogImageToByteArray")
+    @Mapping(target = "idImage", source = "image.idImage")
     ProductFlavor toProductFlavor(ProductFlavorEntity flavorEntity);
 
-    List<ProductFlavor> toProductFlavors(List<ProductFlavorEntity> flavorEntities);
 }

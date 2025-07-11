@@ -1,7 +1,5 @@
 package com.mdmc.posofmyheart.application.services.impl;
 
-import java.util.List;
-
 import com.mdmc.posofmyheart.api.exceptions.ProductNotFoundException;
 import com.mdmc.posofmyheart.application.mappers.ProductMapper;
 import com.mdmc.posofmyheart.application.mappers.ProductMenuDtoMapper;
@@ -22,6 +20,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -51,23 +51,23 @@ public class ProductServiceImpl implements ProductService {
         );
 
         // 2. Extras con imágenes
-        List<ProductExtra> extras = productExtraRepository.findAllActiveWithImages()
+        List<ProductExtra> extras = productExtraRepository.findAllActive()
                 .stream()
                 .map(entity -> new ProductExtra(
                         entity.getIdExtra(),
                         entity.getName(),
                         entity.getActualPrice(),
-                        entity.getImageData()
+                        entity.getImage().getIdImage()
                 ))
                 .toList();
 
         // 3. Salsas con imágenes
-        List<ProductSauce> sauces = productSauceRepository.findActiveWithImages()
+        List<ProductSauce> sauces = productSauceRepository.findAllActiveSauces()
                 .stream()
                 .map(entity -> new ProductSauce(
                         entity.getIdSauce(),
                         entity.getName(),
-                        entity.getImageData()
+                        entity.getImage().getIdImage()
                 ))
                 .toList();
 

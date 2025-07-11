@@ -14,6 +14,6 @@ public interface ProductMapper {
     @Mapping(target = "idCategory", source = "category.idCategory")
     @Mapping(target = "options", source = "variants")
     @Mapping(target = "flavors", source = "flavors")
-    @Mapping(target = "image", source = "image", qualifiedByName = "catalogImageToByteArray")
+    @Mapping(target = "idImage", source = "image.idImage")
     Product toProduct(ProductEntity entity);
 }

@@ -1,17 +1,13 @@
 package com.mdmc.posofmyheart.application.mappers;
 
-import java.util.Set;
-
 import com.mdmc.posofmyheart.application.dtos.OrderResponse;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderDetailEntity;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderDetailSauceEntity;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderEntity;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderExtraDetailEntity;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderFlavorDetailEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
+
+import java.util.Set;
 
 @Mapper(uses = {CatalogImageMapper.class})
 public interface OrderResponseMapper {
@@ -27,7 +23,7 @@ public interface OrderResponseMapper {
 
     @Mapping(target = "idProduct", source = "product.idProduct")
     @Mapping(target = "productName", source = "product.name")
-    @Mapping(target = "productImage", source = "product.image", qualifiedByName = "catalogImageToByteArray")
+    @Mapping(target = "productImage", source = "product.image.idImage", ignore = true)
     @Mapping(target = "productPrice", source = "sellPrice")
     @Mapping(target = "idVariant", source = "variant.idVariant")
     @Mapping(target = "variantName", source = "variant.size")
@@ -44,7 +40,6 @@ public interface OrderResponseMapper {
 
     @Mapping(target = "idSauce", source = "productSauce.idSauce")
     @Mapping(target = "name", source = "productSauce.name")
-    @Mapping(target = "image", source = "productSauce.image", qualifiedByName = "catalogImageToByteArray")
     OrderResponse.OrderDetailSauceResponse toDetailSauceResponse(OrderDetailSauceEntity entity);
 
     @Mapping(target = "idFlavor", source = "flavor.idFlavor")

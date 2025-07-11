@@ -5,7 +5,6 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.security.MessageDigest;
-import java.time.LocalDateTime;
 
 import com.mdmc.posofmyheart.application.services.CatalogImageService;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.images.CatalogImageEntity;
@@ -33,17 +32,24 @@ public class CatalogImageServiceImpl implements CatalogImageService {
 
             // Cargar imagen desde recursos
             ClassPathResource resource = new ClassPathResource(resourcePath);
-            byte[] imageData;
+
+            byte[] resizedImageData;
 
             try (InputStream inputStream = resource.getInputStream()) {
-                imageData = inputStream.readAllBytes();
+                byte[] imageData = inputStream.readAllBytes();
+                resizedImageData = ImageUtils.resizeImageBytes(
+                        imageData,
+                        500,
+                        500,
+                        true
+                );
             }
 
             // Detectar tipo de contenido
-            String contentType = ImageUtils.detectContentType(imageData);
+            String contentType = ImageUtils.detectContentType(resizedImageData);
 
             // Procesar imagen
-            return processImageFromBytes(imageData, imageType, fileName, altText, contentType);
+            return processImageFromBytes(resizedImageData, imageType, fileName, altText, contentType);
 
         } catch (Exception e) {
             log.error("Error procesando imagen desde recurso {}: {}", resourcePath, e.getMessage());
@@ -87,8 +93,6 @@ public class CatalogImageServiceImpl implements CatalogImageService {
                     .checksum(checksum)
                     .altText(altText)
                     .active(true)
-                    .createdAt(LocalDateTime.now())
-                    .updatedAt(LocalDateTime.now())
                     .build();
 
         } catch (Exception e) {

@@ -1,15 +1,15 @@
 package com.mdmc.posofmyheart.domain.models;
 
-import java.util.List;
-
 import lombok.Builder;
+
+import java.util.List;
 
 @Builder
 public record Product(
         Long idProduct,
         Long idCategory,
         String name,
-        byte[] image,
+        Long idImage,
         List<ProductVariant> options,
         List<ProductFlavor> flavors) {
 
@@ -24,10 +24,6 @@ public record Product(
             throw new IllegalArgumentException("Nombre de producto inválido");
         }
 
-    }
-
-    public boolean hasImage() {
-        return image != null && image.length > 0;
     }
 
 }
