@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.mdmc.posofmyheart.api.exceptions.ResourceNotFoundException;
+import com.mdmc.posofmyheart.application.dtos.CatalogImageResponse;
 import com.mdmc.posofmyheart.application.services.CatalogImageService;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.images.CatalogImageEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.repositories.CatalogImageRepository;
@@ -91,23 +92,23 @@ public class CatalogImageController {
             @ApiResponse(responseCode = "404", description = "Imagen no encontrada"),
             @ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
-    @GetMapping(value = "/{imageId}/data", produces = {
+    @GetMapping(value = "/{idImage}/data", produces = {
             MediaType.IMAGE_JPEG_VALUE,
             MediaType.IMAGE_PNG_VALUE,
             MediaType.APPLICATION_OCTET_STREAM_VALUE
     })
-    @Cacheable(value = "images", key = "'image-data-' + #imageId")
+    @Cacheable(value = "images", key = "'image-' + #idImage")
     public ResponseEntity<byte[]> getImageData(
             @Parameter(description = "ID de la imagen", required = true)
-            @PathVariable Long imageId) {
+            @PathVariable Long idImage) {
 
-        log.debug("🔍 Obteniendo datos binarios de imagen: {}", imageId);
+        log.debug("🔍 Obteniendo datos binarios de imagen: {}", idImage);
 
-        CatalogImageEntity image = catalogImageRepository.findById(imageId)
-                .orElseThrow(() -> new ResourceNotFoundException("Imagen con ID " + imageId + " no encontrada"));
+        CatalogImageEntity image = catalogImageRepository.findById(idImage)
+                .orElseThrow(() -> new ResourceNotFoundException("Imagen con ID " + idImage + " no encontrada"));
 
         if (!image.isActive()) {
-            log.warn("⚠️ Imagen {} no está disponible", imageId);
+            log.warn("⚠️ Imagen {} no está disponible", idImage);
             return ResponseEntity.notFound().build();
         }
 
@@ -116,45 +117,6 @@ public class CatalogImageController {
                 .contentLength(image.getFileSize())
                 .header("Cache-Control", "public, max-age=86400")
                 .body(image.getImageDataSafe());
-    }
-
-    @Operation(
-            summary = "Obtener imágenes por tipo",
-            description = "Devuelve todas las imágenes de un tipo específico (PRODUCT_MAIN, PRODUCT_SAUCE, etc.)"
-    )
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Imágenes obtenidas exitosamente"),
-            @ApiResponse(responseCode = "400", description = "Tipo de imagen inválido"),
-            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
-    })
-    @GetMapping("/type/{idCategory}")
-    @Cacheable(value = "images", key = "'id-category-' + #idCategory")
-    public ResponseEntity<List<CatalogImageResponse>> getImagesByType(
-            @Parameter(description = "Tipo de imagen", required = true)
-            @PathVariable String imageType,
-            @Parameter(description = "Solo imágenes activas", required = false)
-            @RequestParam(defaultValue = "true") boolean activeOnly) {
-
-        log.debug("🔍 Obteniendo imágenes por tipo: {} (solo activas: {})", imageType, activeOnly);
-
-        CatalogImageEntity.ImageType type;
-        try {
-            type = CatalogImageEntity.ImageType.valueOf(imageType.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            log.warn("⚠️ Tipo de imagen inválido: {}", imageType);
-            return ResponseEntity.badRequest().build();
-        }
-
-        List<CatalogImageEntity> images = activeOnly
-                ? catalogImageRepository.findActiveByImageType(type)
-                : catalogImageRepository.findByImageTypeAndStatus(type, true);
-
-        List<CatalogImageResponse> response = images.stream()
-                .map(this::mapToResponse)
-                .toList();
-
-        log.info("✅ {} imágenes de tipo {} obtenidas", response.size(), imageType);
-        return ResponseEntity.ok(response);
     }
 
     @Operation(
@@ -231,7 +193,7 @@ public class CatalogImageController {
         List<CatalogImageEntity> images = catalogImageRepository.findByFileNameContaining(fileName.trim());
 
         List<CatalogImageResponse> response = images.stream()
-                .map(this::mapToResponse)
+                .map(CatalogImageResponse::mapToResponse)
                 .toList();
 
         log.info("✅ {} imágenes encontradas para búsqueda: {}", response.size(), fileName);
@@ -286,28 +248,26 @@ public class CatalogImageController {
             summary = "Subir imagen",
             description = "Sube una imagen y la convierte a Base64"
     )
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Map<String, Object>> uploadImage(@RequestParam("file") MultipartFile file) {
+    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Map<String, Object>> uploadImage(@RequestParam("image") MultipartFile image) {
         try {
             // Validar que sea una imagen
-            if (!isValidImageFile(file.getOriginalFilename())) {
+            if (!isValidImageFile(image.getOriginalFilename())) {
                 return ResponseEntity.badRequest()
                         .body(Map.of("error", "El archivo debe ser una imagen válida"));
             }
 
-            // Convertir a bytes
-            byte[] imageBytes = convertMultipartFileToBytes(file);
+            byte[] imageBytes = convertMultipartFileToBytes(image);
 
-            // Convertir a Base64 para la respuesta JSON
-            String base64Image = convertMultipartFileToBase64(file);
+            String base64Image = convertMultipartFileToBase64(image);
 
             Map<String, Object> response = new HashMap<>();
-            response.put("fileName", file.getOriginalFilename());
+            response.put("fileName", image.getOriginalFilename());
             response.put("size", imageBytes.length);
-            response.put("contentType", file.getContentType());
+            response.put("contentType", image.getContentType());
             response.put("base64", base64Image);
             response.put("message", "Imagen convertida exitosamente");
-
+            //TODO Persistir imagen
             return ResponseEntity.ok(response);
 
         } catch (IOException e) {
@@ -317,115 +277,4 @@ public class CatalogImageController {
         }
     }
 
-    // ========== MÉTODOS AUXILIARES ==========
-
-    private CatalogImageResponse mapToResponse(CatalogImageEntity image) {
-        return CatalogImageResponse.builder()
-                .idImage(image.getIdImage())
-                .fileName(image.getFileName())
-                .contentType(image.getContentType())
-                .fileSize(image.getFileSize())
-                .width(image.getWidth())
-                .height(image.getHeight())
-                .altText(image.getAltText())
-                .active(image.isActive())
-                .createdAt(image.getCreatedAt())
-                .hasImageData(image.getImageData() != null && image.getImageData().length > 0)
-                .build();
-    }
-
-    // ========== DTO DE RESPUESTA ==========
-
-    public record CatalogImageResponse(
-            Long idImage,
-            String fileName,
-            String imageType,
-            String contentType,
-            Long fileSize,
-            Integer width,
-            Integer height,
-            String altText,
-            boolean active,
-            java.time.LocalDateTime createdAt,
-            boolean hasImageData
-    ) {
-        public static CatalogImageResponseBuilder builder() {
-            return new CatalogImageResponseBuilder();
-        }
-
-        public static class CatalogImageResponseBuilder {
-            private Long idImage;
-            private String fileName;
-            private String imageType;
-            private String contentType;
-            private Long fileSize;
-            private Integer width;
-            private Integer height;
-            private String altText;
-            private boolean active;
-            private java.time.LocalDateTime createdAt;
-            private boolean hasImageData;
-
-            public CatalogImageResponseBuilder idImage(Long idImage) {
-                this.idImage = idImage;
-                return this;
-            }
-
-            public CatalogImageResponseBuilder fileName(String fileName) {
-                this.fileName = fileName;
-                return this;
-            }
-
-            public CatalogImageResponseBuilder imageType(String imageType) {
-                this.imageType = imageType;
-                return this;
-            }
-
-            public CatalogImageResponseBuilder contentType(String contentType) {
-                this.contentType = contentType;
-                return this;
-            }
-
-            public CatalogImageResponseBuilder fileSize(Long fileSize) {
-                this.fileSize = fileSize;
-                return this;
-            }
-
-            public CatalogImageResponseBuilder width(Integer width) {
-                this.width = width;
-                return this;
-            }
-
-            public CatalogImageResponseBuilder height(Integer height) {
-                this.height = height;
-                return this;
-            }
-
-            public CatalogImageResponseBuilder altText(String altText) {
-                this.altText = altText;
-                return this;
-            }
-
-            public CatalogImageResponseBuilder active(boolean active) {
-                this.active = active;
-                return this;
-            }
-
-            public CatalogImageResponseBuilder createdAt(java.time.LocalDateTime createdAt) {
-                this.createdAt = createdAt;
-                return this;
-            }
-
-            public CatalogImageResponseBuilder hasImageData(boolean hasImageData) {
-                this.hasImageData = hasImageData;
-                return this;
-            }
-
-            public CatalogImageResponse build() {
-                return new CatalogImageResponse(idImage, fileName, imageType,
-                        contentType, fileSize, width, height, altText, active,
-                        createdAt, hasImageData);
-            }
-        }
-    }
 }
