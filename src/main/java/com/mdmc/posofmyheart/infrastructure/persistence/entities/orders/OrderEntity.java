@@ -1,19 +1,39 @@
 package com.mdmc.posofmyheart.infrastructure.persistence.entities.orders;
 
-import com.mdmc.posofmyheart.domain.OrderStatusEnum;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.PaymentMethodEntity;
-import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
-
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.mdmc.posofmyheart.domain.OrderStatusEnum;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.BaseEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.PaymentMethodEntity;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedAttributeNode;
+import jakarta.persistence.NamedEntityGraph;
+import jakarta.persistence.NamedEntityGraphs;
+import jakarta.persistence.NamedSubgraph;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
 @Table(name = "orders", indexes = {
-        @Index(name = "idx_order_date", columnList = "order_date"),
+        @Index(name = "idx_created_at", columnList = "created_at"),
         @Index(name = "idx_order_payment_method", columnList = "id_payment_method"),
         @Index(name = "idx_order_total_amount", columnList = "total_amount"),
         @Index(name = "idx_order_status", columnList = "status") // <-- Índice agregado aquí
@@ -114,7 +134,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OrderEntity {
+public class OrderEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -123,14 +143,6 @@ public class OrderEntity {
 
     @Column(name = "client_name", length = 40)
     private String clientName;
-
-    @ColumnDefault(value = "CURRENT_TIMESTAMP")
-    @Column(name = "order_date")
-    private LocalDateTime orderDate;
-
-    @ColumnDefault(value = "CURRENT_TIMESTAMP")
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
 
     @Column(name = "total_amount", precision = 10, scale = 2, nullable = false)
     private BigDecimal totalAmount;
@@ -154,16 +166,4 @@ public class OrderEntity {
         detail.setOrder(this);
     }
 
-    @PrePersist
-    protected void onCreate() {
-        if (orderDate == null) {
-            orderDate = LocalDateTime.now();
-        }
-        updatedAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
 }

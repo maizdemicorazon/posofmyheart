@@ -1,5 +1,6 @@
 package com.mdmc.posofmyheart.infrastructure.persistence.entities.orders;
 
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.BaseEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.ProductEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.ProductSauceEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.ProductVariantEntity;
@@ -23,7 +24,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OrderDetailEntity {
+public class OrderDetailEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,10 +1,23 @@
 package com.mdmc.posofmyheart.infrastructure.persistence.entities.orders;
 
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.ProductExtraEntity;
-import jakarta.persistence.*;
-import lombok.*;
-
 import java.math.BigDecimal;
+
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.BaseEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.ProductExtraEntity;
+import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Index;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "order_extras_detail", indexes = {
@@ -20,12 +33,18 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OrderExtraDetailEntity {
+public class OrderExtraDetailEntity extends BaseEntity {
     @EmbeddedId
     private OrderExtraDetailKey id;
 
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
+
+    @Column(name = "sell_price", precision = 10, scale = 2, nullable = false)
+    private BigDecimal sellPrice;
+
+    @Column(name = "production_cost", precision = 10, scale = 2, nullable = false)
+    private BigDecimal productionCost;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("idOrderDetail")
@@ -36,12 +55,6 @@ public class OrderExtraDetailEntity {
     @MapsId("idExtra")
     @JoinColumn(name = "id_extra")
     private ProductExtraEntity productExtra;
-
-    @Column(name = "sell_price", precision = 10, scale = 2, nullable = false)
-    private BigDecimal sellPrice;
-
-    @Column(name = "production_cost", precision = 10, scale = 2, nullable = false)
-    private BigDecimal productionCost;
 
     public void setRelations(OrderDetailEntity orderDetail, ProductExtraEntity productExtra) {
         this.id = new OrderExtraDetailKey(orderDetail.getIdOrderDetail(), productExtra.getIdExtra());
