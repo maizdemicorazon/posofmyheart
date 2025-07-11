@@ -104,23 +104,23 @@ INSERT INTO payment_methods (name, description) VALUES
 
 -- Inserción de órdenes de ejemplo (ventas)
 -- Orden 1: Un pedido pequeño pagado en efectivo
-INSERT INTO orders (order_date, total_amount, id_payment_method, notes)
+INSERT INTO orders (created_at, total_amount, id_payment_method, notes)
 VALUES ('2023-05-09 12:30:00', 70.00, 1, 'Cliente regular');
 
 -- Orden 2: Un pedido mediano pagado con tarjeta
-INSERT INTO orders (order_date, total_amount, id_payment_method, notes)
+INSERT INTO orders (created_at, total_amount, id_payment_method, notes)
 VALUES ('2023-05-09 13:45:00', 150.00, 2, 'Cliente nuevo, pagó con VISA');
 
 -- Orden 3: Un pedido grande pagado con transferencia
-INSERT INTO orders (order_date, total_amount, id_payment_method, notes)
+INSERT INTO orders (created_at, total_amount, id_payment_method, notes)
 VALUES ('2023-05-09 17:20:00', 245.00, 3, 'Pedido para oficina');
 
 -- Orden 4: Un pedido en día diferente para mostrar análisis por fecha
-INSERT INTO orders (order_date, total_amount, id_payment_method, notes)
+INSERT INTO orders (created_at, total_amount, id_payment_method, notes)
 VALUES ('2023-05-10 14:15:00', 120.00, 1, 'Cliente frecuente');
 
 -- Orden 5: Un pedido en horario nocturno para mostrar análisis por hora
-INSERT INTO orders (order_date, total_amount, id_payment_method, notes)
+INSERT INTO orders (created_at, total_amount, id_payment_method, notes)
 VALUES ('2023-05-10 19:30:00', 200.00, 2, 'Familia grande');
 
 -- Detalles de las órdenes
@@ -158,7 +158,7 @@ INSERT INTO order_details (id_order, id_product, quantity, unit_price, unit_cost
 
 -- Inserción de más órdenes para un mejor análisis por hora/día
 -- Más órdenes para el análisis de hora pico
-INSERT INTO orders (order_date, total_amount, id_payment_method, notes)
+INSERT INTO orders (created_at, total_amount, id_payment_method, notes)
 VALUES
 ('2023-05-11 12:10:00', 85.00, 1, 'Cliente hora de comida'),
 ('2023-05-11 12:25:00', 92.00, 1, 'Cliente hora de comida'),
@@ -213,7 +213,7 @@ INSERT INTO order_details (id_order, id_product, quantity, unit_price, unit_cost
 (13, 24, 1, 25.00, 15.00);  -- 1 Agua del día 500ml
 
 -- Inserción para analizar días de semana (diferentes días)
-INSERT INTO orders (order_date, total_amount, id_payment_method, notes)
+INSERT INTO orders (created_at, total_amount, id_payment_method, notes)
 VALUES
 ('2023-05-12 15:30:00', 130.00, 1, 'Cliente viernes'),
 ('2023-05-13 16:45:00', 175.00, 2, 'Cliente sábado'),
@@ -290,7 +290,7 @@ SELECT
 FROM order_details od
 JOIN orders o ON od.id_order = o.id_order
 JOIN products p ON od.id_product = p.id_product
-WHERE o.order_date BETWEEN '2023-01-01' AND '2023-01-31'
+WHERE o.created_at BETWEEN '2023-01-01' AND '2023-01-31'
 GROUP BY p.name, p.size
 ORDER BY total_quantity_sold DESC
 LIMIT 10;

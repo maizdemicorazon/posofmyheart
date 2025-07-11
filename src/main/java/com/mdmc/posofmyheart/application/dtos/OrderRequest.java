@@ -14,7 +14,7 @@ public record OrderRequest(
         Long idPaymentMethod,
         @Size(max = 40)
         String clientName,
-        LocalDateTime orderDate,
+        LocalDateTime createdAt,
         @NotEmpty
         List<OrderItemRequest> items
 ) {

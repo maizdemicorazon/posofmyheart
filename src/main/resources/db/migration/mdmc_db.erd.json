@@ -903,7 +903,7 @@
       "lniQIPWXgkhoVYVU0loWI": {
         "id": "lniQIPWXgkhoVYVU0loWI",
         "tableId": "INTIner-LW2Lgz44VK6En",
-        "name": "order_date",
+        "name": "created_at",
         "comment": "",
         "dataType": "timestamp(6)",
         "default": "CURRENT_TIMESTAMP",

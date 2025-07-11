@@ -39,7 +39,7 @@ erDiagram
 
     ORDERS {
         serial id_order PK
-        timestamp order_date
+        timestamp created_at
         numeric total_amount
         integer id_payment_method FK
         text notes

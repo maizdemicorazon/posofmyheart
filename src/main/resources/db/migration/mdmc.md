@@ -97,7 +97,7 @@ Registro de órdenes/pedidos
 **Campos:**
 - id_order (PK)
 - id_payment_method (FK)
-- order_date
+- created_at
 - total_amount
 - client_name
 - comment
@@ -171,7 +171,7 @@ El sistema incluye un inicializador de datos que carga:
 
 ```sql
 -- Obtener órdenes con detalles completos
-SELECT o.id_order, o.order_date, o.total_amount, pm.name as payment_method,
+SELECT o.id_order, o.created_at, o.total_amount, pm.name as payment_method,
        p.name as product, pv.size, od.sell_price
 FROM orders o
 JOIN payment_methods pm ON o.id_payment_method = pm.id_payment_method

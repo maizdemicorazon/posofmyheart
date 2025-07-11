@@ -68,7 +68,7 @@ LEFT JOIN
     order_details od ON p.id_product = od.id_product AND pv.id_variant = od.id_variant
 left join orders o on o.id_order = od.id_order
 WHERE
-    o.order_date >= CURRENT_DATE - INTERVAL '3 months' OR
+    o.created_at >= CURRENT_DATE - INTERVAL '3 months' OR
     od.id_order_detail IS NULL
 GROUP BY
     p.name, pv.size
@@ -113,7 +113,7 @@ FROM
 JOIN 
     payment_methods pm ON o.id_payment_method = pm.id_payment_method
 WHERE
-    o.order_date >= CURRENT_DATE - INTERVAL '30 days'
+    o.created_at >= CURRENT_DATE - INTERVAL '30 days'
 GROUP BY
     pm.name
 ORDER BY
@@ -148,7 +148,7 @@ ORDER BY
 ```sql
 -- Ganancias diarias
 SELECT
-    DATE(o.order_date) AS fecha,
+    DATE(o.created_at) AS fecha,
     COUNT(*) AS ordenes,
     SUM(o.total_amount) AS ventas_totales,
     SUM(od.sell_price - od.production_cost) AS ganancia_productos,
@@ -161,15 +161,15 @@ JOIN
 LEFT JOIN
     order_extras_detail oed ON od.id_order_detail = oed.id_order_detail
 WHERE
-    o.order_date >= CURRENT_DATE - INTERVAL '30 days'
+    o.created_at >= CURRENT_DATE - INTERVAL '30 days'
 GROUP BY
-    DATE(o.order_date)
+    DATE(o.created_at)
 ORDER BY
     fecha DESC;
 
 -- Ganancias semanales
 SELECT
-    DATE_TRUNC('week', o.order_date) AS semana,
+    DATE_TRUNC('week', o.created_at) AS semana,
     COUNT(*) AS ordenes,
     SUM(o.total_amount) AS ventas_totales,
     SUM(od.sell_price - od.production_cost) AS ganancia_productos,
@@ -181,7 +181,7 @@ JOIN
 LEFT JOIN
     order_extras_detail oed ON od.id_order_detail = oed.id_order_detail
 GROUP BY
-    DATE_TRUNC('week', o.order_date)
+    DATE_TRUNC('week', o.created_at)
 ORDER BY
     semana DESC;
 ```
@@ -191,16 +191,16 @@ ORDER BY
 ### 8. Ventas por hora (horas pico)
 ```sql
 SELECT
-    EXTRACT(HOUR FROM o.order_date) AS hora,
+    EXTRACT(HOUR FROM o.created_at) AS hora,
     COUNT(*) AS ordenes,
     SUM(o.total_amount) AS ventas_totales,
     ROUND(AVG(o.total_amount), 2) AS ticket_promedio
 FROM
     dailyEarnings o
 WHERE
-    o.order_date >= CURRENT_DATE - INTERVAL '30 days'
+    o.created_at >= CURRENT_DATE - INTERVAL '30 days'
 GROUP BY
-    EXTRACT(HOUR FROM o.order_date)
+    EXTRACT(HOUR FROM o.created_at)
 ORDER BY
     ordenes DESC;
 ```
@@ -214,7 +214,7 @@ SELECT
 FROM
     dailyEarnings
 WHERE
-    DATE(order_date) = CURRENT_DATE
+    DATE(created_at) = CURRENT_DATE
 UNION ALL
 SELECT
     'Ayer' AS periodo,
@@ -223,7 +223,7 @@ SELECT
 FROM
     dailyEarnings
 WHERE
-    DATE(order_date) = CURRENT_DATE - INTERVAL '1 day'
+    DATE(created_at) = CURRENT_DATE - INTERVAL '1 day'
 UNION ALL
 SELECT
     'Misma día semana pasada' AS periodo,
@@ -232,7 +232,7 @@ SELECT
 FROM
     dailyEarnings
 WHERE
-    DATE(order_date) = CURRENT_DATE - INTERVAL '7 days';
+    DATE(created_at) = CURRENT_DATE - INTERVAL '7 days';
 ```
 
 ## 🛒 Consultas de Órdenes y Detalles
@@ -241,7 +241,7 @@ WHERE
 ```sql
 SELECT
     o.id_order,
-    o.order_date,
+    o.created_at,
     pm.name AS metodo_pago,
     o.total_amount,
     o.client_name,
@@ -277,7 +277,7 @@ ORDER BY
 ```sql
 SELECT 
     o.id_order,
-    o.order_date,
+    o.created_at,
     o.total_amount AS total_venta,
     SUM(od.sell_price) AS subtotal_productos,
     SUM(od.production_cost) AS costo_productos,
@@ -297,9 +297,9 @@ JOIN
 LEFT JOIN 
     order_extras_detail oed ON od.id_order_detail = oed.id_order_detail
 GROUP BY 
-    o.id_order, o.order_date, o.total_amount
+    o.id_order, o.created_at, o.total_amount
 ORDER BY 
-    o.order_date DESC
+    o.created_at DESC
 LIMIT 50;
 ```
 
@@ -360,7 +360,7 @@ JOIN
 LEFT JOIN
     order_details od ON p.id_product = od.id_product AND pv.id_variant = od.id_variant
 WHERE
-    od.order_date >= CURRENT_DATE - INTERVAL '3 months' OR
+    od.created_at >= CURRENT_DATE - INTERVAL '3 months' OR
     od.id_order_detail IS NULL
 GROUP BY
     p.name, pv.size

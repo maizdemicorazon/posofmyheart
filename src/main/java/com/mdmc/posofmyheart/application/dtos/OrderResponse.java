@@ -8,7 +8,7 @@ import java.util.Set;
 
 public record OrderResponse(
         Long idOrder,
-        LocalDateTime orderDate,
+        LocalDateTime createdAt,
         BigDecimal bill,
         Long idPaymentMethod,
         String paymentName,
@@ -20,7 +20,7 @@ public record OrderResponse(
     public record OrderItemResponse(
             Long idProduct,
             String productName,
-            byte[] productImage,
+            Long productImage,
             BigDecimal productPrice,
             Long idVariant,
             String variantName,
@@ -42,8 +42,7 @@ public record OrderResponse(
 
     public record OrderDetailSauceResponse(
             Long idSauce,
-            String name,
-            byte[] image
+            String name
     ) {
     }
 

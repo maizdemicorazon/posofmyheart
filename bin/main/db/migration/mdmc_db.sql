@@ -35,7 +35,7 @@ CREATE TABLE payment_methods (
 
 CREATE TABLE orders (
     id_order SERIAL PRIMARY KEY,
-    order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     total_amount NUMERIC(10,2) NOT NULL,
     id_payment_method INTEGER NOT NULL,
     notes TEXT,
@@ -56,6 +56,6 @@ CREATE TABLE order_details (
 -- Índices para mejorar el rendimiento
 CREATE INDEX idx_product_category ON products(id_category);
 CREATE INDEX idx_product_prices_product_id ON product_prices(id_product);
-CREATE INDEX idx_order_date ON orders(order_date);
+CREATE INDEX idx_created_at ON orders(created_at);
 CREATE INDEX idx_order_details_order ON order_details(id_order);
 CREATE INDEX idx_order_details_product ON order_details(id_product);

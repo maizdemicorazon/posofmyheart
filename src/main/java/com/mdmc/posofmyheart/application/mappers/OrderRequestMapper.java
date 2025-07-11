@@ -1,6 +1,5 @@
 package com.mdmc.posofmyheart.application.mappers;
 
-import com.mdmc.posofmyheart.application.dtos.OrderItemRequest;
 import com.mdmc.posofmyheart.application.dtos.OrderRequest;
 import com.mdmc.posofmyheart.application.dtos.OrderResponse;
 import org.mapstruct.Mapper;
@@ -23,7 +22,5 @@ public interface OrderRequestMapper {
     default Long toIdFlavor(OrderResponse.OrderFlavorDetailResponse detailResponse) {
         return detailResponse != null ? detailResponse.idFlavor() : null;
     }
-
-    List<OrderItemRequest> toItemRequestList(List<OrderResponse.OrderItemResponse> detailResponses);
 }
 

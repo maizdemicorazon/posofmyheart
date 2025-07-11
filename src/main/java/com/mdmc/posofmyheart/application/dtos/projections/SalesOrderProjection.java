@@ -24,7 +24,7 @@ public class SalesOrderProjection {
     /**
      * Fecha y hora de la orden
      */
-    private LocalDateTime orderDate;
+    private LocalDateTime createdAt;
 
     /**
      * Monto total de la orden
@@ -64,8 +64,8 @@ public class SalesOrderProjection {
      * Constructor para consultas básicas de órdenes
      * Usado en findAllOrdersInPeriod
      */
-    public SalesOrderProjection(LocalDateTime orderDate, BigDecimal totalAmount, Long orderId) {
-        this.orderDate = orderDate;
+    public SalesOrderProjection(LocalDateTime createdAt, BigDecimal totalAmount, Long orderId) {
+        this.createdAt = createdAt;
         this.totalAmount = totalAmount;
         this.orderId = orderId;
     }
@@ -74,9 +74,9 @@ public class SalesOrderProjection {
      * Constructor para consultas con categoría
      * Usado en análisis por categorías
      */
-    public SalesOrderProjection(LocalDateTime orderDate, BigDecimal totalAmount, Long orderId,
+    public SalesOrderProjection(LocalDateTime createdAt, BigDecimal totalAmount, Long orderId,
                                 String categoryName, BigDecimal orderDetailSellPrice) {
-        this.orderDate = orderDate;
+        this.createdAt = createdAt;
         this.totalAmount = totalAmount;
         this.orderId = orderId;
         this.categoryName = categoryName;
@@ -87,21 +87,21 @@ public class SalesOrderProjection {
      * Obtiene la fecha de la orden como LocalDate para agrupaciones diarias
      */
     public LocalDate getOrderLocalDate() {
-        return orderDate != null ? orderDate.toLocalDate() : null;
+        return createdAt != null ? createdAt.toLocalDate() : null;
     }
 
     /**
      * Obtiene la hora de la orden para análisis de horarios pico
      */
     public Integer getOrderHour() {
-        return orderDate != null ? orderDate.getHour() : null;
+        return createdAt != null ? createdAt.getHour() : null;
     }
 
     /**
      * Obtiene el día de la semana para análisis semanal
      */
     public DayOfWeek getOrderDayOfWeek() {
-        return orderDate != null ? orderDate.getDayOfWeek() : null;
+        return createdAt != null ? createdAt.getDayOfWeek() : null;
     }
 
     /**

@@ -24,13 +24,13 @@ public interface SalesReportRepository extends JpaRepository<OrderEntity, Long> 
      */
     @Query("""
             SELECT new com.mdmc.posofmyheart.application.dtos.projections.SalesOrderProjection(
-                o.orderDate,
+                o.createdAt,
                 o.totalAmount,
                 o.idOrder
             )
             FROM OrderEntity o
-            WHERE o.orderDate >= :startDate AND o.orderDate < :endDate
-            ORDER BY o.orderDate
+            WHERE o.createdAt >= :startDate AND o.createdAt < :endDate
+            ORDER BY o.createdAt
             """)
     List<SalesOrderProjection> findAllOrdersInPeriod(
             @Param("startDate") LocalDateTime startDate,
@@ -49,7 +49,7 @@ public interface SalesReportRepository extends JpaRepository<OrderEntity, Long> 
             JOIN o.orderDetails od
             JOIN od.product p
             JOIN p.category pc
-            WHERE o.orderDate >= :startDate AND o.orderDate < :endDate
+            WHERE o.createdAt >= :startDate AND o.createdAt < :endDate
             GROUP BY pc.idCategory, pc.name
             ORDER BY SUM(od.sellPrice) DESC
             """)
@@ -66,7 +66,7 @@ public interface SalesReportRepository extends JpaRepository<OrderEntity, Long> 
                 COUNT(o.idOrder)
             )
             FROM OrderEntity o
-            WHERE o.orderDate >= :startDate AND o.orderDate < :endDate
+            WHERE o.createdAt >= :startDate AND o.createdAt < :endDate
             """)
     SalesReportProjections.PeriodSummaryProjection findPeriodSummary(
             @Param("startDate") LocalDateTime startDate,
