@@ -1,19 +1,17 @@
 package com.mdmc.posofmyheart.domain.patterns.builder;
 
+import java.util.HashSet;
+
 import com.mdmc.posofmyheart.application.dtos.OrderItemRequest;
 import com.mdmc.posofmyheart.application.dtos.OrderRequest;
 import com.mdmc.posofmyheart.domain.patterns.facade.EntityFinder;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderDetailEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderEntity;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.PaymentMethodEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.ProductEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.PaymentMethodEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.ProductVariantEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -26,8 +24,6 @@ public class OrderBuilder {
         return OrderEntity.builder()
                 .paymentMethod(paymentMethod)
                 .clientName(request.clientName())
-                .orderDate(Optional.ofNullable(request.orderDate()).orElse(LocalDateTime.now()))
-                .updatedAt(LocalDateTime.now())
                 .build();
     }
 
