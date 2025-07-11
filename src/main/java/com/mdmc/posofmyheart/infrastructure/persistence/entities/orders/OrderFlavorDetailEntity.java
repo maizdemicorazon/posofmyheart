@@ -1,14 +1,20 @@
 package com.mdmc.posofmyheart.infrastructure.persistence.entities.orders;
 
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.BaseEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.ProductFlavorEntity;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "order_flavor_detail", indexes = {
@@ -19,7 +25,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderFlavorDetailEntity {
+public class OrderFlavorDetailEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idFlavorDetail;
@@ -31,10 +37,6 @@ public class OrderFlavorDetailEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_flavor")
     private ProductFlavorEntity flavor;
-
-    @ColumnDefault(value = "CURRENT_TIMESTAMP")
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
 
     public OrderFlavorDetailEntity(OrderDetailEntity orderDetail, ProductFlavorEntity flavor) {
         this.orderDetail = orderDetail;

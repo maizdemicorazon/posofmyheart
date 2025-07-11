@@ -1,10 +1,10 @@
 package com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.BaseEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.orders.OrderExtraDetailEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.images.CatalogImageEntity;
 import jakarta.persistence.CascadeType;
@@ -18,13 +18,11 @@ import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Table(name = "product_extras", indexes = {
@@ -38,7 +36,7 @@ import org.hibernate.annotations.ColumnDefault;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductExtraEntity {
+public class ProductExtraEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,32 +62,17 @@ public class ProductExtraEntity {
     @JoinColumn(name = "id_image")
     private CatalogImageEntity image;
 
-    @ColumnDefault(value = "CURRENT_TIMESTAMP")
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
     @OneToMany(mappedBy = "productExtra", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<OrderExtraDetailEntity> extraDetails = new HashSet<>();
 
-    @PrePersist
-    protected void onCreate() {
-        if (createdAt == null) {
-            createdAt = LocalDateTime.now();
-        }
-        active = true;
-    }
-
-    // Método de conveniencia para obtener los datos de imagen
     public byte[] getImageData() {
         return image != null && image.isActive() ? image.getImageDataSafe() : new byte[0];
     }
 
-    // Método para verificar si tiene imagen
     public boolean hasImage() {
         return image != null && image.isActive();
     }
 
-    // Constructor de conveniencia
     public ProductExtraEntity(Long idExtra, String name, String description, BigDecimal actualPrice, BigDecimal actualCost, CatalogImageEntity image) {
         this.idExtra = idExtra;
         this.name = name;

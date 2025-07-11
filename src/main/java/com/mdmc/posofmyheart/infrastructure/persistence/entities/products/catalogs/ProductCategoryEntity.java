@@ -1,11 +1,8 @@
 package com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs;
 
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name = "product_categories", indexes = {
@@ -16,7 +13,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductCategoryEntity {
+public class ProductCategoryEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_category")

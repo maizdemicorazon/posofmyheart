@@ -1,5 +1,6 @@
 package com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs;
 
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.BaseEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.images.CatalogImageEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -25,8 +26,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductSauceEntity {
-
+public class ProductSauceEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_sauce")
@@ -37,25 +37,14 @@ public class ProductSauceEntity {
 
     private String description;
 
+    @Column(nullable = false)
+    private boolean active;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_image")
     private CatalogImageEntity image;
 
-    @Column(nullable = false)
-    private boolean active = true;
-
-    public byte[] getImageData() {
-        return image != null && image.isActive() ? image.getImageDataSafe() : new byte[0];
-    }
-
     public boolean hasImage() {
         return image != null && image.isActive();
-    }
-
-    public ProductSauceEntity(Long idSauce, String name, String description, CatalogImageEntity image) {
-        this.idSauce = idSauce;
-        this.name = name;
-        this.description = description;
-        this.image = image;
     }
 }

@@ -1,15 +1,23 @@
 package com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs;
 
+import java.math.BigDecimal;
+
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.BaseEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.ProductEntity;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "product_variants", indexes = {
@@ -22,7 +30,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductVariantEntity {
+public class ProductVariantEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_variant")
@@ -40,22 +48,4 @@ public class ProductVariantEntity {
 
     @Column(name = "actual_cost_price")
     private BigDecimal actualCostPrice;
-
-    @ColumnDefault(value = "CURRENT_TIMESTAMP")
-    @Column(name = "effective_date")
-    private LocalDateTime effectiveDate;
-
-    @PrePersist
-    protected void onCreate() {
-        if (effectiveDate == null) {
-            effectiveDate = LocalDateTime.now();
-        }
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        if (actualSellPrice != null || actualCostPrice != null) {
-            effectiveDate = LocalDateTime.now();
-        }
-    }
 }

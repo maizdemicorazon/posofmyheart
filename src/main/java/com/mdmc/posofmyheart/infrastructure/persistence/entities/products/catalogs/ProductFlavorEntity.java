@@ -1,5 +1,6 @@
 package com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs;
 
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.BaseEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.ProductEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.images.CatalogImageEntity;
 import jakarta.persistence.Column;
@@ -29,7 +30,7 @@ import org.hibernate.annotations.ColumnDefault;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductFlavorEntity {
+public class ProductFlavorEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,14 +49,6 @@ public class ProductFlavorEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_product", nullable = false)
     private ProductEntity product;
-
-    public byte[] getImageData() {
-        return image != null && image.isActive() ? image.getImageDataSafe() : new byte[0];
-    }
-
-    public boolean hasImage() {
-        return image != null && image.isActive();
-    }
 
     public ProductFlavorEntity(Long idFlavor, String name, ProductEntity product, CatalogImageEntity image) {
         this.idFlavor = idFlavor;
