@@ -35,7 +35,7 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
      */
     @EntityGraph(value = "Order.withCompleteDetails", type = EntityGraph.EntityGraphType.FETCH)
     @Query("SELECT DISTINCT o FROM OrderEntity o WHERE o.createdAt >= :startOfDay AND o.createdAt < :endOfDay ORDER BY o.createdAt DESC")
-    Set<OrderEntity> findBycreatedAt(
+    Set<OrderEntity> findByCreatedAt(
             @Param("startOfDay") LocalDateTime startOfDay,
             @Param("endOfDay") LocalDateTime endOfDay
     );

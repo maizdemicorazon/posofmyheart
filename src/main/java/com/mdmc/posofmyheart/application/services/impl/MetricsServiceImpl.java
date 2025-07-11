@@ -32,7 +32,7 @@ public class MetricsServiceImpl implements MetricsService {
     @Override
     public DailyEarningsResponse getDailyEarnings(Integer backDays) {
         LocalDateTime startDate = LocalDateTime.of(LocalDate.now().minusDays(backDays), LocalTime.MIN);
-        Set<OrderEntity> orders = orderRepository.findByOrderDate(startDate, LocalDateTime.now());
+        Set<OrderEntity> orders = orderRepository.findByCreatedAt(startDate, LocalDateTime.now());
 
         Set<DailyEarnings> dailyEarnings = groupOrdersByDate(orders)
                 .entrySet()
@@ -46,7 +46,7 @@ public class MetricsServiceImpl implements MetricsService {
     @Override
     public DailyEarningsResponse getTodayDailyEarnings() {
         LocalDateTime startDate = LocalDateTime.of(LocalDate.now().minusDays(DEFAULT_BACK_DAYS), LocalTime.MIN);
-        Set<OrderEntity> orders = orderRepository.findByOrderDate(startDate, LocalDateTime.now());
+        Set<OrderEntity> orders = orderRepository.findByCreatedAt(startDate, LocalDateTime.now());
 
         Set<DailyEarnings> dailyEarnings = groupOrdersByDate(orders)
                 .entrySet()
@@ -60,7 +60,7 @@ public class MetricsServiceImpl implements MetricsService {
     @Override
     public DailyEarningsResponse getTodayDailyEarningsWithPercentage(BigDecimal profit) {
         LocalDateTime startDate = LocalDateTime.of(LocalDate.now().minusDays(DEFAULT_BACK_DAYS), LocalTime.MIN);
-        Set<OrderEntity> orders = orderRepository.findByOrderDate(startDate, LocalDateTime.now());
+        Set<OrderEntity> orders = orderRepository.findByCreatedAt(startDate, LocalDateTime.now());
 
         Set<DailyEarnings> dailyEarnings = groupOrdersByDate(orders)
                 .entrySet()
@@ -77,7 +77,7 @@ public class MetricsServiceImpl implements MetricsService {
     private Map<LocalDate, Set<OrderEntity>> groupOrdersByDate(Set<OrderEntity> orders) {
         Map<LocalDate, Set<OrderEntity>> map = new HashMap<>();
         for (OrderEntity order : orders) {
-            map.computeIfAbsent(order.getOrderDate().toLocalDate(), k -> new HashSet<>()).add(order);
+            map.computeIfAbsent(order.getCreatedAt().toLocalDate(), k -> new HashSet<>()).add(order);
         }
         return map;
     }

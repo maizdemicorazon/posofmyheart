@@ -97,7 +97,7 @@ public class OrderServiceImpl implements OrderService {
         LocalDateTime endOfDay = date.atTime(LocalTime.MAX);
 
         // Query optimizada con EntityGraph
-        var orders = orderRepository.findByOrderDate(startOfDay, endOfDay);
+        var orders = orderRepository.findByCreatedAt(startOfDay, endOfDay);
 
         List<OrderResponse> responses = orders.stream()
                 .map(OrderResponseMapper.INSTANCE::toResponse)
@@ -122,7 +122,7 @@ public class OrderServiceImpl implements OrderService {
         LocalDateTime startDate = start.atTime(LocalTime.MIN);
         LocalDateTime endDate = end.atTime(LocalTime.MAX);
         // Query optimizada con EntityGraph
-        var orders = orderRepository.findByOrderDate(startDate, endDate);
+        var orders = orderRepository.findByCreatedAt(startDate, endDate);
 
         List<OrderResponse> responses = orders.stream()
                 .map(OrderResponseMapper.INSTANCE::toResponse)
