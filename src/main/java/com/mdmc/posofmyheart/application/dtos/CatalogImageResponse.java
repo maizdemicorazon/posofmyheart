@@ -12,8 +12,7 @@ public record CatalogImageResponse(
         Integer height,
         String altText,
         boolean active,
-        java.time.LocalDateTime createdAt,
-        boolean hasImageData
+        java.time.LocalDateTime createdAt
 ) {
     public static CatalogImageResponse mapToResponse(CatalogImageEntity image) {
         return CatalogImageResponse.builder()
@@ -26,7 +25,6 @@ public record CatalogImageResponse(
                 .altText(image.getAltText())
                 .active(image.isActive())
                 .createdAt(image.getCreatedAt())
-                .hasImageData(image.getImageData() != null && image.getImageData().length > 0)
                 .build();
     }
 
@@ -45,7 +43,6 @@ public record CatalogImageResponse(
         private String altText;
         private boolean active;
         private java.time.LocalDateTime createdAt;
-        private boolean hasImageData;
 
         public CatalogImageResponseBuilder idImage(Long idImage) {
             this.idImage = idImage;
@@ -97,15 +94,10 @@ public record CatalogImageResponse(
             return this;
         }
 
-        public CatalogImageResponseBuilder hasImageData(boolean hasImageData) {
-            this.hasImageData = hasImageData;
-            return this;
-        }
-
         public CatalogImageResponse build() {
             return new CatalogImageResponse(idImage, fileName, imageType,
                     contentType, fileSize, width, height, altText, active,
-                    createdAt, hasImageData);
+                    createdAt);
         }
     }
 }

@@ -76,12 +76,4 @@ public class ProductExtraEntity extends BaseEntity {
         this.actualCost = actualCost;
         this.image = image;
     }
-
-    public byte[] getImageData() {
-        return image != null && image.isActive() ? image.getImageDataSafe() : new byte[0];
-    }
-
-    public boolean hasImage() {
-        return image != null && image.isActive();
-    }
 }

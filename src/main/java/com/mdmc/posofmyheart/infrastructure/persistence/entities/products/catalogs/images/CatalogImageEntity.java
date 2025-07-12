@@ -75,10 +75,6 @@ public class CatalogImageEntity extends BaseEntity {
     @Transient
     private String resource;
 
-    public byte[] getImageDataSafe() {
-        return imageData != null ? imageData.clone() : new byte[0];
-    }
-
     public enum ImageType {
         PRODUCT_MAIN,
         PRODUCT_FLAVOR,

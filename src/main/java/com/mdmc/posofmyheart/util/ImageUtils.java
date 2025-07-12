@@ -26,10 +26,9 @@ import lombok.extern.log4j.Log4j2;
 public final class ImageUtils {
 
     // ============= CONSTANTES =============
-    private static final int MAX_WIDTH = 500;
-    private static final int MAX_HEIGHT = 500;
+    public static final int MAX_WIDTH = 600;
+    public static final int MAX_HEIGHT = 600;
     private static final String DEFAULT_FORMAT = "jpg";
-    private static final float JPEG_QUALITY = 0.85f;
 
     // ============= MÉTODOS DE CONVERSIÓN BÁSICA (STATIC) =============
 

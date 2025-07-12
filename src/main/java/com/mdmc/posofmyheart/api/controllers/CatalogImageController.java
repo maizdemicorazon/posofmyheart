@@ -79,7 +79,6 @@ public class CatalogImageController {
                 .altText(image.getAltText())
                 .active(image.isActive())
                 .createdAt(image.getCreatedAt())
-                .hasImageData(image.getImageData() != null && image.getImageData().length > 0)
                 .build();
 
         log.info("✅ Imagen {} obtenida exitosamente", imageId);
@@ -95,13 +94,13 @@ public class CatalogImageController {
             @ApiResponse(responseCode = "404", description = "Imagen no encontrada"),
             @ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
-    @GetMapping(value = "/{idImage}/data", produces = {
+    @GetMapping(value = "/{idImage}/view", produces = {
             MediaType.IMAGE_JPEG_VALUE,
             MediaType.IMAGE_PNG_VALUE,
             MediaType.APPLICATION_OCTET_STREAM_VALUE
     })
     @Cacheable(value = "images", key = "'image-' + #idImage")
-    public ResponseEntity<byte[]> getImageData(
+    public ResponseEntity<byte[]> getImageView(
             @Parameter(description = "ID de la imagen", required = true)
             @PathVariable Long idImage) {
 
@@ -119,7 +118,7 @@ public class CatalogImageController {
                 .contentType(MediaType.parseMediaType(image.getContentType()))
                 .contentLength(image.getFileSize())
                 .header("Cache-Control", "public, max-age=86400")
-                .body(image.getImageDataSafe());
+                .body(image.getImageData());
     }
 
     @Operation(

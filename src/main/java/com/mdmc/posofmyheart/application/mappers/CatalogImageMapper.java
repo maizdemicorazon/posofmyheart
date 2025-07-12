@@ -24,7 +24,7 @@ public interface CatalogImageMapper {
         if (catalogImage == null || !catalogImage.isActive()) {
             return new byte[0];
         }
-        return catalogImage.getImageDataSafe();
+        return catalogImage.getImageData();
     }
 
     /**

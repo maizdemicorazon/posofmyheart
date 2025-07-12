@@ -57,10 +57,8 @@ public class OrderServiceImpl implements OrderService {
 
         long startTime = System.currentTimeMillis();
 
-        // UNA SOLA QUERY con EntityGraph completo
         List<OrderEntity> orders = orderRepository.findAllWithDetails();
 
-        //Mapeo optimizado usando MapStruct
         List<OrderResponse> responses = orders.stream()
                 .map(OrderResponseMapper.INSTANCE::toResponse)
                 .toList();
@@ -244,7 +242,6 @@ public class OrderServiceImpl implements OrderService {
 
         long startTime = System.currentTimeMillis();
 
-        // Crear UpdateOrderData y usar estrategia
         UpdateOrderData updateData = new UpdateOrderData(idOrder, updateRequest);
         OrderResponse response = updateOrderStrategy.execute(updateData);
 

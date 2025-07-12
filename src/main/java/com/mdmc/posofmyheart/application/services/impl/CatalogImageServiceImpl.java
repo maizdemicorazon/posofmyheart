@@ -42,8 +42,8 @@ public class CatalogImageServiceImpl implements CatalogImageService {
                 byte[] imageData = inputStream.readAllBytes();
                 resizedImageData = ImageUtils.resizeImageBytes(
                         imageData,
-                        500,
-                        500,
+                        ImageUtils.MAX_WIDTH,
+                        ImageUtils.MAX_HEIGHT,
                         true
                 );
             }
