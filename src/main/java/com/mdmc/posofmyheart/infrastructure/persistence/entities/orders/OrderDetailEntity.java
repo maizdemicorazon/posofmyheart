@@ -2,6 +2,7 @@ package com.mdmc.posofmyheart.infrastructure.persistence.entities.orders;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import lombok.AllArgsConstructor;
@@ -93,6 +94,37 @@ public class OrderDetailEntity extends BaseEntity {
 
     public boolean hasComment() {
         return comment != null && !comment.trim().isEmpty();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        OrderDetailEntity that = (OrderDetailEntity) o;
+
+        if (idOrderDetail != null && that.idOrderDetail != null) {
+            return Objects.equals(idOrderDetail, that.idOrderDetail);
+        }
+
+        return Objects.equals(product, that.product) &&
+                Objects.equals(variant, that.variant) &&
+                Objects.equals(comment, that.comment) &&
+                Objects.equals(sellPrice, that.sellPrice) &&
+                Objects.equals(productionCost, that.productionCost);
+    }
+
+    @Override
+    public int hashCode() {
+        if (idOrderDetail != null) {
+            return Objects.hash(idOrderDetail);
+        }
+
+        return Objects.hash(product, variant, comment, sellPrice, productionCost);
     }
 
 }
