@@ -279,4 +279,40 @@ public class CatalogImageController {
         }
     }
 
+    @Operation(
+            summary = "Obtener imagen por ID",
+            description = "Devuelve los datos completos de una imagen específica por su ID"
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Imagen encontrada exitosamente"),
+            @ApiResponse(responseCode = "404", description = "Imagen no encontrada"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+    })
+    @GetMapping("/{imageId}/data")
+    @Cacheable(value = "images", key = "'image-' + #imageId")
+    public ResponseEntity<CatalogImageResponse> getImageDataById(
+            @Parameter(description = "ID de la imagen", required = true)
+            @PathVariable Long imageId) {
+
+        log.debug("🔍 Obteniendo imagen por ID: {}", imageId);
+
+        CatalogImageEntity image = catalogImageRepository.findById(imageId)
+                .orElseThrow(() -> new ResourceNotFoundException("Imagen con ID " + imageId + " no encontrada"));
+
+        CatalogImageResponse response = CatalogImageResponse.builder()
+                .idImage(image.getIdImage())
+                .fileName(image.getFileName())
+                .imageType(image.getImageType().name())
+                .contentType(image.getContentType())
+                .fileSize(image.getFileSize())
+                .width(image.getWidth())
+                .height(image.getHeight())
+                .altText(image.getAltText())
+                .active(image.isActive())
+                .createdAt(image.getCreatedAt())
+                .build();
+
+        log.info("✅ Imagen {} obtenida exitosamente", imageId);
+        return ResponseEntity.ok(response);
+    }
 }
