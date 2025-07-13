@@ -133,12 +133,12 @@
     },
     {
       "id_image": 9,
-      "file_name": "a_frutos.png",
+      "file_name": "a_frutos.jpg",
       "image_type": "PRODUCT_FLAVOR",
-      "content_type": "image/png",
+      "content_type": "image/jpg",
       "alt_text": "a frutos",
       "active": false,
-      "resource": "static/catalogs/flavors/a_frutos.png"
+      "resource": "static/catalogs/flavors/a_frutos.jpg"
     },
     {
       "id_image": 10,
@@ -160,12 +160,12 @@
     },
     {
       "id_image": 12,
-      "file_name": "a_limon_chia.png",
+      "file_name": "a_limon_chia.jpg",
       "image_type": "PRODUCT_FLAVOR",
-      "content_type": "image/png",
+      "content_type": "image/jpg",
       "alt_text": "a limon chia",
       "active": false,
-      "resource": "static/catalogs/flavors/a_limon_chia.png"
+      "resource": "static/catalogs/flavors/a_limon_chia.jpg"
     },
     {
       "id_image": 13,
@@ -1155,7 +1155,7 @@
       "id_flavor": 14,
       "name": "Mango",
       "image": {
-        "id_image": 21
+        "id_image": 16
       },
       "active": true,
       "product": {
@@ -1166,7 +1166,7 @@
       "id_flavor": 15,
       "name": "Manzana",
       "image": {
-        "id_image": 22
+        "id_image": 15
       },
       "active": true,
       "product": {
@@ -1177,7 +1177,7 @@
       "id_flavor": 16,
       "name": "Guayaba",
       "image": {
-        "id_image": 23
+        "id_image": 17
       },
       "active": true,
       "product": {
@@ -1188,7 +1188,7 @@
       "id_flavor": 17,
       "name": "Mango",
       "image": {
-        "id_image": 24
+        "id_image": 25
       },
       "active": true,
       "product": {
@@ -1199,7 +1199,7 @@
       "id_flavor": 18,
       "name": "Durazno",
       "image": {
-        "id_image": 25
+        "id_image": 24
       },
       "active": true,
       "product": {
@@ -1221,7 +1221,7 @@
       "id_flavor": 20,
       "name": "Jamaica",
       "image": {
-        "id_image": 27
+        "id_image": 10
       },
       "active": true,
       "product": {
@@ -1232,7 +1232,7 @@
       "id_flavor": 21,
       "name": "Limón",
       "image": {
-        "id_image": 28
+        "id_image": 11
       },
       "active": true,
       "product": {
@@ -1243,7 +1243,7 @@
       "id_flavor": 22,
       "name": "Limón con chia",
       "image": {
-        "id_image": 29
+        "id_image": 12
       },
       "active": true,
       "product": {
@@ -1254,7 +1254,7 @@
       "id_flavor": 23,
       "name": "Frutos Rojos",
       "image": {
-        "id_image": 30
+        "id_image": 9
       },
       "active": true,
       "product": {
@@ -1265,7 +1265,7 @@
       "id_flavor": 24,
       "name": "Mango",
       "image": {
-        "id_image": 31
+        "id_image": 13
       },
       "active": true,
       "product": {
@@ -1276,7 +1276,7 @@
       "id_flavor": 25,
       "name": "Camaron",
       "image": {
-        "id_image": 32
+        "id_image": 27
       },
       "active": true,
       "product": {
@@ -1601,6 +1601,15 @@
     {
       "id_variant": 26,
       "product": {
+        "id_product": 16
+      },
+      "size": "Único",
+      "actual_sell_price": 25.00,
+      "actual_cost_price": 17.00
+    },
+    {
+      "id_variant": 27,
+      "product": {
         "id_product": 17
       },
       "size": "500ml",
@@ -1608,7 +1617,7 @@
       "actual_cost_price": 10.00
     },
     {
-      "id_variant": 27,
+      "id_variant": 28,
       "product": {
         "id_product": 18
       },
