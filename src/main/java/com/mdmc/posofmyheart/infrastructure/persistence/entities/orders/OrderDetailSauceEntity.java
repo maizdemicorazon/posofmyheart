@@ -14,7 +14,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
 
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.BaseEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.AuditEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.ProductSauceEntity;
 
 @Entity
@@ -28,7 +28,7 @@ import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalo
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderDetailSauceEntity extends BaseEntity {
+public class OrderDetailSauceEntity extends AuditEntity {
     @EmbeddedId
     private OrderDetailSauceKey id;
 

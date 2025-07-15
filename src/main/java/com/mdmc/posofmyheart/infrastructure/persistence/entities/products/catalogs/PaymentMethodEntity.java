@@ -13,7 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.BaseEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.AuditEntity;
 
 @Entity
 @Table(name = "payment_methods", indexes = {
@@ -24,7 +24,7 @@ import com.mdmc.posofmyheart.infrastructure.persistence.entities.BaseEntity;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PaymentMethodEntity extends BaseEntity {
+public class PaymentMethodEntity extends AuditEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_payment_method")

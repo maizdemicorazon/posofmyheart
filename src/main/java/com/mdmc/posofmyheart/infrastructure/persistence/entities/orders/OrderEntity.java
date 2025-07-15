@@ -31,7 +31,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import com.mdmc.posofmyheart.domain.OrderStatusEnum;
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.BaseEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.AuditEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.PaymentMethodEntity;
 
 @Entity
@@ -137,7 +137,7 @@ import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalo
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OrderEntity extends BaseEntity {
+public class OrderEntity extends AuditEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

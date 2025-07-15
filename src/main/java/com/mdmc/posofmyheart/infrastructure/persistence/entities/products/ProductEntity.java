@@ -26,7 +26,7 @@ import jakarta.persistence.NamedEntityGraphs;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.BaseEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.AuditEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.ProductCategoryEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.ProductFlavorEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.ProductVariantEntity;
@@ -53,7 +53,7 @@ import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalo
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductEntity extends BaseEntity {
+public class ProductEntity extends AuditEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -17,7 +17,7 @@ import jakarta.persistence.PreUpdate;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 @Data
-public class BaseEntity {
+public class AuditEntity {
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;

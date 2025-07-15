@@ -14,7 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.BaseEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.AuditEntity;
 
 @Entity
 @Table(name = "product_categories", indexes = {
@@ -25,7 +25,7 @@ import com.mdmc.posofmyheart.infrastructure.persistence.entities.BaseEntity;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductCategoryEntity extends BaseEntity {
+public class ProductCategoryEntity extends AuditEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_category")

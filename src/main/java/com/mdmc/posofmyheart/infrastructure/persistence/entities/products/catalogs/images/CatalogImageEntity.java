@@ -18,7 +18,7 @@ import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.BaseEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.AuditEntity;
 
 @Entity
 @Table(name = "catalog_images", indexes = {
@@ -33,7 +33,7 @@ import com.mdmc.posofmyheart.infrastructure.persistence.entities.BaseEntity;
 @AllArgsConstructor
 @Getter
 @Setter
-public class CatalogImageEntity extends BaseEntity {
+public class CatalogImageEntity extends AuditEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,7 +1,5 @@
 package com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs;
 
-import org.hibernate.annotations.ColumnDefault;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,27 +21,25 @@ import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.Produc
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.images.CatalogImageEntity;
 
 @Entity
-@Table(name = "product_flavors", indexes = {
-        @Index(name = "idx_flavors_id_product", columnList = "id_product"),
-        @Index(name = "idx_flavors_name", columnList = "name"),
-        @Index(name = "idx_flavors_active", columnList = "active"),
-        @Index(name = "idx_flavors_image", columnList = "id_image")
+@Table(name = "basics", indexes = {
+        @Index(name = "idx_basics_id_basic", columnList = "id_basic"),
+        @Index(name = "idx_basics_name", columnList = "name"),
+        @Index(name = "idx_basics_active", columnList = "active"),
+        @Index(name = "idx_basics_image", columnList = "id_image")
 })
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductFlavorEntity extends AuditEntity {
-
+@Setter
+@Getter
+public class ProductBasicEntity extends AuditEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idFlavor;
-
+    @Column
+    private Long idBasic;
+    @Column
     private String name;
-
-    @ColumnDefault("true")
-    @Column(nullable = false)
-    private boolean active = true;
+    @Column
+    private boolean active;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_image")
@@ -52,5 +48,4 @@ public class ProductFlavorEntity extends AuditEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_product", nullable = false)
     private ProductEntity product;
-
 }

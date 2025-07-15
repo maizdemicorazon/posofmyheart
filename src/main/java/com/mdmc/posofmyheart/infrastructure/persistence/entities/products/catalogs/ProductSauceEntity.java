@@ -16,7 +16,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-import com.mdmc.posofmyheart.infrastructure.persistence.entities.BaseEntity;
+import com.mdmc.posofmyheart.infrastructure.persistence.entities.AuditEntity;
 import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalogs.images.CatalogImageEntity;
 
 @Entity
@@ -28,7 +28,7 @@ import com.mdmc.posofmyheart.infrastructure.persistence.entities.products.catalo
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductSauceEntity extends BaseEntity {
+public class ProductSauceEntity extends AuditEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_sauce")
